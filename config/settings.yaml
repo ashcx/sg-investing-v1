@@ -1,0 +1,6 @@
+history_start: 2000-01-01
+recent_reconciliation_days: 7
+pipeline_version: 0.1.0
+canonical_currency: SGD
+data_directory: data
+price_backfill_workers: 4

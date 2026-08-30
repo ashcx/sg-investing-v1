@@ -1,0 +1,193 @@
+history_start: 2000-01-01
+securities:
+  # This seed list is intentionally small. A listing-source adapter augments it
+  # with all active SGX equities, REITs, business trusts, and SGX-listed ETFs.
+  - universe: major_global_etfs
+    effective_from: 1999-03-10
+    source: configured_seed
+    security:
+      security_id: 6cfd001d-07dc-44d9-aff8-d6c99b0ee80b
+      ticker: QQQ
+      exchange: NASDAQ
+      market: US
+      name: Invesco QQQ Trust
+      currency: USD
+      asset_type: ETF
+      domicile: US
+      income_source_country: US
+      timezone: America/New_York
+      distribution_policy: distributing
+  - universe: major_global_etfs
+    effective_from: 2000-12-20
+    source: configured_seed
+    security:
+      security_id: d8c8540f-eee6-454d-932e-43e4d6874cf1
+      ticker: SMH
+      exchange: NASDAQ
+      market: US
+      name: VanEck Semiconductor ETF
+      currency: USD
+      asset_type: ETF
+      domicile: US
+      income_source_country: US
+      timezone: America/New_York
+      distribution_policy: distributing
+  - universe: major_global_etfs
+    effective_from: 2001-07-10
+    source: configured_seed
+    security:
+      security_id: 530199da-881e-4b43-9382-9712559be5b7
+      ticker: SOXX
+      exchange: NASDAQ
+      market: US
+      name: iShares Semiconductor ETF
+      currency: USD
+      asset_type: ETF
+      domicile: US
+      income_source_country: US
+      timezone: America/New_York
+      distribution_policy: distributing
+  - universe: major_global_etfs
+    effective_from: 2026-08-18
+    source: justetf_verified_2026_08_30
+    security:
+      security_id: 68abbb5a-81d0-4035-973a-98135bbeccf9
+      # The user-facing fund ticker is VALL. VALL.SW is Yahoo Finance's
+      # provider-specific identifier for its USD listing on SIX Swiss Exchange.
+      ticker: VALL.SW
+      exchange: SIX
+      market: CH
+      name: Vanguard FTSE Global All-Cap UCITS ETF USD Acc
+      currency: USD
+      asset_type: ETF
+      domicile: IE
+      isin: IE000VAHT5T0
+      timezone: Europe/Zurich
+      distribution_policy: accumulating
+      expense_ratio: 0.0007
+  - universe: major_global_etfs
+    effective_from: 2000-05-22
+    source: configured_seed
+    security:
+      security_id: eb7d4516-c5e6-52ce-88af-83eaddf32bbf
+      ticker: IWM
+      exchange: US
+      market: US
+      name: iShares Russell 2000 ETF
+      currency: USD
+      asset_type: ETF
+      domicile: US
+      income_source_country: US
+      timezone: America/New_York
+      distribution_policy: distributing
+  # Irish-domiciled UCITS comparison set. These are the USD listings on the
+  # London Stock Exchange; the .L suffix is the Yahoo Finance identifier.
+  - universe: irish_domiciled_etfs
+    effective_from: 2010-05-19
+    source: blackrock_official_2026_08_30
+    security:
+      security_id: 555b7517-8660-592e-8bcb-964fb857f138
+      ticker: CSPX.L
+      exchange: LSE
+      market: GB
+      name: iShares Core S&P 500 UCITS ETF USD Acc
+      currency: USD
+      asset_type: ETF
+      domicile: IE
+      isin: IE00B5BMR087
+      timezone: Europe/London
+      distribution_policy: accumulating
+      expense_ratio: 0.0007
+  - universe: irish_domiciled_etfs
+    effective_from: 2010-09-15
+    source: blackrock_official_2026_08_30
+    security:
+      security_id: bfee230b-3393-528d-8237-082b2dbfa0ea
+      ticker: CNDX.L
+      exchange: LSE
+      market: GB
+      name: iShares NASDAQ 100 UCITS ETF USD Acc
+      currency: USD
+      asset_type: ETF
+      domicile: IE
+      isin: IE00B53SZB19
+      timezone: Europe/London
+      distribution_policy: accumulating
+      expense_ratio: 0.0030
+  - universe: irish_domiciled_etfs
+    effective_from: 2009-09-28
+    source: blackrock_official_2026_08_30
+    security:
+      security_id: f00fd6bd-47e4-5524-b6ac-e029e4971d74
+      ticker: IWDA.L
+      exchange: LSE
+      market: GB
+      name: iShares Core MSCI World UCITS ETF USD Acc
+      currency: USD
+      asset_type: ETF
+      domicile: IE
+      isin: IE00B4L5Y983
+      timezone: Europe/London
+      distribution_policy: accumulating
+      expense_ratio: 0.0020
+  - universe: irish_domiciled_etfs
+    effective_from: 2014-06-02
+    source: blackrock_official_2026_08_30
+    security:
+      security_id: 05017dff-36f8-550e-b53e-a137685b4d7c
+      ticker: EIMI.L
+      exchange: LSE
+      market: GB
+      name: iShares Core MSCI EM IMI UCITS ETF USD Acc
+      currency: USD
+      asset_type: ETF
+      domicile: IE
+      isin: IE00BKM4GZ66
+      timezone: Europe/London
+      distribution_policy: accumulating
+      expense_ratio: 0.0018
+  - universe: irish_domiciled_etfs
+    effective_from: 2019-07-25
+    source: vanguard_official_2026_08_30
+    security:
+      security_id: 7e93f61f-8b30-5fd5-a0bd-466494275623
+      ticker: VWRA.L
+      exchange: LSE
+      market: GB
+      name: Vanguard FTSE All-World UCITS ETF USD Acc
+      currency: USD
+      asset_type: ETF
+      domicile: IE
+      isin: IE00BK5BQT80
+      timezone: Europe/London
+      distribution_policy: accumulating
+      expense_ratio: 0.0019
+  - universe: irish_domiciled_etfs
+    effective_from: 2019-05-16
+    source: vanguard_official_2026_08_30
+    security:
+      security_id: deec363b-95ea-543f-9a89-ac412d8e117a
+      ticker: VUAA.L
+      exchange: LSE
+      market: GB
+      name: Vanguard S&P 500 UCITS ETF USD Acc
+      currency: USD
+      asset_type: ETF
+      domicile: IE
+      isin: IE00BFMXXD54
+      timezone: Europe/London
+      distribution_policy: accumulating
+      expense_ratio: 0.0007
+  - universe: russell_2000_benchmark
+    effective_from: 1987-09-10
+    source: configured_seed
+    security:
+      security_id: 929a93f9-f0e3-5bdc-96a0-e1565b945ccf
+      ticker: ^RUT
+      exchange: US
+      market: US
+      name: Russell 2000 Index
+      currency: USD
+      asset_type: index
+      domicile: US
+      timezone: America/New_York

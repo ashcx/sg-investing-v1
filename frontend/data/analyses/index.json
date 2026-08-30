@@ -1,0 +1,13 @@
+{
+  "artifacts": [
+    {
+      "end_date": "2025-01-02",
+      "key": "qqq-2024",
+      "methodology_version": "1.0",
+      "path": "analyses/qqq-2024.json",
+      "start_date": "2024-01-02",
+      "ticker": "QQQ"
+    }
+  ],
+  "generated_at": "2026-08-30"
+}

@@ -1,0 +1,44 @@
+[build-system]
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"
+
+[project]
+name = "sg-investing"
+version = "0.1.0"
+description = "Deterministic Singapore-investor financial analytics engine"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "duckdb>=1.1",
+  "polars>=1.0",
+  "pyarrow>=17.0",
+  "pydantic>=2.8",
+  "PyYAML>=6.0",
+  "pypdf>=5.0",
+  "pandas>=2.0",
+  "requests>=2.31",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0",
+  "ruff>=0.6",
+]
+market-data = ["yfinance>=0.2.50"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+pythonpath = ["src"]
+markers = [
+  "integration: tests spanning multiple application layers",
+  "provider: tests for external-provider normalization using fake responses",
+  "smoke: optional tests against downloaded or live-like data",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/sg_investing"]

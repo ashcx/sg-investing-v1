@@ -1,0 +1,380 @@
+{
+  "generated_at": "2026-08-30",
+  "results": [
+    {
+      "catalog_version": "current_catalog",
+      "data_snapshot_id": "local-canonical-parquet",
+      "generated_at": "2026-08-30",
+      "methodology_version": "1.0",
+      "request": {
+        "dividends": "true",
+        "end_date": "2025-01-02",
+        "initial_sgd": "10000",
+        "reinvest": "true",
+        "start_date": "2024-01-02",
+        "tickers": "QQQ,SMH,SOXX",
+        "withholding": "true"
+      },
+      "result": {
+        "data_quality": {
+          "status": "WARNING",
+          "warnings": [
+            "Dividend type for 2024-03-18 is not fully classified; it is modeled as a cash distribution.",
+            "Dividend type for 2024-06-24 is not fully classified; it is modeled as a cash distribution.",
+            "Dividend type for 2024-09-23 is not fully classified; it is modeled as a cash distribution.",
+            "Dividend type for 2024-12-23 is not fully classified; it is modeled as a cash distribution.",
+            "Approximated dividend pay date for 2024-03-18 as 2024-04-17.",
+            "Approximated dividend pay date for 2024-06-24 as 2024-07-24.",
+            "Approximated dividend pay date for 2024-09-23 as 2024-10-23.",
+            "Approximated dividend pay date for 2024-12-23 as 2025-01-22.",
+            "Dividend dated 2024-12-23 becomes available after valuation and is excluded from end-date value."
+          ]
+        },
+        "dividend_coverage": {
+          "asset_type": "ETF",
+          "average_inter_event_gap_days": 93.36363636363636,
+          "coverage_status": "data_available",
+          "currency": "USD",
+          "distribution_policy": "distributing",
+          "error": null,
+          "event_count": 89,
+          "event_currencies": [
+            "USD"
+          ],
+          "exchange": "NASDAQ",
+          "first_event_date": "2003-12-24",
+          "largest_dividend_amount": "0.835000000000000000",
+          "last_attempt_at": "2026-08-30T18:28:02.758483Z",
+          "last_event_date": "2026-06-22",
+          "longest_inter_event_gap_days": 359,
+          "median_dividend_amount": "0.277000000000000000",
+          "provider_query_succeeded": true,
+          "queried_from": "2000-01-01",
+          "queried_through": "2026-08-31",
+          "required_start_date": "2000-01-01",
+          "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+          "smallest_dividend_amount": "0.014000000000000000",
+          "sources": [
+            "yahoo_finance"
+          ],
+          "ticker": "QQQ",
+          "warnings": []
+        },
+        "dividends": {
+          "cash_foreign_currency": "0",
+          "gross_foreign_currency": "37.92120328488458466618096628",
+          "gross_sgd_at_payment": "50.85830876330988211562455065",
+          "net_foreign_currency": "26.54484229941920926632667640",
+          "net_sgd_at_payment": "35.60081613431691748093718545",
+          "withholding_tax_foreign_currency": "11.37636098546537539985428988",
+          "withholding_tax_sgd_at_payment": "15.25749262899296463468736519"
+        },
+        "fx": {
+          "end_rate": "1.3654600381851196",
+          "start_rate": "1.3193000555038452"
+        },
+        "initial_investment_foreign_currency": "7579.776835665307255883382899",
+        "initial_investment_sgd": "10000",
+        "investment": {
+          "final_security_value_foreign_currency": "9635.830976462915329064238634",
+          "final_value_foreign_currency": "9635.830976462915329064238634",
+          "final_value_sgd": "13157.34213306641064684526209",
+          "shares": "18.88526893554505722209295349"
+        },
+        "methodology": {
+          "dividend_native_currency": "USD",
+          "dividend_reinvestment": "pay_date_close_with_30_day_ex_date_fallback",
+          "dividend_sgd_translation": "payment_date_fx_rate_for_actual_dividend_currency",
+          "dividend_type_handling": "regular/special/unknown treated as cash; return_of_capital treated as cash without assumed withholding",
+          "fractional_shares": true,
+          "methodology_version": "1.0",
+          "price": "daily_close",
+          "price_return": "raw_unadjusted_close_to_close_not_split_adjusted",
+          "purchase_date_rule": "next_trading_day",
+          "ter_deducted": false,
+          "valuation_date_rule": "previous_trading_day",
+          "withholding_tax": true
+        },
+        "period": {
+          "end_date": "2025-01-02",
+          "start_date": "2024-01-02"
+        },
+        "price_return": {
+          "foreign_currency": "0.267368825921089422669676924",
+          "sgd": "0.311711826447199875731273360"
+        },
+        "returns": {
+          "cagr": "0.3149872102874005",
+          "cagr_foreign_currency": "0.27062391885848647",
+          "total_return": "0.315734213306641064684526209",
+          "total_return_foreign_currency": "0.271255234207319508459694600"
+        },
+        "security": {
+          "active": true,
+          "asset_type": "ETF",
+          "currency": "USD",
+          "cusip": null,
+          "distribution_policy": "distributing",
+          "domicile": "US",
+          "exchange": "NASDAQ",
+          "expense_ratio": null,
+          "income_source_country": "US",
+          "isin": null,
+          "market": "US",
+          "name": "Invesco QQQ Trust",
+          "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+          "ticker": "QQQ",
+          "timezone": "America/New_York"
+        }
+      }
+    },
+    {
+      "catalog_version": "current_catalog",
+      "data_snapshot_id": "local-canonical-parquet",
+      "generated_at": "2026-08-30",
+      "methodology_version": "1.0",
+      "request": {
+        "dividends": "true",
+        "end_date": "2025-01-02",
+        "initial_sgd": "10000",
+        "reinvest": "true",
+        "start_date": "2024-01-02",
+        "tickers": "QQQ,SMH,SOXX",
+        "withholding": "true"
+      },
+      "result": {
+        "data_quality": {
+          "status": "WARNING",
+          "warnings": [
+            "Dividend type for 2024-12-23 is not fully classified; it is modeled as a cash distribution.",
+            "Approximated dividend pay date for 2024-12-23 as 2025-01-22.",
+            "Dividend dated 2024-12-23 becomes available after valuation and is excluded from end-date value."
+          ]
+        },
+        "dividend_coverage": {
+          "asset_type": "ETF",
+          "average_inter_event_gap_days": 365.0769230769231,
+          "coverage_status": "data_available",
+          "currency": "USD",
+          "distribution_policy": "distributing",
+          "error": null,
+          "event_count": 14,
+          "event_currencies": [
+            "USD"
+          ],
+          "exchange": "NASDAQ",
+          "first_event_date": "2012-12-24",
+          "largest_dividend_amount": "1.200500000000000000",
+          "last_attempt_at": "2026-08-30T18:28:02.758483Z",
+          "last_event_date": "2025-12-22",
+          "longest_inter_event_gap_days": 371,
+          "median_dividend_amount": "0.768750000000000000",
+          "provider_query_succeeded": true,
+          "queried_from": "2000-01-01",
+          "queried_through": "2026-08-31",
+          "required_start_date": "2000-01-01",
+          "security_id": "d8c8540f-eee6-454d-932e-43e4d6874cf1",
+          "smallest_dividend_amount": "0.288000000000000000",
+          "sources": [
+            "yahoo_finance"
+          ],
+          "ticker": "SMH",
+          "warnings": []
+        },
+        "dividends": {
+          "cash_foreign_currency": "0",
+          "gross_foreign_currency": "0",
+          "gross_sgd_at_payment": "0",
+          "net_foreign_currency": "0",
+          "net_sgd_at_payment": "0",
+          "withholding_tax_foreign_currency": "0",
+          "withholding_tax_sgd_at_payment": "0"
+        },
+        "fx": {
+          "end_rate": "1.3654600381851196",
+          "start_rate": "1.3193000555038452"
+        },
+        "initial_investment_foreign_currency": "7579.776835665307255883382899",
+        "initial_investment_sgd": "10000",
+        "investment": {
+          "final_security_value_foreign_currency": "10980.96411971591596928049121",
+          "final_value_foreign_currency": "10980.96411971591596928049121",
+          "final_value_sgd": "14994.06768621672285407470884",
+          "shares": "44.85871326807206019034398201"
+        },
+        "methodology": {
+          "dividend_native_currency": "USD",
+          "dividend_reinvestment": "pay_date_close_with_30_day_ex_date_fallback",
+          "dividend_sgd_translation": "payment_date_fx_rate_for_actual_dividend_currency",
+          "dividend_type_handling": "regular/special/unknown treated as cash; return_of_capital treated as cash without assumed withholding",
+          "fractional_shares": true,
+          "methodology_version": "1.0",
+          "price": "daily_close",
+          "price_return": "raw_unadjusted_close_to_close_not_split_adjusted",
+          "purchase_date_rule": "next_trading_day",
+          "ter_deducted": false,
+          "valuation_date_rule": "previous_trading_day",
+          "withholding_tax": true
+        },
+        "period": {
+          "end_date": "2025-01-02",
+          "start_date": "2024-01-02"
+        },
+        "price_return": {
+          "foreign_currency": "0.448718657262694058573821999",
+          "sgd": "0.499406768621672285407470884"
+        },
+        "returns": {
+          "cagr": "0.4981502510308631",
+          "cagr_foreign_currency": "0.4476076482809417",
+          "total_return": "0.499406768621672285407470884",
+          "total_return_foreign_currency": "0.448718657262694058573821999"
+        },
+        "security": {
+          "active": true,
+          "asset_type": "ETF",
+          "currency": "USD",
+          "cusip": null,
+          "distribution_policy": "distributing",
+          "domicile": "US",
+          "exchange": "NASDAQ",
+          "expense_ratio": null,
+          "income_source_country": "US",
+          "isin": null,
+          "market": "US",
+          "name": "VanEck Semiconductor ETF",
+          "security_id": "d8c8540f-eee6-454d-932e-43e4d6874cf1",
+          "ticker": "SMH",
+          "timezone": "America/New_York"
+        }
+      }
+    },
+    {
+      "catalog_version": "current_catalog",
+      "data_snapshot_id": "local-canonical-parquet",
+      "generated_at": "2026-08-30",
+      "methodology_version": "1.0",
+      "request": {
+        "dividends": "true",
+        "end_date": "2025-01-02",
+        "initial_sgd": "10000",
+        "reinvest": "true",
+        "start_date": "2024-01-02",
+        "tickers": "QQQ,SMH,SOXX",
+        "withholding": "true"
+      },
+      "result": {
+        "data_quality": {
+          "status": "WARNING",
+          "warnings": [
+            "Dividend type for 2024-03-21 is not fully classified; it is modeled as a cash distribution.",
+            "Dividend type for 2024-06-11 is not fully classified; it is modeled as a cash distribution.",
+            "Dividend type for 2024-09-25 is not fully classified; it is modeled as a cash distribution.",
+            "Dividend type for 2024-12-17 is not fully classified; it is modeled as a cash distribution.",
+            "Approximated dividend pay date for 2024-03-21 as 2024-04-20.",
+            "Approximated dividend pay date for 2024-06-11 as 2024-07-11.",
+            "Approximated dividend pay date for 2024-09-25 as 2024-10-25.",
+            "Approximated dividend pay date for 2024-12-17 as 2025-01-16.",
+            "Dividend dated 2024-12-17 becomes available after valuation and is excluded from end-date value."
+          ]
+        },
+        "dividend_coverage": {
+          "asset_type": "ETF",
+          "average_inter_event_gap_days": 109.32894736842105,
+          "coverage_status": "data_available",
+          "currency": "USD",
+          "distribution_policy": "distributing",
+          "error": null,
+          "event_count": 77,
+          "event_currencies": [
+            "USD"
+          ],
+          "exchange": "NASDAQ",
+          "first_event_date": "2003-09-15",
+          "largest_dividend_amount": "0.600667000000000000",
+          "last_attempt_at": "2026-08-30T18:28:02.758483Z",
+          "last_event_date": "2026-06-15",
+          "longest_inter_event_gap_days": 742,
+          "median_dividend_amount": "0.117667000000000000",
+          "provider_query_succeeded": true,
+          "queried_from": "2000-01-01",
+          "queried_through": "2026-08-31",
+          "required_start_date": "2000-01-01",
+          "security_id": "530199da-881e-4b43-9382-9712559be5b7",
+          "smallest_dividend_amount": "0.001333000000000000",
+          "sources": [
+            "yahoo_finance"
+          ],
+          "ticker": "SOXX",
+          "warnings": []
+        },
+        "dividends": {
+          "cash_foreign_currency": "0",
+          "gross_foreign_currency": "133.6647750969435637830023667",
+          "gross_sgd_at_payment": "178.5860808397207893435567049",
+          "net_foreign_currency": "93.56534256786049464810165669",
+          "net_sgd_at_payment": "125.0102565878045525404896934",
+          "withholding_tax_foreign_currency": "40.09943252908306913490071001",
+          "withholding_tax_sgd_at_payment": "53.57582425191623680306701147"
+        },
+        "fx": {
+          "end_rate": "1.3654600381851196",
+          "start_rate": "1.3193000555038452"
+        },
+        "initial_investment_foreign_currency": "7579.776835665307255883382899",
+        "initial_investment_sgd": "10000",
+        "investment": {
+          "final_security_value_foreign_currency": "26721.92769558101392370299965",
+          "final_value_foreign_currency": "26721.92769558101392370299965",
+          "final_value_sgd": "36487.72441158805627057290607",
+          "shares": "123.2447504515704355098231203"
+        },
+        "methodology": {
+          "dividend_native_currency": "USD",
+          "dividend_reinvestment": "pay_date_close_with_30_day_ex_date_fallback",
+          "dividend_sgd_translation": "payment_date_fx_rate_for_actual_dividend_currency",
+          "dividend_type_handling": "regular/special/unknown treated as cash; return_of_capital treated as cash without assumed withholding",
+          "fractional_shares": true,
+          "methodology_version": "1.0",
+          "price": "daily_close",
+          "price_return": "raw_unadjusted_close_to_close_not_split_adjusted",
+          "purchase_date_rule": "next_trading_day",
+          "ter_deducted": false,
+          "valuation_date_rule": "previous_trading_day",
+          "withholding_tax": true
+        },
+        "period": {
+          "end_date": "2025-01-02",
+          "start_date": "2024-01-02"
+        },
+        "price_return": {
+          "foreign_currency": "0.171261393398476666722256077",
+          "sgd": "0.212241764322414240278853087"
+        },
+        "returns": {
+          "cagr": "2.6390105907937356",
+          "cagr_foreign_currency": "2.5162424862149813",
+          "total_return": "2.648772441158805627057290607",
+          "total_return_foreign_currency": "2.525424069194976993066268832"
+        },
+        "security": {
+          "active": true,
+          "asset_type": "ETF",
+          "currency": "USD",
+          "cusip": null,
+          "distribution_policy": "distributing",
+          "domicile": "US",
+          "exchange": "NASDAQ",
+          "expense_ratio": null,
+          "income_source_country": "US",
+          "isin": null,
+          "market": "US",
+          "name": "iShares Semiconductor ETF",
+          "security_id": "530199da-881e-4b43-9382-9712559be5b7",
+          "ticker": "SOXX",
+          "timezone": "America/New_York"
+        }
+      }
+    }
+  ]
+}

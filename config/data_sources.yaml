@@ -1,0 +1,13 @@
+market_data:
+  provider: yahoo_finance
+  timeout_seconds: 20
+  max_workers: 4
+  retry_attempts: 3
+universe_sources:
+  # Import a reviewed current listing snapshot from SGX's securities directory.
+  # The importer accepts only equities, REITs, business trusts, and ETFs; it
+  # intentionally rejects structured products unless manually added.
+  sgx_current_listings:
+    source: sgx_securities_directory
+    import_path: data/imports/sgx_active_listings.csv
+    as_of_required: true

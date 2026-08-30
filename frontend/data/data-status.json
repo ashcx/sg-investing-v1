@@ -1,0 +1,163 @@
+{
+  "backfill": {
+    "as_of": "2026-08-31",
+    "by_status": {
+      "incomplete": 59,
+      "stored": 3109,
+      "unavailable": 4
+    },
+    "run": {
+      "attempted": 0,
+      "batches_completed": 0,
+      "failed": 0,
+      "rows_written": 0,
+      "succeeded": 0
+    },
+    "state_file": "price_backfill_state.json",
+    "total_securities": 3172,
+    "updated_at": "2026-08-30T16:30:37.619484+00:00"
+  },
+  "catalog_version": "current_catalog",
+  "coverage_note": "Incomplete and unavailable rows remain visible; the API resolves only canonical parquet data.",
+  "generated_at": "2026-08-30",
+  "history_start": "2000-01-01",
+  "universe": {
+    "as_of": "2026-08-30",
+    "membership_rows": 3256,
+    "source_counts": {
+      "nasdaq100_current": 101,
+      "russell2000_current": 1946,
+      "sgx_active": 708,
+      "sp500_current": 489
+    },
+    "unique_securities": 3172
+  },
+  "update": {
+    "failed": 0,
+    "fx_rows_written": 6,
+    "results": [
+      {
+        "end_date": "2026-08-30",
+        "error": null,
+        "partitions_written": 1,
+        "rows_written": 6,
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "start_date": "2026-08-20",
+        "status": "OK",
+        "ticker": "QQQ"
+      },
+      {
+        "end_date": "2026-08-30",
+        "error": null,
+        "partitions_written": 1,
+        "rows_written": 6,
+        "security_id": "d8c8540f-eee6-454d-932e-43e4d6874cf1",
+        "start_date": "2026-08-20",
+        "status": "OK",
+        "ticker": "SMH"
+      },
+      {
+        "end_date": "2026-08-30",
+        "error": null,
+        "partitions_written": 1,
+        "rows_written": 6,
+        "security_id": "530199da-881e-4b43-9382-9712559be5b7",
+        "start_date": "2026-08-20",
+        "status": "OK",
+        "ticker": "SOXX"
+      },
+      {
+        "end_date": "2026-08-30",
+        "error": null,
+        "partitions_written": 1,
+        "rows_written": 5,
+        "security_id": "68abbb5a-81d0-4035-973a-98135bbeccf9",
+        "start_date": "2026-08-20",
+        "status": "OK",
+        "ticker": "VALL.SW"
+      },
+      {
+        "end_date": "2026-08-30",
+        "error": null,
+        "partitions_written": 1,
+        "rows_written": 6,
+        "security_id": "eb7d4516-c5e6-52ce-88af-83eaddf32bbf",
+        "start_date": "2026-08-20",
+        "status": "OK",
+        "ticker": "IWM"
+      },
+      {
+        "end_date": "2026-08-30",
+        "error": null,
+        "partitions_written": 1,
+        "rows_written": 6,
+        "security_id": "555b7517-8660-592e-8bcb-964fb857f138",
+        "start_date": "2026-08-20",
+        "status": "OK",
+        "ticker": "CSPX.L"
+      },
+      {
+        "end_date": "2026-08-30",
+        "error": null,
+        "partitions_written": 1,
+        "rows_written": 6,
+        "security_id": "bfee230b-3393-528d-8237-082b2dbfa0ea",
+        "start_date": "2026-08-20",
+        "status": "OK",
+        "ticker": "CNDX.L"
+      },
+      {
+        "end_date": "2026-08-30",
+        "error": null,
+        "partitions_written": 1,
+        "rows_written": 6,
+        "security_id": "f00fd6bd-47e4-5524-b6ac-e029e4971d74",
+        "start_date": "2026-08-20",
+        "status": "OK",
+        "ticker": "IWDA.L"
+      },
+      {
+        "end_date": "2026-08-30",
+        "error": null,
+        "partitions_written": 1,
+        "rows_written": 6,
+        "security_id": "05017dff-36f8-550e-b53e-a137685b4d7c",
+        "start_date": "2026-08-20",
+        "status": "OK",
+        "ticker": "EIMI.L"
+      },
+      {
+        "end_date": "2026-08-30",
+        "error": null,
+        "partitions_written": 1,
+        "rows_written": 6,
+        "security_id": "7e93f61f-8b30-5fd5-a0bd-466494275623",
+        "start_date": "2026-08-20",
+        "status": "OK",
+        "ticker": "VWRA.L"
+      },
+      {
+        "end_date": "2026-08-30",
+        "error": null,
+        "partitions_written": 1,
+        "rows_written": 6,
+        "security_id": "deec363b-95ea-543f-9a89-ac412d8e117a",
+        "start_date": "2026-08-20",
+        "status": "OK",
+        "ticker": "VUAA.L"
+      },
+      {
+        "end_date": "2026-08-30",
+        "error": null,
+        "partitions_written": 11,
+        "rows_written": 2431,
+        "security_id": "929a93f9-f0e3-5bdc-96a0-e1565b945ccf",
+        "start_date": "2016-12-23",
+        "status": "OK",
+        "ticker": "^RUT"
+      }
+    ],
+    "updated": 12,
+    "warnings": 0
+  }
+}

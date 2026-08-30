@@ -1,0 +1,126 @@
+{
+  "catalog_version": "current_catalog",
+  "data_snapshot_id": "local-canonical-parquet",
+  "generated_at": "2026-08-30",
+  "methodology_version": "1.0",
+  "request": {
+    "dividends": "true",
+    "end_date": "2025-01-02",
+    "initial_sgd": "10000",
+    "reinvest": "true",
+    "start_date": "2024-01-02",
+    "withholding": "true"
+  },
+  "result": {
+    "data_quality": {
+      "status": "WARNING",
+      "warnings": [
+        "Dividend type for 2024-03-18 is not fully classified; it is modeled as a cash distribution.",
+        "Dividend type for 2024-06-24 is not fully classified; it is modeled as a cash distribution.",
+        "Dividend type for 2024-09-23 is not fully classified; it is modeled as a cash distribution.",
+        "Dividend type for 2024-12-23 is not fully classified; it is modeled as a cash distribution.",
+        "Approximated dividend pay date for 2024-03-18 as 2024-04-17.",
+        "Approximated dividend pay date for 2024-06-24 as 2024-07-24.",
+        "Approximated dividend pay date for 2024-09-23 as 2024-10-23.",
+        "Approximated dividend pay date for 2024-12-23 as 2025-01-22.",
+        "Dividend dated 2024-12-23 becomes available after valuation and is excluded from end-date value."
+      ]
+    },
+    "dividend_coverage": {
+      "asset_type": "ETF",
+      "average_inter_event_gap_days": 93.36363636363636,
+      "coverage_status": "data_available",
+      "currency": "USD",
+      "distribution_policy": "distributing",
+      "error": null,
+      "event_count": 89,
+      "event_currencies": [
+        "USD"
+      ],
+      "exchange": "NASDAQ",
+      "first_event_date": "2003-12-24",
+      "largest_dividend_amount": "0.835000000000000000",
+      "last_attempt_at": "2026-08-30T18:28:02.758483Z",
+      "last_event_date": "2026-06-22",
+      "longest_inter_event_gap_days": 359,
+      "median_dividend_amount": "0.277000000000000000",
+      "provider_query_succeeded": true,
+      "queried_from": "2000-01-01",
+      "queried_through": "2026-08-31",
+      "required_start_date": "2000-01-01",
+      "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+      "smallest_dividend_amount": "0.014000000000000000",
+      "sources": [
+        "yahoo_finance"
+      ],
+      "ticker": "QQQ",
+      "warnings": []
+    },
+    "dividends": {
+      "cash_foreign_currency": "0",
+      "gross_foreign_currency": "37.92120328488458466618096628",
+      "gross_sgd_at_payment": "50.85830876330988211562455065",
+      "net_foreign_currency": "26.54484229941920926632667640",
+      "net_sgd_at_payment": "35.60081613431691748093718545",
+      "withholding_tax_foreign_currency": "11.37636098546537539985428988",
+      "withholding_tax_sgd_at_payment": "15.25749262899296463468736519"
+    },
+    "fx": {
+      "end_rate": "1.3654600381851196",
+      "start_rate": "1.3193000555038452"
+    },
+    "initial_investment_foreign_currency": "7579.776835665307255883382899",
+    "initial_investment_sgd": "10000",
+    "investment": {
+      "final_security_value_foreign_currency": "9635.830976462915329064238634",
+      "final_value_foreign_currency": "9635.830976462915329064238634",
+      "final_value_sgd": "13157.34213306641064684526209",
+      "shares": "18.88526893554505722209295349"
+    },
+    "methodology": {
+      "dividend_native_currency": "USD",
+      "dividend_reinvestment": "pay_date_close_with_30_day_ex_date_fallback",
+      "dividend_sgd_translation": "payment_date_fx_rate_for_actual_dividend_currency",
+      "dividend_type_handling": "regular/special/unknown treated as cash; return_of_capital treated as cash without assumed withholding",
+      "fractional_shares": true,
+      "methodology_version": "1.0",
+      "price": "daily_close",
+      "price_return": "raw_unadjusted_close_to_close_not_split_adjusted",
+      "purchase_date_rule": "next_trading_day",
+      "ter_deducted": false,
+      "valuation_date_rule": "previous_trading_day",
+      "withholding_tax": true
+    },
+    "period": {
+      "end_date": "2025-01-02",
+      "start_date": "2024-01-02"
+    },
+    "price_return": {
+      "foreign_currency": "0.267368825921089422669676924",
+      "sgd": "0.311711826447199875731273360"
+    },
+    "returns": {
+      "cagr": "0.3149872102874005",
+      "cagr_foreign_currency": "0.27062391885848647",
+      "total_return": "0.315734213306641064684526209",
+      "total_return_foreign_currency": "0.271255234207319508459694600"
+    },
+    "security": {
+      "active": true,
+      "asset_type": "ETF",
+      "currency": "USD",
+      "cusip": null,
+      "distribution_policy": "distributing",
+      "domicile": "US",
+      "exchange": "NASDAQ",
+      "expense_ratio": null,
+      "income_source_country": "US",
+      "isin": null,
+      "market": "US",
+      "name": "Invesco QQQ Trust",
+      "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+      "ticker": "QQQ",
+      "timezone": "America/New_York"
+    }
+  }
+}

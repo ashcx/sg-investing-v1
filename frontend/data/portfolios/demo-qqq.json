@@ -1,0 +1,45 @@
+{
+  "catalog_version": "current_catalog",
+  "data_snapshot_id": "local-canonical-parquet",
+  "generated_at": "2026-08-30",
+  "methodology_version": "1.0",
+  "request": {
+    "as_of": "2025-01-02",
+    "transactions": {
+      "cash_amount": "4000",
+      "currency": "USD",
+      "fees": "0",
+      "quantity": "10",
+      "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+      "transaction_date": "2024-01-02",
+      "transaction_type": "BUY"
+    }
+  },
+  "result": {
+    "as_of": "2025-01-02",
+    "cash_by_currency": {
+      "USD": "-4000"
+    },
+    "holdings": [
+      {
+        "cost_basis_native": "4000",
+        "market_value_native": "5102.300109863281000000",
+        "market_value_sgd": "6966.986902845855604482524633",
+        "quantity": "10",
+        "realized_pl_native": "0",
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "ticker": "QQQ",
+        "unrealized_pl_native": "1102.300109863281000000",
+        "weighted_average_cost": "400"
+      }
+    ],
+    "methodology": {
+      "cost_basis": "weighted_average",
+      "end_value": "mark_to_market"
+    },
+    "realized_pl_native": {
+      "USD": "0"
+    },
+    "total_market_value_sgd": "1505.146750105377204482524633"
+  }
+}

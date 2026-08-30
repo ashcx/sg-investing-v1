@@ -1,0 +1,8 @@
+rules:
+  - rule_id: US_DIVIDEND_NONRESIDENT
+    source_country: US
+    income_type: dividend
+    investor_type: singapore_individual
+    rate: 0.30
+    effective_from: 1900-01-01
+    effective_to: null
