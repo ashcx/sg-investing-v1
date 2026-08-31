@@ -40,7 +40,7 @@ jobs:
 
           manifest = json.loads((Path("frontend/data/packs") / "manifest.json").read_text())
           assert manifest["schema_version"] == 1, "unexpected pack schema version"
-          assert manifest["pack_count"] > 0, "no packs were built"
+          assert manifest["summary"]["pack_count"] > 0, "no packs were built"
           assert manifest["summary"]["securities"] == len(manifest["securities"])
           print(
               "data packs:",
