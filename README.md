@@ -102,6 +102,12 @@ to that HTTPS API origin when one is available; leave it empty for static-only
 mode. The frontend uses relative API paths by default, which also works when a
 repository is served below a project subpath.
 
+The calculation architecture for removing the runtime adapter dependency is
+decided in `docs/adr/0001-calculation-architecture.md`: a browser-native
+ES-module engine (vendored decimal arithmetic, Web Workers, no build step),
+ported from and parity-tested against the Python engine. The work is tracked
+as sprints in [`TODO.md`](TODO.md) and the `Todo/` folder.
+
 The remaining work for a fully self-contained Pages deployment is tracked in
 [`TODO.md`](TODO.md), including browser-side DCA and portfolio reconstruction,
 static data-pack publishing and parity testing against the Python engine.

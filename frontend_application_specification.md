@@ -11,6 +11,15 @@ The frontend is a presentation and input layer. It must never reproduce the
 financial calculations in browser code. All figures are supplied by backend
 generated JSON artifacts or a future thin read-only API.
 
+> **Architecture decision (2026-08-31, ADR 0001).** For the fully static
+> GitHub Pages deployment, the "no browser calculation" rule above is
+> superseded by a portable calculation engine: a browser-native ES-module
+> JavaScript port of the Python engine (vendored decimal arithmetic, executed
+> in Web Workers, no build step), gated by comprehensive golden parity tests
+> against the Python engine. Until that port proves parity (Todo sprints 2–3),
+> the Python engine and its artifacts remain the only authoritative source of
+> figures. See `docs/adr/0001-calculation-architecture.md`.
+
 This document translates the backend product design document and the currently
 implemented Python package into a frontend delivery specification. It does not
 change the backend's financial methodology.
