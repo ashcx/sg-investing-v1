@@ -1,0 +1,27 @@
+{
+  "as_of": "2024-07-01",
+  "holdings": [
+    {
+      "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+      "ticker": "QQQ",
+      "quantity": "15",
+      "weighted_average_cost": "110.2",
+      "cost_basis_native": "1653.0",
+      "market_value_native": "7228.800201416016000000",
+      "market_value_sgd": "9792.855410874017675653937459",
+      "unrealized_pl_native": "5575.800201416016000000",
+      "realized_pl_native": "96.0"
+    }
+  ],
+  "cash_by_currency": {
+    "USD": "3443"
+  },
+  "realized_pl_native": {
+    "USD": "96.0"
+  },
+  "total_market_value_sgd": "14457.08740514529601665393746",
+  "methodology": {
+    "cost_basis": "weighted_average",
+    "end_value": "mark_to_market"
+  }
+}

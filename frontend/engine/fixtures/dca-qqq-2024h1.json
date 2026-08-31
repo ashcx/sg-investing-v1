@@ -1,0 +1,54 @@
+{
+  "security": {
+    "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+    "ticker": "QQQ",
+    "exchange": "NASDAQ",
+    "market": "US",
+    "name": "Invesco QQQ Trust",
+    "currency": "USD",
+    "asset_type": "ETF",
+    "domicile": "US",
+    "income_source_country": "US",
+    "isin": null,
+    "cusip": null,
+    "timezone": "America/New_York",
+    "active": true,
+    "distribution_policy": "distributing",
+    "expense_ratio": null
+  },
+  "contribution_dates": [
+    "2024-01-02",
+    "2024-02-01",
+    "2024-03-01",
+    "2024-04-01",
+    "2024-05-01",
+    "2024-06-03",
+    "2024-07-01"
+  ],
+  "total_contributed_sgd": "7000",
+  "total_contributed_foreign_currency": "5200.079735061480233366690817",
+  "final_value_sgd": "7765.439102203641593791671988",
+  "final_value_foreign_currency": "5732.220623186289714070505526",
+  "gain_loss_sgd": "765.439102203641593791671988",
+  "gain_loss_foreign_currency": "532.140888124809480703814709",
+  "xirr": "0.5055483672619863",
+  "xirr_foreign_currency": "0.4662670527767092",
+  "shares": "11.89454777446352380159197674",
+  "methodology": {
+    "contribution_timing": "first_available_trading_day_of_period",
+    "cost_basis": "weighted_average_not_applicable_to_dca_return",
+    "dividend_reinvestment": true,
+    "dividend_type_handling": "regular/special/unknown treated as cash; return_of_capital treated as cash without assumed withholding",
+    "ter_deducted": false
+  },
+  "data_quality": {
+    "status": "WARNING",
+    "warnings": [
+      "Dividend type for 2024-03-18 is not fully classified; it is modeled as a cash distribution.",
+      "Dividend type for 2024-06-24 is not fully classified; it is modeled as a cash distribution.",
+      "Approximated dividend pay date for 2024-03-18 as 2024-04-17.",
+      "Approximated dividend pay date for 2024-06-24 as 2024-07-24.",
+      "Dividend dated 2024-06-24 becomes available after valuation."
+    ]
+  }
+}

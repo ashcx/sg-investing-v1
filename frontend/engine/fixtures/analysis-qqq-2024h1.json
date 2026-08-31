@@ -1,0 +1,78 @@
+{
+  "security": {
+    "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+    "ticker": "QQQ",
+    "exchange": "NASDAQ",
+    "market": "US",
+    "name": "Invesco QQQ Trust",
+    "currency": "USD",
+    "asset_type": "ETF",
+    "domicile": "US",
+    "income_source_country": "US",
+    "isin": null,
+    "cusip": null,
+    "timezone": "America/New_York",
+    "active": true,
+    "distribution_policy": "distributing",
+    "expense_ratio": null
+  },
+  "period": {
+    "start_date": "2024-01-02",
+    "end_date": "2024-07-01"
+  },
+  "initial_investment_sgd": "10000",
+  "initial_investment_foreign_currency": "7579.776835665307255883382899",
+  "price_return": {
+    "foreign_currency": "0.197049151274148262855710103",
+    "sgd": "0.229168786665758036998164622"
+  },
+  "dividends": {
+    "gross_foreign_currency": "10.78817696997865160148914834",
+    "withholding_tax_foreign_currency": "3.236453090993595480446744502",
+    "net_foreign_currency": "7.551723878985056121042403838",
+    "cash_foreign_currency": "0",
+    "gross_sgd_at_payment": "14.72165370832041268053261998",
+    "withholding_tax_sgd_at_payment": "4.416496112496123804159785994",
+    "net_sgd_at_payment": "10.30515759582428887637283398"
+  },
+  "investment": {
+    "shares": "18.84526769108103288426297503",
+    "final_security_value_foreign_currency": "9081.911658735020620321371374",
+    "final_value_foreign_currency": "9081.911658735020620321371374",
+    "final_value_sgd": "12303.26544519814657956516453"
+  },
+  "returns": {
+    "total_return": "0.230326544519814657956516453",
+    "cagr": "0.5193346635007128",
+    "total_return_foreign_currency": "0.198176655545013153089379758",
+    "cagr_foreign_currency": "0.4402847386055895"
+  },
+  "fx": {
+    "start_rate": "1.3193000555038452",
+    "end_rate": "1.354699969291687"
+  },
+  "methodology": {
+    "price": "daily_close",
+    "price_return": "raw_unadjusted_close_to_close_not_split_adjusted",
+    "purchase_date_rule": "next_trading_day",
+    "valuation_date_rule": "previous_trading_day",
+    "dividend_reinvestment": "pay_date_close_with_30_day_ex_date_fallback",
+    "fractional_shares": true,
+    "withholding_tax": true,
+    "dividend_native_currency": "USD",
+    "dividend_sgd_translation": "payment_date_fx_rate_for_actual_dividend_currency",
+    "dividend_type_handling": "regular/special/unknown treated as cash; return_of_capital treated as cash without assumed withholding",
+    "ter_deducted": false,
+    "methodology_version": "1.0"
+  },
+  "data_quality": {
+    "status": "WARNING",
+    "warnings": [
+      "Dividend type for 2024-03-18 is not fully classified; it is modeled as a cash distribution.",
+      "Dividend type for 2024-06-24 is not fully classified; it is modeled as a cash distribution.",
+      "Approximated dividend pay date for 2024-03-18 as 2024-04-17.",
+      "Approximated dividend pay date for 2024-06-24 as 2024-07-24.",
+      "Dividend dated 2024-06-24 becomes available after valuation and is excluded from end-date value."
+    ]
+  }
+}
