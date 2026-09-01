@@ -24,21 +24,30 @@ investing timeline. Required pairs derive from catalog native currencies
 (USD, GBP, EUR, JPY, HKD, CNY, …).
 
 - [ ] **A0 (planning checkpoint — user sign-off required before coding):**
-      present the source comparison and the splice-vs-replace decision below,
-      and record the decision as `docs/adr/0002-fx-sources.md`.
-- [ ] A1: verify candidate sources for daily rates back to 2000-01-01:
-      **MAS** (Monetary Authority of Singapore — official SGD reference rates,
-      the SGD-authoritative source), **ECB reference rates** (daily since
-      1999, publishes SGD and majors vs EUR; USD/SGD derivable as EUR/SGD ÷
-      EUR/USD; clean free API via frankfurter.app), Stooq (free CSV, licence
-      unclear), FRED H.10 (verify whether SGD is covered), Dukascopy (tick
-      data, heavier). Rate each on: coverage to 2000, currencies, licence,
-      stability, and "reference rate vs market close" semantics.
-- [ ] A2: decide splice vs replace. **Recommendation: replace the whole FX
-      series with the chosen reputable source** for series consistency —
-      mixing Yahoo (2003+) with a new source (2000–2003) creates a level seam
-      at the boundary; keep Yahoo only as a cross-check. Alternative: splice
-      with a documented seam warning.
+      present the source comparison and record the decision as
+      `docs/adr/0002-fx-sources.md`. **User direction (2026-09-01): splice,
+      minimal pull** — do NOT re-pull the existing 2003+ Yahoo FX; backfill
+      ONLY the missing window (2000-01-01 → 2003-11-30, ~10 currency pairs).
+      Data rationale: 1,297 of 3,188 securities (40%) predate 2003-12 (1,178
+      start at the 2000-01 horizon); 0 are fully_supported today; 4,936
+      pre-2004 security-years are already fetched but FX-locked — including
+      QQQ/SMH/SOXX/AAPL/MSFT first years. Source choice remains open:
+      **ECB reference rates (primary candidate)** vs **MAS** (SGD-authoritative)
+      vs others listed below.
+- [ ] A1: verify candidate sources for daily rates over 2000-01-01 →
+      2003-11-30: **MAS** (Monetary Authority of Singapore — official SGD
+      reference rates, the SGD-authoritative source), **ECB reference rates**
+      (daily since 1999, publishes SGD and majors vs EUR; USD/SGD derivable as
+      EUR/SGD ÷ EUR/USD; clean free API via frankfurter.app), Stooq (free CSV,
+      licence unclear), FRED H.10 (verify whether SGD is covered), Dukascopy
+      (tick data, heavier). Rate each on: coverage of the missing window,
+      currencies, licence, stability, and "reference rate vs market close"
+      semantics.
+- [ ] A2: splice with normalization: compute a normalization ratio over the
+      overlap boundary (average ratio of new-source vs existing rates over the
+      last overlapping month) and scale the backfilled window to it, so no
+      level seam enters SGD returns. Document the seam + normalization in pack
+      provenance and result warnings for affected ranges.
 - [ ] A3: implement `scripts/backfill_fx_history.py`: fetch, normalize to the
       existing FX row contract (one unit foreign = X SGD, daily), validate
       against the overlapping 2003+ Yahoo window (record divergence stats in
