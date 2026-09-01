@@ -7,7 +7,7 @@ no-build static frontend (`frontend/`) deployed to GitHub Pages. Read
 ## Todo system (mandatory)
 
 All roadmap work is tracked in `TODO.md` (the roadmap) and the `Todo/` folder
-(one file per sprint: `sprint-0-*.md` … `sprint-8-*.md`). Any agent asked to
+(one file per sprint: `sprint-0-*.md` … `sprint-8-*.md`, including `sprint-7.5-*`). Any agent asked to
 continue, pick up, or check project work MUST use this system:
 
 - **Roadmap**: `TODO.md` holds the sprint table with statuses and the final
@@ -26,8 +26,8 @@ continue, pick up, or check project work MUST use this system:
      update the roadmap status. If blocked, leave status `In progress` and
      record the blocker in the sprint file.
 - **Order**: work the lowest-numbered eligible sprint. Only parallelism
-  allowed: Sprints 4 and 5 (after 1–3). Sprint 6 requires 4 and 5; Sprint 7
-  requires 4, 5, 6.
+  allowed: Sprints 4 and 5 (after 1–3), and Sprint 7.5 alongside Sprint 8.
+  Sprint 6 requires 4 and 5; Sprint 7 requires 4, 5, 6.
 - **Sequencing detail**: `Todo/orchestration-plan.md` coordinates task-level
   order and safe parallelism (parallel groups, freeze points, conflict-prone
   tasks, solo vs multi-agent patterns). Sprint-file gates always win over the

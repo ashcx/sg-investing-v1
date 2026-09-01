@@ -1,26 +1,30 @@
 # SG Investing
 
+**Live site: [sg-investing-v1](https://ashcx.github.io/sg-investing-v1/)** —
+everything below runs there, in your browser, with no backend.
+
 > **⚠ Status: very, very early preview (v0.1.0).** This project is under
 > active development and **lots of features do not work yet**. Expect rough
 > edges, missing securities, changing contracts and occasional deployment
 > churn. See "What works / What does not work yet" below, and the sprint
 > roadmap in [`TODO.md`](TODO.md).
 
-A financial analytics engine (authoritative reference in Python) with a
-no-build static web UI for Singapore-based investors. The browser runs a
-decimal-safe JavaScript port of the engine (Web Workers, vendored decimal
-arithmetic) so analysis, DCA, comparisons and portfolio reconstruction compute
-locally from published data packs; the Python engine remains the reference and
-the CI gate (see `docs/adr/0001-calculation-architecture.md`).
+SG / Invest is a calm, auditable return lens for Singapore-based investors:
+pick a security and see its historical performance in the security's native
+currency **and** in SGD, with FX, dividends and investor-level withholding tax
+handled explicitly. Replay a dollar-cost-averaging plan, reconstruct a
+portfolio from a transaction ledger, compare securities, and export the raw
+result JSON — all computed locally, parity-tested against the authoritative
+Python engine.
 
 ## What works (verified)
 
 - The Python engine and its test battery: unit suite, golden parity fixtures
   against the browser engine, property tests, worker self-tests.
-- The deployed static site (GitHub Pages): catalog browsing and local
-  in-browser analysis, DCA, comparison and portfolio reconstruction for
-  securities in the published Tier-1 pack set (currently 1,242 securities —
-  every catalog universe except Russell 2000), with zero backend calls.
+- The deployed static site: catalog browsing and local in-browser analysis,
+  DCA, comparison and portfolio reconstruction for securities in the published
+  Tier-1 pack set (currently 1,242 securities — every catalog universe except
+  Russell 2000), with zero backend calls.
 - CI: backend tests on push, static-site checks, and gated publishing of
   frontend + data packs.
 
@@ -32,17 +36,54 @@ the CI gate (see `docs/adr/0001-calculation-architecture.md`).
 - Requests the pack manifest marks `incomplete` or `unavailable` (for example
   pre-2003 USD history, which lacks FX coverage) return explicit "unavailable"
   states rather than results — by design, but it means many securities/ranges
-  cannot be analysed yet.
-- **Live data refresh is not wired**: a full-catalog refresh from Yahoo Finance
-  exceeds CI job limits, so packs are built from the committed LFS snapshot and
-  go stale between manual snapshot updates.
+  cannot be analysed yet. (Sprint 7.5 backfills FX to 2000.)
+- **Live data refresh is not wired**: packs are built from the committed LFS
+  snapshot and go stale between manual snapshot updates. (Sprint 7.5 adds
+  incremental date-range updates.)
+- Charts and results currently require pressing "Run historical replay";
+  staged auto-loading is planned (Sprint 7.5).
 - V1 models **no brokerage, sale, FX-conversion or slippage costs**, performs
   **no Singapore capital-gains tax calculation**, and rejects cross-currency
   dividends rather than converting them.
-- The preloaded QQQ first-paint replay is a labelled demo, not a live result.
+- The SGX listing-source adapter and broad index importers are not yet wired,
+  so the catalog grows only through reviewed manual additions.
 - Mobile/accessibility polish is minimal and QA is headless-Chromium only.
-- `scripts/frontend_server.py` (the `/api` adapter) is a development/reference
-  mode only.
+
+## System design in one minute
+
+1. **Python reference engine** (`src/sg_investing/`) — the authoritative,
+   deterministic, decimal-safe financial math. Canonical prices, FX and
+   dividends live as partitioned Parquet in Git LFS; the storage layer upserts
+   atomically and never lets bad data replace good data.
+2. **CI data publishing** — every deploy re-validates the snapshot with the
+   test suite, builds versioned JSON data packs (one per security per year,
+   with provenance and support manifests), prunes them to the publishable tier
+   (~750 MB) and deploys them together with the app to GitHub Pages.
+3. **Browser engine** (`frontend/`) — a decimal-safe JavaScript port of the
+   Python engine runs inside a Web Worker, lazily loads only the packs a
+   request needs, and must reproduce the Python results exactly. That last
+   claim is enforced, not assumed: golden parity fixtures and property tests
+   run in CI.
+
+Architecture decisions live in `docs/adr/`, the full roadmap in
+[`TODO.md`](TODO.md) and `Todo/`.
+
+## Two computation modes
+
+- **Static mode** (default — what the live site runs): the browser computes
+  everything from published data packs. Works offline after first load, needs
+  no servers, and never sends your requests anywhere.
+- **Adapter mode** (development/reference): `scripts/frontend_server.py`
+  serves the same UI with `/api` routes backed directly by the Python engine.
+  Point the `sg-invest-api-base` meta tag at a hosted adapter to switch the
+  site to server-side compute.
+
+**Is keeping both truly necessary?** Strictly, no — the live site never calls
+the adapter. It stays for two cheap reasons: it is the developer's *oracle*
+(one command to compare a browser-computed result against the authoritative
+Python result for the same request), and it is a ready fallback if the pack
+pipeline is ever broken. It can be deleted without touching the live site;
+the Python engine itself stays regardless, as the CI reference.
 
 ## What is implemented
 
@@ -93,153 +134,23 @@ the CI gate (see `docs/adr/0001-calculation-architecture.md`).
   payment-date FX rate; end-value and return fields use the valuation-date FX
   rate where applicable.
 
-## Setup and tests
-
-The deployment target is Python 3.11 or newer.
+## Running locally
 
 ```bash
 python -m pip install -e ".[dev,market-data]"
-python -m pytest
+python -m pytest                      # full suite, no live network calls
+python scripts/build_data_packs.py    # build browser data packs from data/
+python scripts/frontend_server.py --port 4173   # adapter mode, http://127.0.0.1:4173/
 ```
 
-The normal test suite makes no live network calls. Provider and integration
-tests use fake responses and temporary stores. The optional full-universe smoke
-tests run only when explicitly enabled:
+Any static file server pointed at `frontend/` runs static mode (packs land in
+`frontend/data/packs/` after a build).
 
-```bash
-python -m pytest -m provider
-python -m pytest -m integration
-SG_INVESTING_RUN_UNIVERSE_SMOKE=1 python -m pytest tests/smoke
-```
+## Pointers
 
-To preview the frontend against the current local data:
-
-```bash
-python scripts/build_frontend_data.py
-python scripts/frontend_server.py --port 4173
-# open http://127.0.0.1:4173/ in Chrome
-```
-
-`build_frontend_data.py` publishes the catalog, coverage/status envelope and
-representative analysis, DCA, comparison and portfolio artifacts. The adapter
-serves dynamic backend results without moving calculation logic into the
-browser.
-
-## GitHub Pages deployment
-
-The site is published by the single deployment workflow,
-`.github/workflows/deploy-tier1.yml` (push to `main`, manual dispatch, or
-weekly schedule): it validates the snapshot with the test suite, builds the
-data packs, prunes them to the published tier and deploys `frontend/` plus
-packs together. Enable GitHub Pages in the repository settings with
-**GitHub Actions** as the source; no Node.js build step is required. Do not
-add a separate frontend-only Pages workflow — a plain `frontend/` deploy
-would replace the deployment and remove the packs (this exact failure
-happened once; see `docs/deployment.md`).
-
-The deployed site computes locally in the browser for securities covered by
-the published packs; anything outside the manifest's support status shows an
-explicit "unavailable" state. For development, `scripts/frontend_server.py`
-can serve dynamic results through the Python engine instead: set the
-`sg-invest-api-base` meta tag in `frontend/index.html` to that HTTPS origin,
-or leave it empty for static-only mode. Relative paths work when the
-repository is served below a project subpath.
-
-The calculation architecture for removing the runtime adapter dependency is
-decided in `docs/adr/0001-calculation-architecture.md`: a browser-native
-ES-module engine (vendored decimal arithmetic, Web Workers, no build step),
-ported from and parity-tested against the Python engine. The work is tracked
-as sprints in [`TODO.md`](TODO.md) and the `Todo/` folder.
-
-The remaining work for a fully self-contained Pages deployment is tracked in
-[`TODO.md`](TODO.md), including browser-side DCA and portfolio reconstruction,
-static data-pack publishing and parity testing against the Python engine.
-
-The smoke tests validate downloaded Parquet data and attempt analysis for
-securities with sufficient price and FX coverage. A scheduled workflow can run
-`python scripts/update_data.py` to update configured securities. It produces a
-JSON summary and does not commit data automatically.
-
-## Python API
-
-```python
-from datetime import date
-from decimal import Decimal
-
-from sg_investing.analysis import analyze_security
-from sg_investing.models import AnalysisScenario
-
-result = analyze_security(
-    security=security,
-    prices=price_rows,
-    fx_rates=fx_rows,
-    start_date=date(2024, 1, 1),
-    end_date=date(2025, 1, 1),
-    initial_sgd=Decimal("10000"),
-    scenario=AnalysisScenario(
-        dividends_enabled=True,
-        reinvest_dividends=True,
-        withholding_tax_enabled=True,
-    ),
-    dividends=dividend_rows,
-    corporate_actions=action_rows,
-    tax_rules=tax_rules,
-)
-
-frontend_payload = result.model_dump(mode="json")
-```
-
-When the configured data store has been refreshed, the application-facing API
-loads the catalog, tax rules, and Parquet datasets for you:
-
-```python
-from sg_investing import SGInvestingEngine
-
-engine = SGInvestingEngine(".")
-payload = engine.analyze(
-    ticker="QQQ",
-    start_date=date(2024, 1, 2),
-    end_date=date(2025, 1, 2),
-    initial_sgd="10000",
-).model_dump(mode="json")
-```
-
-For recurring investments, use `sg_investing.calculations.dca.dca_analysis`.
-For transaction-ledger analytics, use
-`sg_investing.calculations.portfolio.analyze_portfolio`.
-
-## Data layout
-
-```text
-data/
-  prices/market=US/year=2026.parquet
-  manifests/prices/market=US/year=2026.json
-  update_summary.json
-```
-
-Parquet data is partitioned by market and year. Each upsert merges by
-`(security_id, trading_date)` and replaces a partition atomically only after
-validation.
-
-## Universe policy
-
-`config/universe.yaml` contains the initial global ETF records, including the
-unambiguous USD/SIX listing for VALL (`VALL.SW` on Yahoo Finance, ISIN
-`IE000VAHT5T0`). It also
-defines the policy for adding current SGX equities, REITs, business trusts, and
-ETFs from a reviewed SGX directory snapshot. Structured products are excluded
-unless explicitly added.
-
-The data horizon starts on 2000-01-01; securities begin only at their actual
-available listing history.
-
-## Current limitations
-
-- The current SGX listing-source adapter and the broad S&P 500, Nasdaq-100, and
-  Russell constituent importers still need to be wired to reviewed source
-  exports before a full-universe live load. The catalog and ingestion contracts
-  are already in place for them.
-- Yahoo Finance is an initial data provider and live smoke tests are intentionally
-  separate from deterministic financial tests.
-- V1 supports dividends denominated in the security currency. Cross-currency
-  fund distributions are rejected rather than silently converted.
+- Deployment runbook: `docs/deployment.md`
+- Data-pack schema and budgets: `docs/data-pack-schema.md`,
+  `docs/data-pack-budgets.md`
+- Architecture decisions: `docs/adr/`
+- Universe catalog policy: `config/universe.yaml`
+- Sprint roadmap: [`TODO.md`](TODO.md) and `Todo/`

@@ -8,7 +8,7 @@ adapter or a checked-in artifact.
 
 ## How this Todo system works
 
-The work is split into nine sprints. Each sprint is one file in the `Todo/`
+The work is split into ten sprints (Sprint 7.5 slots between 7 and 8). Each sprint is one file in the `Todo/`
 folder. Agents and humans must follow these rules:
 
 1. **One sprint at a time.** Pick the lowest-numbered sprint whose entry
@@ -47,6 +47,7 @@ folder. Agents and humans must follow these rules:
 | 5 — Portfolio static support | [Todo/sprint-5-portfolio-static.md](Todo/sprint-5-portfolio-static.md) | Arbitrary ledgers reconstruct fully in-browser with local persistence | 1, 2, 3 | Complete |
 | 6 — Fallback cleanup | [Todo/sprint-6-fallback-cleanup.md](Todo/sprint-6-fallback-cleanup.md) | One honest local-compute mode; no silent demo substitutions | 4, 5 | Complete |
 | 7 — Release hardening & launch | [Todo/sprint-7-release-hardening.md](Todo/sprint-7-release-hardening.md) | Hardened CI, QA and confirmed GitHub Pages deployment | 4, 5, 6 | Complete |
+| 7.5 — FX to 2000, incremental updates, reactive UI | [Todo/sprint-7.5-fx-incremental-reactive.md](Todo/sprint-7.5-fx-incremental-reactive.md) | Foreign-currency history back to 2000; incremental date-range updates without full rebuild; staged auto-loading UI | 7 | Not started |
 | 8 — Pack origin & full-breadth hosting | [Todo/sprint-8-pack-origin.md](Todo/sprint-8-pack-origin.md) | Full 3,188-security set reachable client-side via a configurable non-Pages origin | 7 | Not started |
 
 Sequencing notes:
@@ -57,6 +58,8 @@ Sequencing notes:
   end-to-end feature work needs Sprint 1.
 - Do not start Sprint 6 until both feature sprints (4 and 5) have delivered,
   since it removes the fallback paths they previously depended on.
+- Sprint 7.5 is independent of Sprint 8 and may run before, after, or in
+  parallel with it (only minor CI-workflow coordination).
 - Sprint 8 (pack origin & full-breadth hosting) trails Sprint 7 so the
   Tier-1 Pages deployment and the `sg-invest-pack-base` override exist to
   build on; its research tasks may run as early-lane work at any time.

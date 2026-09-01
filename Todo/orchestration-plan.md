@@ -191,6 +191,17 @@ Solo order: S5.1 → S5.2 → S5.3 → S5.4 → S5.5 → S5.6 → S5.7 (S5.8 any
   (Sprints 2–3: engine + fixtures), UI track (Sprints 4–6: `frontend/`).
   Re-sync at every freeze point listed above.
 
+## Phase 4.5 — Sprint 7.5 (added 2026-09-01)
+
+Sprint 7.5 (`Todo/sprint-7.5-fx-incremental-reactive.md`) closes three
+usability gaps after the launch: FX history back to 2000 from a reputable
+source (plan requires user sign-off at task A0 before implementation),
+incremental date-range updates without full rebuilds, and staged auto-loading
+(series → analysis → DCA/portfolio) in the UI. Independent of Sprint 8; only
+minor CI-workflow coordination if run in parallel. Track A gates on the A0
+decision; Tracks B and C are parallelizable with each other (Python backend
+vs frontend UI — disjoint areas).
+
 ## Phase 5 — Sprint 8 (added 2026-08-31)
 
 Sprint 8 (`Todo/sprint-8-pack-origin.md`) trails Sprint 7 and decides the
