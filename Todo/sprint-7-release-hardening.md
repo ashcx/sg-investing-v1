@@ -46,6 +46,13 @@ Sprints 4, 5, 6.
 > Live verification on https://ashcx.github.io/sg-investing-v1/: DCA renders
 > the exact Python golden (S$13,777.06 · 12 contributions · XIRR +28.53%) in
 > LOCAL COMPUTE mode with zero /api calls and zero console errors.
+>
+> **Follow-up fix (same day):** the two deploy paths conflicted in production —
+> a push-triggered plain `pages.yml` deploy (frontend only, no packs) superseded
+> the Tier-1 deployment and wiped all packs from the live site (manifest 404).
+> Consolidated to a single deployment workflow: `pages.yml` removed and
+> `deploy-tier1.yml` now triggers on push + dispatch + schedule, always
+> deploying frontend + packs behind the pytest gate. See docs/deployment.md.
 > locally — both new workflows (`static-checks.yml`, `deploy-tier1.yml`) are
 > authored, the full battery is green, subpath + CSP + mobile QA pass in real
 > Chromium. Items 1 and 4 need a git push so the Actions runs can execute

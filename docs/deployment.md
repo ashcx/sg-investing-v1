@@ -7,36 +7,30 @@ in the browser from published data packs.
 ## Repository setup (one-time)
 
 1. Create the GitHub repository and push the default branch `main` (the
-   Pages trigger in `.github/workflows/pages.yml` assumes `main`; the remote
-   default branch is verified as `main` via `git ls-remote --symref origin
-   HEAD`). Large canonical data under `data/` is Git LFS (`git lfs install`
-   before the first push).
+   Pages trigger in `.github/workflows/deploy-tier1.yml` assumes `main`; the
+   remote default branch is verified as `main` via `git ls-remote --symref
+   origin HEAD`). Large canonical data under `data/` is Git LFS
+   (`git lfs install` before the first push).
 2. In **Settings → Pages → Build and deployment → Source**, select
-   **GitHub Actions** (not "Deploy from a branch"). Both deploy workflows
-   declare `permissions: pages: write, id-token: write` and deploy through
+   **GitHub Actions** (not "Deploy from a branch"). The deploy workflow
+   declares `permissions: pages: write, id-token: write` and deploys through
    `actions/deploy-pages`, so no branch-based Pages configuration is needed.
-3. Confirm the first successful run of "Deploy frontend to GitHub Pages"
+3. Confirm the first successful run of "Deploy Tier-1 site to GitHub Pages"
    (push or manual `workflow_dispatch`); the deployed URL appears in the
    workflow's `environment: github-pages` and in Settings → Pages.
 
-## Deploy path 1 — every push: plain frontend (fast)
+## Single deploy path — every push, dispatch, or weekly schedule
 
-`.github/workflows/pages.yml` runs on every push to `main` (plus manual
-dispatch) and publishes the `frontend/` tree as-is: app, engine, vendored
-fonts (`frontend/fonts/`), and the committed `frontend/data/` artifacts
-(catalog, data-status, demo analysis, one series). It does **not** build or
-publish data packs, so DCA/portfolio/compare/analysis requests that need
-packs fall back to explicit "unavailable" states for securities outside the
-committed demo artifacts.
+> **Changed 2026-09-01:** the repository previously had two deploy paths
+> (`pages.yml` fast frontend-only deploys on push; `deploy-tier1.yml` with
+> packs on dispatch). This conflicted in production: a plain push deploy
+> replaced the Tier-1 deployment and wiped all data packs from the live site
+> (whole-site deployment semantics — later deploy wins). `pages.yml` was
+> removed; `deploy-tier1.yml` is now the **only** deployment workflow.
 
-- Runtime: ~1 minute; safe to run on every push.
-- Trigger branch: `main` (matches the repository default branch).
-- Artifact: `github-pages` with default 1-day retention (the action's
-  default), so it does not accumulate against the Actions storage quota.
-
-## Deploy path 2 — manual or scheduled: Tier-1 with data packs
-
-`.github/workflows/deploy-tier1.yml` publishes the full interactive site:
+`.github/workflows/deploy-tier1.yml` triggers on every push to `main`, on
+manual `workflow_dispatch`, and on a weekly schedule, and publishes the
+complete interactive site:
 
 1. Checkout with `lfs: true` (the committed, validated canonical snapshot).
 2. `pip install ".[dev,market-data]"`, then the full Python suite gate

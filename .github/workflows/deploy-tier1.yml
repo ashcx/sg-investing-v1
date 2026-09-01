@@ -11,6 +11,9 @@ name: Deploy Tier-1 site to GitHub Pages
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main
   schedule:
     # Weekly rebuild from the committed snapshot. The store only changes when
     # the data-update flow lands new LFS content, so this mostly re-verifies
