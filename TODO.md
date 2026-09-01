@@ -8,7 +8,7 @@ adapter or a checked-in artifact.
 
 ## How this Todo system works
 
-The work is split into eight sprints. Each sprint is one file in the `Todo/`
+The work is split into nine sprints. Each sprint is one file in the `Todo/`
 folder. Agents and humans must follow these rules:
 
 1. **One sprint at a time.** Pick the lowest-numbered sprint whose entry
@@ -40,13 +40,14 @@ folder. Agents and humans must follow these rules:
 | Sprint | File | Outcome | Depends on | Status |
 | --- | --- | --- | --- | --- |
 | 0 — Architecture decisions | [Todo/sprint-0-architecture-decisions.md](Todo/sprint-0-architecture-decisions.md) | Static target + calculation architecture recorded; specs updated | — | Complete |
-| 1 — Static data packs | [Todo/sprint-1-data-packs.md](Todo/sprint-1-data-packs.md) | Versioned, partitioned, lazy-loadable packs for every security + manifests + publish workflow | 0 | In progress (CI run pending) |
+| 1 — Static data packs | [Todo/sprint-1-data-packs.md](Todo/sprint-1-data-packs.md) | Versioned, partitioned, lazy-loadable packs for every security + manifests + publish workflow| 0 | Complete |
 | 2 — Engine core port | [Todo/sprint-2-engine-core.md](Todo/sprint-2-engine-core.md) | Browser-runnable decimal-safe engine returning Python-shaped envelopes | 0 | Complete |
-| 3 — Parity, property tests & workers | [Todo/sprint-3-parity-and-workers.md](Todo/sprint-3-parity-and-workers.md) | Golden parity + property suites green; calculations run in cancellable workers | 2 | Not started |
-| 4 — DCA static support | [Todo/sprint-4-dca-static.md](Todo/sprint-4-dca-static.md) | Arbitrary DCA requests compute fully in-browser | 1, 2, 3 | Not started |
-| 5 — Portfolio static support | [Todo/sprint-5-portfolio-static.md](Todo/sprint-5-portfolio-static.md) | Arbitrary ledgers reconstruct fully in-browser with local persistence | 1, 2, 3 | Not started |
-| 6 — Fallback cleanup | [Todo/sprint-6-fallback-cleanup.md](Todo/sprint-6-fallback-cleanup.md) | One honest local-compute mode; no silent demo substitutions | 4, 5 | Not started |
-| 7 — Release hardening & launch | [Todo/sprint-7-release-hardening.md](Todo/sprint-7-release-hardening.md) | Hardened CI, QA and confirmed GitHub Pages deployment | 4, 5, 6 | Not started |
+| 3 — Parity, property tests & workers | [Todo/sprint-3-parity-and-workers.md](Todo/sprint-3-parity-and-workers.md) | Golden parity + property suites green; calculations run in cancellable workers | 2 | Complete |
+| 4 — DCA static support | [Todo/sprint-4-dca-static.md](Todo/sprint-4-dca-static.md) | Arbitrary DCA requests compute fully in-browser | 1, 2, 3 | Complete |
+| 5 — Portfolio static support | [Todo/sprint-5-portfolio-static.md](Todo/sprint-5-portfolio-static.md) | Arbitrary ledgers reconstruct fully in-browser with local persistence | 1, 2, 3 | Complete |
+| 6 — Fallback cleanup | [Todo/sprint-6-fallback-cleanup.md](Todo/sprint-6-fallback-cleanup.md) | One honest local-compute mode; no silent demo substitutions | 4, 5 | Complete |
+| 7 — Release hardening & launch | [Todo/sprint-7-release-hardening.md](Todo/sprint-7-release-hardening.md) | Hardened CI, QA and confirmed GitHub Pages deployment | 4, 5, 6 | In progress |
+| 8 — Pack origin & full-breadth hosting | [Todo/sprint-8-pack-origin.md](Todo/sprint-8-pack-origin.md) | Full 3,188-security set reachable client-side via a configurable non-Pages origin | 7 | Not started |
 
 Sequencing notes:
 
@@ -56,6 +57,9 @@ Sequencing notes:
   end-to-end feature work needs Sprint 1.
 - Do not start Sprint 6 until both feature sprints (4 and 5) have delivered,
   since it removes the fallback paths they previously depended on.
+- Sprint 8 (pack origin & full-breadth hosting) trails Sprint 7 so the
+  Tier-1 Pages deployment and the `sg-invest-pack-base` override exist to
+  build on; its research tasks may run as early-lane work at any time.
 
 ## Done when (final acceptance)
 

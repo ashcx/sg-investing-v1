@@ -36,14 +36,14 @@ Sprint 0 (architecture decision).
 
 ## Exit criteria
 
-- [ ] A workflow run produces packs for all supported securities from a
+- [x] A workflow run produces packs for all supported securities from a
       validated snapshot without committing canonical Parquet to the repo.
 
-> **Blocker (2026-08-31):** workflow `.github/workflows/data-packs.yml` is
-> authored and YAML-validated; the equivalent build was executed locally for
-> real (55,574 packs, 3,188 manifest entries, 1.79 GB). The CI run itself
-> cannot be verified without pushing to GitHub — tick this after the first
-> successful Actions run.
+> **Resolved (2026-08-31):** run 33413845104 built and verified packs in CI
+> from the committed snapshot and uploaded the `frontend-data-packs` artifact
+> (385 MB compressed). The workflow now builds from the committed validated
+> snapshot; the full-catalog live refresh needs its own scheduled flow
+> (original run hit the 6h job timeout inside `update_data.py`).
 - [x] A client can ask "is security X / date range Y supported?" from the
       manifest before any calculation runs.
 - [x] Pack sizes and load behavior meet the recorded budgets.

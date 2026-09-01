@@ -7,7 +7,7 @@ no-build static frontend (`frontend/`) deployed to GitHub Pages. Read
 ## Todo system (mandatory)
 
 All roadmap work is tracked in `TODO.md` (the roadmap) and the `Todo/` folder
-(one file per sprint: `sprint-0-*.md` … `sprint-7-*.md`). Any agent asked to
+(one file per sprint: `sprint-0-*.md` … `sprint-8-*.md`). Any agent asked to
 continue, pick up, or check project work MUST use this system:
 
 - **Roadmap**: `TODO.md` holds the sprint table with statuses and the final

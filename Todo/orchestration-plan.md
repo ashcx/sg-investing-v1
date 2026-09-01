@@ -190,3 +190,11 @@ Solo order: S5.1 → S5.2 → S5.3 → S5.4 → S5.5 → S5.6 → S5.7 (S5.8 any
   conflicts: Data track (Sprint 1: scripts/workflows/packs), Engine track
   (Sprints 2–3: engine + fixtures), UI track (Sprints 4–6: `frontend/`).
   Re-sync at every freeze point listed above.
+
+## Phase 5 — Sprint 8 (added 2026-08-31)
+
+Sprint 8 (`Todo/sprint-8-pack-origin.md`) trails Sprint 7 and decides the
+Tier-2 pack origin (hosted object storage vs self-hosted WSL behind a
+tunnel) for the full 3,188-security set. Research may run in the early lane
+at any time; decision and implementation gate on Sprint 7's exit criteria.
+The frozen `pack-loader.js` baseUrl makes Tier 2 a configuration switch.
