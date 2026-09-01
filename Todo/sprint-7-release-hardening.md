@@ -39,16 +39,17 @@ Sprints 4, 5, 6.
 
 ## Exit criteria
 
-- [ ] CI gates pass: Python suite, parity suite, static-site smoke tests.
+- [x] CI gates pass: Python suite, parity suite, static-site smoke tests.
 
-> **Pending push (2026-09-01):** all Sprint 7 work is complete and verified
+> **Resolved (2026-09-01):** pushed as dbdc3b6..; static-checks green on push,
+> backend tests green, deploy-tier1 built + pruned + deployed successfully.
+> Live verification on https://ashcx.github.io/sg-investing-v1/: DCA renders
+> the exact Python golden (S$13,777.06 · 12 contributions · XIRR +28.53%) in
+> LOCAL COMPUTE mode with zero /api calls and zero console errors.
 > locally — both new workflows (`static-checks.yml`, `deploy-tier1.yml`) are
 > authored, the full battery is green, subpath + CSP + mobile QA pass in real
 > Chromium. Items 1 and 4 need a git push so the Actions runs can execute
-> (static checks on push; Tier-1 deploy via workflow_dispatch). Mobile
-> overflow findings found during QA were fixed and re-verified (all sections
-> ≤ viewport at 390px).
 - [x] Build fails on stale/inconsistent artifacts; paths work under a project
       subpath.
 - [x] Desktop + mobile Chrome QA passed for all listed surfaces.
-- [ ] Pages enabled and deployed URL confirmed.
+- [x] Pages enabled and deployed URL confirmed.
