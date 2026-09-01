@@ -1,0 +1,127 @@
+name: Deploy Tier-1 site to GitHub Pages
+
+# Sprint 7 (S7.1): the second deploy path. The push-triggered pages.yml
+# deploys the plain frontend on every push; this workflow additionally builds
+# the data packs from the committed LFS snapshot, prunes them to the
+# coordinator-approved Tier-1 set (all manifest securities EXCEPT
+# `russell2000_current`, ~790 MB excluded — docs/data-pack-budgets.md,
+# scripts/prune_packs_for_pages.py), emits frontend/build-info.json and
+# publishes frontend/ + the pruned packs to GitHub Pages. Tier-2 hosting for
+# the excluded universe is a Sprint 8 decision (Todo/sprint-8-pack-origin.md).
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Weekly rebuild from the committed snapshot. The store only changes when
+    # the data-update flow lands new LFS content, so this mostly re-verifies
+    # the pipeline end to end; remove if unneeded.
+    - cron: "30 3 * * 1"
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy-tier1:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - name: Check out repository (with LFS snapshot)
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install project with dev and market-data extras
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install ".[dev,market-data]"
+
+      # Full pre-publish gate (S7.3): the validated snapshot must pass the
+      # whole suite before anything is built or published.
+      - name: Gate on the full Python suite (excluding smoke)
+        run: python -m pytest -m "not smoke"
+
+      - name: Build frontend data packs
+        run: python scripts/build_data_packs.py
+
+      - name: Prune packs to the Tier-1 Pages set
+        run: python scripts/prune_packs_for_pages.py
+
+      - name: Emit build-info.json
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          from datetime import datetime, timezone
+          from pathlib import Path
+
+          manifest = json.loads(Path("frontend/data/packs/manifest.json").read_text(encoding="utf-8"))
+          info = {
+              "built_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+              "data_snapshot_id": manifest["data_snapshot_id"],
+              "workflow_run_id": int(os.environ["GITHUB_RUN_ID"]),
+          }
+          Path("frontend/build-info.json").write_text(json.dumps(info, indent=2) + "\n", encoding="utf-8")
+          print("frontend/build-info.json:", json.dumps(info))
+          PY
+
+      - name: Assert build-info matches the pack manifest
+        run: |
+          python - <<'PY'
+          import json
+          from datetime import datetime
+          from pathlib import Path
+
+          manifest = json.loads(Path("frontend/data/packs/manifest.json").read_text(encoding="utf-8"))
+          info = json.loads(Path("frontend/build-info.json").read_text(encoding="utf-8"))
+          assert info["data_snapshot_id"] == manifest["data_snapshot_id"], (
+              "build-info snapshot "
+              f"{info['data_snapshot_id']} != manifest snapshot {manifest['data_snapshot_id']}"
+          )
+          built_at = datetime.fromisoformat(info["built_at"])
+          generated_at = datetime.fromisoformat(manifest["generated_at"])
+          assert built_at >= generated_at, (
+              f"build-info built_at {built_at.isoformat()} predates manifest generated_at "
+              f"{generated_at.isoformat()}"
+          )
+          print(
+              "consistency: build-info snapshot matches the manifest; built_at",
+              info["built_at"],
+              ">= manifest generated_at",
+              manifest["generated_at"],
+          )
+          PY
+
+      # S7.1 verification: prints the published total bytes, re-asserts
+      # manifest<->packs consistency and fails the release above 950 MB.
+      - name: Verify Tier-1 artifact size and pack/manifest consistency
+        run: python scripts/prune_packs_for_pages.py --verify-only
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      # retention-days: 1 keeps the ~750 MB Pages artifact from eating the
+      # 500 MB Actions storage quota (the artifact is consumed immediately
+      # by deploy-pages and then expires).
+      - name: Upload Pages artifact (1-day retention)
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: frontend
+          retention-days: 1
+
+      - name: Deploy to Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

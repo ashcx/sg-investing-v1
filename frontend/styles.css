@@ -1,4 +1,87 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+/* Self-hosted fonts (Sprint 7 S7.6, decision recorded in docs/data-pack-budgets.md):
+   DM Mono, DM Sans and Space Grotesk, latin subset, vendored under fonts/.
+   Family names and weights are identical to the retired Google Fonts @import.
+   DM Sans and Space Grotesk are variable WOFF2 files served for every weight. */
+@font-face {
+  font-family: 'DM Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('fonts/dm-mono-latin-400.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'DM Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('fonts/dm-mono-latin-500.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('fonts/dm-sans-latin-400.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('fonts/dm-sans-latin-400.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('fonts/dm-sans-latin-400.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('fonts/dm-sans-latin-400.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Space Grotesk';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('fonts/space-grotesk-latin-400.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Space Grotesk';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('fonts/space-grotesk-latin-400.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Space Grotesk';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('fonts/space-grotesk-latin-400.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Space Grotesk';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('fonts/space-grotesk-latin-400.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
 
 :root {
   --ink: #101b2d;
@@ -66,7 +149,7 @@ h1 em { color: var(--coral); font-style: normal; }
 .form-grid { grid-template-columns: .9fr 1.1fr; }
 #scenario-select { font-size: 10px; }
 @media (max-width: 900px) { .hero { grid-template-columns: 1fr; gap: 45px; padding-block: 75px 90px; }.hero-aside { max-width: 410px; }.analysis-layout { grid-template-columns: 1fr; }.analysis-form-panel { max-width: none; }.results-panel { min-height: 0; }.main-nav { gap: 15px; }.methodology-grid { grid-template-columns: repeat(2, 1fr); }.secondary-card { grid-template-columns: 55px 1fr; }.secondary-meta { grid-column: 2; justify-content: start; } }
-@media (max-width: 650px) { .section-frame, .site-header { width: min(100% - 36px, 1240px); }.site-header { height: 72px; }.main-nav { display: none; }.header-meta { font-size: 8px; }.header-meta strong { display: block; }.hero { padding-block: 60px 80px; }.hero h1 { font-size: clamp(46px, 14vw, 72px); }.hero-actions { align-items: start; flex-direction: column; gap: 20px; }.section-block { padding-block: 75px; }.section-heading { display: block; margin-bottom: 30px; }.section-intro { margin-top: 16px; }.catalog-controls { flex-wrap: wrap; }.search-box { flex-basis: 100%; }.result-count { margin-left: 0; }.catalog-grid { grid-template-columns: 1fr; }.catalog-foot { display: block; }.catalog-foot .text-link { margin-top: 12px; }.analysis-section { padding-inline: 18px; }.results-panel { padding: 20px 15px; }.result-header h3 { font-size: 30px; }.currency-switch { margin-top: 22px; }.headline-result { align-items: start; flex-direction: column; }.headline-result strong { font-size: 48px; }.return-pill { text-align: left; }.metric-grid { grid-template-columns: 1fr 1fr; }.metric-card { border-bottom: 1px solid var(--line); }.metric-card:nth-child(2) { border-right: 0; }.metric-card:nth-child(3), .metric-card:nth-child(4) { padding-bottom: 12px; }.detail-grid, .methodology-grid { grid-template-columns: 1fr; }.detail-card { min-height: 0; }.result-source { align-items: start; flex-direction: column; }.secondary-card { grid-template-columns: 1fr; padding: 23px; }.secondary-meta { grid-column: auto; }.portfolio-orbit { margin-bottom: 8px; }.methodology-footer { align-items: start; flex-direction: column; }.methodology-footer .text-link { margin-left: 0; }.site-footer { align-items: start; flex-direction: column; padding-block: 22px; } }
+@media (max-width: 650px) { .section-frame, .site-header { width: min(100% - 36px, 1240px); }.site-header { height: 72px; }.main-nav { display: none; }.header-meta { font-size: 8px; }.header-meta strong { display: block; }.hero { padding-block: 60px 80px; }.hero h1 { font-size: clamp(46px, 14vw, 72px); }.hero-actions { align-items: start; flex-direction: column; gap: 20px; }.section-block { padding-block: 75px; }.section-heading { display: block; margin-bottom: 30px; }.section-intro { margin-top: 16px; }.catalog-controls { flex-wrap: wrap; }.search-box { flex-basis: 100%; }.result-count { margin-left: 0; }.catalog-grid { grid-template-columns: 1fr; }.catalog-foot { display: block; }.catalog-foot .text-link { margin-top: 12px; }.analysis-section { padding-inline: 18px; }.results-panel { padding: 20px 15px; }.result-header h3 { font-size: 30px; }.currency-switch { margin-top: 22px; }.headline-result { align-items: start; flex-direction: column; }.headline-result strong { font-size: 48px; }.return-pill { text-align: left; }.metric-grid { grid-template-columns: 1fr 1fr; }.metric-card { border-bottom: 1px solid var(--line); }.metric-card:nth-child(2) { border-right: 0; }.metric-card:nth-child(3), .metric-card:nth-child(4) { padding-bottom: 12px; }.detail-grid, .methodology-grid { grid-template-columns: 1fr; }.detail-card { min-height: 0; }.result-source { align-items: start; flex-direction: column; }.secondary-card { grid-template-columns: 1fr; padding: 23px; }.secondary-meta { grid-column: auto; }.portfolio-orbit { margin-bottom: 8px; }.methodology-footer { align-items: start; flex-direction: column; }.methodology-footer .text-link { margin-left: 0; }.site-footer { align-items: start; flex-direction: column; padding-block: 22px; }.header-meta { flex-wrap: wrap; white-space: normal; max-width: 58%; justify-content: flex-end; row-gap: 2px; }.section-frame { min-width: 0; }.section-frame > * { min-width: 0; }.signal-card { transform: none; box-shadow: 8px 8px 0 var(--lime); }.secondary-card > * { min-width: 0; }.portfolio-layout > * { min-width: 0; }.holding-table-wrap, .ledger-table-wrap { max-width: 100%; } }
 @media (max-width: 650px) { .scenario-grid { grid-template-columns: 1fr; } }
 
 /* Sprint 3–10 interactive result states */

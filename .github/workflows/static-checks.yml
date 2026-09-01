@@ -1,0 +1,24 @@
+name: Static site checks
+
+# Sprint 7 (S7.2): CI gate for the static frontend — asset/script/href paths
+# resolve (subpath-safe logic), pack manifest and frontend/data JSON artifacts
+# parse, and nothing references a root-absolute path that would break under
+# the GitHub Pages project subpath. Runs on a plain checkout (no packs, no
+# install — standard library only).
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  static-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Run static-site checks
+        run: python3 scripts/check_static_site.py

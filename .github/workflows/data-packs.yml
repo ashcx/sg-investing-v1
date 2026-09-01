@@ -57,3 +57,6 @@ jobs:
           name: frontend-data-packs
           path: frontend/data/packs
           if-no-files-found: error
+          # ~1.7 GB artifact; expire after 1 day so it does not eat the 500 MB
+          # Actions storage quota (Sprint 7 S7.1).
+          retention-days: 1
