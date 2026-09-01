@@ -780,14 +780,17 @@ async function init() {
   state.artifact = await loadJson(DEMO_ARTIFACT, null);
   state.artifactSource = 'demo';
   renderSecurityOptions(); renderUniverseOptions(); renderDimensionOptions(); renderCatalog(); syncPreset('investor');
+  // Wire events BEFORE any further awaits: users can click the moment the
+  // forms render, and a submit during the data-status/build-info fetches used
+  // to be silently lost (listeners did not exist yet).
+  s5RestoreLedger();
+  wireEvents();
+  setComputeMode(API_BASE ? 'adapter' : 'local');
   if (has('#data-date')) {
     const status = API_BASE ? await apiGet('/status').catch(() => loadJson('data/data-status.json', null)) : await loadJson('data/data-status.json', null);
     $('#data-date').textContent = status?.backfill?.as_of ? formatDate(status.backfill.as_of) : '30 Aug 2026';
   }
   renderBuildInfo(await loadBuildInfo());
-  s5RestoreLedger();
-  wireEvents();
-  setComputeMode(API_BASE ? 'adapter' : 'local');
   if (state.artifact) {
     const securityId = state.artifact.result?.security?.security_id;
     const startDate = state.artifact.result?.period?.start_date;
