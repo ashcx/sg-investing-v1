@@ -1,9 +1,48 @@
 # SG Investing
 
-A backend financial analytics engine and read-only web UI for Singapore-based
-investors. The frontend keeps all financial calculations in the Python engine;
-it consumes the same JSON contracts through a local adapter or published data
-artifacts.
+> **⚠ Status: very, very early preview (v0.1.0).** This project is under
+> active development and **lots of features do not work yet**. Expect rough
+> edges, missing securities, changing contracts and occasional deployment
+> churn. See "What works / What does not work yet" below, and the sprint
+> roadmap in [`TODO.md`](TODO.md).
+
+A financial analytics engine (authoritative reference in Python) with a
+no-build static web UI for Singapore-based investors. The browser runs a
+decimal-safe JavaScript port of the engine (Web Workers, vendored decimal
+arithmetic) so analysis, DCA, comparisons and portfolio reconstruction compute
+locally from published data packs; the Python engine remains the reference and
+the CI gate (see `docs/adr/0001-calculation-architecture.md`).
+
+## What works (verified)
+
+- The Python engine and its test battery: unit suite, golden parity fixtures
+  against the browser engine, property tests, worker self-tests.
+- The deployed static site (GitHub Pages): catalog browsing and local
+  in-browser analysis, DCA, comparison and portfolio reconstruction for
+  securities in the published Tier-1 pack set (currently 1,242 securities —
+  every catalog universe except Russell 2000), with zero backend calls.
+- CI: backend tests on push, static-site checks, and gated publishing of
+  frontend + data packs.
+
+## What does not work yet
+
+- **Russell 2000 constituents (1,946 securities) are not available** on the
+  site — the full pack set (1.79 GB) exceeds the GitHub Pages cap; a Tier-2
+  origin (object storage or self-hosted) is pending (Sprint 8).
+- Requests the pack manifest marks `incomplete` or `unavailable` (for example
+  pre-2003 USD history, which lacks FX coverage) return explicit "unavailable"
+  states rather than results — by design, but it means many securities/ranges
+  cannot be analysed yet.
+- **Live data refresh is not wired**: a full-catalog refresh from Yahoo Finance
+  exceeds CI job limits, so packs are built from the committed LFS snapshot and
+  go stale between manual snapshot updates.
+- V1 models **no brokerage, sale, FX-conversion or slippage costs**, performs
+  **no Singapore capital-gains tax calculation**, and rejects cross-currency
+  dividends rather than converting them.
+- The preloaded QQQ first-paint replay is a labelled demo, not a live result.
+- Mobile/accessibility polish is minimal and QA is headless-Chromium only.
+- `scripts/frontend_server.py` (the `/api` adapter) is a development/reference
+  mode only.
 
 ## What is implemented
 
@@ -88,18 +127,22 @@ browser.
 
 ## GitHub Pages deployment
 
-The checked-in `frontend/` directory is a static site and is published by
-`.github/workflows/pages.yml` when changes reach the repository's `main` branch.
-Enable GitHub Pages in the repository settings with **GitHub Actions** as the
-source. The workflow uploads `frontend/` directly, so no Node.js build step is
-required.
+The site is published by the single deployment workflow,
+`.github/workflows/deploy-tier1.yml` (push to `main`, manual dispatch, or
+weekly schedule): it validates the snapshot with the test suite, builds the
+data packs, prunes them to the published tier and deploys `frontend/` plus
+packs together. Enable GitHub Pages in the repository settings with
+**GitHub Actions** as the source; no Node.js build step is required. Do not
+add a separate frontend-only Pages workflow — a plain `frontend/` deploy
+would replace the deployment and remove the packs (this exact failure
+happened once; see `docs/deployment.md`).
 
-The site works on Pages as a static replay using the checked-in catalog and
-representative artifacts. GitHub Pages cannot run the Python adapter, so
-arbitrary analysis, DCA, comparison and portfolio requests require a separately
-hosted adapter. Set the `sg-invest-api-base` meta tag in `frontend/index.html`
-to that HTTPS API origin when one is available; leave it empty for static-only
-mode. The frontend uses relative API paths by default, which also works when a
+The deployed site computes locally in the browser for securities covered by
+the published packs; anything outside the manifest's support status shows an
+explicit "unavailable" state. For development, `scripts/frontend_server.py`
+can serve dynamic results through the Python engine instead: set the
+`sg-invest-api-base` meta tag in `frontend/index.html` to that HTTPS origin,
+or leave it empty for static-only mode. Relative paths work when the
 repository is served below a project subpath.
 
 The calculation architecture for removing the runtime adapter dependency is
