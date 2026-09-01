@@ -1,0 +1,170 @@
+{
+  "name": "dca-sgd-security-monthly",
+  "category": "dca",
+  "kind": "dca",
+  "input_rows": {
+    "security": {
+      "security_id": "20000000-0000-0000-0000-000000000002",
+      "ticker": "SGDDCA",
+      "exchange": "SGX",
+      "market": "SG",
+      "name": "SGDDCA parity fixture",
+      "currency": "SGD",
+      "asset_type": "ETF",
+      "domicile": "SG",
+      "income_source_country": "SG",
+      "isin": null,
+      "cusip": null,
+      "timezone": "UTC",
+      "active": true,
+      "distribution_policy": "distributing",
+      "expense_ratio": null
+    },
+    "prices": [
+      {
+        "security_id": "20000000-0000-0000-0000-000000000002",
+        "trading_date": "2024-01-02",
+        "close": "3.10",
+        "currency": "SGD"
+      },
+      {
+        "security_id": "20000000-0000-0000-0000-000000000002",
+        "trading_date": "2024-01-03",
+        "close": "3.12",
+        "currency": "SGD"
+      },
+      {
+        "security_id": "20000000-0000-0000-0000-000000000002",
+        "trading_date": "2024-02-01",
+        "close": "3.20",
+        "currency": "SGD"
+      },
+      {
+        "security_id": "20000000-0000-0000-0000-000000000002",
+        "trading_date": "2024-03-01",
+        "close": "3.15",
+        "currency": "SGD"
+      },
+      {
+        "security_id": "20000000-0000-0000-0000-000000000002",
+        "trading_date": "2024-03-15",
+        "close": "3.18",
+        "currency": "SGD"
+      },
+      {
+        "security_id": "20000000-0000-0000-0000-000000000002",
+        "trading_date": "2024-04-01",
+        "close": "3.30",
+        "currency": "SGD"
+      },
+      {
+        "security_id": "20000000-0000-0000-0000-000000000002",
+        "trading_date": "2024-05-02",
+        "close": "3.25",
+        "currency": "SGD"
+      },
+      {
+        "security_id": "20000000-0000-0000-0000-000000000002",
+        "trading_date": "2024-05-17",
+        "close": "3.28",
+        "currency": "SGD"
+      },
+      {
+        "security_id": "20000000-0000-0000-0000-000000000002",
+        "trading_date": "2024-06-03",
+        "close": "3.40",
+        "currency": "SGD"
+      },
+      {
+        "security_id": "20000000-0000-0000-0000-000000000002",
+        "trading_date": "2024-06-28",
+        "close": "3.45",
+        "currency": "SGD"
+      }
+    ],
+    "fx_rates": [],
+    "dividends": [
+      {
+        "security_id": "20000000-0000-0000-0000-000000000002",
+        "ex_date": "2024-03-01",
+        "amount": "0.05",
+        "currency": "SGD",
+        "pay_date": "2024-03-15",
+        "dividend_type": "regular",
+        "source_country": "SG"
+      },
+      {
+        "security_id": "20000000-0000-0000-0000-000000000002",
+        "ex_date": "2024-05-02",
+        "amount": "0.055",
+        "currency": "SGD",
+        "pay_date": "2024-05-17",
+        "dividend_type": "regular",
+        "source_country": "SG"
+      }
+    ],
+    "corporate_actions": [],
+    "tax_rules": [],
+    "request": {
+      "start_date": "2024-01-02",
+      "end_date": "2024-06-28",
+      "contribution_sgd": "400",
+      "frequency": "monthly",
+      "scenario": {
+        "dividends_enabled": true,
+        "reinvest_dividends": true,
+        "withholding_tax_enabled": true
+      }
+    }
+  },
+  "golden_envelope": {
+    "security": {
+      "security_id": "20000000-0000-0000-0000-000000000002",
+      "ticker": "SGDDCA",
+      "exchange": "SGX",
+      "market": "SG",
+      "name": "SGDDCA parity fixture",
+      "currency": "SGD",
+      "asset_type": "ETF",
+      "domicile": "SG",
+      "income_source_country": "SG",
+      "isin": null,
+      "cusip": null,
+      "timezone": "UTC",
+      "active": true,
+      "distribution_policy": "distributing",
+      "expense_ratio": null
+    },
+    "contribution_dates": [
+      "2024-01-02",
+      "2024-02-01",
+      "2024-03-01",
+      "2024-04-01",
+      "2024-05-02",
+      "2024-06-03"
+    ],
+    "total_contributed_sgd": "2400",
+    "total_contributed_foreign_currency": "2400",
+    "final_value_sgd": "2606.251429155581236089299951",
+    "final_value_foreign_currency": "2606.251429155581236089299951",
+    "gain_loss_sgd": "206.251429155581236089299951",
+    "gain_loss_foreign_currency": "206.251429155581236089299951",
+    "xirr": "0.33737307347345125",
+    "xirr_foreign_currency": "0.33737307347345125",
+    "shares": "755.4351968566902133592173770",
+    "methodology": {
+      "contribution_timing": "first_available_trading_day_of_period",
+      "cost_basis": "weighted_average_not_applicable_to_dca_return",
+      "dividend_reinvestment": true,
+      "dividend_type_handling": "regular/special/unknown treated as cash; return_of_capital treated as cash without assumed withholding",
+      "ter_deducted": false
+    },
+    "data_quality": {
+      "status": "WARNING",
+      "warnings": [
+        "No dividend tax rule for 2024-03-01; assumed 0%.",
+        "No dividend tax rule for 2024-05-02; assumed 0%."
+      ]
+    }
+  }
+}

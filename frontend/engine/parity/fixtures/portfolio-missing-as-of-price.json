@@ -1,0 +1,70 @@
+{
+  "name": "portfolio-missing-as-of-price",
+  "category": "portfolio",
+  "kind": "portfolio",
+  "input_rows": {
+    "security": [
+      {
+        "security_id": "40000000-0000-0000-0000-000000000001",
+        "ticker": "USAETF",
+        "exchange": "XTEST",
+        "market": "US",
+        "name": "USAETF parity fixture",
+        "currency": "USD",
+        "asset_type": "ETF",
+        "domicile": "US",
+        "income_source_country": "US",
+        "isin": null,
+        "cusip": null,
+        "timezone": "UTC",
+        "active": true,
+        "distribution_policy": "distributing",
+        "expense_ratio": null
+      }
+    ],
+    "prices": [
+      {
+        "security_id": "40000000-0000-0000-0000-000000000001",
+        "trading_date": "2024-02-01",
+        "close": "105.00",
+        "currency": "USD"
+      }
+    ],
+    "fx_rates": [
+      {
+        "rate_date": "2024-01-15",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3400"
+      },
+      {
+        "rate_date": "2024-06-28",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3500"
+      }
+    ],
+    "dividends": [],
+    "corporate_actions": [],
+    "tax_rules": [],
+    "request": {
+      "as_of": "2024-01-20",
+      "transactions": [
+        {
+          "transaction_id": "00000000-0000-0000-0000-d00000000001",
+          "transaction_date": "2024-01-15",
+          "security_id": "40000000-0000-0000-0000-000000000001",
+          "transaction_type": "BUY",
+          "quantity": "10",
+          "cash_amount": "1000",
+          "currency": "USD",
+          "fees": "0"
+        }
+      ]
+    }
+  },
+  "golden_envelope": {
+    "error": {
+      "type": "AnalysisDataError",
+      "message": "No price on or before 2024-01-20 for security 40000000-0000-0000-0000-000000000001."
+    }
+  }
+}

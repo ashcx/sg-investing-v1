@@ -1,0 +1,56 @@
+{
+  "name": "dca-invalid-amount",
+  "category": "dca",
+  "kind": "dca",
+  "input_rows": {
+    "security": {
+      "security_id": "10000000-0000-0000-0000-000000000001",
+      "ticker": "SYNUSD",
+      "exchange": "XTEST",
+      "market": "US",
+      "name": "SYNUSD parity fixture",
+      "currency": "USD",
+      "asset_type": "ETF",
+      "domicile": "US",
+      "income_source_country": "US",
+      "isin": null,
+      "cusip": null,
+      "timezone": "UTC",
+      "active": true,
+      "distribution_policy": "distributing",
+      "expense_ratio": null
+    },
+    "prices": [],
+    "fx_rates": [],
+    "dividends": [],
+    "corporate_actions": [],
+    "tax_rules": [
+      {
+        "rule_id": "US_DIVIDEND_NONRESIDENT",
+        "source_country": "US",
+        "income_type": "dividend",
+        "investor_type": "singapore_individual",
+        "rate": "0.30",
+        "effective_from": "1900-01-01",
+        "effective_to": null
+      }
+    ],
+    "request": {
+      "start_date": "2024-01-01",
+      "end_date": "2024-12-31",
+      "contribution_sgd": "0",
+      "frequency": "monthly",
+      "scenario": {
+        "dividends_enabled": true,
+        "reinvest_dividends": true,
+        "withholding_tax_enabled": true
+      }
+    }
+  },
+  "golden_envelope": {
+    "error": {
+      "type": "ValueError",
+      "message": "contribution_sgd must be greater than zero."
+    }
+  }
+}

@@ -1,0 +1,142 @@
+{
+  "name": "portfolio-synthetic-dividends",
+  "category": "portfolio",
+  "kind": "portfolio",
+  "meta": {
+    "pack_derived": false,
+    "covers": [
+      "buys",
+      "dividends"
+    ]
+  },
+  "input_rows": {
+    "security": [
+      {
+        "security_id": "50000000-0000-0000-0000-000000000001",
+        "ticker": "USDETF",
+        "exchange": "XTEST",
+        "market": "US",
+        "name": "USDETF portfolio fixture",
+        "currency": "USD",
+        "asset_type": "ETF",
+        "domicile": "US",
+        "income_source_country": "US",
+        "isin": null,
+        "cusip": null,
+        "timezone": "UTC",
+        "active": true,
+        "distribution_policy": "distributing",
+        "expense_ratio": null
+      }
+    ],
+    "prices": [
+      {
+        "security_id": "50000000-0000-0000-0000-000000000001",
+        "trading_date": "2024-01-15",
+        "close": "100.00",
+        "currency": "USD"
+      },
+      {
+        "security_id": "50000000-0000-0000-0000-000000000001",
+        "trading_date": "2024-05-20",
+        "close": "105.00",
+        "currency": "USD"
+      },
+      {
+        "security_id": "50000000-0000-0000-0000-000000000001",
+        "trading_date": "2024-06-28",
+        "close": "112.00",
+        "currency": "USD"
+      },
+      {
+        "security_id": "50000000-0000-0000-0000-000000000002",
+        "trading_date": "2024-02-15",
+        "close": "3.20",
+        "currency": "SGD"
+      },
+      {
+        "security_id": "50000000-0000-0000-0000-000000000002",
+        "trading_date": "2024-06-28",
+        "close": "3.40",
+        "currency": "SGD"
+      }
+    ],
+    "fx_rates": [
+      {
+        "rate_date": "2024-01-15",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3400"
+      },
+      {
+        "rate_date": "2024-06-28",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3500"
+      }
+    ],
+    "dividends": [],
+    "corporate_actions": [],
+    "tax_rules": [],
+    "request": {
+      "as_of": "2024-06-28",
+      "transactions": [
+        {
+          "transaction_id": "00000000-0000-0000-0000-e40000000001",
+          "transaction_date": "2024-01-15",
+          "security_id": "50000000-0000-0000-0000-000000000001",
+          "transaction_type": "BUY",
+          "quantity": "10",
+          "cash_amount": "1000",
+          "currency": "USD",
+          "fees": "0"
+        },
+        {
+          "transaction_id": "00000000-0000-0000-0000-e40000000002",
+          "transaction_date": "2024-03-18",
+          "security_id": "50000000-0000-0000-0000-000000000001",
+          "transaction_type": "DIVIDEND",
+          "quantity": "0",
+          "cash_amount": "6.20",
+          "currency": "USD",
+          "fees": "0.10"
+        },
+        {
+          "transaction_id": "00000000-0000-0000-0000-e40000000003",
+          "transaction_date": "2024-06-10",
+          "security_id": "50000000-0000-0000-0000-000000000001",
+          "transaction_type": "DIVIDEND",
+          "quantity": "0",
+          "cash_amount": "7.00",
+          "currency": "USD",
+          "fees": "0"
+        }
+      ]
+    }
+  },
+  "golden_envelope": {
+    "as_of": "2024-06-28",
+    "holdings": [
+      {
+        "security_id": "50000000-0000-0000-0000-000000000001",
+        "ticker": "USDETF",
+        "quantity": "10",
+        "weighted_average_cost": "100",
+        "cost_basis_native": "1000",
+        "market_value_native": "1120.00",
+        "market_value_sgd": "1512.000000",
+        "unrealized_pl_native": "120.00",
+        "realized_pl_native": "0"
+      }
+    ],
+    "cash_by_currency": {
+      "USD": "-986.90"
+    },
+    "realized_pl_native": {
+      "USD": "0"
+    },
+    "total_market_value_sgd": "179.685000",
+    "methodology": {
+      "cost_basis": "weighted_average",
+      "end_value": "mark_to_market"
+    }
+  }
+}

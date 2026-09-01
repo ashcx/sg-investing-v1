@@ -1,0 +1,194 @@
+{
+  "name": "sgd-security-dividends-reinvest",
+  "category": "sgd-security",
+  "kind": "analysis",
+  "input_rows": {
+    "security": {
+      "security_id": "20000000-0000-0000-0000-000000000002",
+      "ticker": "SGDPARITY",
+      "exchange": "SGX",
+      "market": "SG",
+      "name": "SGDPARITY parity fixture",
+      "currency": "SGD",
+      "asset_type": "ETF",
+      "domicile": "SG",
+      "income_source_country": "SG",
+      "isin": null,
+      "cusip": null,
+      "timezone": "UTC",
+      "active": true,
+      "distribution_policy": "distributing",
+      "expense_ratio": null
+    },
+    "prices": [
+      {
+        "security_id": "20000000-0000-0000-0000-000000000002",
+        "trading_date": "2024-01-02",
+        "close": "3.10",
+        "currency": "SGD"
+      },
+      {
+        "security_id": "20000000-0000-0000-0000-000000000002",
+        "trading_date": "2024-01-03",
+        "close": "3.12",
+        "currency": "SGD"
+      },
+      {
+        "security_id": "20000000-0000-0000-0000-000000000002",
+        "trading_date": "2024-02-01",
+        "close": "3.20",
+        "currency": "SGD"
+      },
+      {
+        "security_id": "20000000-0000-0000-0000-000000000002",
+        "trading_date": "2024-03-01",
+        "close": "3.15",
+        "currency": "SGD"
+      },
+      {
+        "security_id": "20000000-0000-0000-0000-000000000002",
+        "trading_date": "2024-03-15",
+        "close": "3.18",
+        "currency": "SGD"
+      },
+      {
+        "security_id": "20000000-0000-0000-0000-000000000002",
+        "trading_date": "2024-04-01",
+        "close": "3.30",
+        "currency": "SGD"
+      },
+      {
+        "security_id": "20000000-0000-0000-0000-000000000002",
+        "trading_date": "2024-05-02",
+        "close": "3.25",
+        "currency": "SGD"
+      },
+      {
+        "security_id": "20000000-0000-0000-0000-000000000002",
+        "trading_date": "2024-05-17",
+        "close": "3.28",
+        "currency": "SGD"
+      },
+      {
+        "security_id": "20000000-0000-0000-0000-000000000002",
+        "trading_date": "2024-06-03",
+        "close": "3.40",
+        "currency": "SGD"
+      },
+      {
+        "security_id": "20000000-0000-0000-0000-000000000002",
+        "trading_date": "2024-06-28",
+        "close": "3.45",
+        "currency": "SGD"
+      }
+    ],
+    "fx_rates": [],
+    "dividends": [
+      {
+        "security_id": "20000000-0000-0000-0000-000000000002",
+        "ex_date": "2024-03-01",
+        "amount": "0.05",
+        "currency": "SGD",
+        "pay_date": "2024-03-15",
+        "dividend_type": "regular",
+        "source_country": "SG"
+      },
+      {
+        "security_id": "20000000-0000-0000-0000-000000000002",
+        "ex_date": "2024-05-02",
+        "amount": "0.055",
+        "currency": "SGD",
+        "pay_date": "2024-05-17",
+        "dividend_type": "regular",
+        "source_country": "SG"
+      }
+    ],
+    "corporate_actions": [],
+    "tax_rules": [],
+    "request": {
+      "start_date": "2024-01-02",
+      "end_date": "2024-06-28",
+      "initial_sgd": "3000",
+      "scenario": {
+        "dividends_enabled": true,
+        "reinvest_dividends": true,
+        "withholding_tax_enabled": true
+      }
+    }
+  },
+  "golden_envelope": {
+    "security": {
+      "security_id": "20000000-0000-0000-0000-000000000002",
+      "ticker": "SGDPARITY",
+      "exchange": "SGX",
+      "market": "SG",
+      "name": "SGDPARITY parity fixture",
+      "currency": "SGD",
+      "asset_type": "ETF",
+      "domicile": "SG",
+      "income_source_country": "SG",
+      "isin": null,
+      "cusip": null,
+      "timezone": "UTC",
+      "active": true,
+      "distribution_policy": "distributing",
+      "expense_ratio": null
+    },
+    "period": {
+      "start_date": "2024-01-02",
+      "end_date": "2024-06-28"
+    },
+    "initial_investment_sgd": "3000",
+    "initial_investment_foreign_currency": "3000",
+    "price_return": {
+      "foreign_currency": "0.112903225806451612903225806",
+      "sgd": "0.112903225806451612903225806"
+    },
+    "dividends": {
+      "gross_foreign_currency": "102.4497869750456482045039562",
+      "withholding_tax_foreign_currency": "0E-26",
+      "net_foreign_currency": "102.4497869750456482045039562",
+      "cash_foreign_currency": "0",
+      "gross_sgd_at_payment": "102.4497869750456482045039562",
+      "withholding_tax_sgd_at_payment": "0E-26",
+      "net_sgd_at_payment": "102.4497869750456482045039562"
+    },
+    "investment": {
+      "shares": "999.4405311521161468461915295",
+      "final_security_value_foreign_currency": "3448.069832474800706619360777",
+      "final_value_foreign_currency": "3448.069832474800706619360777",
+      "final_value_sgd": "3448.069832474800706619360777"
+    },
+    "returns": {
+      "total_return": "0.149356610824933568873120259",
+      "cagr": "0.33060349763287666",
+      "total_return_foreign_currency": "0.149356610824933568873120259",
+      "cagr_foreign_currency": "0.33060349763287666"
+    },
+    "fx": {
+      "start_rate": "1",
+      "end_rate": "1"
+    },
+    "methodology": {
+      "price": "daily_close",
+      "price_return": "raw_unadjusted_close_to_close_not_split_adjusted",
+      "purchase_date_rule": "next_trading_day",
+      "valuation_date_rule": "previous_trading_day",
+      "dividend_reinvestment": "pay_date_close_with_30_day_ex_date_fallback",
+      "fractional_shares": true,
+      "withholding_tax": true,
+      "dividend_native_currency": "SGD",
+      "dividend_sgd_translation": "payment_date_fx_rate_for_actual_dividend_currency",
+      "dividend_type_handling": "regular/special/unknown treated as cash; return_of_capital treated as cash without assumed withholding",
+      "ter_deducted": false,
+      "methodology_version": "1.0"
+    },
+    "data_quality": {
+      "status": "WARNING",
+      "warnings": [
+        "No dividend tax rule for SG on 2024-03-01; assumed 0%.",
+        "No dividend tax rule for SG on 2024-05-02; assumed 0%."
+      ]
+    }
+  }
+}

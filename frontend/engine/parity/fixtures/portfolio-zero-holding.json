@@ -1,0 +1,123 @@
+{
+  "name": "portfolio-zero-holding",
+  "category": "portfolio",
+  "kind": "portfolio",
+  "input_rows": {
+    "security": [
+      {
+        "security_id": "40000000-0000-0000-0000-000000000001",
+        "ticker": "USAETF",
+        "exchange": "XTEST",
+        "market": "US",
+        "name": "USAETF parity fixture",
+        "currency": "USD",
+        "asset_type": "ETF",
+        "domicile": "US",
+        "income_source_country": "US",
+        "isin": null,
+        "cusip": null,
+        "timezone": "UTC",
+        "active": true,
+        "distribution_policy": "distributing",
+        "expense_ratio": null
+      }
+    ],
+    "prices": [
+      {
+        "security_id": "40000000-0000-0000-0000-000000000001",
+        "trading_date": "2024-01-15",
+        "close": "100.00",
+        "currency": "USD"
+      },
+      {
+        "security_id": "40000000-0000-0000-0000-000000000001",
+        "trading_date": "2024-05-20",
+        "close": "105.00",
+        "currency": "USD"
+      },
+      {
+        "security_id": "40000000-0000-0000-0000-000000000001",
+        "trading_date": "2024-06-28",
+        "close": "112.00",
+        "currency": "USD"
+      },
+      {
+        "security_id": "40000000-0000-0000-0000-000000000002",
+        "trading_date": "2024-02-15",
+        "close": "3.20",
+        "currency": "SGD"
+      },
+      {
+        "security_id": "40000000-0000-0000-0000-000000000002",
+        "trading_date": "2024-06-28",
+        "close": "3.40",
+        "currency": "SGD"
+      }
+    ],
+    "fx_rates": [
+      {
+        "rate_date": "2024-01-15",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3400"
+      },
+      {
+        "rate_date": "2024-06-28",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3500"
+      }
+    ],
+    "dividends": [],
+    "corporate_actions": [],
+    "tax_rules": [],
+    "request": {
+      "as_of": "2024-06-28",
+      "transactions": [
+        {
+          "transaction_id": "00000000-0000-0000-0000-b00000000001",
+          "transaction_date": "2024-01-15",
+          "security_id": null,
+          "transaction_type": "CASH_DEPOSIT",
+          "quantity": "0",
+          "cash_amount": "6000",
+          "currency": "USD",
+          "fees": "0"
+        },
+        {
+          "transaction_id": "00000000-0000-0000-0000-b00000000002",
+          "transaction_date": "2024-01-15",
+          "security_id": "40000000-0000-0000-0000-000000000001",
+          "transaction_type": "BUY",
+          "quantity": "5",
+          "cash_amount": "500",
+          "currency": "USD",
+          "fees": "2"
+        },
+        {
+          "transaction_id": "00000000-0000-0000-0000-b00000000003",
+          "transaction_date": "2024-03-01",
+          "security_id": "40000000-0000-0000-0000-000000000001",
+          "transaction_type": "SELL",
+          "quantity": "5",
+          "cash_amount": "550",
+          "currency": "USD",
+          "fees": "3"
+        }
+      ]
+    }
+  },
+  "golden_envelope": {
+    "as_of": "2024-06-28",
+    "holdings": [],
+    "cash_by_currency": {
+      "USD": "6045"
+    },
+    "realized_pl_native": {
+      "USD": "45.0"
+    },
+    "total_market_value_sgd": "8160.7500",
+    "methodology": {
+      "cost_basis": "weighted_average",
+      "end_value": "mark_to_market"
+    }
+  }
+}

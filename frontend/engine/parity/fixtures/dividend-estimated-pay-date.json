@@ -1,0 +1,181 @@
+{
+  "name": "dividend-estimated-pay-date",
+  "category": "dividend-edge",
+  "kind": "analysis",
+  "input_rows": {
+    "security": {
+      "security_id": "10000000-0000-0000-0000-000000000001",
+      "ticker": "SYNUSD",
+      "exchange": "XTEST",
+      "market": "US",
+      "name": "SYNUSD parity fixture",
+      "currency": "USD",
+      "asset_type": "ETF",
+      "domicile": "US",
+      "income_source_country": "US",
+      "isin": null,
+      "cusip": null,
+      "timezone": "UTC",
+      "active": true,
+      "distribution_policy": "distributing",
+      "expense_ratio": null
+    },
+    "prices": [
+      {
+        "security_id": "10000000-0000-0000-0000-000000000001",
+        "trading_date": "2024-01-02",
+        "close": "50.00",
+        "currency": "USD"
+      },
+      {
+        "security_id": "10000000-0000-0000-0000-000000000001",
+        "trading_date": "2024-01-03",
+        "close": "50.40",
+        "currency": "USD"
+      },
+      {
+        "security_id": "10000000-0000-0000-0000-000000000001",
+        "trading_date": "2024-01-04",
+        "close": "50.80",
+        "currency": "USD"
+      },
+      {
+        "security_id": "10000000-0000-0000-0000-000000000001",
+        "trading_date": "2024-01-05",
+        "close": "51.10",
+        "currency": "USD"
+      },
+      {
+        "security_id": "10000000-0000-0000-0000-000000000001",
+        "trading_date": "2024-01-08",
+        "close": "51.30",
+        "currency": "USD"
+      },
+      {
+        "security_id": "10000000-0000-0000-0000-000000000001",
+        "trading_date": "2024-02-05",
+        "close": "52.10",
+        "currency": "USD"
+      }
+    ],
+    "fx_rates": [
+      {
+        "rate_date": "2024-01-02",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.35"
+      },
+      {
+        "rate_date": "2024-02-05",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.34"
+      }
+    ],
+    "dividends": [
+      {
+        "security_id": "10000000-0000-0000-0000-000000000001",
+        "ex_date": "2024-01-04",
+        "amount": "0.50",
+        "currency": "USD",
+        "pay_date": null,
+        "dividend_type": "regular",
+        "source_country": "US"
+      }
+    ],
+    "corporate_actions": [],
+    "tax_rules": [
+      {
+        "rule_id": "US_DIVIDEND_NONRESIDENT",
+        "source_country": "US",
+        "income_type": "dividend",
+        "investor_type": "singapore_individual",
+        "rate": "0.30",
+        "effective_from": "1900-01-01",
+        "effective_to": null
+      }
+    ],
+    "request": {
+      "start_date": "2024-01-02",
+      "end_date": "2024-02-05",
+      "initial_sgd": "1000",
+      "scenario": {
+        "dividends_enabled": true,
+        "reinvest_dividends": true,
+        "withholding_tax_enabled": true
+      }
+    }
+  },
+  "golden_envelope": {
+    "security": {
+      "security_id": "10000000-0000-0000-0000-000000000001",
+      "ticker": "SYNUSD",
+      "exchange": "XTEST",
+      "market": "US",
+      "name": "SYNUSD parity fixture",
+      "currency": "USD",
+      "asset_type": "ETF",
+      "domicile": "US",
+      "income_source_country": "US",
+      "isin": null,
+      "cusip": null,
+      "timezone": "UTC",
+      "active": true,
+      "distribution_policy": "distributing",
+      "expense_ratio": null
+    },
+    "period": {
+      "start_date": "2024-01-02",
+      "end_date": "2024-02-05"
+    },
+    "initial_investment_sgd": "1000",
+    "initial_investment_foreign_currency": "740.7407407407407407407407407",
+    "price_return": {
+      "foreign_currency": "0.042",
+      "sgd": "0.034281481481481481481481481"
+    },
+    "dividends": {
+      "gross_foreign_currency": "7.407407407407407407407407405",
+      "withholding_tax_foreign_currency": "2.222222222222222222222222222",
+      "net_foreign_currency": "5.185185185185185185185185183",
+      "cash_foreign_currency": "0",
+      "gross_sgd_at_payment": "9.925925925925925925925925923",
+      "withholding_tax_sgd_at_payment": "2.977777777777777777777777777",
+      "net_sgd_at_payment": "6.948148148148148148148148145"
+    },
+    "investment": {
+      "shares": "14.91433852278382028861875311",
+      "final_security_value_foreign_currency": "777.0370370370370370370370370",
+      "final_value_foreign_currency": "777.0370370370370370370370370",
+      "final_value_sgd": "1041.229629629629629629629630"
+    },
+    "returns": {
+      "total_return": "0.04122962962962962962962963",
+      "cagr": "0.5434486317984226",
+      "total_return_foreign_currency": "0.049000000000000000000000000",
+      "cagr_foreign_currency": "0.671780111546264"
+    },
+    "fx": {
+      "start_rate": "1.35",
+      "end_rate": "1.34"
+    },
+    "methodology": {
+      "price": "daily_close",
+      "price_return": "raw_unadjusted_close_to_close_not_split_adjusted",
+      "purchase_date_rule": "next_trading_day",
+      "valuation_date_rule": "previous_trading_day",
+      "dividend_reinvestment": "pay_date_close_with_30_day_ex_date_fallback",
+      "fractional_shares": true,
+      "withholding_tax": true,
+      "dividend_native_currency": "USD",
+      "dividend_sgd_translation": "payment_date_fx_rate_for_actual_dividend_currency",
+      "dividend_type_handling": "regular/special/unknown treated as cash; return_of_capital treated as cash without assumed withholding",
+      "ter_deducted": false,
+      "methodology_version": "1.0"
+    },
+    "data_quality": {
+      "status": "WARNING",
+      "warnings": [
+        "Approximated dividend pay date for 2024-01-04 as 2024-02-03."
+      ]
+    }
+  }
+}

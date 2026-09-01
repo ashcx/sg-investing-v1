@@ -1,0 +1,183 @@
+{
+  "name": "dca-yearly-synthetic",
+  "category": "dca",
+  "kind": "dca",
+  "input_rows": {
+    "security": {
+      "security_id": "10000000-0000-0000-0000-000000000001",
+      "ticker": "SYNUSD",
+      "exchange": "XTEST",
+      "market": "US",
+      "name": "SYNUSD parity fixture",
+      "currency": "USD",
+      "asset_type": "ETF",
+      "domicile": "US",
+      "income_source_country": "US",
+      "isin": null,
+      "cusip": null,
+      "timezone": "UTC",
+      "active": true,
+      "distribution_policy": "distributing",
+      "expense_ratio": null
+    },
+    "prices": [
+      {
+        "security_id": "10000000-0000-0000-0000-000000000001",
+        "trading_date": "2024-01-02",
+        "close": "100.00",
+        "currency": "USD"
+      },
+      {
+        "security_id": "10000000-0000-0000-0000-000000000001",
+        "trading_date": "2024-02-01",
+        "close": "101.50",
+        "currency": "USD"
+      },
+      {
+        "security_id": "10000000-0000-0000-0000-000000000001",
+        "trading_date": "2024-03-01",
+        "close": "100.20",
+        "currency": "USD"
+      },
+      {
+        "security_id": "10000000-0000-0000-0000-000000000001",
+        "trading_date": "2024-03-15",
+        "close": "101.00",
+        "currency": "USD"
+      },
+      {
+        "security_id": "10000000-0000-0000-0000-000000000001",
+        "trading_date": "2024-04-01",
+        "close": "103.00",
+        "currency": "USD"
+      },
+      {
+        "security_id": "10000000-0000-0000-0000-000000000001",
+        "trading_date": "2024-05-01",
+        "close": "104.20",
+        "currency": "USD"
+      },
+      {
+        "security_id": "10000000-0000-0000-0000-000000000001",
+        "trading_date": "2024-06-03",
+        "close": "105.10",
+        "currency": "USD"
+      },
+      {
+        "security_id": "10000000-0000-0000-0000-000000000001",
+        "trading_date": "2024-07-01",
+        "close": "106.00",
+        "currency": "USD"
+      },
+      {
+        "security_id": "10000000-0000-0000-0000-000000000001",
+        "trading_date": "2024-08-01",
+        "close": "105.40",
+        "currency": "USD"
+      },
+      {
+        "security_id": "10000000-0000-0000-0000-000000000001",
+        "trading_date": "2024-09-02",
+        "close": "107.00",
+        "currency": "USD"
+      },
+      {
+        "security_id": "10000000-0000-0000-0000-000000000001",
+        "trading_date": "2024-09-16",
+        "close": "107.60",
+        "currency": "USD"
+      },
+      {
+        "security_id": "10000000-0000-0000-0000-000000000001",
+        "trading_date": "2024-10-01",
+        "close": "108.20",
+        "currency": "USD"
+      },
+      {
+        "security_id": "10000000-0000-0000-0000-000000000001",
+        "trading_date": "2024-11-01",
+        "close": "109.00",
+        "currency": "USD"
+      },
+      {
+        "security_id": "10000000-0000-0000-0000-000000000001",
+        "trading_date": "2024-12-02",
+        "close": "110.50",
+        "currency": "USD"
+      }
+    ],
+    "fx_rates": [
+      {
+        "rate_date": "2024-01-01",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.35"
+      }
+    ],
+    "dividends": [],
+    "corporate_actions": [],
+    "tax_rules": [
+      {
+        "rule_id": "US_DIVIDEND_NONRESIDENT",
+        "source_country": "US",
+        "income_type": "dividend",
+        "investor_type": "singapore_individual",
+        "rate": "0.30",
+        "effective_from": "1900-01-01",
+        "effective_to": null
+      }
+    ],
+    "request": {
+      "start_date": "2024-01-01",
+      "end_date": "2024-12-31",
+      "contribution_sgd": "1200",
+      "frequency": "yearly",
+      "scenario": {
+        "dividends_enabled": true,
+        "reinvest_dividends": true,
+        "withholding_tax_enabled": true
+      }
+    }
+  },
+  "golden_envelope": {
+    "security": {
+      "security_id": "10000000-0000-0000-0000-000000000001",
+      "ticker": "SYNUSD",
+      "exchange": "XTEST",
+      "market": "US",
+      "name": "SYNUSD parity fixture",
+      "currency": "USD",
+      "asset_type": "ETF",
+      "domicile": "US",
+      "income_source_country": "US",
+      "isin": null,
+      "cusip": null,
+      "timezone": "UTC",
+      "active": true,
+      "distribution_policy": "distributing",
+      "expense_ratio": null
+    },
+    "contribution_dates": [
+      "2024-01-02"
+    ],
+    "total_contributed_sgd": "1200",
+    "total_contributed_foreign_currency": "888.8888888888888888888888889",
+    "final_value_sgd": "1326.000000000000000000000000",
+    "final_value_foreign_currency": "982.2222222222222222222222222",
+    "gain_loss_sgd": "126.000000000000000000000000",
+    "gain_loss_foreign_currency": "93.3333333333333333333333333",
+    "xirr": "0.11500510608641978",
+    "xirr_foreign_currency": "0.11500510608626346",
+    "shares": "8.888888888888888888888888889",
+    "methodology": {
+      "contribution_timing": "first_available_trading_day_of_period",
+      "cost_basis": "weighted_average_not_applicable_to_dca_return",
+      "dividend_reinvestment": true,
+      "dividend_type_handling": "regular/special/unknown treated as cash; return_of_capital treated as cash without assumed withholding",
+      "ter_deducted": false
+    },
+    "data_quality": {
+      "status": "OK",
+      "warnings": []
+    }
+  }
+}

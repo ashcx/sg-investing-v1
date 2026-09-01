@@ -1,0 +1,128 @@
+{
+  "name": "portfolio-synthetic-cash-only",
+  "category": "portfolio",
+  "kind": "portfolio",
+  "meta": {
+    "pack_derived": false,
+    "covers": [
+      "cash_only_rows"
+    ]
+  },
+  "input_rows": {
+    "security": [
+      {
+        "security_id": "50000000-0000-0000-0000-000000000001",
+        "ticker": "USDETF",
+        "exchange": "XTEST",
+        "market": "US",
+        "name": "USDETF portfolio fixture",
+        "currency": "USD",
+        "asset_type": "ETF",
+        "domicile": "US",
+        "income_source_country": "US",
+        "isin": null,
+        "cusip": null,
+        "timezone": "UTC",
+        "active": true,
+        "distribution_policy": "distributing",
+        "expense_ratio": null
+      }
+    ],
+    "prices": [
+      {
+        "security_id": "50000000-0000-0000-0000-000000000001",
+        "trading_date": "2024-01-15",
+        "close": "100.00",
+        "currency": "USD"
+      },
+      {
+        "security_id": "50000000-0000-0000-0000-000000000001",
+        "trading_date": "2024-05-20",
+        "close": "105.00",
+        "currency": "USD"
+      },
+      {
+        "security_id": "50000000-0000-0000-0000-000000000001",
+        "trading_date": "2024-06-28",
+        "close": "112.00",
+        "currency": "USD"
+      },
+      {
+        "security_id": "50000000-0000-0000-0000-000000000002",
+        "trading_date": "2024-02-15",
+        "close": "3.20",
+        "currency": "SGD"
+      },
+      {
+        "security_id": "50000000-0000-0000-0000-000000000002",
+        "trading_date": "2024-06-28",
+        "close": "3.40",
+        "currency": "SGD"
+      }
+    ],
+    "fx_rates": [
+      {
+        "rate_date": "2024-01-15",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3400"
+      },
+      {
+        "rate_date": "2024-06-28",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3500"
+      }
+    ],
+    "dividends": [],
+    "corporate_actions": [],
+    "tax_rules": [],
+    "request": {
+      "as_of": "2024-06-28",
+      "transactions": [
+        {
+          "transaction_id": "00000000-0000-0000-0000-e50000000001",
+          "transaction_date": "2024-01-15",
+          "security_id": null,
+          "transaction_type": "CASH_DEPOSIT",
+          "quantity": "0",
+          "cash_amount": "10000",
+          "currency": "SGD",
+          "fees": "0"
+        },
+        {
+          "transaction_id": "00000000-0000-0000-0000-e50000000002",
+          "transaction_date": "2024-02-15",
+          "security_id": null,
+          "transaction_type": "CASH_DEPOSIT",
+          "quantity": "0",
+          "cash_amount": "2000",
+          "currency": "USD",
+          "fees": "0"
+        },
+        {
+          "transaction_id": "00000000-0000-0000-0000-e50000000003",
+          "transaction_date": "2024-03-15",
+          "security_id": null,
+          "transaction_type": "CASH_WITHDRAWAL",
+          "quantity": "0",
+          "cash_amount": "2500",
+          "currency": "USD",
+          "fees": "0"
+        }
+      ]
+    }
+  },
+  "golden_envelope": {
+    "as_of": "2024-06-28",
+    "holdings": [],
+    "cash_by_currency": {
+      "SGD": "10000",
+      "USD": "-500"
+    },
+    "realized_pl_native": {},
+    "total_market_value_sgd": "9325.0000",
+    "methodology": {
+      "cost_basis": "weighted_average",
+      "end_value": "mark_to_market"
+    }
+  }
+}

@@ -1,0 +1,215 @@
+{
+  "name": "portfolio-synthetic-mixed-currency",
+  "category": "portfolio",
+  "kind": "portfolio",
+  "meta": {
+    "pack_derived": false,
+    "covers": [
+      "buys",
+      "partial_sell",
+      "multiple_currencies",
+      "dividends",
+      "cash_rows"
+    ]
+  },
+  "input_rows": {
+    "security": [
+      {
+        "security_id": "50000000-0000-0000-0000-000000000001",
+        "ticker": "USDETF",
+        "exchange": "XTEST",
+        "market": "US",
+        "name": "USDETF portfolio fixture",
+        "currency": "USD",
+        "asset_type": "ETF",
+        "domicile": "US",
+        "income_source_country": "US",
+        "isin": null,
+        "cusip": null,
+        "timezone": "UTC",
+        "active": true,
+        "distribution_policy": "distributing",
+        "expense_ratio": null
+      },
+      {
+        "security_id": "50000000-0000-0000-0000-000000000002",
+        "ticker": "SGDETF",
+        "exchange": "XTEST",
+        "market": "SG",
+        "name": "SGDETF portfolio fixture",
+        "currency": "SGD",
+        "asset_type": "ETF",
+        "domicile": "SG",
+        "income_source_country": "SG",
+        "isin": null,
+        "cusip": null,
+        "timezone": "UTC",
+        "active": true,
+        "distribution_policy": "distributing",
+        "expense_ratio": null
+      }
+    ],
+    "prices": [
+      {
+        "security_id": "50000000-0000-0000-0000-000000000001",
+        "trading_date": "2024-01-15",
+        "close": "100.00",
+        "currency": "USD"
+      },
+      {
+        "security_id": "50000000-0000-0000-0000-000000000001",
+        "trading_date": "2024-05-20",
+        "close": "105.00",
+        "currency": "USD"
+      },
+      {
+        "security_id": "50000000-0000-0000-0000-000000000001",
+        "trading_date": "2024-06-28",
+        "close": "112.00",
+        "currency": "USD"
+      },
+      {
+        "security_id": "50000000-0000-0000-0000-000000000002",
+        "trading_date": "2024-02-15",
+        "close": "3.20",
+        "currency": "SGD"
+      },
+      {
+        "security_id": "50000000-0000-0000-0000-000000000002",
+        "trading_date": "2024-06-28",
+        "close": "3.40",
+        "currency": "SGD"
+      }
+    ],
+    "fx_rates": [
+      {
+        "rate_date": "2024-01-15",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3400"
+      },
+      {
+        "rate_date": "2024-06-28",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3500"
+      }
+    ],
+    "dividends": [],
+    "corporate_actions": [],
+    "tax_rules": [],
+    "request": {
+      "as_of": "2024-06-28",
+      "transactions": [
+        {
+          "transaction_id": "00000000-0000-0000-0000-e30000000001",
+          "transaction_date": "2024-01-15",
+          "security_id": null,
+          "transaction_type": "CASH_DEPOSIT",
+          "quantity": "0",
+          "cash_amount": "10000",
+          "currency": "USD",
+          "fees": "0"
+        },
+        {
+          "transaction_id": "00000000-0000-0000-0000-e30000000002",
+          "transaction_date": "2024-01-15",
+          "security_id": "50000000-0000-0000-0000-000000000001",
+          "transaction_type": "BUY",
+          "quantity": "50",
+          "cash_amount": "5000",
+          "currency": "USD",
+          "fees": "5"
+        },
+        {
+          "transaction_id": "00000000-0000-0000-0000-e30000000003",
+          "transaction_date": "2024-02-15",
+          "security_id": null,
+          "transaction_type": "CASH_DEPOSIT",
+          "quantity": "0",
+          "cash_amount": "5000",
+          "currency": "SGD",
+          "fees": "0"
+        },
+        {
+          "transaction_id": "00000000-0000-0000-0000-e30000000004",
+          "transaction_date": "2024-02-15",
+          "security_id": "50000000-0000-0000-0000-000000000002",
+          "transaction_type": "BUY",
+          "quantity": "1000",
+          "cash_amount": "3200",
+          "currency": "SGD",
+          "fees": "5"
+        },
+        {
+          "transaction_id": "00000000-0000-0000-0000-e30000000005",
+          "transaction_date": "2024-04-10",
+          "security_id": "50000000-0000-0000-0000-000000000002",
+          "transaction_type": "DIVIDEND",
+          "quantity": "0",
+          "cash_amount": "55",
+          "currency": "SGD",
+          "fees": "0"
+        },
+        {
+          "transaction_id": "00000000-0000-0000-0000-e30000000006",
+          "transaction_date": "2024-05-20",
+          "security_id": "50000000-0000-0000-0000-000000000001",
+          "transaction_type": "SELL",
+          "quantity": "10",
+          "cash_amount": "1050",
+          "currency": "USD",
+          "fees": "4"
+        },
+        {
+          "transaction_id": "00000000-0000-0000-0000-e30000000007",
+          "transaction_date": "2024-06-10",
+          "security_id": null,
+          "transaction_type": "CASH_WITHDRAWAL",
+          "quantity": "0",
+          "cash_amount": "1000",
+          "currency": "SGD",
+          "fees": "0"
+        }
+      ]
+    }
+  },
+  "golden_envelope": {
+    "as_of": "2024-06-28",
+    "holdings": [
+      {
+        "security_id": "50000000-0000-0000-0000-000000000002",
+        "ticker": "SGDETF",
+        "quantity": "1000",
+        "weighted_average_cost": "3.205",
+        "cost_basis_native": "3205",
+        "market_value_native": "3400.00",
+        "market_value_sgd": "3400.00",
+        "unrealized_pl_native": "195.00",
+        "realized_pl_native": "0"
+      },
+      {
+        "security_id": "50000000-0000-0000-0000-000000000001",
+        "ticker": "USDETF",
+        "quantity": "40",
+        "weighted_average_cost": "100.1",
+        "cost_basis_native": "4004.0",
+        "market_value_native": "4480.00",
+        "market_value_sgd": "6048.000000",
+        "unrealized_pl_native": "476.00",
+        "realized_pl_native": "45.0"
+      }
+    ],
+    "cash_by_currency": {
+      "USD": "6041",
+      "SGD": "850"
+    },
+    "realized_pl_native": {
+      "USD": "45.0",
+      "SGD": "0"
+    },
+    "total_market_value_sgd": "18453.350000",
+    "methodology": {
+      "cost_basis": "weighted_average",
+      "end_value": "mark_to_market"
+    }
+  }
+}

@@ -1,0 +1,145 @@
+{
+  "name": "fx-normal-conversion",
+  "category": "fx",
+  "kind": "analysis",
+  "input_rows": {
+    "security": {
+      "security_id": "10000000-0000-0000-0000-000000000001",
+      "ticker": "SYNUSD",
+      "exchange": "XTEST",
+      "market": "US",
+      "name": "SYNUSD parity fixture",
+      "currency": "USD",
+      "asset_type": "ETF",
+      "domicile": "US",
+      "income_source_country": "US",
+      "isin": null,
+      "cusip": null,
+      "timezone": "UTC",
+      "active": true,
+      "distribution_policy": "distributing",
+      "expense_ratio": null
+    },
+    "prices": [
+      {
+        "security_id": "10000000-0000-0000-0000-000000000001",
+        "trading_date": "2024-01-02",
+        "close": "100.00",
+        "currency": "USD"
+      },
+      {
+        "security_id": "10000000-0000-0000-0000-000000000001",
+        "trading_date": "2024-06-28",
+        "close": "110.00",
+        "currency": "USD"
+      }
+    ],
+    "fx_rates": [
+      {
+        "rate_date": "2024-01-02",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3500"
+      },
+      {
+        "rate_date": "2024-06-28",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3100"
+      }
+    ],
+    "dividends": [],
+    "corporate_actions": [],
+    "tax_rules": [
+      {
+        "rule_id": "US_DIVIDEND_NONRESIDENT",
+        "source_country": "US",
+        "income_type": "dividend",
+        "investor_type": "singapore_individual",
+        "rate": "0.30",
+        "effective_from": "1900-01-01",
+        "effective_to": null
+      }
+    ],
+    "request": {
+      "start_date": "2024-01-02",
+      "end_date": "2024-06-28",
+      "initial_sgd": "5000",
+      "scenario": {
+        "dividends_enabled": true,
+        "reinvest_dividends": true,
+        "withholding_tax_enabled": true
+      }
+    }
+  },
+  "golden_envelope": {
+    "security": {
+      "security_id": "10000000-0000-0000-0000-000000000001",
+      "ticker": "SYNUSD",
+      "exchange": "XTEST",
+      "market": "US",
+      "name": "SYNUSD parity fixture",
+      "currency": "USD",
+      "asset_type": "ETF",
+      "domicile": "US",
+      "income_source_country": "US",
+      "isin": null,
+      "cusip": null,
+      "timezone": "UTC",
+      "active": true,
+      "distribution_policy": "distributing",
+      "expense_ratio": null
+    },
+    "period": {
+      "start_date": "2024-01-02",
+      "end_date": "2024-06-28"
+    },
+    "initial_investment_sgd": "5000",
+    "initial_investment_foreign_currency": "3703.703703703703703703703704",
+    "price_return": {
+      "foreign_currency": "0.1",
+      "sgd": "0.067407407407407407407407407"
+    },
+    "dividends": {
+      "gross_foreign_currency": "0",
+      "withholding_tax_foreign_currency": "0",
+      "net_foreign_currency": "0",
+      "cash_foreign_currency": "0",
+      "gross_sgd_at_payment": "0",
+      "withholding_tax_sgd_at_payment": "0",
+      "net_sgd_at_payment": "0"
+    },
+    "investment": {
+      "shares": "37.03703703703703703703703704",
+      "final_security_value_foreign_currency": "4074.074074074074074074074074",
+      "final_value_foreign_currency": "4074.074074074074074074074074",
+      "final_value_sgd": "5337.037037037037037037037037"
+    },
+    "returns": {
+      "total_return": "0.067407407407407407407407407",
+      "cagr": "0.14322429983430696",
+      "total_return_foreign_currency": "0.100000000000000000000000000",
+      "cagr_foreign_currency": "0.21600301183320147"
+    },
+    "fx": {
+      "start_rate": "1.3500",
+      "end_rate": "1.3100"
+    },
+    "methodology": {
+      "price": "daily_close",
+      "price_return": "raw_unadjusted_close_to_close_not_split_adjusted",
+      "purchase_date_rule": "next_trading_day",
+      "valuation_date_rule": "previous_trading_day",
+      "dividend_reinvestment": "pay_date_close_with_30_day_ex_date_fallback",
+      "fractional_shares": true,
+      "withholding_tax": true,
+      "dividend_native_currency": "USD",
+      "dividend_sgd_translation": "payment_date_fx_rate_for_actual_dividend_currency",
+      "dividend_type_handling": "regular/special/unknown treated as cash; return_of_capital treated as cash without assumed withholding",
+      "ter_deducted": false,
+      "methodology_version": "1.0"
+    },
+    "data_quality": {
+      "status": "OK",
+      "warnings": []
+    }
+  }
+}

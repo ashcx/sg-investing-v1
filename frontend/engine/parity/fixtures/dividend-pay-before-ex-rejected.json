@@ -1,0 +1,96 @@
+{
+  "name": "dividend-pay-before-ex-rejected",
+  "category": "dividend-edge",
+  "kind": "analysis",
+  "input_rows": {
+    "security": {
+      "security_id": "10000000-0000-0000-0000-000000000001",
+      "ticker": "SYNUSD",
+      "exchange": "XTEST",
+      "market": "US",
+      "name": "SYNUSD parity fixture",
+      "currency": "USD",
+      "asset_type": "ETF",
+      "domicile": "US",
+      "income_source_country": "US",
+      "isin": null,
+      "cusip": null,
+      "timezone": "UTC",
+      "active": true,
+      "distribution_policy": "distributing",
+      "expense_ratio": null
+    },
+    "prices": [
+      {
+        "security_id": "10000000-0000-0000-0000-000000000001",
+        "trading_date": "2024-01-02",
+        "close": "50.00",
+        "currency": "USD"
+      },
+      {
+        "security_id": "10000000-0000-0000-0000-000000000001",
+        "trading_date": "2024-01-03",
+        "close": "50.40",
+        "currency": "USD"
+      },
+      {
+        "security_id": "10000000-0000-0000-0000-000000000001",
+        "trading_date": "2024-01-04",
+        "close": "50.80",
+        "currency": "USD"
+      },
+      {
+        "security_id": "10000000-0000-0000-0000-000000000001",
+        "trading_date": "2024-01-05",
+        "close": "51.10",
+        "currency": "USD"
+      }
+    ],
+    "fx_rates": [
+      {
+        "rate_date": "2024-01-02",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.35"
+      }
+    ],
+    "dividends": [
+      {
+        "security_id": "10000000-0000-0000-0000-000000000001",
+        "ex_date": "2024-01-04",
+        "amount": "0.50",
+        "currency": "USD",
+        "pay_date": "2024-01-03",
+        "dividend_type": "regular",
+        "source_country": "US"
+      }
+    ],
+    "corporate_actions": [],
+    "tax_rules": [
+      {
+        "rule_id": "US_DIVIDEND_NONRESIDENT",
+        "source_country": "US",
+        "income_type": "dividend",
+        "investor_type": "singapore_individual",
+        "rate": "0.30",
+        "effective_from": "1900-01-01",
+        "effective_to": null
+      }
+    ],
+    "request": {
+      "start_date": "2024-01-02",
+      "end_date": "2024-01-05",
+      "initial_sgd": "1000",
+      "scenario": {
+        "dividends_enabled": true,
+        "reinvest_dividends": true,
+        "withholding_tax_enabled": true
+      }
+    }
+  },
+  "golden_envelope": {
+    "error": {
+      "type": "AnalysisDataError",
+      "message": "Dividend input failed validation: Dividend pay date precedes ex-date for 10000000-0000-0000-0000-000000000001 on 2024-01-04."
+    }
+  }
+}

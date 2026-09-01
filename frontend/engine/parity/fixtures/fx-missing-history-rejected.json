@@ -1,0 +1,68 @@
+{
+  "name": "fx-missing-history-rejected",
+  "category": "fx",
+  "kind": "analysis",
+  "input_rows": {
+    "security": {
+      "security_id": "30000000-0000-0000-0000-000000000003",
+      "ticker": "SYNGBP",
+      "exchange": "LSE",
+      "market": "GB",
+      "name": "SYNGBP parity fixture",
+      "currency": "GBP",
+      "asset_type": "ETF",
+      "domicile": "GB",
+      "income_source_country": "GB",
+      "isin": null,
+      "cusip": null,
+      "timezone": "UTC",
+      "active": true,
+      "distribution_policy": "distributing",
+      "expense_ratio": null
+    },
+    "prices": [
+      {
+        "security_id": "30000000-0000-0000-0000-000000000003",
+        "trading_date": "2024-01-02",
+        "close": "10.00",
+        "currency": "GBP"
+      },
+      {
+        "security_id": "30000000-0000-0000-0000-000000000003",
+        "trading_date": "2024-01-05",
+        "close": "10.50",
+        "currency": "GBP"
+      }
+    ],
+    "fx_rates": [],
+    "dividends": [],
+    "corporate_actions": [],
+    "tax_rules": [
+      {
+        "rule_id": "US_DIVIDEND_NONRESIDENT",
+        "source_country": "US",
+        "income_type": "dividend",
+        "investor_type": "singapore_individual",
+        "rate": "0.30",
+        "effective_from": "1900-01-01",
+        "effective_to": null
+      }
+    ],
+    "request": {
+      "start_date": "2024-01-02",
+      "end_date": "2024-01-05",
+      "initial_sgd": "1000",
+      "scenario": {
+        "dividends_enabled": true,
+        "reinvest_dividends": true,
+        "withholding_tax_enabled": true
+      }
+    }
+  },
+  "golden_envelope": {
+    "error": {
+      "type": "AnalysisDataError",
+      "message": "No GBP/SGD FX history supplied."
+    }
+  }
+}

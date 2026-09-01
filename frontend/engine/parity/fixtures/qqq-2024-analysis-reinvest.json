@@ -1,0 +1,2992 @@
+{
+  "name": "qqq-2024-analysis-reinvest",
+  "category": "usd-etf-real",
+  "kind": "analysis",
+  "input_rows": {
+    "security": {
+      "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+      "ticker": "QQQ",
+      "exchange": "NASDAQ",
+      "market": "US",
+      "name": "Invesco QQQ Trust",
+      "currency": "USD",
+      "asset_type": "ETF",
+      "domicile": "US",
+      "income_source_country": "US",
+      "isin": null,
+      "cusip": null,
+      "timezone": "America/New_York",
+      "active": true,
+      "distribution_policy": "distributing",
+      "expense_ratio": null
+    },
+    "prices": [
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-01-02",
+        "close": "402.589996337890600000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-01-03",
+        "close": "398.329986572265600000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-01-04",
+        "close": "396.279998779296900000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-01-05",
+        "close": "396.750000000000000000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-01-08",
+        "close": "404.950012207031250000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-01-09",
+        "close": "405.750000000000000000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-01-10",
+        "close": "408.500000000000000000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-01-11",
+        "close": "409.350006103515600000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-01-12",
+        "close": "409.559997558593750000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-01-16",
+        "close": "409.519989013671900000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-01-17",
+        "close": "407.209991455078100000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-01-18",
+        "close": "412.989990234375000000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-01-19",
+        "close": "421.179992675781250000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-01-22",
+        "close": "421.730010986328100000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-01-23",
+        "close": "423.480010986328100000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-01-24",
+        "close": "425.829986572265600000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-01-25",
+        "close": "426.350006103515600000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-01-26",
+        "close": "423.809997558593750000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-01-29",
+        "close": "428.149993896484400000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-01-30",
+        "close": "425.299987792968750000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-01-31",
+        "close": "416.970001220703100000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-02-01",
+        "close": "421.880004882812500000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-02-02",
+        "close": "429.010009765625000000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-02-05",
+        "close": "428.450012207031250000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-02-06",
+        "close": "427.589996337890600000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-02-07",
+        "close": "431.989990234375000000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-02-08",
+        "close": "432.790008544921900000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-02-09",
+        "close": "437.049987792968750000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-02-12",
+        "close": "435.339996337890600000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-02-13",
+        "close": "428.549987792968750000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-02-14",
+        "close": "433.220001220703100000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-02-15",
+        "close": "434.510009765625000000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-02-16",
+        "close": "430.570007324218750000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-02-20",
+        "close": "427.320007324218750000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-02-21",
+        "close": "425.609985351562500000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-02-22",
+        "close": "438.070007324218750000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-02-23",
+        "close": "436.779998779296900000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-02-26",
+        "close": "436.549987792968750000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-02-27",
+        "close": "437.600006103515600000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-02-28",
+        "close": "435.269989013671900000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-02-29",
+        "close": "439.000000000000000000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-03-01",
+        "close": "445.609985351562500000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-03-04",
+        "close": "444.019989013671900000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-03-05",
+        "close": "436.049987792968750000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-03-06",
+        "close": "438.790008544921900000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-03-07",
+        "close": "445.450012207031250000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-03-08",
+        "close": "439.019989013671900000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-03-11",
+        "close": "437.390014648437500000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-03-12",
+        "close": "443.660003662109400000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-03-13",
+        "close": "440.250000000000000000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-03-14",
+        "close": "439.140014648437500000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-03-15",
+        "close": "433.920013427734400000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-03-18",
+        "close": "437.480010986328100000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-03-19",
+        "close": "438.570007324218750000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-03-20",
+        "close": "443.769989013671900000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-03-21",
+        "close": "445.869995117187500000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-03-22",
+        "close": "446.380004882812500000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-03-25",
+        "close": "444.760009765625000000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-03-26",
+        "close": "443.320007324218750000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-03-27",
+        "close": "444.829986572265600000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-03-28",
+        "close": "444.010009765625000000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-04-01",
+        "close": "444.950012207031250000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-04-02",
+        "close": "441.109985351562500000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-04-03",
+        "close": "442.100006103515600000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-04-04",
+        "close": "435.339996337890600000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-04-05",
+        "close": "440.470001220703100000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-04-08",
+        "close": "440.600006103515600000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-04-09",
+        "close": "442.230010986328100000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-04-10",
+        "close": "438.369995117187500000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-04-11",
+        "close": "445.369995117187500000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-04-12",
+        "close": "438.269989013671900000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-04-15",
+        "close": "431.059997558593750000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-04-16",
+        "close": "431.100006103515600000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-04-17",
+        "close": "425.839996337890600000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-04-18",
+        "close": "423.410003662109400000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-04-19",
+        "close": "414.649993896484400000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-04-22",
+        "close": "418.820007324218750000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-04-23",
+        "close": "425.070007324218750000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-04-24",
+        "close": "426.510009765625000000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-04-25",
+        "close": "424.450012207031250000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-04-26",
+        "close": "431.000000000000000000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-04-29",
+        "close": "432.750000000000000000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-04-30",
+        "close": "424.589996337890600000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-05-01",
+        "close": "421.519989013671900000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-05-02",
+        "close": "426.899993896484400000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-05-03",
+        "close": "435.480010986328100000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-05-06",
+        "close": "440.250000000000000000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-05-07",
+        "close": "440.320007324218750000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-05-08",
+        "close": "440.059997558593750000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-05-09",
+        "close": "441.019989013671900000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-05-10",
+        "close": "442.059997558593750000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-05-13",
+        "close": "443.079986572265600000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-05-14",
+        "close": "445.929992675781250000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-05-15",
+        "close": "452.899993896484400000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-05-16",
+        "close": "451.980010986328100000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-05-17",
+        "close": "451.760009765625000000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-05-20",
+        "close": "454.910003662109400000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-05-21",
+        "close": "455.799987792968750000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-05-22",
+        "close": "455.709991455078100000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-05-23",
+        "close": "453.660003662109400000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-05-24",
+        "close": "457.950012207031250000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-05-28",
+        "close": "459.679992675781250000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-05-29",
+        "close": "456.440002441406250000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-05-30",
+        "close": "451.549987792968750000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-05-31",
+        "close": "450.709991455078100000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-06-03",
+        "close": "453.130004882812500000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-06-04",
+        "close": "454.369995117187500000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-06-05",
+        "close": "463.529998779296900000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-06-06",
+        "close": "463.369995117187500000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-06-07",
+        "close": "462.959991455078100000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-06-10",
+        "close": "464.829986572265600000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-06-11",
+        "close": "468.019989013671900000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-06-12",
+        "close": "474.149993896484400000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-06-13",
+        "close": "476.720001220703100000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-06-14",
+        "close": "479.190002441406250000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-06-17",
+        "close": "485.059997558593750000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-06-18",
+        "close": "485.209991455078100000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-06-20",
+        "close": "481.470001220703100000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-06-21",
+        "close": "480.179992675781250000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-06-24",
+        "close": "473.959991455078100000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-06-25",
+        "close": "479.380004882812500000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-06-26",
+        "close": "480.369995117187500000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-06-27",
+        "close": "481.609985351562500000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-06-28",
+        "close": "479.109985351562500000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-07-01",
+        "close": "481.920013427734400000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-07-02",
+        "close": "486.980010986328100000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-07-03",
+        "close": "491.040008544921900000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-07-05",
+        "close": "496.160003662109400000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-07-08",
+        "close": "497.339996337890600000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-07-09",
+        "close": "497.769989013671900000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-07-10",
+        "close": "502.959991455078100000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-07-11",
+        "close": "491.929992675781250000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-07-12",
+        "close": "494.820007324218750000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-07-15",
+        "close": "496.149993896484400000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-07-16",
+        "close": "496.339996337890600000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-07-17",
+        "close": "481.769989013671900000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-07-18",
+        "close": "479.489990234375000000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-07-19",
+        "close": "475.239990234375000000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-07-22",
+        "close": "482.320007324218750000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-07-23",
+        "close": "480.619995117187500000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-07-24",
+        "close": "463.380004882812500000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-07-25",
+        "close": "458.269989013671900000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-07-26",
+        "close": "462.970001220703100000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-07-29",
+        "close": "463.899993896484400000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-07-30",
+        "close": "457.529998779296900000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-07-31",
+        "close": "471.070007324218750000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-08-01",
+        "close": "459.660003662109400000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-08-02",
+        "close": "448.750000000000000000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-08-05",
+        "close": "435.369995117187500000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-08-06",
+        "close": "439.529998779296900000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-08-07",
+        "close": "434.769989013671900000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-08-08",
+        "close": "448.070007324218750000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-08-09",
+        "close": "450.410003662109400000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-08-12",
+        "close": "451.380004882812500000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-08-13",
+        "close": "462.579986572265600000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-08-14",
+        "close": "462.730010986328100000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-08-15",
+        "close": "474.420013427734400000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-08-16",
+        "close": "475.029998779296900000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-08-19",
+        "close": "481.269989013671900000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-08-20",
+        "close": "480.260009765625000000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-08-21",
+        "close": "482.500000000000000000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-08-22",
+        "close": "474.850006103515600000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-08-23",
+        "close": "480.000000000000000000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-08-26",
+        "close": "475.339996337890600000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-08-27",
+        "close": "476.760009765625000000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-08-28",
+        "close": "471.350006103515600000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-08-29",
+        "close": "470.660003662109400000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-08-30",
+        "close": "476.269989013671900000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-09-03",
+        "close": "461.809997558593750000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-09-04",
+        "close": "460.609985351562500000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-09-05",
+        "close": "461.040008544921900000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-09-06",
+        "close": "448.690002441406250000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-09-09",
+        "close": "454.459991455078100000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-09-10",
+        "close": "458.660003662109400000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-09-11",
+        "close": "468.619995117187500000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-09-12",
+        "close": "473.220001220703100000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-09-13",
+        "close": "475.339996337890600000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-09-16",
+        "close": "473.239990234375000000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-09-17",
+        "close": "473.489990234375000000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-09-18",
+        "close": "471.440002441406250000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-09-19",
+        "close": "483.359985351562500000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-09-20",
+        "close": "482.440002441406250000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-09-23",
+        "close": "483.040008544921900000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-09-24",
+        "close": "485.369995117187500000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-09-25",
+        "close": "485.820007324218750000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-09-26",
+        "close": "489.470001220703100000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-09-27",
+        "close": "486.750000000000000000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-09-30",
+        "close": "488.070007324218750000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-10-01",
+        "close": "481.269989013671900000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-10-02",
+        "close": "481.950012207031250000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-10-03",
+        "close": "481.589996337890600000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-10-04",
+        "close": "487.320007324218750000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-10-07",
+        "close": "482.100006103515600000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-10-08",
+        "close": "489.299987792968750000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-10-09",
+        "close": "493.149993896484400000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-10-10",
+        "close": "492.589996337890600000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-10-11",
+        "close": "493.359985351562500000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-10-14",
+        "close": "497.500000000000000000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-10-15",
+        "close": "490.850006103515600000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-10-16",
+        "close": "490.910003662109400000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-10-17",
+        "close": "491.250000000000000000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-10-18",
+        "close": "494.470001220703100000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-10-21",
+        "close": "495.420013427734400000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-10-22",
+        "close": "495.959991455078100000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-10-23",
+        "close": "488.359985351562500000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-10-24",
+        "close": "492.320007324218750000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-10-25",
+        "close": "495.320007324218750000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-10-28",
+        "close": "495.399993896484400000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-10-29",
+        "close": "500.160003662109400000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-10-30",
+        "close": "496.380004882812500000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-10-31",
+        "close": "483.850006103515600000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-11-01",
+        "close": "487.429992675781250000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-11-04",
+        "close": "486.010009765625000000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-11-05",
+        "close": "492.209991455078100000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-11-06",
+        "close": "505.579986572265600000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-11-07",
+        "close": "513.539978027343800000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-11-08",
+        "close": "514.140014648437500000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-11-11",
+        "close": "513.840026855468800000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-11-12",
+        "close": "512.909973144531200000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-11-13",
+        "close": "512.250000000000000000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-11-14",
+        "close": "508.690002441406250000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-11-15",
+        "close": "496.570007324218750000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-11-18",
+        "close": "500.019989013671900000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-11-19",
+        "close": "503.459991455078100000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-11-20",
+        "close": "503.170013427734400000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-11-21",
+        "close": "504.980010986328100000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-11-22",
+        "close": "505.790008544921900000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-11-25",
+        "close": "506.589996337890600000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-11-26",
+        "close": "509.309997558593750000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-11-27",
+        "close": "505.299987792968750000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-11-29",
+        "close": "509.739990234375000000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-12-02",
+        "close": "515.289978027343800000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-12-03",
+        "close": "516.869995117187500000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-12-04",
+        "close": "523.260009765625000000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-12-05",
+        "close": "521.809997558593800000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-12-06",
+        "close": "526.479980468750000000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-12-09",
+        "close": "522.380004882812500000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-12-10",
+        "close": "520.599975585937500000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-12-11",
+        "close": "529.919982910156200000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-12-12",
+        "close": "526.500000000000000000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-12-13",
+        "close": "530.530029296875000000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-12-16",
+        "close": "538.169982910156200000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-12-17",
+        "close": "535.799987792968800000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-12-18",
+        "close": "516.469970703125000000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-12-19",
+        "close": "514.169982910156200000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-12-20",
+        "close": "518.659973144531200000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-12-23",
+        "close": "522.869995117187500000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-12-24",
+        "close": "529.960021972656200000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-12-26",
+        "close": "529.599975585937500000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-12-27",
+        "close": "522.559997558593800000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-12-30",
+        "close": "515.609985351562500000",
+        "currency": "USD"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "trading_date": "2024-12-31",
+        "close": "511.230010986328100000",
+        "currency": "USD"
+      }
+    ],
+    "fx_rates": [
+      {
+        "rate_date": "2024-01-01",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3190399408340454"
+      },
+      {
+        "rate_date": "2024-01-02",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3193000555038452"
+      },
+      {
+        "rate_date": "2024-01-03",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3263399600982666"
+      },
+      {
+        "rate_date": "2024-01-04",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3283900022506714"
+      },
+      {
+        "rate_date": "2024-01-05",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.329390048980713"
+      },
+      {
+        "rate_date": "2024-01-08",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3296200037002563"
+      },
+      {
+        "rate_date": "2024-01-09",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.328660011291504"
+      },
+      {
+        "rate_date": "2024-01-10",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3309400081634521"
+      },
+      {
+        "rate_date": "2024-01-11",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3308000564575195"
+      },
+      {
+        "rate_date": "2024-01-12",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3294999599456787"
+      },
+      {
+        "rate_date": "2024-01-15",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3319100141525269"
+      },
+      {
+        "rate_date": "2024-01-16",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3339500427246094"
+      },
+      {
+        "rate_date": "2024-01-17",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3424299955368042"
+      },
+      {
+        "rate_date": "2024-01-18",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3443800210952759"
+      },
+      {
+        "rate_date": "2024-01-19",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3437199592590332"
+      },
+      {
+        "rate_date": "2024-01-22",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.340399980545044"
+      },
+      {
+        "rate_date": "2024-01-23",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3422499895095825"
+      },
+      {
+        "rate_date": "2024-01-24",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3408499956130981"
+      },
+      {
+        "rate_date": "2024-01-25",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.339669942855835"
+      },
+      {
+        "rate_date": "2024-01-26",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3402899503707886"
+      },
+      {
+        "rate_date": "2024-01-29",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3419899940490723"
+      },
+      {
+        "rate_date": "2024-01-30",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3396300077438354"
+      },
+      {
+        "rate_date": "2024-01-31",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3393000364303589"
+      },
+      {
+        "rate_date": "2024-02-01",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3404099941253662"
+      },
+      {
+        "rate_date": "2024-02-02",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3365800380706787"
+      },
+      {
+        "rate_date": "2024-02-05",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3434900045394897"
+      },
+      {
+        "rate_date": "2024-02-06",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3470100164413452"
+      },
+      {
+        "rate_date": "2024-02-07",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3436599969863892"
+      },
+      {
+        "rate_date": "2024-02-08",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3432600498199463"
+      },
+      {
+        "rate_date": "2024-02-09",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.346809983253479"
+      },
+      {
+        "rate_date": "2024-02-12",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3451800346374512"
+      },
+      {
+        "rate_date": "2024-02-13",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3447599411010742"
+      },
+      {
+        "rate_date": "2024-02-14",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3510600328445435"
+      },
+      {
+        "rate_date": "2024-02-15",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3477599620819092"
+      },
+      {
+        "rate_date": "2024-02-16",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3455599546432495"
+      },
+      {
+        "rate_date": "2024-02-19",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3453199863433838"
+      },
+      {
+        "rate_date": "2024-02-20",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3463200330734253"
+      },
+      {
+        "rate_date": "2024-02-21",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3436700105667114"
+      },
+      {
+        "rate_date": "2024-02-22",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3439099788665771"
+      },
+      {
+        "rate_date": "2024-02-23",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3423000574111938"
+      },
+      {
+        "rate_date": "2024-02-26",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3433300256729126"
+      },
+      {
+        "rate_date": "2024-02-27",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3442800045013428"
+      },
+      {
+        "rate_date": "2024-02-28",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3439199924468994"
+      },
+      {
+        "rate_date": "2024-02-29",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.345960021018982"
+      },
+      {
+        "rate_date": "2024-03-01",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3459199666976929"
+      },
+      {
+        "rate_date": "2024-03-04",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.343809962272644"
+      },
+      {
+        "rate_date": "2024-03-05",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3433799743652344"
+      },
+      {
+        "rate_date": "2024-03-06",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.342960000038147"
+      },
+      {
+        "rate_date": "2024-03-07",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3384100198745728"
+      },
+      {
+        "rate_date": "2024-03-08",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3329499959945679"
+      },
+      {
+        "rate_date": "2024-03-11",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3312900066375732"
+      },
+      {
+        "rate_date": "2024-03-12",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3301700353622437"
+      },
+      {
+        "rate_date": "2024-03-13",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.332319974899292"
+      },
+      {
+        "rate_date": "2024-03-14",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3318699598312378"
+      },
+      {
+        "rate_date": "2024-03-15",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.336300015449524"
+      },
+      {
+        "rate_date": "2024-03-18",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3381099700927734"
+      },
+      {
+        "rate_date": "2024-03-19",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3391900062561035"
+      },
+      {
+        "rate_date": "2024-03-20",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3424099683761597"
+      },
+      {
+        "rate_date": "2024-03-21",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3389899730682373"
+      },
+      {
+        "rate_date": "2024-03-22",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3430999517440796"
+      },
+      {
+        "rate_date": "2024-03-25",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3494800329208374"
+      },
+      {
+        "rate_date": "2024-03-26",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3458499908447266"
+      },
+      {
+        "rate_date": "2024-03-27",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3452800512313843"
+      },
+      {
+        "rate_date": "2024-03-28",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3487099409103394"
+      },
+      {
+        "rate_date": "2024-03-29",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.349810004234314"
+      },
+      {
+        "rate_date": "2024-04-01",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3476899862289429"
+      },
+      {
+        "rate_date": "2024-04-02",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3525500297546387"
+      },
+      {
+        "rate_date": "2024-04-03",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.351349949836731"
+      },
+      {
+        "rate_date": "2024-04-04",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.347890019416809"
+      },
+      {
+        "rate_date": "2024-04-05",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3484599590301514"
+      },
+      {
+        "rate_date": "2024-04-08",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3487999439239502"
+      },
+      {
+        "rate_date": "2024-04-09",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3473299741744995"
+      },
+      {
+        "rate_date": "2024-04-10",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.344730019569397"
+      },
+      {
+        "rate_date": "2024-04-11",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.353950023651123"
+      },
+      {
+        "rate_date": "2024-04-12",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.352810025215149"
+      },
+      {
+        "rate_date": "2024-04-15",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3597999811172485"
+      },
+      {
+        "rate_date": "2024-04-16",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3629800081253052"
+      },
+      {
+        "rate_date": "2024-04-17",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.364609956741333"
+      },
+      {
+        "rate_date": "2024-04-18",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3602700233459473"
+      },
+      {
+        "rate_date": "2024-04-19",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3619999885559082"
+      },
+      {
+        "rate_date": "2024-04-22",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.361299991607666"
+      },
+      {
+        "rate_date": "2024-04-23",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3619600534439087"
+      },
+      {
+        "rate_date": "2024-04-24",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3603999614715576"
+      },
+      {
+        "rate_date": "2024-04-25",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.361199975013733"
+      },
+      {
+        "rate_date": "2024-04-26",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3590999841690063"
+      },
+      {
+        "rate_date": "2024-04-29",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.361430048942566"
+      },
+      {
+        "rate_date": "2024-04-30",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3600599765777588"
+      },
+      {
+        "rate_date": "2024-05-01",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3652100563049316"
+      },
+      {
+        "rate_date": "2024-05-02",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.359969973564148"
+      },
+      {
+        "rate_date": "2024-05-03",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3537299633026123"
+      },
+      {
+        "rate_date": "2024-05-06",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3508700132369995"
+      },
+      {
+        "rate_date": "2024-05-07",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3516600131988525"
+      },
+      {
+        "rate_date": "2024-05-08",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3544000387191772"
+      },
+      {
+        "rate_date": "2024-05-09",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3554799556732178"
+      },
+      {
+        "rate_date": "2024-05-10",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3517999649047852"
+      },
+      {
+        "rate_date": "2024-05-13",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.354200005531311"
+      },
+      {
+        "rate_date": "2024-05-14",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3524999618530273"
+      },
+      {
+        "rate_date": "2024-05-15",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.352020025253296"
+      },
+      {
+        "rate_date": "2024-05-16",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.343559980392456"
+      },
+      {
+        "rate_date": "2024-05-17",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3458000421524048"
+      },
+      {
+        "rate_date": "2024-05-20",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.34483003616333"
+      },
+      {
+        "rate_date": "2024-05-21",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3473399877548218"
+      },
+      {
+        "rate_date": "2024-05-22",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3472199440002441"
+      },
+      {
+        "rate_date": "2024-05-23",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3499000072479248"
+      },
+      {
+        "rate_date": "2024-05-24",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3517800569534302"
+      },
+      {
+        "rate_date": "2024-05-27",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3495999574661255"
+      },
+      {
+        "rate_date": "2024-05-28",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3485699892044067"
+      },
+      {
+        "rate_date": "2024-05-29",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3483999967575073"
+      },
+      {
+        "rate_date": "2024-05-30",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3520100116729736"
+      },
+      {
+        "rate_date": "2024-05-31",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3496999740600586"
+      },
+      {
+        "rate_date": "2024-06-03",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3506100177764893"
+      },
+      {
+        "rate_date": "2024-06-04",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3450000286102295"
+      },
+      {
+        "rate_date": "2024-06-05",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3466500043869019"
+      },
+      {
+        "rate_date": "2024-06-06",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3478399515151978"
+      },
+      {
+        "rate_date": "2024-06-07",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3450000286102295"
+      },
+      {
+        "rate_date": "2024-06-10",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3519999980926514"
+      },
+      {
+        "rate_date": "2024-06-11",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3526999950408936"
+      },
+      {
+        "rate_date": "2024-06-12",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3529599905014038"
+      },
+      {
+        "rate_date": "2024-06-13",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3479900360107422"
+      },
+      {
+        "rate_date": "2024-06-14",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3510700464248657"
+      },
+      {
+        "rate_date": "2024-06-17",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3534899950027466"
+      },
+      {
+        "rate_date": "2024-06-18",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3509000539779663"
+      },
+      {
+        "rate_date": "2024-06-19",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3511500358581543"
+      },
+      {
+        "rate_date": "2024-06-20",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3506100177764893"
+      },
+      {
+        "rate_date": "2024-06-21",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3542300462722778"
+      },
+      {
+        "rate_date": "2024-06-24",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3552000522613525"
+      },
+      {
+        "rate_date": "2024-06-25",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3528300523757935"
+      },
+      {
+        "rate_date": "2024-06-26",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3546899557113647"
+      },
+      {
+        "rate_date": "2024-06-27",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3588500022888184"
+      },
+      {
+        "rate_date": "2024-06-28",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3580000400543213"
+      },
+      {
+        "rate_date": "2024-07-01",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.354699969291687"
+      },
+      {
+        "rate_date": "2024-07-02",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3577300310134888"
+      },
+      {
+        "rate_date": "2024-07-03",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3559800386428833"
+      },
+      {
+        "rate_date": "2024-07-04",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3532400131225586"
+      },
+      {
+        "rate_date": "2024-07-05",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3516000509262085"
+      },
+      {
+        "rate_date": "2024-07-08",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3487199544906616"
+      },
+      {
+        "rate_date": "2024-07-09",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3494999408721924"
+      },
+      {
+        "rate_date": "2024-07-10",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3506300449371338"
+      },
+      {
+        "rate_date": "2024-07-11",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3486900329589844"
+      },
+      {
+        "rate_date": "2024-07-12",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.342170000076294"
+      },
+      {
+        "rate_date": "2024-07-15",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.343000054359436"
+      },
+      {
+        "rate_date": "2024-07-16",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3435100317001343"
+      },
+      {
+        "rate_date": "2024-07-17",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.343999981880188"
+      },
+      {
+        "rate_date": "2024-07-18",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3393000364303589"
+      },
+      {
+        "rate_date": "2024-07-19",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3436199426651"
+      },
+      {
+        "rate_date": "2024-07-22",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.344099998474121"
+      },
+      {
+        "rate_date": "2024-07-23",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3458800315856934"
+      },
+      {
+        "rate_date": "2024-07-24",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3458000421524048"
+      },
+      {
+        "rate_date": "2024-07-25",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3437000513076782"
+      },
+      {
+        "rate_date": "2024-07-26",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.342900037765503"
+      },
+      {
+        "rate_date": "2024-07-29",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3429399728775024"
+      },
+      {
+        "rate_date": "2024-07-30",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.343019962310791"
+      },
+      {
+        "rate_date": "2024-07-31",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3418899774551392"
+      },
+      {
+        "rate_date": "2024-08-01",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3357000350952148"
+      },
+      {
+        "rate_date": "2024-08-02",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3367600440979004"
+      },
+      {
+        "rate_date": "2024-08-05",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3256700038909912"
+      },
+      {
+        "rate_date": "2024-08-06",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3252700567245483"
+      },
+      {
+        "rate_date": "2024-08-07",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3254899978637695"
+      },
+      {
+        "rate_date": "2024-08-08",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3266500234603882"
+      },
+      {
+        "rate_date": "2024-08-09",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.32614004611969"
+      },
+      {
+        "rate_date": "2024-08-12",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3243000507354736"
+      },
+      {
+        "rate_date": "2024-08-13",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3238099813461304"
+      },
+      {
+        "rate_date": "2024-08-14",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3171000480651855"
+      },
+      {
+        "rate_date": "2024-08-15",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.31673002243042"
+      },
+      {
+        "rate_date": "2024-08-16",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3222399950027466"
+      },
+      {
+        "rate_date": "2024-08-19",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3157600164413452"
+      },
+      {
+        "rate_date": "2024-08-20",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3078800439834595"
+      },
+      {
+        "rate_date": "2024-08-21",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3045300245285034"
+      },
+      {
+        "rate_date": "2024-08-22",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3053100109100342"
+      },
+      {
+        "rate_date": "2024-08-23",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3101099729537964"
+      },
+      {
+        "rate_date": "2024-08-26",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3011399507522583"
+      },
+      {
+        "rate_date": "2024-08-27",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3037500381469727"
+      },
+      {
+        "rate_date": "2024-08-28",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3013700246810913"
+      },
+      {
+        "rate_date": "2024-08-29",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3035199642181396"
+      },
+      {
+        "rate_date": "2024-08-30",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3026200532913208"
+      },
+      {
+        "rate_date": "2024-09-02",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3060599565505981"
+      },
+      {
+        "rate_date": "2024-09-03",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.306399941444397"
+      },
+      {
+        "rate_date": "2024-09-04",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3069000244140625"
+      },
+      {
+        "rate_date": "2024-09-05",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3029999732971191"
+      },
+      {
+        "rate_date": "2024-09-06",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.2997699975967407"
+      },
+      {
+        "rate_date": "2024-09-09",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3032699823379517"
+      },
+      {
+        "rate_date": "2024-09-10",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3059099912643433"
+      },
+      {
+        "rate_date": "2024-09-11",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3041399717330933"
+      },
+      {
+        "rate_date": "2024-09-12",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3045599460601807"
+      },
+      {
+        "rate_date": "2024-09-13",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3006800413131714"
+      },
+      {
+        "rate_date": "2024-09-16",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.2974300384521484"
+      },
+      {
+        "rate_date": "2024-09-17",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.2956600189208984"
+      },
+      {
+        "rate_date": "2024-09-18",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.2958699464797974"
+      },
+      {
+        "rate_date": "2024-09-19",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.2960799932479858"
+      },
+      {
+        "rate_date": "2024-09-20",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.29243004322052"
+      },
+      {
+        "rate_date": "2024-09-23",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.2901999950408936"
+      },
+      {
+        "rate_date": "2024-09-24",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.290910005569458"
+      },
+      {
+        "rate_date": "2024-09-25",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.2823599576950073"
+      },
+      {
+        "rate_date": "2024-09-26",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.2897800207138062"
+      },
+      {
+        "rate_date": "2024-09-27",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.2838799953460693"
+      },
+      {
+        "rate_date": "2024-09-30",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.2806999683380127"
+      },
+      {
+        "rate_date": "2024-10-01",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.2850699424743652"
+      },
+      {
+        "rate_date": "2024-10-02",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.2883000373840332"
+      },
+      {
+        "rate_date": "2024-10-03",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.2920399904251099"
+      },
+      {
+        "rate_date": "2024-10-04",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.2961000204086304"
+      },
+      {
+        "rate_date": "2024-10-07",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3046799898147583"
+      },
+      {
+        "rate_date": "2024-10-08",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.303920030593872"
+      },
+      {
+        "rate_date": "2024-10-09",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3042800426483154"
+      },
+      {
+        "rate_date": "2024-10-10",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.307289958000183"
+      },
+      {
+        "rate_date": "2024-10-11",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.30594003200531"
+      },
+      {
+        "rate_date": "2024-10-14",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3074400424957275"
+      },
+      {
+        "rate_date": "2024-10-15",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3079400062561035"
+      },
+      {
+        "rate_date": "2024-10-16",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3096100091934204"
+      },
+      {
+        "rate_date": "2024-10-17",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.313349962234497"
+      },
+      {
+        "rate_date": "2024-10-18",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.314170002937317"
+      },
+      {
+        "rate_date": "2024-10-21",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.309980034828186"
+      },
+      {
+        "rate_date": "2024-10-22",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3166500329971313"
+      },
+      {
+        "rate_date": "2024-10-23",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3161300420761108"
+      },
+      {
+        "rate_date": "2024-10-24",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.323009967803955"
+      },
+      {
+        "rate_date": "2024-10-25",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3187299966812134"
+      },
+      {
+        "rate_date": "2024-10-28",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3233100175857544"
+      },
+      {
+        "rate_date": "2024-10-29",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3224799633026123"
+      },
+      {
+        "rate_date": "2024-10-30",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3235299587249756"
+      },
+      {
+        "rate_date": "2024-10-31",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3219399452209473"
+      },
+      {
+        "rate_date": "2024-11-01",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3196799755096436"
+      },
+      {
+        "rate_date": "2024-11-04",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.321969985961914"
+      },
+      {
+        "rate_date": "2024-11-05",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.319700002670288"
+      },
+      {
+        "rate_date": "2024-11-06",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3133599758148193"
+      },
+      {
+        "rate_date": "2024-11-07",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.333150029182434"
+      },
+      {
+        "rate_date": "2024-11-08",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3206700086593628"
+      },
+      {
+        "rate_date": "2024-11-11",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3276699781417847"
+      },
+      {
+        "rate_date": "2024-11-12",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3329499959945679"
+      },
+      {
+        "rate_date": "2024-11-13",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3388899564743042"
+      },
+      {
+        "rate_date": "2024-11-14",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3429499864578247"
+      },
+      {
+        "rate_date": "2024-11-15",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3457000255584717"
+      },
+      {
+        "rate_date": "2024-11-18",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3423899412155151"
+      },
+      {
+        "rate_date": "2024-11-19",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.338420033454895"
+      },
+      {
+        "rate_date": "2024-11-20",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3367700576782227"
+      },
+      {
+        "rate_date": "2024-11-21",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.342650055885315"
+      },
+      {
+        "rate_date": "2024-11-22",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3466099500656128"
+      },
+      {
+        "rate_date": "2024-11-25",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3430999517440796"
+      },
+      {
+        "rate_date": "2024-11-26",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3490999937057495"
+      },
+      {
+        "rate_date": "2024-11-27",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3458800315856934"
+      },
+      {
+        "rate_date": "2024-11-28",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3409500122070312"
+      },
+      {
+        "rate_date": "2024-11-29",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3413200378417969"
+      },
+      {
+        "rate_date": "2024-12-02",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3411799669265747"
+      },
+      {
+        "rate_date": "2024-12-03",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3448799848556519"
+      },
+      {
+        "rate_date": "2024-12-04",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3448699712753296"
+      },
+      {
+        "rate_date": "2024-12-05",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.343649983406067"
+      },
+      {
+        "rate_date": "2024-12-06",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3385499715805054"
+      },
+      {
+        "rate_date": "2024-12-09",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3411799669265747"
+      },
+      {
+        "rate_date": "2024-12-10",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3403799533843994"
+      },
+      {
+        "rate_date": "2024-12-11",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3411999940872192"
+      },
+      {
+        "rate_date": "2024-12-12",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3429399728775024"
+      },
+      {
+        "rate_date": "2024-12-13",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3461999893188477"
+      },
+      {
+        "rate_date": "2024-12-16",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3481600284576416"
+      },
+      {
+        "rate_date": "2024-12-17",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3491699695587158"
+      },
+      {
+        "rate_date": "2024-12-18",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3494000434875488"
+      },
+      {
+        "rate_date": "2024-12-19",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3625999689102173"
+      },
+      {
+        "rate_date": "2024-12-20",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3615000247955322"
+      },
+      {
+        "rate_date": "2024-12-23",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.355370044708252"
+      },
+      {
+        "rate_date": "2024-12-24",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3571200370788574"
+      },
+      {
+        "rate_date": "2024-12-25",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3597999811172485"
+      },
+      {
+        "rate_date": "2024-12-26",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3589799404144287"
+      },
+      {
+        "rate_date": "2024-12-27",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.358780026435852"
+      },
+      {
+        "rate_date": "2024-12-30",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3579000234603882"
+      },
+      {
+        "rate_date": "2024-12-31",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3592699766159058"
+      }
+    ],
+    "dividends": [
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "ex_date": "2024-03-18",
+        "amount": "0.573000000000000000",
+        "currency": "USD",
+        "pay_date": null,
+        "dividend_type": "unknown",
+        "source_country": "US"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "ex_date": "2024-06-24",
+        "amount": "0.762000000000000000",
+        "currency": "USD",
+        "pay_date": null,
+        "dividend_type": "unknown",
+        "source_country": "US"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "ex_date": "2024-09-23",
+        "amount": "0.677000000000000000",
+        "currency": "USD",
+        "pay_date": null,
+        "dividend_type": "unknown",
+        "source_country": "US"
+      },
+      {
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "ex_date": "2024-12-23",
+        "amount": "0.835000000000000000",
+        "currency": "USD",
+        "pay_date": null,
+        "dividend_type": "unknown",
+        "source_country": "US"
+      }
+    ],
+    "corporate_actions": [],
+    "tax_rules": [
+      {
+        "rule_id": "US_DIVIDEND_NONRESIDENT",
+        "source_country": "US",
+        "income_type": "dividend",
+        "investor_type": "singapore_individual",
+        "rate": "0.3",
+        "effective_from": "1900-01-01",
+        "effective_to": null
+      }
+    ],
+    "request": {
+      "start_date": "2024-01-02",
+      "end_date": "2024-12-31",
+      "initial_sgd": "10000",
+      "scenario": {
+        "dividends_enabled": true,
+        "reinvest_dividends": true,
+        "withholding_tax_enabled": true
+      }
+    }
+  },
+  "golden_envelope": {
+    "security": {
+      "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+      "ticker": "QQQ",
+      "exchange": "NASDAQ",
+      "market": "US",
+      "name": "Invesco QQQ Trust",
+      "currency": "USD",
+      "asset_type": "ETF",
+      "domicile": "US",
+      "income_source_country": "US",
+      "isin": null,
+      "cusip": null,
+      "timezone": "America/New_York",
+      "active": true,
+      "distribution_policy": "distributing",
+      "expense_ratio": null
+    },
+    "period": {
+      "start_date": "2024-01-02",
+      "end_date": "2024-12-31"
+    },
+    "initial_investment_sgd": "10000",
+    "initial_investment_foreign_currency": "7579.776835665307255883382899",
+    "price_return": {
+      "foreign_currency": "0.269852742583441628531761525",
+      "sgd": "0.308324592662770323055678975"
+    },
+    "dividends": {
+      "gross_foreign_currency": "37.92120328488458466618096628",
+      "withholding_tax_foreign_currency": "11.37636098546537539985428988",
+      "net_foreign_currency": "26.54484229941920926632667640",
+      "cash_foreign_currency": "0",
+      "gross_sgd_at_payment": "50.85830876330988211562455065",
+      "withholding_tax_sgd_at_payment": "15.25749262899296463468736519",
+      "net_sgd_at_payment": "35.60081613431691748093718545"
+    },
+    "investment": {
+      "shares": "18.88526893554505722209295349",
+      "final_security_value_foreign_currency": "9654.716245398460386286331588",
+      "final_value_foreign_currency": "9654.716245398460386286331588",
+      "final_value_sgd": "13123.36592511597109259950773"
+    },
+    "returns": {
+      "total_return": "0.312336592511597109259950773",
+      "cagr": "0.31355475690932755",
+      "total_return_foreign_currency": "0.273746767842806472214891486",
+      "cagr_foreign_currency": "0.2747992288481731"
+    },
+    "fx": {
+      "start_rate": "1.3193000555038452",
+      "end_rate": "1.3592699766159058"
+    },
+    "methodology": {
+      "price": "daily_close",
+      "price_return": "raw_unadjusted_close_to_close_not_split_adjusted",
+      "purchase_date_rule": "next_trading_day",
+      "valuation_date_rule": "previous_trading_day",
+      "dividend_reinvestment": "pay_date_close_with_30_day_ex_date_fallback",
+      "fractional_shares": true,
+      "withholding_tax": true,
+      "dividend_native_currency": "USD",
+      "dividend_sgd_translation": "payment_date_fx_rate_for_actual_dividend_currency",
+      "dividend_type_handling": "regular/special/unknown treated as cash; return_of_capital treated as cash without assumed withholding",
+      "ter_deducted": false,
+      "methodology_version": "1.0"
+    },
+    "data_quality": {
+      "status": "WARNING",
+      "warnings": [
+        "Dividend type for 2024-03-18 is not fully classified; it is modeled as a cash distribution.",
+        "Dividend type for 2024-06-24 is not fully classified; it is modeled as a cash distribution.",
+        "Dividend type for 2024-09-23 is not fully classified; it is modeled as a cash distribution.",
+        "Dividend type for 2024-12-23 is not fully classified; it is modeled as a cash distribution.",
+        "Approximated dividend pay date for 2024-03-18 as 2024-04-17.",
+        "Approximated dividend pay date for 2024-06-24 as 2024-07-24.",
+        "Approximated dividend pay date for 2024-09-23 as 2024-10-23.",
+        "Approximated dividend pay date for 2024-12-23 as 2025-01-22.",
+        "Could not resolve a trading day for dividend dated 2024-12-23; it is excluded from end-date value."
+      ]
+    }
+  }
+}

@@ -1,0 +1,229 @@
+{
+  "name": "synthetic-usd-split-reinvest",
+  "category": "usd-split-synthetic",
+  "kind": "analysis",
+  "input_rows": {
+    "security": {
+      "security_id": "10000000-0000-0000-0000-000000000001",
+      "ticker": "SYNSPLIT",
+      "exchange": "XTEST",
+      "market": "US",
+      "name": "SYNSPLIT parity fixture",
+      "currency": "USD",
+      "asset_type": "ETF",
+      "domicile": "US",
+      "income_source_country": "US",
+      "isin": null,
+      "cusip": null,
+      "timezone": "UTC",
+      "active": true,
+      "distribution_policy": "distributing",
+      "expense_ratio": null
+    },
+    "prices": [
+      {
+        "security_id": "10000000-0000-0000-0000-000000000001",
+        "trading_date": "2024-01-02",
+        "close": "50.00",
+        "currency": "USD"
+      },
+      {
+        "security_id": "10000000-0000-0000-0000-000000000001",
+        "trading_date": "2024-01-03",
+        "close": "51.25",
+        "currency": "USD"
+      },
+      {
+        "security_id": "10000000-0000-0000-0000-000000000001",
+        "trading_date": "2024-01-04",
+        "close": "52.00",
+        "currency": "USD"
+      },
+      {
+        "security_id": "10000000-0000-0000-0000-000000000001",
+        "trading_date": "2024-01-05",
+        "close": "52.50",
+        "currency": "USD"
+      },
+      {
+        "security_id": "10000000-0000-0000-0000-000000000001",
+        "trading_date": "2024-01-08",
+        "close": "26.80",
+        "currency": "USD"
+      },
+      {
+        "security_id": "10000000-0000-0000-0000-000000000001",
+        "trading_date": "2024-01-09",
+        "close": "27.10",
+        "currency": "USD"
+      },
+      {
+        "security_id": "10000000-0000-0000-0000-000000000001",
+        "trading_date": "2024-01-10",
+        "close": "27.40",
+        "currency": "USD"
+      },
+      {
+        "security_id": "10000000-0000-0000-0000-000000000001",
+        "trading_date": "2024-01-16",
+        "close": "27.00",
+        "currency": "USD"
+      },
+      {
+        "security_id": "10000000-0000-0000-0000-000000000001",
+        "trading_date": "2024-01-17",
+        "close": "27.35",
+        "currency": "USD"
+      },
+      {
+        "security_id": "10000000-0000-0000-0000-000000000001",
+        "trading_date": "2024-01-18",
+        "close": "27.60",
+        "currency": "USD"
+      }
+    ],
+    "fx_rates": [
+      {
+        "rate_date": "2024-01-02",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3450"
+      },
+      {
+        "rate_date": "2024-01-08",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3480"
+      },
+      {
+        "rate_date": "2024-01-09",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3470"
+      },
+      {
+        "rate_date": "2024-01-18",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.3520"
+      }
+    ],
+    "dividends": [
+      {
+        "security_id": "10000000-0000-0000-0000-000000000001",
+        "ex_date": "2024-01-05",
+        "amount": "0.50",
+        "currency": "USD",
+        "pay_date": "2024-01-09",
+        "dividend_type": "regular",
+        "source_country": "US"
+      },
+      {
+        "security_id": "10000000-0000-0000-0000-000000000001",
+        "ex_date": "2024-01-16",
+        "amount": "0.25",
+        "currency": "USD",
+        "pay_date": "2024-01-18",
+        "dividend_type": "regular",
+        "source_country": "US"
+      }
+    ],
+    "corporate_actions": [
+      {
+        "security_id": "10000000-0000-0000-0000-000000000001",
+        "effective_date": "2024-01-08",
+        "action_type": "split",
+        "ratio": "2"
+      }
+    ],
+    "tax_rules": [
+      {
+        "rule_id": "US_DIVIDEND_NONRESIDENT",
+        "source_country": "US",
+        "income_type": "dividend",
+        "investor_type": "singapore_individual",
+        "rate": "0.30",
+        "effective_from": "1900-01-01",
+        "effective_to": null
+      }
+    ],
+    "request": {
+      "start_date": "2024-01-02",
+      "end_date": "2024-01-18",
+      "initial_sgd": "1000",
+      "scenario": {
+        "dividends_enabled": true,
+        "reinvest_dividends": true,
+        "withholding_tax_enabled": true
+      }
+    }
+  },
+  "golden_envelope": {
+    "security": {
+      "security_id": "10000000-0000-0000-0000-000000000001",
+      "ticker": "SYNSPLIT",
+      "exchange": "XTEST",
+      "market": "US",
+      "name": "SYNSPLIT parity fixture",
+      "currency": "USD",
+      "asset_type": "ETF",
+      "domicile": "US",
+      "income_source_country": "US",
+      "isin": null,
+      "cusip": null,
+      "timezone": "UTC",
+      "active": true,
+      "distribution_policy": "distributing",
+      "expense_ratio": null
+    },
+    "period": {
+      "start_date": "2024-01-02",
+      "end_date": "2024-01-18"
+    },
+    "initial_investment_sgd": "1000",
+    "initial_investment_foreign_currency": "743.4944237918215613382899628",
+    "price_return": {
+      "foreign_currency": "-0.448",
+      "sgd": "-0.4451271375464684014869888476"
+    },
+    "dividends": {
+      "gross_foreign_currency": "14.91790010836911343091126079",
+      "withholding_tax_foreign_currency": "4.475370032510734029273378237",
+      "net_foreign_currency": "10.44253007585837940163788255",
+      "cash_foreign_currency": "0",
+      "gross_sgd_at_payment": "20.13182622532545028052511009",
+      "withholding_tax_sgd_at_payment": "6.039547867597635084157533026",
+      "net_sgd_at_payment": "14.09227835772781519636757706"
+    },
+    "investment": {
+      "shares": "30.12160859445995462055800452",
+      "final_security_value_foreign_currency": "831.3563972070947475274009248",
+      "final_value_foreign_currency": "831.3563972070947475274009248",
+      "final_value_sgd": "1123.993849023992098657046050"
+    },
+    "returns": {
+      "total_return": "0.12399384902399209865704605",
+      "cagr": "13.41523241345417",
+      "total_return_foreign_currency": "0.118174354243542435424354244",
+      "cagr_foreign_currency": "11.804387674375036"
+    },
+    "fx": {
+      "start_rate": "1.3450",
+      "end_rate": "1.3520"
+    },
+    "methodology": {
+      "price": "daily_close",
+      "price_return": "raw_unadjusted_close_to_close_not_split_adjusted",
+      "purchase_date_rule": "next_trading_day",
+      "valuation_date_rule": "previous_trading_day",
+      "dividend_reinvestment": "pay_date_close_with_30_day_ex_date_fallback",
+      "fractional_shares": true,
+      "withholding_tax": true,
+      "dividend_native_currency": "USD",
+      "dividend_sgd_translation": "payment_date_fx_rate_for_actual_dividend_currency",
+      "dividend_type_handling": "regular/special/unknown treated as cash; return_of_capital treated as cash without assumed withholding",
+      "ter_deducted": false,
+      "methodology_version": "1.0"
+    },
+    "data_quality": {
+      "status": "OK",
+      "warnings": []
+    }
+  }
+}
