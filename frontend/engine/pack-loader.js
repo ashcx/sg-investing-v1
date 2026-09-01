@@ -139,7 +139,8 @@ export function createManifestIdbCache(options = {}) {
 
 export function createPackLoader(options = {}) {
   const baseUrl = (options.baseUrl || '').replace(/\/$/, '');
-  const fetcher = options.fetcher || ((url) => fetch(url, { cache: 'default' }));
+  const fetcher = options.fetcher || ((url) => fetch(url, { cache: 'default', signal: AbortSignal.timeout(options.timeoutMs ?? 30000) }));
+  const retries = options.retries ?? 1;
   const taxRules = options.taxRules || DEFAULT_TAX_RULES;
   const manifestCache = 'manifestCache' in options ? options.manifestCache : createManifestIdbCache();
   let manifestPromise = null;
@@ -147,9 +148,18 @@ export function createPackLoader(options = {}) {
   const url = (path) => `${baseUrl}/${path}`;
 
   async function fetchJson(path) {
-    const response = await fetcher(url(path));
-    if (!response.ok) throw new Error(`Could not load ${path} (${response.status})`);
-    return response.json();
+    let lastError = null;
+    for (let attempt = 0; attempt <= retries; attempt++) {
+      try {
+        const response = await fetcher(url(path));
+        if (!response.ok) throw new Error(`Could not load ${path} (${response.status})`);
+        return await response.json();
+      } catch (error) {
+        lastError = error;
+        if (attempt < retries) await new Promise((resolve) => setTimeout(resolve, 750 * (attempt + 1)));
+      }
+    }
+    throw lastError;
   }
 
   function loadManifest() {
