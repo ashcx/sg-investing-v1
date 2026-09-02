@@ -45,16 +45,16 @@ investing timeline. Required pairs derive from catalog native currencies
       MAS cannot cover a pair/date range, report the exact gap — do NOT
       silently substitute another source. Cross-check every MAS rate against
       ECB (frankfurter.app, no key) and record divergence stats.
-- [ ] A2: splice with normalization: compute a normalization ratio over the
+- [x] A2: splice with normalization: compute a normalization ratio over the
       overlap boundary (average ratio of new-source vs existing rates over the
       last overlapping month) and scale the backfilled window to it, so no
       level seam enters SGD returns. Document the seam + normalization in pack
       provenance and result warnings for affected ranges.
-- [ ] A3: implement `scripts/backfill_fx_history.py`: fetch, normalize to the
+- [x] A3: implement `scripts/backfill_fx_history.py`: fetch, normalize to the
       existing FX row contract (one unit foreign = X SGD, daily), validate
       against the overlapping 2003+ Yahoo window (record divergence stats in
       the summary), write to `data/fx` Parquet with source provenance.
-- [ ] A4: rebuild packs; confirm the manifest classifies 2000+ years as
+- [x] A4: rebuild packs; confirm the manifest classifies 2000+ years as
       `fully_supported` for covered currencies; rerun the parity battery
       (FX is input data — the engine is untouched; some parity fixtures pin
       old FX values and must be regenerated deliberately).
@@ -100,7 +100,7 @@ already exists from Sprints 4–6; this sprint wires it to be automatic.
 
 ## Exit criteria
 
-- [ ] Track A: manifest shows `fully_supported` back to 2000 for covered
+- [x] Track A: manifest shows `fully_supported` back to 2000 for covered
       currencies; source decision recorded (ADR 0002); parity battery green
       with deliberately regenerated fixtures.
 - [x] Track B: a typical daily incremental update completes in minutes with

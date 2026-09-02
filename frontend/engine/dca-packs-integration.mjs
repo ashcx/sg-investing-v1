@@ -75,7 +75,12 @@ checkEqual('supportFor QQQ 2024-01-02…2024-12-31', support.status, 'fully_supp
 const inputs = await packs.loadSecurityInputs(entry, START_DATE, END_DATE);
 checkEqual('pack price rows for 2024', String(inputs.prices.length), '252');
 checkEqual('inputs attach support classification', inputs.support.status, 'fully_supported');
-checkEqual('inputs carry the committed snapshot id', inputs.dataSnapshotId, 'sha256-2612cdfaf81fa2847369a9752b4dfa288bc5eec4ead26f2f377d985f9d342c5b');
+// Snapshot id changes whenever the canonical store changes (e.g. Sprint 7.5 FX
+// backfill) — assert shape + consistency with the packs' own manifest instead
+// of pinning a literal.
+const packManifest = JSON.parse(readFileSync(new URL('../data/packs/manifest.json', import.meta.url), 'utf8'));
+checkEqual('inputs carry the committed snapshot id', inputs.dataSnapshotId, packManifest.data_snapshot_id);
+check('snapshot id is well-formed', typeof inputs.dataSnapshotId === 'string' && inputs.dataSnapshotId.startsWith('sha256-'));
 checkEqual('inputs carry the US withholding rule', String(inputs.taxRules.length), '1');
 checkEqual('fx rows are USD→SGD', inputs.fxRates[0]?.base_currency, 'USD');
 checkEqual('pack dividend rows loaded', String(inputs.dividends.length), '4');
