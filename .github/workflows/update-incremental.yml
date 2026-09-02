@@ -1,0 +1,83 @@
+name: Incremental data update
+
+# Sprint 7.5 Track B: daily incremental refresh after the US close. Fetches
+# only the trailing reconciliation window per security (plus FX tails),
+# rebuilds only the touched security/year packs (manifest merge preserves
+# untouched securities) and uploads the changed store partitions + rebuilt
+# packs as an artifact. CI does NOT commit: an operator downloads the
+# artifact and applies it locally (see docs/data-updates.md,
+# "Applying CI artifacts").
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 21 * * 1-5"
+
+permissions:
+  contents: read
+
+jobs:
+  update-incremental:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install --upgrade pip
+      - run: python -m pip install ".[dev,market-data]"
+      - name: Run incremental update (reconciliation tail + scoped pack rebuild)
+        run: python scripts/update_incremental.py --since auto > update-incremental-output.json
+      - name: Print run summary
+        run: |
+          python - <<'PY'
+          import json
+          summary = json.load(open("data/update_summary.json", encoding="utf-8"))
+          print("Incremental update summary")
+          print("--------------------------")
+          print("mode:", summary.get("mode"))
+          print("end_date:", summary.get("end_date"))
+          print("securities selected:", summary.get("securities_selected_count"))
+          print("price rows fetched:", summary.get("price_rows_fetched"))
+          print("price dates new/restated:",
+                summary.get("price_dates_new"), "/", summary.get("price_dates_restated"))
+          print("dividend events new/restated:", summary.get("dividend_events_new_or_restated"))
+          print("corporate actions new/restated:", summary.get("corporate_actions_new_or_restated"))
+          print("fx rows new/restated:", summary.get("fx_rows_new_or_restated"))
+          print("updated/warnings/failed:",
+                summary.get("updated"), summary.get("warnings"), summary.get("failed"))
+          print("incremental snapshot id:", summary.get("incremental_snapshot_id"))
+          print("changed securities:", len(summary.get("changed_securities", [])))
+          packs = summary.get("packs")
+          if isinstance(packs, dict) and isinstance(packs.get("summary"), dict):
+              merge = packs["summary"].get("merge")
+              if merge:
+                  print("pack merge: replaced", merge.get("replaced_packs"), "pack(s),",
+                        merge.get("updated_entries"), "manifest entry/entries updated")
+          for section, label in (("fx_fetch_errors", "fx"), ("corporate_action_errors", "corporate actions")):
+              for identifier, message in (summary.get(section) or {}).items():
+                  print(f"WARNING [{label}] {identifier}: {message}")
+          if summary.get("change_set", {}).get("count", 0) == 0:
+              print("No changes detected: store already current.")
+          PY
+      - name: Collect changed store files and rebuilt packs
+        run: |
+          # The canonical store is LFS-tracked, so git status reports exactly
+          # the partitions this run rewrote; packs are gitignored and staged
+          # wholesale. update_summary.json is rewritten every run, so the
+          # change list is never empty.
+          git status --porcelain -- data | awk '{print $2}' | sort -u > changed-store-files.txt
+          echo "Changed store files:" && cat changed-store-files.txt
+          tar czf incremental-store-changes.tgz -T changed-store-files.txt
+      - name: Upload changed store + rebuilt packs artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: incremental-update-${{ github.run_id }}
+          retention-days: 1
+          path: |
+            incremental-store-changes.tgz
+            changed-store-files.txt
+            frontend/data/packs/
+          if-no-files-found: error

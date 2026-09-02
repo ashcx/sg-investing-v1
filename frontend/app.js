@@ -42,6 +42,10 @@ const state = {
   // 'demo' (init-time published replay) | 'adapter' | 'local' | 'adapterFallback'.
   artifactSource: 'demo',
   series: null,
+  // S7.5 Track C: provenance of the currently rendered chart — 'local' when
+  // the stage-1 on-select loader (or a local analysis) produced it, null for
+  // backend/demo artifacts (renderSeries picks the chart-source label).
+  seriesSource: null,
   dcaArtifact: null,
   selectedSecurityId: null,
   currencyMode: 'sgd',
@@ -278,7 +282,7 @@ function renderCatalog() {
       <span><strong class="security-ticker">${escapeHtml(security.ticker)}</strong><span class="security-name">${escapeHtml(security.name)}</span></span>
       <span class="security-card-bottom"><span>${escapeHtml(security.currency)} · ${escapeHtml(security.distribution_policy || 'unknown')}</span><span>${escapeHtml(titleCase(universe))} ↗</span></span>
     </button>`).join('') || '<div class="catalog-empty">No published securities match this lens.</div>';
-    $$('.security-card').forEach((card) => card.addEventListener('click', () => selectSecurity(card.dataset.securityId, true)));
+    $$('.security-card').forEach((card) => card.addEventListener('click', () => { selectSecurity(card.dataset.securityId, true); s7OnSecurityCardPicked(card.dataset.securityId); }));
   }
   if (has('#catalog-more')) {
     $('#catalog-more').classList.toggle('hidden', entries.length <= state.catalogLimit);
@@ -447,7 +451,7 @@ function renderSeries(series) {
   const plot = (values) => values.map((value, index) => `${(index / Math.max(1, values.length - 1)) * 980 + 10},${245 - ((value - min) / spread) * 220}`).join(' ');
   $('#series-chart').innerHTML = `<polyline class="series-line series-native" points="${plot(native)}"></polyline><polyline class="series-line series-sgd" points="${plot(sgd)}"></polyline><line class="series-axis" x1="10" y1="245" x2="990" y2="245"></line>`;
   if (has('#native-legend')) $('#native-legend').textContent = `${series.security.currency} native close`;
-  if (has('.chart-source')) $('.chart-source').textContent = state.artifactSource === 'local' || state.artifactSource === 'adapterFallback' ? 'Series computed from local data packs' : 'Backend series artifact';
+  if (has('.chart-source')) $('.chart-source').textContent = state.seriesSource === 'local' || state.artifactSource === 'local' || state.artifactSource === 'adapterFallback' ? 'Series computed from local data packs' : 'Backend series artifact';
 }
 
 function showResult() {
@@ -480,8 +484,46 @@ function s6SetButtonProgress(button, label) {
   button.innerHTML = escapeHtml(label);
 }
 
+// --- S7.5 Track C: staged auto-loading (reactive UI) -------------------------
+// Stages: (1) selecting a security auto-loads its series chart; (2) the
+// analysis form auto-runs debounced on security/date/scenario change; (3) the
+// same for DCA (750 ms) and the portfolio ledger (1000 ms, change/blur only).
+// Every auto-run reuses the exact S4/S6 compute + isolation machinery: the
+// same submit closures, the same per-panel run sequence (s6Runs.analysis,
+// s4State.runSeq, s6Runs.portfolio) and the same engineClient supersede/cancel
+// paths — so a stale response can never replace a newer result, no matter
+// whether the run was started by a click or by the debounce timer.
+const S7_AUTO_DEBOUNCE_MS = { analysis: 750, dca: 750, portfolio: 1000 };
+const S7_SERIES_DEBOUNCE_MS = 250;
+const s7Reactive = {
+  timers: { series: null, analysis: null, dca: null, portfolio: null },
+  runs: { series: 0, analysis: 0, dca: 0, portfolio: 0 },
+  seriesSecurityId: null,
+};
+// Bumped whenever the analysis panel starts a run or a newer series load is
+// scheduled: an in-flight stage-1 series load whose epoch moved on renders
+// nothing (the newer chart/analysis owns the panel).
+let s7SeriesEpoch = 0;
+// Last minted 'analyze' engine request id for the analysis panel (never set by
+// compare runs, so the reactive panel only ever cancels its own predecessor).
+let s7LastAnalyzeId = null;
+// Read-only introspection for the headless browser tests (runs counters +
+// series provenance); nothing in the app reads it back.
+window.__sgInvestReactive = s7Reactive;
+
+// S7.5 C2: the submit button is now "Force refresh" (immediate run that also
+// cancels any pending debounce); the debounced auto-run path shares this one
+// compute closure so validation, progress state, run-sequence guarding and
+// supersede behave identically no matter what started the run.
 async function submitAnalysis(event) {
   event.preventDefault();
+  s7CancelAutoRun('analysis');
+  await s7RunAnalysis({ mode: 'force' });
+}
+
+async function s7RunAnalysis({ mode = 'auto' } = {}) {
+  const form = $('#analysis-form');
+  if (!form) return;
   const error = $('#form-error'); error.textContent = '';
   const amount = Number($('#initial-amount').value);
   if (!Number.isFinite(amount) || amount <= 0) { error.textContent = 'Enter an initial amount greater than S$0.'; return; }
@@ -489,8 +531,11 @@ async function submitAnalysis(event) {
   const entry = entryForId($('#security-select').value); if (!entry) { error.textContent = 'Choose a security from the published catalog.'; return; }
   const scenario = scenarioValues();
   const request = { security_id: entry.security.security_id, initial_sgd: $('#initial-amount').value, start_date: $('#start-date').value, end_date: $('#end-date').value, ...scenario };
-  const button = event.currentTarget.querySelector('button[type="submit"]'); setBusy(button, true);
+  const button = form.querySelector('button[type="submit"]'); setBusy(button, true);
   const runSeq = s6Runs.analysis += 1;
+  s7Reactive.runs.analysis += 1;
+  s7SeriesEpoch += 1; // the analysis render owns the chart from here on
+  form.dataset.s7Inflight = '1';
   try {
     if (API_BASE) {
       try {
@@ -498,7 +543,7 @@ async function submitAnalysis(event) {
         const artifact = await apiGet('/analyze', { ...request, request_key: key });
         const series = await apiGet('/series', { security_id: request.security_id, start_date: request.start_date, end_date: request.end_date }).catch(() => null);
         if (!s6RunCurrent('analysis', runSeq)) return;
-        state.artifact = artifact; state.artifactSource = 'adapter'; state.series = series;
+        state.artifact = artifact; state.artifactSource = 'adapter'; state.series = series; state.seriesSource = null;
         error.textContent = '';
         showResult();
         setComputeMode('adapter');
@@ -518,11 +563,12 @@ async function submitAnalysis(event) {
       dividends: scenario.dividends,
       withholding: scenario.withholding,
       reinvest: scenario.reinvest,
-    }, (label) => s6SetButtonProgress(button, label));
+    }, (label) => s6SetButtonProgress(button, label), { supersede: true, previousEngineId: s7LastAnalyzeId });
     if (!s6RunCurrent('analysis', runSeq)) return;
     state.artifact = outcome.envelope;
     state.artifactSource = API_BASE ? 'adapterFallback' : 'local';
     state.series = outcome.series;
+    state.seriesSource = 'local';
     error.textContent = '';
     showResult();
     setComputeMode(state.artifactSource);
@@ -531,7 +577,7 @@ async function submitAnalysis(event) {
     showUnavailable(computeError.message);
     error.textContent = computeError.message;
   } finally {
-    if (s6RunCurrent('analysis', runSeq)) setBusy(button, false);
+    if (s6RunCurrent('analysis', runSeq)) { setBusy(button, false); delete form.dataset.s7Inflight; }
   }
 }
 
@@ -619,21 +665,37 @@ function renderDca(payload, context = {}) {
   $$('[data-dca-currency]').forEach((button) => button.addEventListener('click', () => { state.currencyMode = button.dataset.dcaCurrency; if (state.artifact) renderResult(); if (state.dcaArtifact) renderDca(state.dcaArtifact); }));
 }
 
+// S7.5 C3: same treatment as the analysis panel — the debounced auto-run and
+// the "Force refresh" submit share s7RunDca; the previous dca engine request
+// is superseded (tracker) and cancelled (worker) when a newer run starts.
 async function submitDca(event) {
-  event.preventDefault(); const error = $('#dca-error'); error.textContent = '';
+  event.preventDefault();
+  s7CancelAutoRun('dca');
+  await s7RunDca({ mode: 'force' });
+}
+
+async function s7RunDca({ mode = 'auto' } = {}) {
+  const form = $('#dca-form');
+  if (!form) return;
+  const error = $('#dca-error'); error.textContent = '';
   if ($('#dca-end').value < $('#dca-start').value) { error.textContent = 'End date must be on or after start date.'; return; }
   const contribution = Number($('#dca-contribution').value); if (!(contribution > 0)) { error.textContent = 'Enter a contribution greater than S$0.'; return; }
   const scenario = scenarioValues('dca');
   const request = { security_id: $('#dca-security').value, contribution_sgd: $('#dca-contribution').value, frequency: $('#dca-frequency').value, start_date: $('#dca-start').value, end_date: $('#dca-end').value, ...scenario };
-  const button = event.currentTarget.querySelector('button[type="submit"]');
+  const button = form.querySelector('button[type="submit"]');
+  const previousEngineId = s4State.requestId;
   s4State.request = request; s4State.button = button; s4State.requestId = null;
   setBusy(button, true);
   const runSeq = s4State.runSeq = (s4State.runSeq || 0) + 1;
+  s7Reactive.runs.dca += 1;
+  form.dataset.s7Inflight = '1';
   try {
     if (API_BASE) {
       const key = requestKey('dca', { ...request, methodology_version: '1.0', data_snapshot_id: 'local-canonical-parquet' });
       try {
-        renderDca(await apiGet('/dca', { ...request, request_key: key }));
+        const adapterEnvelope = await apiGet('/dca', { ...request, request_key: key });
+        if (runSeq !== s4State.runSeq) return; // superseded while in flight
+        renderDca(adapterEnvelope);
         setComputeMode('adapter');
         return;
       } catch (adapterError) {
@@ -641,12 +703,12 @@ async function submitDca(event) {
       }
     }
     s4SetDcaProgress('Resolving published data packs…');
-    const envelope = await s4DcaViaPacks(request);
+    const envelope = await s4DcaViaPacks(request, { previousEngineId });
     if (runSeq === s4State.runSeq && envelope) { error.textContent = ''; renderDca(envelope, { support: s4State.support, packWarnings: s4State.packWarnings }); setComputeMode(API_BASE ? 'adapterFallback' : 'local'); }
   } catch (staticError) {
     if (runSeq === s4State.runSeq) error.textContent = staticError.message;
   } finally {
-    if (runSeq === s4State.runSeq) { $('#s4-dca-progress')?.remove(); setBusy(button, false); s4State.button = null; }
+    if (runSeq === s4State.runSeq) { $('#s4-dca-progress')?.remove(); setBusy(button, false); s4State.button = null; delete form.dataset.s7Inflight; }
   }
 }
 
@@ -695,14 +757,28 @@ function s5ValidateLedger(rows, asOf) {
   return null;
 }
 
+// S7.5 C3: portfolio auto-runs are scheduled from ledger row `change` events
+// and as-of changes (never per keystroke); the submit button remains the
+// immediate "Force refresh" and cancels any pending debounce. Same run-seq +
+// supersede machinery as S6.
 async function submitPortfolio(event) {
-  event.preventDefault(); const error = $('#portfolio-error'); error.textContent = '';
+  event.preventDefault();
+  s7CancelAutoRun('portfolio');
+  await s7RunPortfolio({ mode: 'force' });
+}
+
+async function s7RunPortfolio({ mode = 'auto' } = {}) {
+  const form = $('#portfolio-form');
+  if (!form) return;
+  const error = $('#portfolio-error'); error.textContent = '';
   const asOf = $('#portfolio-as-of').value;
   const transactions = s5CollectLedgerRows();
   const validationError = s5ValidateLedger(transactions, asOf);
   if (validationError) { error.textContent = validationError; return; }
-  const button = event.currentTarget.querySelector('button[type="submit"]'); setBusy(button, true);
+  const button = form.querySelector('button[type="submit"]'); setBusy(button, true);
   const runSeq = s6Runs.portfolio += 1;
+  s7Reactive.runs.portfolio += 1;
+  form.dataset.s7Inflight = '1';
   try {
     if (API_BASE) {
       try {
@@ -725,7 +801,7 @@ async function submitPortfolio(event) {
   } catch (localError) {
     if (s6RunCurrent('portfolio', runSeq)) error.textContent = localError.message;
   }
-  finally { if (s6RunCurrent('portfolio', runSeq)) setBusy(button, false); }
+  finally { if (s6RunCurrent('portfolio', runSeq)) { setBusy(button, false); delete form.dataset.s7Inflight; } }
 }
 
 function wireEvents() {
@@ -740,11 +816,12 @@ function wireEvents() {
   if (has('#compare-form')) { const form = $('#compare-form'); form.addEventListener('submit', submitCompare); form.querySelector('button[type="submit"]').addEventListener('click', (event) => { event.preventDefault(); submitCompare({ preventDefault() {}, currentTarget: form }); }); }
   if (has('#dca-form')) { const form = $('#dca-form'); form.addEventListener('submit', submitDca); form.querySelector('button[type="submit"]').addEventListener('click', (event) => { event.preventDefault(); submitDca({ preventDefault() {}, currentTarget: form }); }); }
   if (has('#portfolio-form')) { const form = $('#portfolio-form'); form.addEventListener('submit', submitPortfolio); form.querySelector('button[type="submit"]').addEventListener('click', (event) => { event.preventDefault(); submitPortfolio({ preventDefault() {}, currentTarget: form }); }); }
-  if (has('#add-ledger-row')) $('#add-ledger-row').addEventListener('click', () => { addLedgerRow(); s5AutoSaveLedger(); });
+  if (has('#add-ledger-row')) $('#add-ledger-row').addEventListener('click', () => { addLedgerRow(); s5AutoSaveLedger(); s7ScheduleAutoRun('portfolio', () => s7RunPortfolio({ mode: 'auto' })); });
   if (has('#ledger-rows')) $('#ledger-rows').addEventListener('change', (event) => { if (!event.target.classList.contains('ledger-security')) return; const security = entryForId(event.target.value)?.security; if (security) event.target.closest('tr').querySelector('.ledger-currency').value = security.currency; });
   if (has('#ledger-rows')) s5WireLedgerPersistence();
   $$('.currency-button').forEach((button) => button.addEventListener('click', () => { state.currencyMode = button.dataset.currency; if (state.artifact) renderResult(); }));
   if (has('#warnings-toggle')) $('#warnings-toggle').addEventListener('click', () => { state.warningsOpen = !state.warningsOpen; renderQuality(state.artifact?.result?.data_quality || {}); });
+  s7WireReactive();
   if (has('#return-to-demo')) $('#return-to-demo').addEventListener('click', async () => { const entry = entryForTicker('QQQ'); if (!entry) return; selectSecurity(entry.security.security_id); $('#initial-amount').value = '10000'; $('#start-date').value = '2024-01-02'; $('#end-date').value = '2025-01-02'; $('#scenario-select').value = 'investor'; syncPreset('investor'); $('#analysis-form').requestSubmit(); });
   if (has('#download-result')) $('#download-result').addEventListener('click', () => { if (!state.artifact) return; const blob = new Blob([JSON.stringify(state.artifact, null, 2)], { type: 'application/json' }); const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = `sg-invest-${state.artifact.result?.security?.ticker || 'analysis'}.json`; link.click(); URL.revokeObjectURL(link.href); });
   if (has('#copy-link')) $('#copy-link').addEventListener('click', copyAnalysisLink);
@@ -785,6 +862,10 @@ async function init() {
   // to be silently lost (listeners did not exist yet).
   s5RestoreLedger();
   wireEvents();
+  // S7.5 C2/C3: the three submit buttons become "Force refresh" (label only —
+  // they still run immediately and cancel any pending debounce). Must happen
+  // before the first possible submit so setBusy captures the new base label.
+  s7SetForceRefreshLabels();
   setComputeMode(API_BASE ? 'adapter' : 'local');
   if (has('#data-date')) {
     const status = API_BASE ? await apiGet('/status').catch(() => loadJson('data/data-status.json', null)) : await loadJson('data/data-status.json', null);
@@ -817,6 +898,9 @@ async function init() {
 const s5PackLoader = createPackLoader({ baseUrl: new URL('.', document.baseURI).href });
 const s5EngineClient = createEngineClient();
 const s5InputsCache = new Map();
+// S7.5 C3: last minted portfolio engine request id — a newer portfolio run
+// (manual or debounced) cancels its predecessor at the worker.
+let s5LastPortfolioRequestId = null;
 
 function s5CurrencyForId(securityId) {
   return entryForId(securityId)?.security.currency || s5InputsCache.get(securityId)?.inputs.security.currency || 'USD';
@@ -881,6 +965,9 @@ async function s5LocalPortfolio(asOf, rows) {
   const transactions = rows.map((row, index) => ({ ...row, transaction_id: `s5-${String(index + 1).padStart(6, '0')}` }));
   const request = s5EngineClient.portfolio({ as_of: asOf, transactions, securities, prices, fx_rates: fxRates });
   s5EngineClient.supersede('portfolio', request.id);
+  const previousRequestId = s5LastPortfolioRequestId;
+  s5LastPortfolioRequestId = request.id;
+  if (previousRequestId && previousRequestId !== request.id) s5EngineClient.cancel(previousRequestId);
   const envelope = await request.promise;
   return { envelope, meta: { warnings, source: 'local' } };
 }
@@ -913,6 +1000,7 @@ function s5WireLedgerPersistence() {
     $('#ledger-rows').innerHTML = '';
     addLedgerRow();
     s5AutoSaveLedger();
+    s7ScheduleAutoRun('portfolio', () => s7RunPortfolio({ mode: 'auto' }));
   });
   if (has('#export-ledger')) $('#export-ledger').addEventListener('click', async () => {
     try {
@@ -933,7 +1021,7 @@ function s5WireLedgerPersistence() {
     input.addEventListener('change', async () => {
       const file = input.files && input.files[0];
       if (!file) return;
-      try { s5RenderLedgerRows(await ledgerStore.importJson(await file.text())); }
+      try { s5RenderLedgerRows(await ledgerStore.importJson(await file.text())); s7ScheduleAutoRun('portfolio', () => s7RunPortfolio({ mode: 'auto' })); }
       catch (error) { $('#portfolio-error').textContent = `Ledger import failed: ${error.message}`; }
     });
     input.click();
@@ -963,8 +1051,11 @@ function s4EngineErrorMessage(error) {
 // Static-mode DCA: resolve the security's data packs, gate on manifest
 // support, then compute through the engine worker. Resolves null for a
 // superseded/stale response (S4.6: a late response renders nothing); throws
-// Error with a user-facing message for every genuine failure.
-async function s4DcaViaPacks(request) {
+// Error with a user-facing message for every genuine failure. S7.5 C3: the
+// reactive panel passes the run it replaces as previousEngineId, which is
+// marked superseded in the tracker (already the case via supersedeScope) and
+// politely cancelled at the worker so the stale computation stops early.
+async function s4DcaViaPacks(request, { previousEngineId = null } = {}) {
   const entry = await packs.findSecurity({ securityId: request.security_id });
   if (!entry) throw new Error(`${request.security_id} has no published data pack, so the local engine cannot serve this request.`);
   const support = packs.supportFor(entry, request.start_date, request.end_date);
@@ -997,6 +1088,7 @@ async function s4DcaViaPacks(request) {
   });
   s4State.requestId = id;
   engineClient.supersede('dca', id);
+  if (previousEngineId && previousEngineId !== id) engineClient.cancel(previousEngineId);
   try {
     const envelope = await promise;
     if (id !== s4State.requestId) return null;
@@ -1038,7 +1130,14 @@ async function s6ResolveTicker(ticker, startDate, endDate) {
 // gate on manifest support, compute through the engine worker, and derive the
 // daily series from the same loaded packs. Throws Error with a user-facing
 // message (naming the security and requested range) for every genuine failure.
-async function s6AnalysisViaPacks({ securityId = null, ticker = null, label = null, initial_sgd, start_date, end_date, dividends, withholding, reinvest }, onProgress = () => {}) {
+// S7.5 C2: the reactive analysis panel passes { supersede: true,
+// previousEngineId } — the freshly minted request is marked the scope's keep
+// id (older in-flight analyze requests become superseded in the tracker) and
+// the panel's own previous request is cancelled at the worker. Compare runs
+// pass no options and behave exactly as before (their sequential ticker
+// requests never overlap, and a foreign supersede marker never gates browser
+// delivery — the panel run-sequence guard remains the render gate).
+async function s6AnalysisViaPacks({ securityId = null, ticker = null, label = null, initial_sgd, start_date, end_date, dividends, withholding, reinvest }, onProgress = () => {}, { supersede = false, previousEngineId = null } = {}) {
   const entry = securityId ? await packs.findSecurity({ securityId }) : await s6ResolveTicker(ticker, start_date, end_date);
   if (!entry) throw new Error(`${label || securityId || ticker} is not in the published data packs, so ${start_date} → ${end_date} cannot be computed locally.`);
   const support = packs.supportFor(entry, start_date, end_date);
@@ -1061,6 +1160,11 @@ async function s6AnalysisViaPacks({ securityId = null, ticker = null, label = nu
     tax_rules: inputs.taxRules,
   };
   const { id, promise } = engineClient.analyze(payload);
+  if (supersede) {
+    s7LastAnalyzeId = id;
+    engineClient.supersede('analyze', id);
+    if (previousEngineId && previousEngineId !== id) engineClient.cancel(previousEngineId);
+  }
   let engineResult;
   try {
     engineResult = await promise;
@@ -1125,4 +1229,136 @@ function s6SeriesFromInputs(inputs, { start_date, end_date }) {
   } catch {
     return null; // a chart that cannot be built never blocks the result
   }
+}
+
+// --- S7.5 Track C helpers (staged auto-loading: series, debounce, triggers) --
+
+// Cancel a pending debounced auto-run. Called by every manual submit (the
+// button is the explicit "run now" intent) and by every new input event via
+// the schedule helpers, so at most one timer per panel exists at any time.
+function s7CancelAutoRun(kind) {
+  if (!s7Reactive.timers[kind]) return;
+  clearTimeout(s7Reactive.timers[kind]);
+  s7Reactive.timers[kind] = null;
+}
+
+function s7ScheduleAutoRun(kind, runner) {
+  s7CancelAutoRun(kind);
+  s7Reactive.timers[kind] = setTimeout(() => { s7Reactive.timers[kind] = null; runner(); }, S7_AUTO_DEBOUNCE_MS[kind]);
+}
+
+// Catalog card selection: same staged loads as the analysis dropdown.
+function s7OnSecurityCardPicked(securityId) {
+  if (!entryForId(securityId)) return;
+  s7ScheduleSeries(securityId);
+  s7ScheduleAutoRun('analysis', () => s7RunAnalysis({ mode: 'auto' }));
+  s7ScheduleAutoRun('dca', () => s7RunDca({ mode: 'auto' }));
+}
+
+// Stage 1 date range: the analysis form's current range, falling back to the
+// trailing two years when the form dates are empty or inverted. No coverage
+// is assumed here — the manifest support gate in s7LoadSeries still decides
+// whether anything renders (2024+ ranges are always in scope for the packs).
+function s7AnalysisDateRange() {
+  const start = has('#start-date') ? $('#start-date').value : '';
+  const end = has('#end-date') ? $('#end-date').value : '';
+  if (start && end && end >= start) return { start, end };
+  const now = new Date();
+  const endFallback = now.toISOString().slice(0, 10);
+  const earlier = new Date(now.valueOf());
+  earlier.setFullYear(earlier.getFullYear() - 2);
+  return { start: earlier.toISOString().slice(0, 10), end: endFallback };
+}
+
+function s7ScheduleSeries(securityId) {
+  s7CancelAutoRun('series');
+  s7Reactive.timers.series = setTimeout(() => { s7Reactive.timers.series = null; s7LoadSeries(securityId); }, S7_SERIES_DEBOUNCE_MS);
+}
+
+// Stage 1 (C1): load the selected security's series chart for the analysis
+// form's current date range — no submit, no analysis form read beyond the
+// dates. Reuses the shared pack loader + s6SeriesFromInputs (prices + FX
+// only, presentation-only); never touches the engine worker, so it cannot
+// collide with an in-flight analyze/dca/portfolio request. A newer selection
+// or a started analysis run bumps s7SeriesEpoch and this load renders nothing.
+async function s7LoadSeries(securityId) {
+  if (!entryForId(securityId)) return;
+  const { start, end } = s7AnalysisDateRange();
+  const epoch = s7SeriesEpoch += 1;
+  s7Reactive.runs.series += 1;
+  try {
+    const packEntry = await packs.findSecurity({ securityId });
+    if (!packEntry || s7SeriesEpoch !== epoch) return;
+    const support = packs.supportFor(packEntry, start, end);
+    if (support.status === 'unavailable') {
+      if (s7SeriesEpoch === epoch && has('#form-error')) $('#form-error').textContent = `No series chart for ${packEntry.ticker} ${start} → ${end}: ${support.reason || 'outside the published data packs'}.`;
+      return;
+    }
+    const inputs = await packs.loadSecurityInputs(packEntry, start, end);
+    const series = s7SeriesEpoch === epoch ? s6SeriesFromInputs(inputs, { start_date: start, end_date: end }) : null;
+    if (!series || s7SeriesEpoch !== epoch) return;
+    state.series = series;
+    state.seriesSource = 'local';
+    if (has('#series-chart') && has('#result-content') && !$('#result-content').classList.contains('hidden')) {
+      renderSeries(series);
+      if (has('#form-error')) $('#form-error').textContent = '';
+      s7Reactive.seriesSecurityId = securityId;
+    }
+  } catch (seriesError) {
+    if (s7SeriesEpoch === epoch && has('#form-error')) $('#form-error').textContent = `Series chart could not be loaded: ${seriesError?.message || seriesError || 'pack load failed'}`;
+  }
+}
+
+// S7.5 C2/C3: the three panel submit buttons are relabelled "Force refresh"
+// once at init. setBusy still captures it as the busy-state base label, and
+// every auto-run reuses the existing progress affordances (button label
+// stages, #s4-dca-progress line, aria-live panels).
+function s7SetForceRefreshLabels() {
+  ['#analysis-form', '#dca-form', '#portfolio-form'].forEach((selector) => {
+    const button = has(selector) ? $(selector).querySelector('button[type="submit"]') : null;
+    if (button) button.innerHTML = 'Force refresh';
+  });
+}
+
+// S7.5 reactive triggers. Every listener schedules; nothing here computes.
+// All triggers are `change` events (selects, dates, checkboxes fire change on
+// commit; text/number ledger inputs fire change on blur/Enter) — deliberately
+// NOT `input`, so active typing in ledger fields never schedules a run. The
+// debounce timer per panel is single-shot and replaced on every new input.
+function s7WireReactive() {
+  // Stage 1+2: analysis dropdown selects a security → series + analysis + DCA
+  // (the dropdowns mirror one selection; selectSecurity syncs both values).
+  if (has('#security-select')) $('#security-select').addEventListener('change', (event) => {
+    const securityId = event.target.value;
+    if (!entryForId(securityId)) return;
+    s7ScheduleSeries(securityId);
+    s7ScheduleAutoRun('analysis', () => s7RunAnalysis({ mode: 'auto' }));
+    s7ScheduleAutoRun('dca', () => s7RunDca({ mode: 'auto' }));
+  });
+  // Stage 1+3: DCA dropdown → series + DCA (the analysis form's own security
+  // select is not changed by this dropdown, so no analysis run here).
+  if (has('#dca-security')) $('#dca-security').addEventListener('change', (event) => {
+    const securityId = event.target.value;
+    if (!entryForId(securityId)) return;
+    s7ScheduleSeries(securityId);
+    s7ScheduleAutoRun('dca', () => s7RunDca({ mode: 'auto' }));
+  });
+  // Stage 2: analysis dates → refreshed chart + debounced analysis.
+  ['#start-date', '#end-date'].forEach((selector) => { if (has(selector)) $(selector).addEventListener('change', () => {
+    const securityId = $('#security-select')?.value || state.selectedSecurityId;
+    if (securityId) s7ScheduleSeries(securityId);
+    s7ScheduleAutoRun('analysis', () => s7RunAnalysis({ mode: 'auto' }));
+  }); });
+  // Stage 2: scenario toggles + preset select (syncPreset writes the toggles
+  // programmatically, which fires no change events — the preset select itself
+  // is therefore also a trigger).
+  ['#dividends-toggle', '#tax-toggle', '#reinvest-toggle'].forEach((selector) => { if (has(selector)) $(selector).addEventListener('change', () => s7ScheduleAutoRun('analysis', () => s7RunAnalysis({ mode: 'auto' }))); });
+  if (has('#scenario-select')) $('#scenario-select').addEventListener('change', () => s7ScheduleAutoRun('analysis', () => s7RunAnalysis({ mode: 'auto' })));
+  // Stage 3: DCA inputs (contribution, frequency, dates, scenario toggles).
+  ['#dca-contribution', '#dca-frequency', '#dca-start', '#dca-end', '#dca-dividends', '#dca-withholding', '#dca-reinvest'].forEach((selector) => { if (has(selector)) $(selector).addEventListener('change', () => s7ScheduleAutoRun('dca', () => s7RunDca({ mode: 'auto' }))); });
+  // Stage 3: portfolio — as-of changes and ledger row changes only. The
+  // delegated listener sees the row inputs' change events (fired on
+  // commit/blur), never per-keystroke input events.
+  if (has('#portfolio-as-of')) $('#portfolio-as-of').addEventListener('change', () => s7ScheduleAutoRun('portfolio', () => s7RunPortfolio({ mode: 'auto' })));
+  if (has('#ledger-rows')) $('#ledger-rows').addEventListener('change', () => s7ScheduleAutoRun('portfolio', () => s7RunPortfolio({ mode: 'auto' })));
 }
