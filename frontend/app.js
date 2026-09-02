@@ -1175,6 +1175,11 @@ async function s6AnalysisViaPacks({ securityId = null, ticker = null, label = nu
   const result = packNotes.length
     ? { ...engineResult, data_quality: { status: 'WARNING', warnings: [...packNotes, ...(engineResult.data_quality?.warnings || [])] } }
     : engineResult;
+  // The Python artifact pipeline attaches the security's dividend-coverage
+  // record at the delivery layer (see scripts/build_frontend_data.py); mirror
+  // it here so local results explain zero-dividend outcomes the same way
+  // (dividendCoverageNote keys off result.dividend_coverage.coverage_status).
+  if (inputs.security?.dividend_coverage) result.dividend_coverage = inputs.security.dividend_coverage;
   const manifest = await packs.loadManifest();
   const envelope = {
     data_snapshot_id: inputs.dataSnapshotId,

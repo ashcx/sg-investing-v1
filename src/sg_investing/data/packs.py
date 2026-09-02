@@ -129,6 +129,39 @@ class StoreContext:
         self._fx_series: dict[str, tuple[list[date], list[Decimal]]] = {}
         self._dividends: dict[str, list[dict]] | None = None
         self._actions: dict[str, list[dict]] | None = None
+        self._dividend_coverage: dict[str, dict] | None = None
+
+    def dividend_coverage_for(self, security_id: str) -> dict | None:
+        """Slimmed dividend-coverage record for a security, or ``None``.
+
+        Sourced from the dividend coverage report so the browser can explain
+        zero-dividend results the same way the Python artifacts do (e.g.
+        ``known_distributing_with_no_events`` vs ``dividend_data_missing``).
+        """
+
+        if self._dividend_coverage is None:
+            report_path = self.data_root / "dividends" / "coverage_report.json"
+            records: dict[str, dict] = {}
+            if report_path.exists():
+                report = json.loads(report_path.read_text(encoding="utf-8"))
+                fields = (
+                    "coverage_status",
+                    "distribution_policy",
+                    "event_count",
+                    "first_event_date",
+                    "last_event_date",
+                    "event_currencies",
+                    "provider_query_succeeded",
+                    "queried_from",
+                    "queried_through",
+                    "error",
+                )
+                for record in report.get("securities", []):
+                    identifier = record.get("security_id")
+                    if identifier:
+                        records[identifier] = {field: record.get(field) for field in fields}
+            self._dividend_coverage = records
+        return self._dividend_coverage.get(security_id)
 
     def fx_series(self, currency: str) -> tuple[list[date], list[Decimal]]:
         """Sorted (dates, rates) for ``currency``/SGD; empty when absent."""
@@ -420,6 +453,9 @@ def _build_security_year_pack(
     partition_manifest: dict | None,
 ) -> tuple[dict, dict]:
     metadata = _pack_metadata(catalog, security_id, rows, market)
+    coverage_record = context.dividend_coverage_for(security_id)
+    if coverage_record is not None:
+        metadata["dividend_coverage"] = coverage_record
     currency = metadata["currency"]
     requires_fx = currency != SGD
     series = context.fx_series(currency) if requires_fx else ([], [])
