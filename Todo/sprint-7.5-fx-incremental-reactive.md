@@ -23,8 +23,11 @@ Current state: USD/SGD (Yahoo) starts 2003-12-01, capping the foreign-currency
 investing timeline. Required pairs derive from catalog native currencies
 (USD, GBP, EUR, JPY, HKD, CNY, …).
 
-- [x] **A0 (decision — recorded 2026-09-01):** **MAS is the primary backfill
-      source; ECB is the cross-check.** Splice, minimal pull: do NOT re-pull
+- [x] **A0 (decision — updated 2026-09-02):** **MAS is REMOVED as a required
+      source** (availability re-checked: API 404 + statistics section still
+      on maintenance failover). **ECB is the primary backfill source**;
+      reliability cross-checks: frankfurter.app (ECB mirror) + the weekly MAS
+      data.gov.sg mirror as an optional tertiary sanity check only. Splice, minimal pull: do NOT re-pull
       the existing 2003+ Yahoo FX; backfill ONLY 2000-01-01 → 2003-11-30 for
       the currency pairs actually needed by securities with pre-2003-12 data
       (derive the pair list from the store; USD dominates). Normalization:
@@ -34,7 +37,8 @@ investing timeline. Required pairs derive from catalog native currencies
       (40%) predate 2003-12; 0 fully_supported today; 4,936 pre-2004
       security-years already fetched but FX-locked (QQQ/SMH/SOXX/AAPL/MSFT
       first years).
-- [x] A1: verify MAS actually covers the missing window for the required
+- [x] A1 (resolved by decision 2026-09-02): MAS dropped after re-check (404 +
+      maintenance failover confirmed live). Original task was: verify MAS actually covers the missing window for the required
       pairs (api.mas.gov.sg "Exchange Rates — Daily" dataset, or MAS
       statistical-table CSV/XLSX downloads, or a data.gov.sg mirror — register
       for a free API key only if unavoidable and report the requirement). If
