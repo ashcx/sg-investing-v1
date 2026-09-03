@@ -242,10 +242,9 @@ export function createEngineHost({ post, debug = false, yieldMs = 0 } = {}) {
       );
       return;
     }
-    if (cancelledIds.has(id)) {
-      send(createCancelled(id));
-      return;
-    }
+    // A fresh request for a previously cancelled id is a legitimate retry
+    // (ids are content-derived); clear the stale cancel and compute.
+    cancelledIds.delete(id);
     if (active.has(id)) {
       return;
     }
@@ -257,9 +256,13 @@ export function createEngineHost({ post, debug = false, yieldMs = 0 } = {}) {
   function handleCancel(message) {
     const id = typeof message?.id === 'string' ? message.id : null;
     if (id === null) return;
-    cancelledIds.add(id);
     const entry = active.get(id);
+    // Only an ACTIVE request can be cancelled. Cancels for completed or
+    // unknown ids must be ignored: request ids are content-derived, so
+    // remembering stale cancels would permanently blacklist a payload the
+    // user legitimately re-runs later (e.g. toggling a switch back).
     if (!entry) return;
+    cancelledIds.add(id);
     if (entry.state === 'queued') {
       active.delete(id);
       send(createCancelled(id));

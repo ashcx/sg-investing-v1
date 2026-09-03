@@ -13,6 +13,7 @@ import {
   requestId,
 } from './protocol.js';
 import { requestKey } from './request-keys.js';
+import { createEngineHost } from './worker.js';
 import { analyzePortfolio, analyzeSecurity, dcaAnalysis } from './index.js';
 import { payloadToEngineArgs } from './worker.js';
 import { spawnEngineWorker } from './worker.node.mjs';
@@ -528,6 +529,40 @@ async function main() {
     } finally {
       await debugClient.terminate();
     }
+  }
+
+  section('Cancellation poison regression: stale cancels must not blacklist content-derived ids');
+  {
+    // Regression (user-reported): toggling a scenario switch back re-runs a
+    // payload whose id the client had cancelled earlier (as previousEngineId).
+    // The worker used to keep those ids in cancelledIds forever, so the
+    // re-request was answered with 'cancelled' and the chart went dead.
+    const sent = [];
+    const host = createEngineHost({ post: (m) => sent.push(m), yieldMs: 0 });
+    const payload = fixturePayload('analyze');
+    const id = requestKey('analyze', payload);
+    host.handleMessage({ type: 'request', id, scope: 'analyze', payload });
+    await delay(10);
+    host.handleMessage({ type: 'cancel', id });
+    check('cancel for a completed id is ignored (not blacklisted)', !host.isCancelled(id));
+    host.handleMessage({ type: 'request', id, scope: 'analyze', payload });
+    await delay(20);
+    const reResults = sent.filter((m) => m.id === id && m.type === 'result');
+    checkEqual('re-request after stale cancel computes', reResults.length, 2);
+  }
+  {
+    const sent = [];
+    const host = createEngineHost({ post: (m) => sent.push(m), yieldMs: 0 });
+    const payload = fixturePayload('analyze');
+    const id = requestKey('analyze', payload);
+    host.handleMessage({ type: 'request', id, scope: 'analyze', payload });
+    host.handleMessage({ type: 'cancel', id });
+    host.handleMessage({ type: 'request', id, scope: 'analyze', payload });
+    await delay(20);
+    const reResults = sent.filter((m) => m.id === id && m.type === 'result');
+    const cancelled = sent.filter((m) => m.id === id && m.type === 'cancelled');
+    checkEqual('re-request after queued cancel still computes', reResults.length, 1);
+    checkEqual('queued cancel is still acknowledged', cancelled.length, 1);
   }
 
   section('Cancellation: cooperative queued-cancel');
