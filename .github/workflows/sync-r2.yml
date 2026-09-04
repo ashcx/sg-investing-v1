@@ -1,0 +1,70 @@
+name: Sync data packs to R2 (Tier-2 origin)
+
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows: ["Deploy Tier-1 site to GitHub Pages"]
+    types:
+      - completed
+
+permissions:
+  contents: read
+
+concurrency:
+  group: r2-sync
+  cancel-in-progress: true
+
+jobs:
+  sync-packs:
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install --upgrade pip
+      - run: python -m pip install ".[dev,market-data]"
+      - name: Validate the snapshot
+        run: python -m pytest -m "not smoke"
+      - name: Build frontend data packs
+        run: python scripts/build_data_packs.py
+      - name: Install rclone
+        run: |
+          curl -s https://rclone.org/install.sh | sudo bash
+          rclone version | head -1
+      - name: Sync packs to the R2 origin
+        env:
+          RCLONE_CONFIG_R2_TYPE: s3
+          RCLONE_CONFIG_R2_PROVIDER: Cloudflare
+          RCLONE_CONFIG_R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          RCLONE_CONFIG_R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          RCLONE_CONFIG_R2_ENDPOINT: https://${{ secrets.R2_ACCOUNT_ID }}.r2.cloudflarestorage.com
+        run: |
+          rclone sync frontend/data/packs R2:sg-investing-v1/data/packs \
+            --transfers 16 --checkers 32 --s3-no-check-bucket \
+            --stats-one-line --stats 60s
+      - name: Verify the remote manifest
+        env:
+          RCLONE_CONFIG_R2_TYPE: s3
+          RCLONE_CONFIG_R2_PROVIDER: Cloudflare
+          RCLONE_CONFIG_R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          RCLONE_CONFIG_R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          RCLONE_CONFIG_R2_ENDPOINT: https://${{ secrets.R2_ACCOUNT_ID }}.r2.cloudflarestorage.com
+        run: |
+          python - <<'PY'
+          import json, subprocess
+          local = json.load(open("frontend/data/packs/manifest.json"))
+          remote = subprocess.run(
+              ["rclone", "cat", "R2:sg-investing-v1/data/packs/manifest.json"],
+              check=True, capture_output=True, text=True,
+          ).stdout
+          remote = json.loads(remote)
+          assert remote["data_snapshot_id"] == local["data_snapshot_id"], "remote manifest is stale"
+          assert remote["summary"]["securities"] == local["summary"]["securities"], "security count mismatch"
+          print("R2 origin verified:", remote["summary"]["securities"], "securities, snapshot", remote["data_snapshot_id"])
+          PY

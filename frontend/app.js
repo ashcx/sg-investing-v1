@@ -19,8 +19,28 @@ const API_BASE = (document.querySelector('meta[name="sg-invest-api-base"]')?.con
 // configured the adapter is tried first and the local engine is the explicit
 // fallback. The compute mode behind every visible result is shown in the
 // header mode indicator (see setComputeMode).
+// S8 (Tier-2 pack origin): sg-invest-pack-base points at an external pack
+// origin (e.g. a Cloudflare R2 bucket). The Tier-1 origin (this site) is
+// always consulted first; securities missing from its manifest fall back to
+// the external origin so the full catalog can be served beyond the Pages
+// size cap. Empty tag = Tier-1 only (default, current behavior).
+const PACK_BASE = (document.querySelector('meta[name="sg-invest-pack-base"]')?.content || '').replace(/\/$/, '');
 const packs = createPackLoader({ baseUrl: new URL('.', document.baseURI).href });
+const packsRemote = PACK_BASE ? createPackLoader({ baseUrl: PACK_BASE }) : null;
 const engineClient = createEngineClient();
+
+// S8: resolve a security against Tier-1 (this site) first; fall back to the
+// external pack origin (e.g. Cloudflare R2) when the local manifest does not
+// know it. Returns { entry, packs } so subsequent calls use the same origin.
+async function s8ResolveSecurity({ securityId = null, ticker = null } = {}) {
+  const entry = securityId ? await packs.findSecurity({ securityId }) : await packs.findSecurity({ ticker });
+  if (entry) return { entry, packs };
+  if (packsRemote) {
+    const remote = securityId ? await packsRemote.findSecurity({ securityId }) : await packsRemote.findSecurity({ ticker });
+    if (remote) return { entry: remote, packs: packsRemote };
+  }
+  return { entry: null, packs };
+}
 const s4State = { requestId: null, request: null, support: null, packWarnings: null, button: null };
 
 const PRESETS = {
@@ -910,10 +930,10 @@ function s5SecurityLabel(securityId, entry) {
   return entry?.ticker || entryForId(securityId)?.security.ticker || securityId;
 }
 
-async function s5SecurityInputs(securityId, entry, startDate, endDate) {
+async function s5SecurityInputs(securityId, entry, startDate, endDate, origin = s5PackLoader) {
   const cached = s5InputsCache.get(securityId);
   if (cached && cached.startDate <= startDate && endDate <= cached.endDate) return cached.inputs;
-  const inputs = await s5PackLoader.loadSecurityInputs(entry, startDate, endDate);
+  const inputs = await origin.loadSecurityInputs(entry, startDate, endDate);
   s5InputsCache.set(securityId, { startDate, endDate, inputs });
   return inputs;
 }
@@ -929,11 +949,11 @@ async function s5LocalPortfolio(asOf, rows) {
   const firstDateFor = (securityId) => rows.filter((row) => row.security_id === securityId).map((row) => row.transaction_date).sort()[0];
   const warnings = [];
   for (const securityId of holdingIds) {
-    const entry = await s5PackLoader.findSecurity({ securityId });
+    const { entry, packs: origin } = await s8ResolveSecurity({ securityId });
     if (!entry) {
       return { unavailable: `${s5SecurityLabel(securityId)} (${securityId}) is not in the published data packs, so the portfolio cannot be reconstructed as of ${asOf}.` };
     }
-    const support = s5PackLoader.supportFor(entry, firstDateFor(securityId), asOf);
+    const support = origin.supportFor(entry, firstDateFor(securityId), asOf);
     if (support.status === 'unavailable') {
       return { unavailable: `${s5SecurityLabel(securityId)} cannot be reconstructed as of ${asOf}: ${support.reason}.` };
     }
@@ -944,8 +964,8 @@ async function s5LocalPortfolio(asOf, rows) {
   const prices = [];
   const fxRates = [];
   for (const securityId of holdingIds) {
-    const entry = await s5PackLoader.findSecurity({ securityId });
-    const inputs = await s5SecurityInputs(securityId, entry, firstDateFor(securityId), asOf);
+    const { entry, packs: origin } = await s8ResolveSecurity({ securityId });
+    const inputs = await s5SecurityInputs(securityId, entry, firstDateFor(securityId), asOf, origin);
     securities[securityId] = inputs.security;
     prices.push(...inputs.prices);
     fxRates.push(...inputs.fxRates);
@@ -1056,14 +1076,14 @@ function s4EngineErrorMessage(error) {
 // marked superseded in the tracker (already the case via supersedeScope) and
 // politely cancelled at the worker so the stale computation stops early.
 async function s4DcaViaPacks(request, { previousEngineId = null } = {}) {
-  const entry = await packs.findSecurity({ securityId: request.security_id });
+  const { entry, packs: origin } = await s8ResolveSecurity({ securityId: request.security_id });
   if (!entry) throw new Error(`${request.security_id} has no published data pack, so the local engine cannot serve this request.`);
-  const support = packs.supportFor(entry, request.start_date, request.end_date);
+  const support = origin.supportFor(entry, request.start_date, request.end_date);
   if (support.status === 'unavailable') {
     throw new Error(`${entry.ticker} cannot be replayed locally for ${request.start_date} → ${request.end_date}: ${support.reason || 'no data pack coverage for this range'}. Choose a range inside the covered years.`);
   }
   s4SetDcaProgress(`Loading ${entry.ticker} data packs for ${String(request.start_date).slice(0, 4)}–${String(request.end_date).slice(0, 4)}…`);
-  const inputs = await packs.loadSecurityInputs(entry, request.start_date, request.end_date);
+  const inputs = await origin.loadSecurityInputs(entry, request.start_date, request.end_date);
   s4State.support = inputs.support;
   s4State.packWarnings = inputs.warnings || [];
   s4SetDcaProgress('Computing DCA replay in the browser…');
@@ -1116,14 +1136,9 @@ function s6EngineErrorMessage(error) {
 // Resolve a comparison ticker against the pack manifest with the dev-server
 // adapter's semantics: exactly one security per ticker, or an explicit error.
 async function s6ResolveTicker(ticker, startDate, endDate) {
-  const manifest = await packs.loadManifest();
-  const wanted = String(ticker).trim().toUpperCase();
-  const matches = (manifest.securities || []).filter((candidate) => String(candidate.ticker).toUpperCase() === wanted);
-  if (matches.length === 1) return matches[0];
-  if (matches.length === 0) {
-    throw new Error(`${ticker} is not in the published data packs, so the requested range ${startDate} → ${endDate} cannot be computed locally.`);
-  }
-  throw new Error(`Expected one security for ticker ${ticker}; matches: ${matches.map((match) => match.security_id).join(', ')}.`);
+  const { entry } = await s8ResolveSecurity({ ticker });
+  if (entry) return entry;
+  throw new Error(`${ticker} is not in the published data packs, so the requested range ${startDate} → ${endDate} cannot be computed locally.`);
 }
 
 // Static-mode analysis (scope 'analyze'): resolve the security's data packs,
@@ -1138,14 +1153,14 @@ async function s6ResolveTicker(ticker, startDate, endDate) {
 // requests never overlap, and a foreign supersede marker never gates browser
 // delivery — the panel run-sequence guard remains the render gate).
 async function s6AnalysisViaPacks({ securityId = null, ticker = null, label = null, initial_sgd, start_date, end_date, dividends, withholding, reinvest }, onProgress = () => {}, { supersede = false, previousEngineId = null } = {}) {
-  const entry = securityId ? await packs.findSecurity({ securityId }) : await s6ResolveTicker(ticker, start_date, end_date);
+  const { entry, packs: origin } = await s8ResolveSecurity({ securityId, ticker });
   if (!entry) throw new Error(`${label || securityId || ticker} is not in the published data packs, so ${start_date} → ${end_date} cannot be computed locally.`);
-  const support = packs.supportFor(entry, start_date, end_date);
+  const support = origin.supportFor(entry, start_date, end_date);
   if (support.status === 'unavailable') {
     throw new Error(`${entry.ticker} cannot be computed locally for ${start_date} → ${end_date}: ${support.reason || 'no data pack coverage for this range'}. Choose a range inside the covered years.`);
   }
   onProgress(`Loading ${entry.ticker} data packs for ${String(start_date).slice(0, 4)}–${String(end_date).slice(0, 4)}…`);
-  const inputs = await packs.loadSecurityInputs(entry, start_date, end_date);
+  const inputs = await origin.loadSecurityInputs(entry, start_date, end_date);
   onProgress('Computing the replay in the browser…');
   const payload = {
     security: inputs.security,
@@ -1292,14 +1307,14 @@ async function s7LoadSeries(securityId) {
   const epoch = s7SeriesEpoch += 1;
   s7Reactive.runs.series += 1;
   try {
-    const packEntry = await packs.findSecurity({ securityId });
+    const { entry: packEntry, packs: origin } = await s8ResolveSecurity({ securityId });
     if (!packEntry || s7SeriesEpoch !== epoch) return;
-    const support = packs.supportFor(packEntry, start, end);
+    const support = origin.supportFor(packEntry, start, end);
     if (support.status === 'unavailable') {
       if (s7SeriesEpoch === epoch && has('#form-error')) $('#form-error').textContent = `No series chart for ${packEntry.ticker} ${start} → ${end}: ${support.reason || 'outside the published data packs'}.`;
       return;
     }
-    const inputs = await packs.loadSecurityInputs(packEntry, start, end);
+    const inputs = await origin.loadSecurityInputs(packEntry, start, end);
     const series = s7SeriesEpoch === epoch ? s6SeriesFromInputs(inputs, { start_date: start, end_date: end }) : null;
     if (!series || s7SeriesEpoch !== epoch) return;
     state.series = series;
