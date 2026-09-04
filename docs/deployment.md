@@ -119,3 +119,20 @@ Prepared locally, pending push (no commits made by the Sprint 7 agent):
    a deploy-shaped artifact (build-info.json + pruned packs + rewritten
    manifest); the production `frontend/build-info.json` appears only after
    the first Tier-1 run on GitHub.
+
+## Tier-2 pack origin — Cloudflare R2 (Sprint 8)
+
+The full 3,188-security pack set (1.79 GB) is published to the R2 bucket
+`sg-investing-v1` (public dev URL
+`https://pub-a88a64ce6b634ab8a70623c35ff81ad7.r2.dev`, CORS limited to
+`GET/HEAD` from `https://ashcx.github.io`). The frontend resolves
+`sg-invest-pack-base` in `frontend/index.html`: Tier-1 (Pages) is consulted
+first, the external origin serves securities the Tier-1 manifest does not
+know (the Russell 2000 constituents). Empty tag = Tier-1 only.
+
+`.github/workflows/sync-r2.yml` re-syncs changed packs and verifies the
+remote manifest after every successful Tier-1 deployment. Credentials are
+Object Read & Write scoped to the bucket and stored as Actions secrets.
+
+Re-seed manually: `rclone sync frontend/data/packs
+r2:sg-investing-v1/data/packs --s3-no-check-bucket` with the R2 credentials.

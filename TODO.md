@@ -48,7 +48,7 @@ folder. Agents and humans must follow these rules:
 | 6 — Fallback cleanup | [Todo/sprint-6-fallback-cleanup.md](Todo/sprint-6-fallback-cleanup.md) | One honest local-compute mode; no silent demo substitutions | 4, 5 | Complete |
 | 7 — Release hardening & launch | [Todo/sprint-7-release-hardening.md](Todo/sprint-7-release-hardening.md) | Hardened CI, QA and confirmed GitHub Pages deployment | 4, 5, 6 | Complete |
 | 7.5 — FX to 2000, incremental updates, reactive UI | [Todo/sprint-7.5-fx-incremental-reactive.md](Todo/sprint-7.5-fx-incremental-reactive.md) | Foreign-currency history back to 2000; incremental date-range updates without full rebuild; staged auto-loading UI | 7 | Complete |
-| 8 — Pack origin & full-breadth hosting | [Todo/sprint-8-pack-origin.md](Todo/sprint-8-pack-origin.md) | Full 3,188-security set reachable client-side via a configurable non-Pages origin | 7 | Not started |
+| 8 — Pack origin & full-breadth hosting | [Todo/sprint-8-pack-origin.md](Todo/sprint-8-pack-origin.md) | Full 3,188-security set reachable client-side via a configurable non-Pages origin | 7 | Complete |
 
 Sequencing notes:
 

@@ -9,7 +9,7 @@ origin (home WSL behind a tunnel), then implement and verify it.
 
 ## Entry criteria
 
-- [ ] Sprint 7 exit criteria are all met: Tier-1 Pages publishing (all
+- [x] Sprint 7 exit criteria are all met: Tier-1 Pages publishing (all
       universes except Russell 2000, ~790 MB) is deployed and CI-guarded.
 
 Note: background research for this sprint may be collected at any time (early
@@ -34,35 +34,35 @@ not a code change.
 
 ## Tasks
 
-- [ ] Research hosted object storage: Cloudflare R2 (10 GB free storage, zero
+- [x] Research hosted object storage: Cloudflare R2 (10 GB free storage, zero
       egress, S3 API, CORS) vs Backblaze B2 vs S3/GCS. Cost model for 1.8 GB
       stored + lazy read pattern (~100–500 KB per user session, exact
       security/year fetches only).
-- [ ] Evaluate self-hosted origin: home WSL box with read-only static serving
+- [x] Evaluate self-hosted origin: home WSL box with read-only static serving
       behind Cloudflare Tunnel (custom domain, auto-HTTPS, no port
       forwarding) or Tailscale Funnel; write path over Tailscale SSH only;
       CORS headers for the `ashcx.github.io` origin; uptime/maintenance
       trade-offs.
-- [ ] Define the origin contract: how `sg-invest-pack-base` is resolved,
+- [x] Define the origin contract: how `sg-invest-pack-base` is resolved,
       manifest discovery across tiers (Tier-1 manifest on Pages; Tier-2
       manifest at the external origin), and fallback behavior when Tier 2 is
       unreachable (graceful degradation to Tier 1 / unavailable states).
-- [ ] Record the decision as ADR 0002 with costs, uptime expectations and
+- [x] Record the decision as ADR 0003 with costs, uptime expectations and
       failure modes.
-- [ ] Implement the chosen origin publishing (CI sync job for object storage,
+- [x] Implement the chosen origin publishing (CI sync job for object storage,
       or rsync-over-Tailscale job for self-hosted) triggered after the
       validated pack build.
-- [ ] Verify in a real browser: DCA and portfolio requests resolve against
+- [x] Verify in a real browser: DCA and portfolio requests resolve against
       the external origin for securities that exist only in Tier 2 (e.g. a
       Russell 2000 constituent), with zero changes to the engine.
-- [ ] Confirm the Pages Tier-1 deployment is unaffected and remains the
+- [x] Confirm the Pages Tier-1 deployment is unaffected and remains the
       default when `sg-invest-pack-base` is empty.
 
 ## Exit criteria
 
-- [ ] The full 3,188-security set is reachable client-side from the chosen
+- [x] The full 3,188-security set is reachable client-side from the chosen
       origin via configuration only.
-- [ ] DCA and portfolio verified in a real browser against the external
+- [x] DCA and portfolio verified in a real browser against the external
       origin for at least one Russell 2000 security.
-- [ ] Decision, costs and runbook documented (ADR 0002 + docs update).
-- [ ] Tier-1 Pages deployment remains the working default.
+- [x] Decision, costs and runbook documented (ADR 0003 + docs update). ADR 0002 referenced for the FX source decision; deployment runbook updated in docs/deployment.md.
+- [x] Tier-1 Pages deployment remains the working default.
