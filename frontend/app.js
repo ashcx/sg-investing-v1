@@ -69,7 +69,7 @@ const state = {
   dcaArtifact: null,
   selectedSecurityId: null,
   currencyMode: 'sgd',
-  warningsOpen: true,
+  warningsOpen: false,
   catalogLimit: 12,
 };
 
@@ -116,72 +116,13 @@ function formatDate(value) {
 // recent visible result: 'Local compute' (no adapter configured),
 // 'Adapter · <origin>' (adapter configured), 'Local compute (adapter
 // unavailable)' after an adapter failure fell back to the local engine, or
-// 'Demo replay · published artifact' while the init-time committed replay is
-// on screen (that replay is not a computed request).
-
-function ensureModeIndicator() {
-  let chip = $('#mode-indicator');
-  if (chip) return chip;
-  const host = document.querySelector('.header-meta');
-  if (!host) return null;
-  chip = document.createElement('span');
-  chip.id = 'mode-indicator';
-  chip.className = 'security-tag';
-  chip.setAttribute('role', 'status');
-  chip.title = 'Computation mode that produced the most recent visible result';
-  host.appendChild(chip);
-  return chip;
-}
-
-function adapterModeLabel() {
-  let origin = API_BASE;
-  try { origin = new URL(API_BASE).origin; } catch { /* keep raw base */ }
-  return `Adapter · ${origin}`;
-}
-
-const COMPUTE_MODE_LABELS = Object.freeze({
-  local: 'Local compute',
-  adapter: null, // rendered via adapterModeLabel()
-  adapterFallback: 'Local compute (adapter unavailable)',
-  demo: 'Demo replay · published artifact',
-});
+// The mode is provenance for the most recent visible result; it is surfaced
+// in the result footer via setSourceLabel (S8 UX pass removed the header chip).
 
 function setComputeMode(mode) {
-  const chip = ensureModeIndicator();
-  if (!chip) return;
-  const label = mode === 'adapter' ? adapterModeLabel() : COMPUTE_MODE_LABELS[mode] || COMPUTE_MODE_LABELS.local;
-  chip.textContent = label;
-  chip.dataset.mode = mode;
-}
-
-// --- S7.4: build identifier + snapshot date ---------------------------------
-// deploy-tier1.yml emits build-info.json next to index.html
-// ({built_at, data_snapshot_id, workflow_run_id}). The plain pages.yml deploy
-// has no such file, so a 404 (or any fetch failure) is expected and silently
-// ignored — the #data-date element keeps its data-status fallback. When the
-// file is present, the build date is shown next to the snapshot chip.
-
-async function loadBuildInfo() {
-  try {
-    const response = await fetch('build-info.json', { cache: 'no-store' });
-    if (!response.ok) return null;
-    return await response.json();
-  } catch {
-    return null;
-  }
-}
-
-function renderBuildInfo(info) {
-  if (!info || !has('#data-date')) return;
-  const builtAt = typeof info.built_at === 'string' ? info.built_at : '';
-  const buildDate = builtAt ? formatDate(builtAt.slice(0, 10)) : null;
-  if (!buildDate || has('#build-date')) return;
-  const host = $('#data-date').closest('.header-meta') || $('#data-date').parentElement;
-  if (!host) return;
-  const chip = document.createElement('span');
-  chip.innerHTML = `· Build <strong id="build-date">${escapeHtml(buildDate)}</strong>`;
-  chip.title = `Site build ${builtAt} · data snapshot ${info.data_snapshot_id || 'unknown'} · workflow run ${info.workflow_run_id ?? 'n/a'}`;
-  host.appendChild(chip);
+  // S8 UX pass: the header stays minimal — the mode is provenance, surfaced
+  // in the result footer (.result-source) rather than as a header chip.
+  state.computeMode = mode;
 }
 
 function dividendCoverageNote(result) {
@@ -891,7 +832,6 @@ async function init() {
     const status = API_BASE ? await apiGet('/status').catch(() => loadJson('data/data-status.json', null)) : await loadJson('data/data-status.json', null);
     $('#data-date').textContent = status?.backfill?.as_of ? formatDate(status.backfill.as_of) : '30 Aug 2026';
   }
-  renderBuildInfo(await loadBuildInfo());
   if (state.artifact) {
     const securityId = state.artifact.result?.security?.security_id;
     const startDate = state.artifact.result?.period?.start_date;
@@ -902,6 +842,12 @@ async function init() {
     showResult();
     setComputeMode('demo');
   }
+  const defaults = s8DefaultDateRange();
+  [['#start-date', defaults.start], ['#end-date', defaults.end],
+   ['#dca-start', defaults.start], ['#dca-end', defaults.end],
+   ['#compare-start', defaults.start], ['#compare-end', defaults.end]].forEach(([sel, value]) => {
+    if (has(sel)) $(sel).value = value;
+  });
   applyAnalysisUrl();
 }
 
@@ -1279,15 +1225,24 @@ function s7OnSecurityCardPicked(securityId) {
 // trailing two years when the form dates are empty or inverted. No coverage
 // is assumed here — the manifest support gate in s7LoadSeries still decides
 // whether anything renders (2024+ ranges are always in scope for the packs).
+// S8 UX: the default range is year-to-date once the year is past its halfway
+// point (Jun 30 onward), otherwise the trailing year. Applies to the
+// analysis, DCA and compare forms on load.
+function s8DefaultDateRange() {
+  const now = new Date();
+  const iso = (d) => d.toISOString().slice(0, 10);
+  const end = iso(now);
+  const start = now >= new Date(now.getFullYear(), 5, 30)
+    ? `${now.getFullYear()}-01-01`
+    : iso(new Date(now.getFullYear() - 1, now.getMonth(), now.getDate()));
+  return { start, end };
+}
+
 function s7AnalysisDateRange() {
   const start = has('#start-date') ? $('#start-date').value : '';
   const end = has('#end-date') ? $('#end-date').value : '';
   if (start && end && end >= start) return { start, end };
-  const now = new Date();
-  const endFallback = now.toISOString().slice(0, 10);
-  const earlier = new Date(now.valueOf());
-  earlier.setFullYear(earlier.getFullYear() - 2);
-  return { start: earlier.toISOString().slice(0, 10), end: endFallback };
+  return s8DefaultDateRange();
 }
 
 function s7ScheduleSeries(securityId) {

@@ -191,3 +191,66 @@ securities:
       asset_type: index
       domicile: US
       timezone: America/New_York
+  # Featured Singapore ETFs (Sprint 7.5 UX pass): shown alongside the
+  # global favourites in the catalog's featured list.
+  - universe: major_global_etfs
+    effective_from: 2008-01-02
+    source: configured_seed
+    security:
+      security_id: 2a5195cd-7534-5c3d-bc3e-17afedf92e03
+      ticker: ES3.SI
+      exchange: SGX
+      market: SGX
+      name: Nikko AM Singapore STI ETF
+      currency: SGD
+      asset_type: ETF
+      domicile: SG
+      income_source_country: SG
+      timezone: Asia/Singapore
+      distribution_policy: distributing
+  - universe: major_global_etfs
+    effective_from: 2009-02-24
+    source: configured_seed
+    security:
+      security_id: e94d27a3-ac75-5e5b-bd55-bad396280438
+      ticker: G3B.SI
+      exchange: SGX
+      market: SGX
+      name: ABF Singapore Bond Index Fund
+      currency: SGD
+      asset_type: ETF
+      domicile: SG
+      income_source_country: SG
+      timezone: Asia/Singapore
+      distribution_policy: distributing
+  - universe: major_global_etfs
+    effective_from: 2017-10-30
+    source: configured_seed
+    security:
+      security_id: 9baa9d84-f855-52d9-b020-37124a583201
+      ticker: CLR.SI
+      exchange: SGX
+      market: SGX
+      name: Lion-Phillip S-REIT ETF
+      currency: SGD
+      asset_type: ETF
+      domicile: SG
+      income_source_country: SG
+      timezone: Asia/Singapore
+      distribution_policy: distributing
+  - universe: major_global_etfs
+    effective_from: 2018-08-24
+    source: configured_seed
+    security:
+      security_id: 32eefa0a-e7a0-5127-b19d-827e3ddbb065
+      ticker: MBH.SI
+      exchange: SGX
+      market: SGX
+      name: Phillip Singapore Real Estate Income ETF
+      currency: SGD
+      asset_type: ETF
+      domicile: SG
+      income_source_country: SG
+      timezone: Asia/Singapore
+      distribution_policy: distributing
+

@@ -89,8 +89,8 @@
   --paper: #f5f5f0;
   --paper-warm: #eeeee7;
   --white: #fffefa;
-  --muted: #697384;
-  --muted-2: #9aa2ad;
+  --muted: #4e5a6b;
+  --muted-2: #6b7686;
   --line: #d9ddd9;
   --line-dark: #304057;
   --lime: #d9f36a;
@@ -224,3 +224,44 @@ h1 em { color: var(--coral); font-style: normal; }
 @media (max-width: 900px) { .compare-layout, .dca-layout, .portfolio-layout { grid-template-columns: 1fr; } }
 @media (max-width: 1100px) { .catalog-controls { flex-wrap: wrap; }.catalog-controls .search-box { flex: 1 1 280px; }.catalog-controls .select-wrap { flex: 1 1 135px; }.catalog-controls .select-wrap select { width: 100%; max-width: none; }.catalog-controls .result-count { margin-left: auto; } }
 @media (max-width: 650px) { .catalog-controls .select-wrap { flex: 1 1 46%; }.catalog-controls .select-wrap select { max-width: none; width: 100%; }.chart-source { margin-left: 0; }.compare-table-head { display: none; }.compare-row { grid-template-columns: 1fr 1fr; }.compare-row > div { grid-column: 1 / -1; }.status-chip { justify-self: start; }.compare-form, .light-panel, .compare-results, .dca-results, .portfolio-results { padding: 17px; }.analysis-output h3 { font-size: 34px; }.result-source { align-items: flex-start; }.result-actions { justify-content: flex-start; gap: 10px; }.mobile-nav-toggle { display: block; padding: 8px 10px; border: 1px solid var(--line); color: var(--ink); background: transparent; cursor: pointer; font: 10px var(--mono); text-transform: uppercase; }.mobile-nav.open { position: absolute; z-index: 10; top: 62px; right: 18px; display: grid; min-width: 180px; padding: 10px; gap: 2px; border: 1px solid var(--line); background: var(--white); box-shadow: var(--shadow); }.mobile-nav.open a { padding: 11px 9px; color: var(--ink); font-size: 12px; }.mobile-nav.open a:focus-visible, .mobile-nav.open a:hover { background: var(--paper-warm); }.site-header { position: relative; } }
+
+/* --- S8 UX pass: legible small text (sizes + contrast) ---------------------
+   The mono metadata text sat at 8–10px in a low-contrast muted grey. Raise
+   the floor: nothing below 11px, muted colors darkened (see :root). */
+.header-meta { font-size: 12px; white-space: normal; }
+.eyebrow, .panel-kicker { font-size: 11px !important; letter-spacing: .08em; }
+.result-security-line { font-size: 11px; }
+.metric-label { font-size: 11px; letter-spacing: .08em; }
+.metric-card small { font-size: 12px; }
+.result-header p { font-size: 13px; }
+.result-source { font-size: 11.5px; }
+.quality-badge { font-size: 11px; }
+.warnings-head strong { font-size: 13px; }
+.warnings-head span:not(.warning-triangle) { font-size: 12px; color: #7a5f33; }
+.warning-list div { font-size: 12px; color: #6d5936; }
+.collapse-button { font-size: 12px; }
+.detail-rows > div { font-size: 12.5px; color: var(--ink-2); }
+.detail-rows strong { font-size: 12.5px; }
+.detail-note, .methodology-card p { font-size: 12.5px; color: var(--ink-2); }
+.method-tags span { font-size: 11px; color: var(--ink-2); }
+.text-link { font-size: 13px; }
+.text-button { font-size: 12.5px; }
+.security-card { padding: 18px; }
+.security-card-top span { font-size: 11px; }
+.security-name { font-size: 13px; }
+.security-card-bottom span { font-size: 11.5px; color: var(--ink-2); }
+.catalog-count, .result-count { font-size: 12px; color: var(--ink-2); }
+.hero-note { font-size: 11.5px; color: var(--ink-2); }
+.signal-top, .signal-foot { font-size: 11px; color: #b9c4d2; }
+.signal-foot { font-size: 10px; color: #8b98a8; }
+.form-hint, .small-note { font-size: 12.5px; }
+.site-footer { font-size: 12px; color: var(--ink-2); }
+.compare-row small.status-chip { font-size: 11.5px; }
+.output-kicker { font-size: 11.5px; letter-spacing: .08em; }
+.chart-source { font-size: 11.5px; }
+.series-range { font-size: 11.5px; }
+.dca-results p, .portfolio-results p { font-size: 13px; }
+.return-pill small { font-size: 11px; }
+.switch-label { font-size: 11px; color: var(--ink-2); }
+.currency-button { font-size: 12px; }
+.lock-label { font-size: 11px; }
