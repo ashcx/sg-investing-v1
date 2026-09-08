@@ -1,0 +1,62 @@
+name: Frontend engine parity
+
+# ADR 0001 makes Python<->JS parity the mandatory acceptance condition for the
+# portable browser engine. This gate enforces it in CI on every push/PR:
+#
+#   1. Regenerate the golden fixtures from the authoritative Python engine and
+#      assert the committed fixtures are byte-identical. This catches Python-side
+#      drift: without it, `parity.mjs` only compares the JS engine against the
+#      committed goldens and would keep passing after an engine change.
+#   2. Run the JS engine against the goldens, plus the property and worker
+#      self-test suites.
+#
+# Plain Node (preinstalled on ubuntu-latest) and the committed LFS Parquet store;
+# no npm install and no live network calls.
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  parity:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository (with LFS snapshot)
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install project (dev)
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install ".[dev]"
+
+      - name: Regenerate golden fixtures and assert they are committed
+        run: |
+          python scripts/generate_parity_fixtures.py
+          if ! git diff --exit-code -- frontend/engine/parity/fixtures; then
+            echo "::error::Golden parity fixtures are stale. Run 'python scripts/generate_parity_fixtures.py' and commit the result."
+            exit 1
+          fi
+
+      - name: Golden parity (JS engine vs Python goldens)
+        run: node frontend/engine/parity/parity.mjs
+
+      - name: Property tests
+        run: node frontend/engine/property/property.mjs
+
+      - name: Worker self-tests
+        run: node frontend/engine/worker-selftest.mjs
