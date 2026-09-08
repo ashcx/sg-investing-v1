@@ -140,6 +140,25 @@ def test_dividend_amount_correction_replaces_the_prior_observation():
         assert stored[0].amount == Decimal("2.50")
 
 
+def test_stale_dividend_restatement_does_not_overwrite_newer_observation():
+    sec = security()
+    newer = dividend(sec, date(2024, 2, 1), "2").model_copy(
+        update={"retrieved_at": datetime(2024, 6, 1, tzinfo=UTC)}
+    )
+    stale = dividend(sec, date(2024, 2, 1), "9").model_copy(
+        update={"retrieved_at": datetime(2024, 1, 1, tzinfo=UTC)}
+    )
+
+    with TemporaryDirectory() as temporary:
+        store = ParquetStore(temporary)
+        store.upsert_dividends([newer])
+        store.upsert_dividends([stale])
+
+        stored = store.read_dividends(year=2024)
+        assert len(stored) == 1
+        assert stored[0].amount == Decimal(2)
+
+
 def test_dividend_provider_identity_migrates_a_legacy_event_without_duplication():
     sec = security()
     legacy = dividend(sec, date(2024, 2, 1), "2")

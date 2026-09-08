@@ -256,6 +256,15 @@ class ParquetStore:
                         )
                     )
                 ]
+                # A provider restatement must not overwrite a newer observation.
+                # This mirrors the retrieved_at guard in `_upsert_events`; without
+                # it a stale write would silently replace fresher data.
+                if any(
+                    hasattr(merged[key], "retrieved_at")
+                    and row.retrieved_at < merged[key].retrieved_at
+                    for key in replacement_keys
+                ):
+                    continue
                 for key in replacement_keys:
                     merged.pop(key, None)
                 merged[dividend_event_key(row)] = row
