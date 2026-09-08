@@ -51,8 +51,8 @@ class EndToEndTests(TestCase):
                 fx_rates=fx,
                 start_date=date(2024, 1, 1),
                 end_date=date(2025, 1, 2),
-                initial_sgd=Decimal("1300"),
+                initial_sgd=Decimal(1300),
             )
 
-        self.assertEqual(result.investment["final_value_sgd"], Decimal("1680"))
+        self.assertEqual(result.investment["final_value_sgd"], Decimal(1680))
         self.assertEqual(result.model_dump(mode="json")["security"]["ticker"], "TEST")

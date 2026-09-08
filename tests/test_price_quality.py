@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from datetime import date, datetime, timezone
+from datetime import UTC, date, datetime
 from decimal import Decimal
 from pathlib import Path
 
@@ -166,15 +166,15 @@ def test_history_audit_finds_out_of_order_dates(tmp_path):
 
 def test_history_audit_finds_ohlc_volume_and_metadata_errors(tmp_path):
     sec = security()
-    when = datetime(2024, 1, 2, tzinfo=timezone.utc)
+    when = datetime(2024, 1, 2, tzinfo=UTC)
     raw = [
         {
             "security_id": str(sec.security_id),
             "trading_date": date(2024, 1, 2),
-            "open": Decimal("110"),
-            "high": Decimal("100"),
-            "low": Decimal("90"),
-            "close": Decimal("0"),
+            "open": Decimal(110),
+            "high": Decimal(100),
+            "low": Decimal(90),
+            "close": Decimal(0),
             "volume": -1,
             "currency": "SGD",
             "exchange": "NASDAQ",
@@ -226,7 +226,7 @@ def test_history_audit_flags_zero_low_and_extreme_price_levels(tmp_path):
     other = security(ticker="OTHER", security_id="33333333-3333-3333-3333-333333333333")
     raw = [
         price(sec, date(2024, 1, 2), "100").model_copy(
-            update={"low": Decimal("0")}
+            update={"low": Decimal(0)}
         ),
         price(other, date(2024, 1, 2), "1000001"),
     ]

@@ -9,15 +9,14 @@ from __future__ import annotations
 
 from bisect import bisect_left, bisect_right
 from collections import defaultdict
+from collections.abc import Iterable, Mapping
 from dataclasses import dataclass, field
 from datetime import date
 from pathlib import Path
-from typing import Iterable, Mapping
 
 import pyarrow as pa
 import pyarrow.compute as pc
 import pyarrow.parquet as pq
-
 
 _REQUIRED_COLUMNS = (
     "security_id",

@@ -5,8 +5,8 @@ import os
 from collections import defaultdict
 from pathlib import Path
 
-import pytest
 import pyarrow.parquet as pq
+import pytest
 
 from sg_investing.analysis import AnalysisDataError, analyze_security
 from sg_investing.data.storage import ParquetStore
@@ -17,7 +17,6 @@ from sg_investing.data.validation import (
 )
 from sg_investing.models import PriceBar
 from sg_investing.universe.catalog import load_catalog
-
 
 pytestmark = [
     pytest.mark.smoke,

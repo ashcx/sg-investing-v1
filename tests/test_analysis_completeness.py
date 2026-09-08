@@ -50,9 +50,9 @@ def test_dividends_disabled_do_not_change_result_or_create_warnings():
         scenario=AnalysisScenario(dividends_enabled=False),
         dividends=[dividend(sec, date(2024, 2, 1), "10", pay_date=date(2024, 3, 1))],
     )
-    assert result.investment["shares"] == Decimal("10") / Decimal("1.30")
-    assert result.dividends["gross_foreign_currency"] == Decimal("0")
-    assert result.dividends["cash_foreign_currency"] == Decimal("0")
+    assert result.investment["shares"] == Decimal(10) / Decimal("1.30")
+    assert result.dividends["gross_foreign_currency"] == Decimal(0)
+    assert result.dividends["cash_foreign_currency"] == Decimal(0)
     assert result.data_quality["warnings"] == []
 
 
@@ -65,10 +65,10 @@ def test_cash_dividend_mode_adds_net_cash_without_increasing_shares():
         scenario=AnalysisScenario(reinvest_dividends=False, withholding_tax_enabled=False),
         dividends=[dividend(sec, date(2024, 2, 1), "10", pay_date=date(2024, 3, 1))],
     )
-    assert result.investment["shares"] == Decimal("10")
-    assert result.dividends["gross_foreign_currency"] == Decimal("100")
-    assert result.dividends["cash_foreign_currency"] == Decimal("100")
-    assert result.investment["final_value_foreign_currency"] == Decimal("1100")
+    assert result.investment["shares"] == Decimal(10)
+    assert result.dividends["gross_foreign_currency"] == Decimal(100)
+    assert result.dividends["cash_foreign_currency"] == Decimal(100)
+    assert result.investment["final_value_foreign_currency"] == Decimal(1100)
 
 
 def test_withholding_disabled_keeps_gross_dividend_as_net():
@@ -81,7 +81,7 @@ def test_withholding_disabled_keeps_gross_dividend_as_net():
         dividends=[dividend(sec, date(2024, 2, 1), "10", pay_date=date(2024, 3, 1))],
         tax_rules=[tax_rule("0.30")],
     )
-    assert result.dividends["withholding_tax_foreign_currency"] == Decimal("0")
+    assert result.dividends["withholding_tax_foreign_currency"] == Decimal(0)
     assert result.dividends["net_foreign_currency"] == result.dividends["gross_foreign_currency"]
 
 
@@ -94,7 +94,7 @@ def test_missing_tax_rule_is_explicit_and_assumes_zero_tax():
         scenario=AnalysisScenario(reinvest_dividends=False),
         dividends=[dividend(sec, date(2024, 2, 1), "10", pay_date=date(2024, 3, 1))],
     )
-    assert result.dividends["withholding_tax_foreign_currency"] == Decimal("0")
+    assert result.dividends["withholding_tax_foreign_currency"] == Decimal(0)
     assert any("No dividend tax rule" in warning for warning in result.data_quality["warnings"])
 
 
@@ -111,8 +111,8 @@ def test_latest_effective_tax_rule_is_selected_for_the_ex_date():
             tax_rule("0.20", effective_from=date(2024, 1, 1), rule_id="current"),
         ],
     )
-    assert result.dividends["gross_foreign_currency"] == Decimal("100")
-    assert result.dividends["withholding_tax_foreign_currency"] == Decimal("20")
+    assert result.dividends["gross_foreign_currency"] == Decimal(100)
+    assert result.dividends["withholding_tax_foreign_currency"] == Decimal(20)
 
 
 def test_accumulating_security_ignores_dividends_with_a_warning():
@@ -123,7 +123,7 @@ def test_accumulating_security_ignores_dividends_with_a_warning():
         fx_rates=[fx(date(2024, 1, 2), "1"), fx(date(2024, 4, 1), "1")],
         dividends=[dividend(sec, date(2024, 2, 1), "10", pay_date=date(2024, 3, 1))],
     )
-    assert result.dividends["gross_foreign_currency"] == Decimal("0")
+    assert result.dividends["gross_foreign_currency"] == Decimal(0)
     assert any("accumulating" in warning for warning in result.data_quality["warnings"])
 
 
@@ -134,9 +134,9 @@ def test_sgd_security_does_not_require_fx_history():
         prices=flat_prices(sec, date(2024, 1, 2), date(2024, 4, 1), close="100"),
         initial_sgd="1000",
     )
-    assert result.initial_investment_foreign_currency == Decimal("1000")
-    assert result.investment["final_value_sgd"] == Decimal("1000")
-    assert result.fx == {"start_rate": Decimal("1"), "end_rate": Decimal("1")}
+    assert result.initial_investment_foreign_currency == Decimal(1000)
+    assert result.investment["final_value_sgd"] == Decimal(1000)
+    assert result.fx == {"start_rate": Decimal(1), "end_rate": Decimal(1)}
 
 
 def test_weekend_purchase_and_valuation_use_documented_trading_day_rules():
@@ -163,7 +163,7 @@ def test_dividend_on_purchase_date_is_not_received():
         fx_rates=[fx(date(2024, 1, 2), "1"), fx(date(2024, 4, 1), "1")],
         dividends=[dividend(sec, date(2024, 1, 2), "10", pay_date=date(2024, 2, 1))],
     )
-    assert result.dividends["gross_foreign_currency"] == Decimal("0")
+    assert result.dividends["gross_foreign_currency"] == Decimal(0)
 
 
 def test_same_day_split_is_applied_before_same_day_dividend():
@@ -182,7 +182,7 @@ def test_same_day_split_is_applied_before_same_day_dividend():
         dividends=[dividend(sec, date(2024, 2, 1), "1", pay_date=date(2024, 2, 1))],
         tax_rules=[tax_rule("0")],
     )
-    assert result.dividends["gross_foreign_currency"] == Decimal("20")
+    assert result.dividends["gross_foreign_currency"] == Decimal(20)
     assert result.investment["shares"] == Decimal("20.4")
 
 
@@ -194,8 +194,8 @@ def test_reverse_split_preserves_economic_value():
         fx_rates=[fx(date(2024, 1, 2), "1"), fx(date(2024, 4, 1), "1")],
         corporate_actions=[action(sec, date(2024, 2, 1), "0.5", action_type=CorporateActionType.REVERSE_SPLIT)],
     )
-    assert result.investment["shares"] == Decimal("5")
-    assert result.investment["final_value_sgd"] == Decimal("1000")
+    assert result.investment["shares"] == Decimal(5)
+    assert result.investment["final_value_sgd"] == Decimal(1000)
 
 
 def test_pay_date_on_non_trading_day_uses_next_trading_day_close():
@@ -212,7 +212,7 @@ def test_pay_date_on_non_trading_day_uses_next_trading_day_close():
         dividends=[dividend(sec, date(2024, 2, 1), "10", pay_date=date(2024, 2, 3))],
         tax_rules=[tax_rule("0")],
     )
-    assert result.investment["shares"] == Decimal("12")
+    assert result.investment["shares"] == Decimal(12)
 
 
 def test_weekend_payment_uses_the_prior_available_fx_rate():
@@ -234,8 +234,8 @@ def test_weekend_payment_uses_the_prior_available_fx_rate():
         tax_rules=[tax_rule("0")],
     )
 
-    assert result.investment["shares"] == Decimal("12")
-    assert result.dividends["gross_sgd_at_payment"] == Decimal("125")
+    assert result.investment["shares"] == Decimal(12)
+    assert result.dividends["gross_sgd_at_payment"] == Decimal(125)
 
 
 def test_dividend_available_after_valuation_is_not_added_to_end_value():
@@ -248,11 +248,11 @@ def test_dividend_available_after_valuation_is_not_added_to_end_value():
         dividends=[dividend(sec, date(2024, 1, 15), "10", pay_date=date(2024, 3, 1))],
         tax_rules=[tax_rule("0")],
     )
-    assert result.investment["shares"] == Decimal("10")
-    assert result.dividends["gross_foreign_currency"] == Decimal("0")
-    assert result.dividends["withholding_tax_foreign_currency"] == Decimal("0")
-    assert result.dividends["net_foreign_currency"] == Decimal("0")
-    assert result.dividends["cash_foreign_currency"] == Decimal("0")
+    assert result.investment["shares"] == Decimal(10)
+    assert result.dividends["gross_foreign_currency"] == Decimal(0)
+    assert result.dividends["withholding_tax_foreign_currency"] == Decimal(0)
+    assert result.dividends["net_foreign_currency"] == Decimal(0)
+    assert result.dividends["cash_foreign_currency"] == Decimal(0)
     assert any("after valuation" in warning for warning in result.data_quality["warnings"])
 
 
@@ -307,7 +307,7 @@ def test_split_price_return_uses_the_documented_raw_close_convention():
         corporate_actions=[action(sec, date(2024, 6, 1), "2")],
     )
 
-    assert result.price_return["foreign_currency"] == Decimal("55") / Decimal("100") - Decimal("1")
+    assert result.price_return["foreign_currency"] == Decimal(55) / Decimal(100) - Decimal(1)
 
 
 @pytest.mark.parametrize(
@@ -407,4 +407,4 @@ def test_analysis_result_obeys_core_value_identities():
         dividends["gross_foreign_currency"] - dividends["withholding_tax_foreign_currency"]
     )
     assert result.investment["final_value_sgd"] == result.investment["final_value_foreign_currency"] * Decimal("1.4")
-    assert result.returns["total_return"] == result.investment["final_value_sgd"] / Decimal("1000") - Decimal("1")
+    assert result.returns["total_return"] == result.investment["final_value_sgd"] / Decimal(1000) - Decimal(1)

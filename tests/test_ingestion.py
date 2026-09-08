@@ -7,7 +7,14 @@ from unittest import TestCase
 
 from sg_investing.data.ingestion import update_security_prices
 from sg_investing.data.storage import ParquetStore
-from sg_investing.models import AssetType, DataQualityStatus, DividendEvent, FxRate, PriceBar, Security
+from sg_investing.models import (
+    AssetType,
+    DataQualityStatus,
+    DividendEvent,
+    FxRate,
+    PriceBar,
+    Security,
+)
 
 
 class FakeProvider:

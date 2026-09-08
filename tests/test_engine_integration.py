@@ -11,7 +11,6 @@ from sg_investing.data.storage import ParquetStore
 from sg_investing.engine import SGInvestingEngine
 from tests.helpers import OTHER_SECURITY_ID, action, dividend, fx, price, security
 
-
 pytestmark = pytest.mark.integration
 
 
@@ -54,11 +53,11 @@ def test_public_engine_loads_multi_year_data_and_returns_json(tmp_path):
         ticker="TEST",
         start_date=date(2023, 12, 29),
         end_date=date(2024, 1, 2),
-        initial_sgd=Decimal("1300"),
+        initial_sgd=Decimal(1300),
     )
 
     assert result.period == {"start_date": date(2023, 12, 29), "end_date": date(2024, 1, 2)}
-    assert result.investment["final_value_sgd"] == Decimal("1680")
+    assert result.investment["final_value_sgd"] == Decimal(1680)
     payload = result.model_dump(mode="json")
     assert payload["security"]["ticker"] == "TEST"
     json.dumps(payload)
@@ -85,9 +84,9 @@ def test_public_engine_filters_other_security_rows_by_security_id(tmp_path):
         ticker="TEST",
         start_date=date(2024, 1, 2),
         end_date=date(2024, 4, 1),
-        initial_sgd=Decimal("1000"),
+        initial_sgd=Decimal(1000),
     )
-    assert result.investment["final_value_sgd"] == Decimal("1100")
+    assert result.investment["final_value_sgd"] == Decimal(1100)
 
 
 def test_public_engine_loads_dividends_and_corporate_actions(tmp_path):
@@ -112,12 +111,12 @@ def test_public_engine_loads_dividends_and_corporate_actions(tmp_path):
         ticker="TEST",
         start_date=date(2024, 1, 2),
         end_date=date(2024, 4, 1),
-        initial_sgd=Decimal("1000"),
+        initial_sgd=Decimal(1000),
     )
     # Ten initial shares become twenty after the split, then receive a
     # US$20 dividend reinvested at US$50.
     assert result.investment["shares"] == Decimal("20.4")
-    assert result.investment["final_value_sgd"] == Decimal("1020")
+    assert result.investment["final_value_sgd"] == Decimal(1020)
 
 
 def test_public_engine_rejects_unknown_and_ambiguous_tickers(tmp_path):

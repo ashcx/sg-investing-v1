@@ -52,7 +52,7 @@ class UniverseCatalog(BaseModel):
         source: str,
         as_of: date,
         listings: list[Security],
-    ) -> "UniverseCatalog":
+    ) -> UniverseCatalog:
         """Return a new catalog with an auditable current-listing snapshot."""
 
         existing_by_key = {

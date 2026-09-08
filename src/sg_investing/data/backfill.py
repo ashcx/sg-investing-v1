@@ -9,17 +9,16 @@ from __future__ import annotations
 
 import json
 from collections import Counter, defaultdict
-from datetime import date, datetime, timedelta, timezone
+from collections.abc import Iterable, Mapping
+from datetime import UTC, date, datetime, timedelta
 from itertools import islice
 from pathlib import Path
-from typing import Iterable, Mapping
 
 import pyarrow.parquet as pq
 
 from sg_investing.data.providers.base import MarketDataProvider
 from sg_investing.data.storage import ParquetStore
 from sg_investing.models import Security
-
 
 STATE_VERSION = 2
 MAX_ATTEMPTS = 3
@@ -75,10 +74,8 @@ def scan_price_coverage(store: ParquetStore) -> dict[str, dict[str, object]]:
                     {"bars": 0, "first_price_date": trading_date, "last_price_date": trading_date},
                 )
                 record["bars"] = int(record["bars"]) + 1
-                if trading_date < record["first_price_date"]:
-                    record["first_price_date"] = trading_date
-                if trading_date > record["last_price_date"]:
-                    record["last_price_date"] = trading_date
+                record["first_price_date"] = min(record["first_price_date"], trading_date)
+                record["last_price_date"] = max(record["last_price_date"], trading_date)
 
     sessions_by_market = {
         market: tuple(sorted(sessions)) for market, sessions in market_dates.items()
@@ -279,7 +276,7 @@ def load_or_reconcile_state(
     for security_id, record in records.items():
         if security_id not in catalog_ids and isinstance(record, dict):
             record["in_current_catalog"] = False
-    payload["updated_at"] = datetime.now(timezone.utc).isoformat()
+    payload["updated_at"] = datetime.now(UTC).isoformat()
     return payload
 
 
@@ -376,7 +373,7 @@ def backfill_missing_prices(
             rows = [row for security_rows in rows_by_security.values() for row in security_rows]
             if rows:
                 store.upsert_prices(market=market, rows=rows, pipeline_version="backfill-v2")
-            attempted_at = datetime.now(timezone.utc).isoformat()
+            attempted_at = datetime.now(UTC).isoformat()
             for security in batch:
                 security_id = str(security.security_id)
                 record = records[security_id]
@@ -422,7 +419,7 @@ def backfill_missing_prices(
                     run["failed"] += 1
                 run["attempted"] += 1
             run["batches_completed"] += 1
-            state["updated_at"] = datetime.now(timezone.utc).isoformat()
+            state["updated_at"] = datetime.now(UTC).isoformat()
             _atomic_json_write(state_path, state)
             _atomic_json_write(summary_path, _state_summary(state, run=run))
     # The provider result count is not authoritative: it can overlap rows

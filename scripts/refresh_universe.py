@@ -6,8 +6,6 @@ import json
 from datetime import date
 from pathlib import Path
 
-import yaml
-
 from sg_investing.universe.catalog import load_catalog, save_catalog
 from sg_investing.universe.sources import (
     fetch_iwm_holdings_current,
@@ -15,7 +13,6 @@ from sg_investing.universe.sources import (
     fetch_sgx_current,
     fetch_sp500_current,
 )
-
 
 ROOT = Path(__file__).resolve().parents[1]
 

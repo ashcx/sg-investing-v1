@@ -51,7 +51,7 @@ def validate_prices(rows: Iterable[PriceBar]) -> ValidationReport:
         seen.add(key)
         if not (row.low <= row.open <= row.high and row.low <= row.close <= row.high):
             errors.append(f"Invalid OHLC relationship for {row.security_id} on {row.trading_date}.")
-        if row.close == Decimal("0"):
+        if row.close == Decimal(0):
             errors.append(f"Unexpected zero close for {row.security_id} on {row.trading_date}.")
     return _report(errors=errors, warnings=warnings, row_count=len(rows))
 
@@ -115,7 +115,7 @@ def validate_corporate_actions(rows: Iterable[CorporateAction]) -> ValidationRep
                 f"Duplicate corporate action for {row.security_id} on {row.effective_date}."
             )
         seen.add(key)
-        if row.ratio <= Decimal("0"):
+        if row.ratio <= Decimal(0):
             errors.append(
                 f"Non-positive corporate-action ratio for {row.security_id} on {row.effective_date}."
             )
@@ -131,6 +131,6 @@ def validate_fx(rows: Iterable[FxRate]) -> ValidationReport:
         if key in seen:
             errors.append(f"Duplicate {row.base_currency}/SGD rate on {row.rate_date}.")
         seen.add(key)
-        if row.base_currency == "SGD" and row.rate_to_sgd != Decimal("1"):
+        if row.base_currency == "SGD" and row.rate_to_sgd != Decimal(1):
             errors.append("SGD/SGD must equal 1.")
     return _report(errors=errors, warnings=[], row_count=len(rows))

@@ -11,7 +11,6 @@ from sg_investing.data.storage import ParquetStore
 from sg_investing.models import CorporateActionType
 from sg_investing.universe.catalog import load_catalog
 
-
 ROOT = Path(__file__).resolve().parents[1]
 
 

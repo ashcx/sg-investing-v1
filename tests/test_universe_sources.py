@@ -1,14 +1,12 @@
 from __future__ import annotations
 
 from datetime import date
-from types import SimpleNamespace
 from unittest.mock import patch
 
 import pytest
 
 from sg_investing.models import AssetType
 from sg_investing.universe import sources
-
 
 pytestmark = pytest.mark.provider
 

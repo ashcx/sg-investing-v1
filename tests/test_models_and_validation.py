@@ -18,10 +18,9 @@ from sg_investing.models import (
     DividendEvent,
     FxRate,
     PortfolioTransaction,
-    PriceBar,
     TransactionType,
 )
-from tests.helpers import security, price
+from tests.helpers import price, security
 
 
 def test_model_identifiers_are_normalized():
@@ -45,13 +44,13 @@ def test_money_and_positive_ratio_constraints_are_enforced():
     with pytest.raises(ValidationError):
         price(security(), date(2024, 1, 2), close="-1")
     with pytest.raises(ValidationError):
-        FxRate(rate_date=date(2024, 1, 2), base_currency="USD", rate_to_sgd=Decimal("0"), source="test")
+        FxRate(rate_date=date(2024, 1, 2), base_currency="USD", rate_to_sgd=Decimal(0), source="test")
     with pytest.raises(ValidationError):
         CorporateAction(
             security_id=security().security_id,
             effective_date=date(2024, 1, 2),
             action_type=CorporateActionType.SPLIT,
-            ratio=Decimal("0"),
+            ratio=Decimal(0),
             source="test",
         )
 
@@ -60,7 +59,7 @@ def test_portfolio_transaction_normalizes_currency_and_rejects_negative_fees():
     transaction = PortfolioTransaction(
         transaction_date=date(2024, 1, 2),
         transaction_type=TransactionType.CASH_DEPOSIT,
-        cash_amount=Decimal("100"),
+        cash_amount=Decimal(100),
         currency="usd",
     )
     assert transaction.currency == "USD"
@@ -68,7 +67,7 @@ def test_portfolio_transaction_normalizes_currency_and_rejects_negative_fees():
         PortfolioTransaction(
             transaction_date=date(2024, 1, 2),
             transaction_type=TransactionType.CASH_DEPOSIT,
-            cash_amount=Decimal("100"),
+            cash_amount=Decimal(100),
             currency="USD",
             fees=Decimal("-0.01"),
         )
@@ -104,7 +103,7 @@ def test_validate_dividends_rejects_pay_date_before_ex_date():
         security_id=security().security_id,
         ex_date=date(2024, 2, 1),
         pay_date=date(2024, 1, 1),
-        amount=Decimal("1"),
+        amount=Decimal(1),
         currency="USD",
         source="test",
     )
@@ -118,7 +117,7 @@ def test_validate_dividends_and_fx_detect_canonical_duplicates():
     dividend_row = DividendEvent(
         security_id=sec.security_id,
         ex_date=date(2024, 2, 1),
-        amount=Decimal("1"),
+        amount=Decimal(1),
         currency="USD",
         source="test",
     )

@@ -49,12 +49,12 @@ def test_fees_reduce_cash_and_realized_profit_and_increase_buy_basis():
         as_of=date(2024, 3, 1),
     )
     holding = result.holdings[0]
-    assert holding.quantity == Decimal("5")
-    assert holding.weighted_average_cost == Decimal("101")
-    assert holding.cost_basis_native == Decimal("505")
-    assert holding.realized_pl_native == Decimal("90")
-    assert result.cash_by_currency["USD"] == Decimal("1585")
-    assert result.total_market_value_sgd == Decimal("2185")
+    assert holding.quantity == Decimal(5)
+    assert holding.weighted_average_cost == Decimal(101)
+    assert holding.cost_basis_native == Decimal(505)
+    assert holding.realized_pl_native == Decimal(90)
+    assert result.cash_by_currency["USD"] == Decimal(1585)
+    assert result.total_market_value_sgd == Decimal(2185)
 
 
 def test_dividends_withdrawals_and_future_transactions_are_handled():
@@ -72,8 +72,8 @@ def test_dividends_withdrawals_and_future_transactions_are_handled():
         fx_rates=[fx(date(2024, 3, 1), "1")],
         as_of=date(2024, 3, 1),
     )
-    assert result.cash_by_currency["USD"] == Decimal("425")
-    assert result.total_market_value_sgd == Decimal("1025")
+    assert result.cash_by_currency["USD"] == Decimal(425)
+    assert result.total_market_value_sgd == Decimal(1025)
 
 
 def test_multiple_currencies_include_cash_and_market_value_in_sgd():
@@ -98,8 +98,8 @@ def test_multiple_currencies_include_cash_and_market_value_in_sgd():
         fx_rates=[fx(date(2024, 3, 1), "1.4")],
         as_of=date(2024, 3, 1),
     )
-    assert result.cash_by_currency == {"USD": Decimal("500"), "SGD": Decimal("0")}
-    assert result.total_market_value_sgd == Decimal("700") + Decimal("840") + Decimal("1100")
+    assert result.cash_by_currency == {"USD": Decimal(500), "SGD": Decimal(0)}
+    assert result.total_market_value_sgd == Decimal(700) + Decimal(840) + Decimal(1100)
 
 
 def test_selling_all_shares_removes_holding_but_retains_realized_pl():
@@ -115,7 +115,7 @@ def test_selling_all_shares_removes_holding_but_retains_realized_pl():
         as_of=date(2024, 3, 1),
     )
     assert result.holdings == []
-    assert result.realized_pl_native == {"USD": Decimal("100")}
+    assert result.realized_pl_native == {"USD": Decimal(100)}
 
 
 @pytest.mark.parametrize(

@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from datetime import date, datetime, timezone
+from datetime import UTC, date, datetime
 from decimal import Decimal
 from uuid import UUID
 
@@ -8,14 +8,13 @@ from sg_investing.models import (
     AssetType,
     CorporateAction,
     CorporateActionType,
-    DividendEvent,
     DistributionPolicy,
+    DividendEvent,
     FxRate,
     PriceBar,
     Security,
     TaxRule,
 )
-
 
 TEST_SECURITY_ID = UUID("11111111-1111-1111-1111-111111111111")
 OTHER_SECURITY_ID = UUID("22222222-2222-2222-2222-222222222222")
@@ -71,7 +70,7 @@ def price(
         exchange=security_row.exchange,
         timezone=security_row.timezone,
         source=source,
-        retrieved_at=datetime(2024, 1, 1, tzinfo=timezone.utc),
+        retrieved_at=datetime(2024, 1, 1, tzinfo=UTC),
     )
 
 

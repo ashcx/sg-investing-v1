@@ -16,7 +16,6 @@ from sg_investing.data.price_quality import (
 )
 from sg_investing.universe.catalog import load_catalog
 
-
 pytestmark = [
     pytest.mark.smoke,
     pytest.mark.skipif(

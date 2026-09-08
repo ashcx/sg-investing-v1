@@ -12,7 +12,7 @@ from pydantic import BaseModel, ConfigDict
 from sg_investing.analysis import AnalysisDataError, _rate_for_date
 from sg_investing.models import FxRate, PortfolioTransaction, PriceBar, Security, TransactionType
 
-_ZERO = Decimal("0")
+_ZERO = Decimal(0)
 
 
 class HoldingSnapshot(BaseModel):

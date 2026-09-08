@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
-from datetime import date
 import json
+from datetime import date
 from pathlib import Path
 
 import yaml
@@ -12,7 +12,6 @@ from sg_investing.data.backfill import backfill_missing_prices
 from sg_investing.data.providers.yahoo import YahooFinanceProvider
 from sg_investing.data.storage import ParquetStore
 from sg_investing.universe.catalog import load_catalog
-
 
 ROOT = Path(__file__).resolve().parents[1]
 

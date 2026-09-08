@@ -10,7 +10,6 @@ from sg_investing.data.backfill import reconcile_price_backfill_state
 from sg_investing.data.storage import ParquetStore
 from sg_investing.universe.catalog import load_catalog
 
-
 ROOT = Path(__file__).resolve().parents[1]
 
 

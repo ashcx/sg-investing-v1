@@ -65,9 +65,9 @@ def test_cash_dividend_mode_keeps_net_dividend_as_cash():
         dividends=[dividend(sec, date(2024, 1, 15), "10", pay_date=date(2024, 2, 1))],
         tax_rules=[tax_rule("0.30")],
     )
-    assert result.shares == Decimal("4")
-    assert result.final_value_foreign_currency == Decimal("407")
-    assert result.gain_loss_foreign_currency == Decimal("7")
+    assert result.shares == Decimal(4)
+    assert result.final_value_foreign_currency == Decimal(407)
+    assert result.gain_loss_foreign_currency == Decimal(7)
 
 
 def test_dca_reinvestment_uses_net_dividend_after_withholding():
@@ -88,7 +88,7 @@ def test_dca_reinvestment_uses_net_dividend_after_withholding():
     )
     # Three S$100 contributions buy 1 + 1 + 2 shares. The first two shares
     # receive a US$10 dividend; US$14 is reinvested at US$50.
-    assert result.shares == Decimal("4") + Decimal("14") / Decimal("50")
+    assert result.shares == Decimal(4) + Decimal(14) / Decimal(50)
 
 
 def test_dca_dividends_disabled_do_not_create_reinvestment_or_warnings():
@@ -102,7 +102,7 @@ def test_dca_dividends_disabled_do_not_create_reinvestment_or_warnings():
         scenario=AnalysisScenario(dividends_enabled=False),
         dividends=[dividend(sec, date(2024, 1, 15), "10", pay_date=date(2024, 2, 1))],
     )
-    assert result.shares == Decimal("3")
+    assert result.shares == Decimal(3)
     assert result.data_quality["warnings"] == []
 
 
@@ -156,8 +156,8 @@ def test_dca_split_is_applied_before_later_valuation():
         end_date=date(2024, 3, 1),
         corporate_actions=[action(sec, date(2024, 2, 1), "2")],
     )
-    assert result.shares == Decimal("2") + Decimal("2") + Decimal("2")
-    assert result.final_value_foreign_currency == Decimal("300")
+    assert result.shares == Decimal(2) + Decimal(2) + Decimal(2)
+    assert result.final_value_foreign_currency == Decimal(300)
 
 
 def test_accumulating_dca_security_surfaces_ignored_dividends():
@@ -170,7 +170,7 @@ def test_accumulating_dca_security_surfaces_ignored_dividends():
         end_date=date(2024, 3, 1),
         dividends=[dividend(sec, date(2024, 1, 15), "1", pay_date=date(2024, 2, 1))],
     )
-    assert result.shares == Decimal("3")
+    assert result.shares == Decimal(3)
     assert result.data_quality["warnings"]
 
 
@@ -214,17 +214,17 @@ def test_dca_requires_a_trading_date_and_fx_history():
 
 
 def test_xirr_handles_known_zero_return_unsorted_cash_flows_and_invalid_signs():
-    assert xirr([(date(2025, 1, 1), Decimal("110")), (date(2024, 1, 1), Decimal("-100"))]) is not None
-    assert xirr([(date(2024, 1, 1), Decimal("-100")), (date(2025, 1, 1), Decimal("100"))]) == pytest.approx(0, abs=1e-10)
-    assert xirr([(date(2024, 1, 1), Decimal("100"))]) is None
-    assert xirr([(date(2024, 1, 1), Decimal("-100")), (date(2025, 1, 1), Decimal("-100"))]) is None
+    assert xirr([(date(2025, 1, 1), Decimal(110)), (date(2024, 1, 1), Decimal(-100))]) is not None
+    assert xirr([(date(2024, 1, 1), Decimal(-100)), (date(2025, 1, 1), Decimal(100))]) == pytest.approx(0, abs=1e-10)
+    assert xirr([(date(2024, 1, 1), Decimal(100))]) is None
+    assert xirr([(date(2024, 1, 1), Decimal(-100)), (date(2025, 1, 1), Decimal(-100))]) is None
 
 
 def test_xirr_matches_an_independent_known_answer():
     result = xirr(
         [
-            (date(2025, 1, 1), Decimal("-100")),
-            (date(2026, 1, 1), Decimal("110")),
+            (date(2025, 1, 1), Decimal(-100)),
+            (date(2026, 1, 1), Decimal(110)),
         ]
     )
     expected = (1.10 ** (365.2425 / 365.0)) - 1.0

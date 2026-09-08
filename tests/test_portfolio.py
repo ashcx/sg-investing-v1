@@ -32,31 +32,31 @@ class PortfolioTests(TestCase):
                 PortfolioTransaction(
                     transaction_date=date(2024, 1, 2),
                     transaction_type=TransactionType.CASH_DEPOSIT,
-                    cash_amount=Decimal("2500"),
+                    cash_amount=Decimal(2500),
                     currency="USD",
                 ),
                 PortfolioTransaction(
                     transaction_date=date(2024, 1, 2),
                     security_id=self.security.security_id,
                     transaction_type=TransactionType.BUY,
-                    quantity=Decimal("10"),
-                    cash_amount=Decimal("1000"),
+                    quantity=Decimal(10),
+                    cash_amount=Decimal(1000),
                     currency="USD",
                 ),
                 PortfolioTransaction(
                     transaction_date=date(2024, 2, 2),
                     security_id=self.security.security_id,
                     transaction_type=TransactionType.BUY,
-                    quantity=Decimal("10"),
-                    cash_amount=Decimal("1200"),
+                    quantity=Decimal(10),
+                    cash_amount=Decimal(1200),
                     currency="USD",
                 ),
                 PortfolioTransaction(
                     transaction_date=date(2024, 3, 2),
                     security_id=self.security.security_id,
                     transaction_type=TransactionType.SELL,
-                    quantity=Decimal("5"),
-                    cash_amount=Decimal("650"),
+                    quantity=Decimal(5),
+                    cash_amount=Decimal(650),
                     currency="USD",
                 ),
             ],
@@ -65,10 +65,10 @@ class PortfolioTests(TestCase):
                 PriceBar(
                     security_id=self.security.security_id,
                     trading_date=date(2024, 3, 4),
-                    open=Decimal("140"),
-                    high=Decimal("140"),
-                    low=Decimal("140"),
-                    close=Decimal("140"),
+                    open=Decimal(140),
+                    high=Decimal(140),
+                    low=Decimal(140),
+                    close=Decimal(140),
                     volume=10,
                     currency="USD",
                     exchange="NYSE",
@@ -83,9 +83,9 @@ class PortfolioTests(TestCase):
         )
 
         holding = result.holdings[0]
-        self.assertEqual(holding.quantity, Decimal("15"))
-        self.assertEqual(holding.weighted_average_cost, Decimal("110"))
-        self.assertEqual(holding.cost_basis_native, Decimal("1650"))
-        self.assertEqual(holding.realized_pl_native, Decimal("100"))
-        self.assertEqual(result.cash_by_currency["USD"], Decimal("950"))
-        self.assertEqual(result.total_market_value_sgd, Decimal("3050") * Decimal("1.30"))
+        self.assertEqual(holding.quantity, Decimal(15))
+        self.assertEqual(holding.weighted_average_cost, Decimal(110))
+        self.assertEqual(holding.cost_basis_native, Decimal(1650))
+        self.assertEqual(holding.realized_pl_native, Decimal(100))
+        self.assertEqual(result.cash_by_currency["USD"], Decimal(950))
+        self.assertEqual(result.total_market_value_sgd, Decimal(3050) * Decimal("1.30"))
