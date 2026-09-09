@@ -3,7 +3,6 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; worker-src 'self'; connect-src 'self' https://pub-a88a64ce6b634ab8a70623c35ff81ad7.r2.dev; font-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'">
     <meta name="theme-color" content="#101b2d" />
     <meta name="description" content="A calm, auditable return lens for Singapore investors." />
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; worker-src 'self'; connect-src 'self' https://pub-a88a64ce6b634ab8a70623c35ff81ad7.r2.dev; font-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'" />
@@ -11,7 +10,7 @@
     <meta name="sg-invest-api-base" content="" />
     <meta name="sg-invest-pack-base" content="https://pub-a88a64ce6b634ab8a70623c35ff81ad7.r2.dev" />
     <title>SG / Invest — See the return in the currency that matters</title>
-    <link rel="stylesheet" href="styles.css?v=10" />
+    <link rel="stylesheet" href="styles.css?v=11" />
   </head>
   <body>
     <div class="site-shell">
@@ -33,8 +32,8 @@
           <a href="#explore">Explore</a><a href="#analyse">Analyse</a><a href="#compare">Compare</a><a href="#dca">DCA</a><a href="#portfolio">Portfolio</a><a href="#methodology">Methodology</a>
         </nav>
         <div class="header-meta">
-          <span class="live-dot" aria-hidden="true"></span>
-          <span>Last updated <strong id="data-date">4 Sep 2026</strong></span>
+          <span class="snapshot-dot" aria-hidden="true"></span>
+          <span>Data through <strong id="data-date">4 Sep 2026</strong></span>
         </div>
       </header>
 
@@ -103,7 +102,10 @@
               <form id="analysis-form" novalidate>
                 <div class="form-field">
                   <label for="security-select">Security</label>
-                  <select id="security-select" required></select>
+                  <div class="form-combobox" data-combobox>
+                    <input id="security-select" class="combobox-input" type="text" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="security-select-options" autocomplete="off" placeholder="Search ticker or name…" required />
+                    <div class="combobox-list hidden" id="security-select-options" role="listbox" aria-label="Published securities"></div>
+                  </div>
                   <p class="field-hint" id="security-hint">Choose a published security.</p>
                   <dl class="security-metadata" aria-label="Security metadata"><div><dt>Domicile</dt><dd id="security-domicile">—</dd></div><div><dt>ISIN</dt><dd id="security-isin">Not published</dd></div><div><dt>Expense ratio</dt><dd id="security-expense">Metadata only</dd></div></dl>
                 </div>
@@ -137,7 +139,7 @@
                 <p class="form-error" id="form-error" role="alert"></p>
                 <button class="button button-primary full-width" type="submit">Run historical replay <span aria-hidden="true">→</span></button>
               </form>
-              <div class="form-footnote"><span class="tiny-dot"></span> No brokerage, slippage or extra TER deduction in V1.</div>
+              <div class="form-footnote"><span class="tiny-dot"></span> No brokerage, slippage or extra TER deduction in V1.</div><details class="inline-help"><summary>What is TER?</summary><p>TER means total expense ratio. It is shown as metadata only because observed fund performance generally already reflects the fee.</p></details>
             </aside>
 
             <div class="results-panel" id="results-panel" aria-live="polite">
@@ -153,7 +155,7 @@
                     <h3 id="result-title">QQQ</h3>
                     <p id="result-subtitle">Invesco QQQ Trust</p>
                   </div>
-                  <div class="quality-badge warning" id="quality-badge"><span class="quality-dot"></span><span id="quality-label">Review warnings</span></div>
+                  <div class="result-badges"><span class="example-badge hidden" id="example-badge">Example replay</span><div class="quality-badge warning" id="quality-badge"><span class="quality-dot"></span><span id="quality-label">Review warnings</span></div></div>
                 </div>
                 <div class="currency-switch" role="group" aria-label="Display currency">
                   <span class="switch-label">DISPLAY IN</span>
@@ -174,6 +176,8 @@
                 <article class="chart-card" id="series-card">
                   <div class="detail-card-head"><div><span class="metric-label">DAILY PRICE SERIES</span><h4></h4></div><span class="chart-range" id="series-range">Loading series…</span></div>
                   <div class="chart-wrap"><svg id="series-chart" viewBox="0 0 1000 260" role="img" aria-label="Daily native and SGD closing prices"></svg></div>
+                  <div class="chart-actions"><button type="button" class="text-button" id="toggle-series-table" aria-expanded="false" aria-controls="series-table-wrap">View as table</button><button type="button" class="text-button" id="download-series-csv">Download CSV</button></div>
+                  <div class="series-table-wrap hidden" id="series-table-wrap"></div>
                   <div class="chart-legend"><span><i class="legend-line native-line"></i><span id="native-legend">USD native close</span></span><span><i class="legend-line sgd-line"></i>SGD converted close</span><span class="chart-source">Backend series artifact</span></div>
                 </article>
                 <div class="detail-grid">
@@ -211,7 +215,7 @@
           <div class="section-heading"><h2>Compare the same lens.</h2><p class="section-intro">Keep dates, capital and methodology constant while you compare securities.</p></div>
           <div class="compare-layout">
             <form id="compare-form" class="compare-form">
-              <div class="form-field"><label for="compare-tickers">Tickers <span class="field-unit">2–6</span></label><input id="compare-tickers" type="text" value="QQQ, SMH, SOXX" placeholder="QQQ, SMH, SOXX" /><p class="field-hint">Use provider tickers from the published catalog.</p></div>
+              <div class="form-field"><label for="compare-tickers">Securities <span class="field-unit">2–6</span></label><div class="multi-combobox" id="compare-ticker-picker" data-multi-combobox><div class="selected-chips" id="compare-ticker-chips"></div><input id="compare-tickers" type="text" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="compare-ticker-options" autocomplete="off" placeholder="Add a ticker…" data-initial-tickers="QQQ, SMH, SOXX" /><div class="combobox-list hidden" id="compare-ticker-options" role="listbox" aria-label="Comparison securities"></div></div><p class="field-hint">Search and select 2–6 securities from the published catalog.</p></div>
               <div class="form-grid"><div class="form-field"><label for="compare-amount">Capital <span class="field-unit">SGD</span></label><div class="input-prefix light"><span>S$</span><input id="compare-amount" type="number" min="1" step="100" value="10000" /></div></div><div class="form-field"><label for="compare-scenario">Scenario</label><select id="compare-scenario"><option value="investor">Singapore investor</option><option value="price">Price only</option><option value="gross">Gross total return</option><option value="cash">Cash dividends</option></select></div></div>
               <div class="form-grid"><div class="form-field"><label for="compare-start">Start date</label><input id="compare-start" type="date" value="" /></div><div class="form-field"><label for="compare-end">End date</label><input id="compare-end" type="date" value="" /></div></div>
               <p class="form-error" id="compare-error" role="alert"></p><button class="button button-primary full-width" type="submit">Run comparison <span aria-hidden="true">→</span></button>
@@ -224,11 +228,11 @@
           <div class="section-heading"><h2>Make consistency measurable.</h2><p class="section-intro">A contribution happens on the first available trading day of each period.</p></div>
           <div class="dca-layout">
             <form id="dca-form" class="dca-form analysis-form-panel light-panel">
-              <div class="form-field"><label for="dca-security">Security</label><select id="dca-security"></select></div>
+              <div class="form-field"><label for="dca-security">Security</label><div class="form-combobox" data-combobox><input id="dca-security" class="combobox-input" type="text" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="dca-security-options" autocomplete="off" placeholder="Search ticker or name…" /><div class="combobox-list hidden" id="dca-security-options" role="listbox" aria-label="Published securities"></div></div></div>
               <div class="form-grid"><div class="form-field"><label for="dca-contribution">Contribution <span class="field-unit">SGD</span></label><div class="input-prefix light"><span>S$</span><input id="dca-contribution" type="number" min="1" step="50" value="500" /></div></div><div class="form-field"><label for="dca-frequency">Frequency</label><select id="dca-frequency"><option value="monthly">Monthly</option><option value="quarterly">Quarterly</option><option value="yearly">Yearly</option></select></div></div>
               <div class="form-grid"><div class="form-field"><label for="dca-start">Start date</label><input id="dca-start" type="date" value="" /></div><div class="form-field"><label for="dca-end">End date</label><input id="dca-end" type="date" value="" /></div></div>
               <div class="scenario-box compact-scenario"><div class="scenario-box-head"><span>Scenario</span></div><label class="toggle-row"><span><strong>Include dividends</strong><small>Price return vs. total return</small></span><input id="dca-dividends" type="checkbox" checked /><span class="toggle-ui" aria-hidden="true"></span></label><label class="toggle-row"><span><strong>Withholding tax</strong><small>Investor-level rule, when known</small></span><input id="dca-withholding" type="checkbox" checked /><span class="toggle-ui" aria-hidden="true"></span></label><label class="toggle-row"><span><strong>Reinvest dividends</strong><small>Pay-date close · fractional shares</small></span><input id="dca-reinvest" type="checkbox" checked /><span class="toggle-ui" aria-hidden="true"></span></label></div>
-              <div class="form-footnote"><span class="tiny-dot"></span> Dividends follow the selected scenario; XIRR stays money-weighted.</div>
+              <div class="form-footnote"><span class="tiny-dot"></span> Dividends follow the selected scenario; XIRR stays money-weighted.</div><details class="inline-help"><summary>What is XIRR?</summary><p>XIRR is an annualised return that accounts for the timing of each contribution, so it is money-weighted.</p></details>
               <p class="form-error" id="dca-error" role="alert"></p><button class="button button-primary full-width" type="submit">Run DCA replay <span aria-hidden="true">→</span></button>
             </form>
             <div class="dca-results" id="dca-results" aria-live="polite"><div class="result-empty compact-empty"><h3>Build a contribution path.</h3><p>Choose a cadence to see the contribution dates, shares, XIRR and ending value.</p></div></div>
@@ -241,7 +245,7 @@
             <form id="portfolio-form" class="portfolio-form light-panel">
               <div class="form-field"><label for="portfolio-as-of">As-of date</label><input id="portfolio-as-of" type="date" value="" /></div>
               <div class="ledger-table-wrap"><table class="ledger-table"><thead><tr><th>Type</th><th>Security</th><th>Date</th><th>Qty</th><th>Cash</th><th>CCY</th></tr></thead><tbody id="ledger-rows"></tbody></table></div>
-              <button class="text-button ledger-add" type="button" id="add-ledger-row">+ Add transaction</button><p class="form-error" id="portfolio-error" role="alert"></p><button class="button button-primary full-width" type="submit">Reconstruct portfolio <span aria-hidden="true">→</span></button>
+              <button class="text-button ledger-add" type="button" id="add-ledger-row">+ Add transaction</button><details class="inline-help"><summary>What are WAC and mark-to-market?</summary><p>WAC is weighted-average cost, a reporting convention for the cost of open holdings. Mark-to-market values those holdings at the selected as-of price.</p></details><p class="form-error" id="portfolio-error" role="alert"></p><button class="button button-primary full-width" type="submit">Reconstruct portfolio <span aria-hidden="true">→</span></button>
             </form>
             <div class="portfolio-results" id="portfolio-results" aria-live="polite"><div class="result-empty compact-empty"><h3>A portfolio is a sequence.</h3><p>Add a buy, sell, dividend or cash transaction to see the holdings snapshot.</p></div></div>
           </div>
@@ -261,6 +265,6 @@
 
       <footer class="site-footer section-frame"><span>SG / Invest · Built for careful comparisons.</span><span>Historical analysis · No execution · No advice</span></footer>
     </div>
-    <script type="module" src="app.js?v=10"></script>
+    <script type="module" src="app.js?v=11"></script>
   </body>
 </html>

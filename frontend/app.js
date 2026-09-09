@@ -68,6 +68,7 @@ const state = {
   seriesSource: null,
   dcaArtifact: null,
   selectedSecurityId: null,
+  compareTickers: [],
   currencyMode: 'sgd',
   warningsOpen: false,
   catalogLimit: 12,
@@ -76,9 +77,99 @@ const state = {
 const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => [...document.querySelectorAll(selector)];
 const has = (selector) => Boolean($(selector));
+const COMBOBOX_RESULT_LIMIT = 40;
 
 function escapeHtml(value) {
   return String(value ?? '').replace(/[&<>'"]/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[char]));
+}
+
+function securityComboboxValue(inputOrSelector) {
+  const input = typeof inputOrSelector === 'string' ? $(inputOrSelector) : inputOrSelector;
+  return input?.dataset.securityId || '';
+}
+
+function securityDisplayLabel(security) {
+  return `${security.ticker} — ${security.name}`;
+}
+
+function closeSecurityCombobox(input) {
+  const root = input?.closest('[data-combobox]');
+  const list = root?.querySelector('.combobox-list');
+  if (!root || !list) return;
+  list.classList.add('hidden');
+  input.setAttribute('aria-expanded', 'false');
+  input.removeAttribute('aria-activedescendant');
+}
+
+function renderSecurityCombobox(input, query = input.value) {
+  const root = input.closest('[data-combobox]');
+  const list = root?.querySelector('.combobox-list');
+  if (!root || !list) return;
+  const wanted = String(query || '').trim().toLowerCase();
+  const matches = securityEntries().filter(({ security }) => {
+    const text = [security.ticker, security.name, security.isin, security.exchange, security.market].filter(Boolean).join(' ').toLowerCase();
+    return !wanted || text.includes(wanted);
+  });
+  const visible = matches.slice(0, COMBOBOX_RESULT_LIMIT);
+  list.innerHTML = visible.map(({ security }, index) => `<div class="combobox-option" id="${escapeHtml(input.id)}-option-${index}" role="option" aria-selected="${securityComboboxValue(input) === security.security_id}" data-security-id="${escapeHtml(security.security_id)}"><strong>${escapeHtml(security.ticker)}</strong><span>${escapeHtml(security.name)} · ${escapeHtml(security.exchange)}</span></div>`).join('')
+    || '<div class="combobox-empty" role="status">No published securities match that search.</div>';
+  if (matches.length > COMBOBOX_RESULT_LIMIT) {
+    list.insertAdjacentHTML('beforeend', `<div class="combobox-more" role="status">Showing ${COMBOBOX_RESULT_LIMIT} of ${matches.length}. Keep typing to narrow the list.</div>`);
+  }
+  list.classList.remove('hidden');
+  input.setAttribute('aria-expanded', 'true');
+}
+
+function setSecurityComboboxValue(inputOrSelector, securityId, dispatch = false) {
+  const input = typeof inputOrSelector === 'string' ? $(inputOrSelector) : inputOrSelector;
+  const entry = entryForId(securityId);
+  if (!input || !entry) return;
+  input.dataset.securityId = securityId;
+  input.value = securityDisplayLabel(entry.security);
+  input.removeAttribute('aria-invalid');
+  closeSecurityCombobox(input);
+  if (dispatch) input.dispatchEvent(new Event('change', { bubbles: true }));
+}
+
+function wireSecurityCombobox(input) {
+  if (!input || input.dataset.comboboxWired === '1') return;
+  input.dataset.comboboxWired = '1';
+  input.addEventListener('focus', () => renderSecurityCombobox(input));
+  input.addEventListener('input', () => {
+    delete input.dataset.securityId;
+    input.removeAttribute('aria-invalid');
+    renderSecurityCombobox(input, input.value);
+  });
+  input.addEventListener('keydown', (event) => {
+    const options = [...input.closest('[data-combobox]')?.querySelectorAll('.combobox-option') || []];
+    const active = options.findIndex((option) => option.classList.contains('active'));
+    if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+      event.preventDefault();
+      if (!options.length) return;
+      const next = event.key === 'ArrowDown' ? (active + 1) % options.length : (active - 1 + options.length) % options.length;
+      options.forEach((option, index) => option.classList.toggle('active', index === next));
+      options[next].scrollIntoView({ block: 'nearest' });
+      input.setAttribute('aria-activedescendant', options[next].id);
+    } else if (event.key === 'Enter' && active >= 0) {
+      event.preventDefault();
+      setSecurityComboboxValue(input, options[active].dataset.securityId, true);
+    } else if (event.key === 'Escape') {
+      closeSecurityCombobox(input);
+    }
+  });
+  input.addEventListener('blur', () => setTimeout(() => {
+    if (!input.closest('[data-combobox]')?.contains(document.activeElement)) closeSecurityCombobox(input);
+  }, 0));
+  input.closest('[data-combobox]')?.querySelector('.combobox-list')?.addEventListener('mousedown', (event) => {
+    const option = event.target.closest('.combobox-option');
+    if (!option) return;
+    event.preventDefault();
+    setSecurityComboboxValue(input, option.dataset.securityId, true);
+  });
+}
+
+function wireSecurityComboboxes() {
+  $$('.form-combobox .combobox-input').forEach(wireSecurityCombobox);
 }
 
 function titleCase(value) {
@@ -190,12 +281,9 @@ function entryForTicker(ticker) {
 }
 
 function renderSecurityOptions() {
-  const options = securityEntries().map(({ security }) => `<option value="${escapeHtml(security.security_id)}">${escapeHtml(security.ticker)} — ${escapeHtml(security.name)}</option>`).join('');
-  ['#security-select', '#dca-security'].forEach((selector) => {
-    if (has(selector)) $(selector).innerHTML = options;
-  });
+  wireSecurityComboboxes();
   const qqq = entryForTicker('QQQ') || securityEntries()[0];
-  if (qqq) selectSecurity(qqq.security.security_id);
+  if (qqq) selectSecurity(qqq.security.security_id, false);
 }
 
 function renderUniverseOptions() {
@@ -255,7 +343,7 @@ function selectSecurity(securityId, moveToForm = false) {
   const entry = entryForId(securityId);
   if (!entry) return;
   state.selectedSecurityId = securityId;
-  ['#security-select', '#dca-security'].forEach((selector) => { if (has(selector)) $(selector).value = securityId; });
+  ['#security-select', '#dca-security'].forEach((selector) => { if (has(selector)) setSecurityComboboxValue(selector, securityId); });
   const security = entry.security;
   if (has('#security-hint')) $('#security-hint').textContent = `${security.exchange} · ${security.currency} · ${titleCase(security.distribution_policy || 'unknown')} distribution · ${security.active === false ? 'inactive' : 'active'}`;
   if (has('#security-domicile')) $('#security-domicile').textContent = security.domicile || 'Not published';
@@ -375,7 +463,7 @@ function renderResultSource() {
   const source = document.querySelector('.result-source span');
   if (!source) return;
   const labels = {
-    demo: 'Published demo replay',
+    demo: 'Example replay · published artifact',
     local: 'Computed locally in your browser',
     adapter: 'Adapter result',
     adapterFallback: 'Computed locally in your browser (adapter unavailable)',
@@ -383,6 +471,7 @@ function renderResultSource() {
   const label = labels[state.artifactSource] || 'Published result artifact';
   const version = state.artifact?.methodology_version || state.artifact?.result?.methodology?.methodology_version || '1.0';
   source.innerHTML = `<span class="tiny-dot"></span> ${escapeHtml(label)} · methodology <span id="method-version">${escapeHtml(String(version))}</span>`;
+  if (has('#example-badge')) $('#example-badge').classList.toggle('hidden', state.artifactSource !== 'demo');
 }
 
 function renderQuality(quality = {}) {
@@ -413,10 +502,42 @@ function renderSeries(series) {
   $('#series-chart').innerHTML = `<polyline class="series-line series-native" points="${plot(native)}"></polyline><polyline class="series-line series-sgd" points="${plot(sgd)}"></polyline><line class="series-axis" x1="10" y1="245" x2="990" y2="245"></line>`;
   if (has('#native-legend')) $('#native-legend').textContent = `${series.security.currency} native close`;
   if (has('.chart-source')) $('.chart-source').textContent = state.seriesSource === 'local' || state.artifactSource === 'local' || state.artifactSource === 'adapterFallback' ? 'Series computed from local data packs' : 'Backend series artifact';
+  renderSeriesTable(series);
 }
 
-function showResult() {
+function renderSeriesTable(series) {
+  const wrap = $('#series-table-wrap');
+  if (!wrap || !series?.points?.length) return;
+  const currency = series.security?.currency || 'native';
+  const rows = series.points.map((point) => `<tr><th scope="row"><time datetime="${escapeHtml(point.date)}">${escapeHtml(formatDate(point.date))}</time></th><td>${escapeHtml(formatRate(point.native_close))} ${escapeHtml(currency)}</td><td>${escapeHtml(formatRate(point.sgd_close))} SGD</td></tr>`).join('');
+  wrap.innerHTML = `<table class="series-table"><caption>Daily native and SGD closing prices</caption><thead><tr><th scope="col">Date</th><th scope="col">Native close</th><th scope="col">SGD close</th></tr></thead><tbody>${rows}</tbody></table>`;
+}
+
+function seriesForDownload() {
+  const series = state.series?.result || state.series;
+  return series?.points?.length ? series : null;
+}
+
+function downloadSeriesCsv() {
+  const series = seriesForDownload();
+  if (!series) return;
+  const currency = series.security?.currency || 'native';
+  const lines = [['date', `${currency.toLowerCase()}_native_close`, 'sgd_close'], ...series.points.map((point) => [point.date, point.native_close, point.sgd_close])];
+  const csv = lines.map((row) => row.map((value) => `"${String(value ?? '').replaceAll('"', '""')}"`).join(',')).join('\n');
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+  const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = `sg-invest-${series.security?.ticker || 'series'}.csv`; link.click(); URL.revokeObjectURL(link.href);
+}
+
+function focusRenderedHeading(containerSelector) {
+  const heading = document.querySelector(`${containerSelector} h3, ${containerSelector} h2`);
+  if (!heading) return;
+  heading.tabIndex = -1;
+  heading.focus({ preventScroll: true });
+}
+
+function showResult({ focus = false } = {}) {
   $('#result-empty').classList.add('hidden'); $('#artifact-unavailable').classList.add('hidden'); $('#result-content').classList.remove('hidden'); renderResult();
+  if (focus) focusRenderedHeading('#result-content');
 }
 
 function showUnavailable(message = 'This request is not available for the selected date range.') {
@@ -489,7 +610,7 @@ async function s7RunAnalysis({ mode = 'auto' } = {}) {
   const amount = Number($('#initial-amount').value);
   if (!Number.isFinite(amount) || amount <= 0) { error.textContent = 'Enter an initial amount greater than S$0.'; return; }
   if (!$('#start-date').value || !$('#end-date').value || $('#end-date').value < $('#start-date').value) { error.textContent = 'Choose an end date on or after the start date.'; return; }
-  const entry = entryForId($('#security-select').value); if (!entry) { error.textContent = 'Choose a security from the published catalog.'; return; }
+  const entry = entryForId(securityComboboxValue('#security-select')); if (!entry) { error.textContent = 'Choose a security from the published catalog.'; $('#security-select')?.setAttribute('aria-invalid', 'true'); return; }
   const scenario = scenarioValues();
   const request = { security_id: entry.security.security_id, initial_sgd: $('#initial-amount').value, start_date: $('#start-date').value, end_date: $('#end-date').value, ...scenario };
   const button = form.querySelector('button[type="submit"]'); setBusy(button, true);
@@ -506,7 +627,7 @@ async function s7RunAnalysis({ mode = 'auto' } = {}) {
         if (!s6RunCurrent('analysis', runSeq)) return;
         state.artifact = artifact; state.artifactSource = 'adapter'; state.series = series; state.seriesSource = null;
         error.textContent = '';
-        showResult();
+        showResult({ focus: mode === 'force' });
         setComputeMode('adapter');
         return;
       } catch (adapterError) {
@@ -531,7 +652,7 @@ async function s7RunAnalysis({ mode = 'auto' } = {}) {
     state.series = outcome.series;
     state.seriesSource = 'local';
     error.textContent = '';
-    showResult();
+    showResult({ focus: mode === 'force' });
     setComputeMode(state.artifactSource);
   } catch (computeError) {
     if (!s6RunCurrent('analysis', runSeq)) return;
@@ -555,9 +676,95 @@ function renderCompare(payload) {
   $('#compare-results').innerHTML = rows ? `<div class="compare-table-head"><span>SECURITY</span><span>NATIVE RETURN</span><span>SGD RETURN</span><span>ENDING VALUE</span><span>DATA</span></div>${rows}${note}` : '<div class="result-empty compact-empty"><h3>No comparable results.</h3></div>';
 }
 
+function renderComparePicker(query = '') {
+  const input = $('#compare-tickers');
+  const list = $('#compare-ticker-options');
+  if (!input || !list) return;
+  const wanted = String(query || '').trim().toLowerCase();
+  const matches = securityEntries().filter(({ security }) => {
+    if (state.compareTickers.includes(security.security_id)) return false;
+    const text = [security.ticker, security.name, security.isin, security.exchange, security.market].filter(Boolean).join(' ').toLowerCase();
+    return !wanted || text.includes(wanted);
+  });
+  const visible = matches.slice(0, COMBOBOX_RESULT_LIMIT);
+  list.innerHTML = visible.map(({ security }, index) => `<div class="combobox-option" id="compare-ticker-option-${index}" role="option" data-security-id="${escapeHtml(security.security_id)}"><strong>${escapeHtml(security.ticker)}</strong><span>${escapeHtml(security.name)} · ${escapeHtml(security.exchange)}</span></div>`).join('')
+    || '<div class="combobox-empty" role="status">No additional securities match that search.</div>';
+  if (matches.length > COMBOBOX_RESULT_LIMIT) list.insertAdjacentHTML('beforeend', `<div class="combobox-more" role="status">Showing ${COMBOBOX_RESULT_LIMIT} of ${matches.length}. Keep typing to narrow the list.</div>`);
+  list.classList.remove('hidden');
+  input.setAttribute('aria-expanded', 'true');
+}
+
+function renderCompareChips() {
+  const chips = $('#compare-ticker-chips');
+  if (!chips) return;
+  chips.innerHTML = state.compareTickers.map((securityId) => {
+    const entry = entryForId(securityId);
+    if (!entry) return '';
+    return `<button type="button" class="selected-chip" data-remove-security-id="${escapeHtml(securityId)}" aria-label="Remove ${escapeHtml(entry.security.ticker)}">${escapeHtml(entry.security.ticker)}<span aria-hidden="true">×</span></button>`;
+  }).join('');
+}
+
+function selectCompareSecurity(securityId) {
+  if (!entryForId(securityId) || state.compareTickers.includes(securityId) || state.compareTickers.length >= 6) return;
+  state.compareTickers.push(securityId);
+  renderCompareChips();
+  const input = $('#compare-tickers');
+  if (input) { input.value = ''; input.focus(); }
+  renderComparePicker('');
+}
+
+function initComparePicker() {
+  const input = $('#compare-tickers');
+  const picker = $('#compare-ticker-picker');
+  const list = $('#compare-ticker-options');
+  const chips = $('#compare-ticker-chips');
+  if (!input || !picker || !list) return;
+  state.compareTickers = String(input.dataset.initialTickers || '').split(',').map((ticker) => entryForTicker(ticker)?.security.security_id).filter(Boolean).slice(0, 6);
+  renderCompareChips();
+  input.addEventListener('focus', () => renderComparePicker(input.value));
+  input.addEventListener('input', () => renderComparePicker(input.value));
+  input.addEventListener('keydown', (event) => {
+    const options = [...list.querySelectorAll('.combobox-option')];
+    const active = options.findIndex((option) => option.classList.contains('active'));
+    if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+      event.preventDefault();
+      if (!options.length) return;
+      const next = event.key === 'ArrowDown' ? (active + 1) % options.length : (active - 1 + options.length) % options.length;
+      options.forEach((option, index) => option.classList.toggle('active', index === next));
+      options[next].scrollIntoView({ block: 'nearest' });
+      input.setAttribute('aria-activedescendant', options[next].id);
+    } else if (event.key === 'Enter' && active >= 0) {
+      event.preventDefault();
+      selectCompareSecurity(options[active].dataset.securityId);
+    } else if (event.key === 'Backspace' && !input.value && state.compareTickers.length) {
+      state.compareTickers.pop(); renderCompareChips(); renderComparePicker('');
+    } else if (event.key === 'Escape') {
+      list.classList.add('hidden'); input.setAttribute('aria-expanded', 'false');
+    }
+  });
+  input.addEventListener('blur', () => setTimeout(() => {
+    if (!picker.contains(document.activeElement)) { list.classList.add('hidden'); input.setAttribute('aria-expanded', 'false'); }
+  }, 0));
+  list.addEventListener('mousedown', (event) => {
+    const option = event.target.closest('.combobox-option');
+    if (!option) return;
+    event.preventDefault(); selectCompareSecurity(option.dataset.securityId);
+  });
+  chips?.addEventListener('click', (event) => {
+    const button = event.target.closest('[data-remove-security-id]');
+    if (!button) return;
+    state.compareTickers = state.compareTickers.filter((securityId) => securityId !== button.dataset.removeSecurityId);
+    renderCompareChips(); renderComparePicker(input.value);
+  });
+}
+
+function selectedCompareTickers() {
+  return state.compareTickers.map((securityId) => entryForId(securityId)?.security.ticker).filter(Boolean);
+}
+
 async function submitCompare(event) {
   event.preventDefault(); const error = $('#compare-error'); error.textContent = '';
-  const tickers = $('#compare-tickers').value.split(',').map((item) => item.trim().toUpperCase()).filter(Boolean);
+  const tickers = selectedCompareTickers();
   if (tickers.length < 2 || tickers.length > 6) { error.textContent = 'Enter between 2 and 6 catalog tickers.'; return; }
   const amount = Number($('#compare-amount').value); if (!(amount > 0)) { error.textContent = 'Enter capital greater than S$0.'; return; }
   if ($('#compare-end').value < $('#compare-start').value) { error.textContent = 'End date must be on or after start date.'; return; }
@@ -622,7 +829,7 @@ function renderDca(payload, context = {}) {
   const supportNotice = support && support.status !== 'fully_supported'
     ? `<p class="consistency-warning" role="alert">Data pack coverage for ${escapeHtml(security.ticker)} is ${escapeHtml(support.status)}${support.reason ? `: ${escapeHtml(support.reason)}` : ''}. Results use the data actually present in the packs.${packWarnings.length ? ` Pack notes: ${escapeHtml(packWarnings.join(' '))}` : ''}</p>`
     : '';
-  $('#dca-results').innerHTML = `<div class="analysis-output"><div class="dca-output-head"><div class="output-kicker">${escapeHtml(security.ticker)} · ${escapeHtml(titleCase(request?.frequency || 'monthly'))}</div><div class="mini-switch"><button type="button" data-dca-currency="native" class="${native ? 'active' : ''} ${security.currency === 'SGD' ? 'hidden' : ''}">${escapeHtml(security.currency)}</button><button type="button" data-dca-currency="sgd" class="${native ? '' : 'active'}">SGD</button></div></div><h3>${formatMoney(finalValue, currency)}</h3><p>Ending value after ${escapeHtml(String(result.contribution_dates.length))} contributions.</p><div class="output-grid"><span>Contributed<strong>${formatMoney(contributed, currency)}</strong></span><span>Gain / loss<strong>${formatMoney(gainLoss, currency)}</strong></span><span>XIRR · money-weighted<strong>${formatPercent(xirr)}</strong></span><span>Shares<strong>${Number(result.shares).toFixed(5)}</strong></span></div><details class="contribution-dates"><summary>Contribution dates (${result.contribution_dates.length})</summary><p>${result.contribution_dates.map((date) => `<time datetime="${escapeHtml(date)}">${escapeHtml(formatDate(date))}</time>`).join(' · ')}</p></details><p class="detail-note">${escapeHtml(warnings.join(' ') || noWarningsCopy)}</p>${supportNotice}</div>`;
+  $('#dca-results').innerHTML = `<div class="analysis-output"><div class="dca-output-head"><div class="output-kicker">${escapeHtml(security.ticker)} · ${escapeHtml(titleCase(request?.frequency || 'monthly'))}</div><div class="mini-switch" role="group" aria-label="DCA display currency"><button type="button" data-dca-currency="native" aria-pressed="${native}" class="${native ? 'active' : ''} ${security.currency === 'SGD' ? 'hidden' : ''}">${escapeHtml(security.currency)}</button><button type="button" data-dca-currency="sgd" aria-pressed="${!native}" class="${native ? '' : 'active'}">SGD</button></div></div><h3>${formatMoney(finalValue, currency)}</h3><p>Ending value after ${escapeHtml(String(result.contribution_dates.length))} contributions.</p><div class="output-grid"><span>Contributed<strong>${formatMoney(contributed, currency)}</strong></span><span>Gain / loss<strong>${formatMoney(gainLoss, currency)}</strong></span><span>XIRR · money-weighted<strong>${formatPercent(xirr)}</strong></span><span>Shares<strong>${Number(result.shares).toFixed(5)}</strong></span></div><details class="contribution-dates"><summary>Contribution dates (${result.contribution_dates.length})</summary><p>${result.contribution_dates.map((date) => `<time datetime="${escapeHtml(date)}">${escapeHtml(formatDate(date))}</time>`).join(' · ')}</p></details><p class="detail-note">${escapeHtml(warnings.join(' ') || noWarningsCopy)}</p>${supportNotice}</div>`;
   $$('[data-dca-currency]').forEach((button) => button.addEventListener('click', () => { state.currencyMode = button.dataset.dcaCurrency; if (state.artifact) renderResult(); if (state.dcaArtifact) renderDca(state.dcaArtifact); }));
 }
 
@@ -642,7 +849,8 @@ async function s7RunDca({ mode = 'auto' } = {}) {
   if ($('#dca-end').value < $('#dca-start').value) { error.textContent = 'End date must be on or after start date.'; return; }
   const contribution = Number($('#dca-contribution').value); if (!(contribution > 0)) { error.textContent = 'Enter a contribution greater than S$0.'; return; }
   const scenario = scenarioValues('dca');
-  const request = { security_id: $('#dca-security').value, contribution_sgd: $('#dca-contribution').value, frequency: $('#dca-frequency').value, start_date: $('#dca-start').value, end_date: $('#dca-end').value, ...scenario };
+  const request = { security_id: securityComboboxValue('#dca-security'), contribution_sgd: $('#dca-contribution').value, frequency: $('#dca-frequency').value, start_date: $('#dca-start').value, end_date: $('#dca-end').value, ...scenario };
+  if (!request.security_id) { error.textContent = 'Choose a security from the published catalog.'; $('#dca-security')?.setAttribute('aria-invalid', 'true'); return; }
   const button = form.querySelector('button[type="submit"]');
   const previousEngineId = s4State.requestId;
   s4State.request = request; s4State.button = button; s4State.requestId = null;
@@ -657,6 +865,7 @@ async function s7RunDca({ mode = 'auto' } = {}) {
         const adapterEnvelope = await apiGet('/dca', { ...request, request_key: key });
         if (runSeq !== s4State.runSeq) return; // superseded while in flight
         renderDca(adapterEnvelope);
+        if (mode === 'force') focusRenderedHeading('#dca-results');
         setComputeMode('adapter');
         return;
       } catch (adapterError) {
@@ -665,7 +874,7 @@ async function s7RunDca({ mode = 'auto' } = {}) {
     }
     s4SetDcaProgress('Resolving published data packs…');
     const envelope = await s4DcaViaPacks(request, { previousEngineId });
-    if (runSeq === s4State.runSeq && envelope) { error.textContent = ''; renderDca(envelope, { support: s4State.support, packWarnings: s4State.packWarnings }); setComputeMode(API_BASE ? 'adapterFallback' : 'local'); }
+    if (runSeq === s4State.runSeq && envelope) { error.textContent = ''; renderDca(envelope, { support: s4State.support, packWarnings: s4State.packWarnings }); if (mode === 'force') focusRenderedHeading('#dca-results'); setComputeMode(API_BASE ? 'adapterFallback' : 'local'); }
   } catch (staticError) {
     if (runSeq === s4State.runSeq) error.textContent = staticError.message;
   } finally {
@@ -675,14 +884,16 @@ async function s7RunDca({ mode = 'auto' } = {}) {
 
 function ledgerRowTemplate(values = {}) {
   const selectedId = values.securityId || state.selectedSecurityId || '';
-  const options = securityEntries().map(({ security }) => `<option value="${escapeHtml(security.security_id)}" ${security.security_id === selectedId ? 'selected' : ''}>${escapeHtml(security.ticker)} · ${escapeHtml(security.exchange)}</option>`).join('');
   const currencies = [...new Set(securityEntries().map(({ security }) => security.currency).filter(Boolean))].sort();
   const currencyOptions = currencies.map((currency) => `<option ${currency === (values.currency || entryForId(selectedId)?.security.currency || 'USD') ? 'selected' : ''}>${escapeHtml(currency)}</option>`).join('');
   const typeOptions = ['BUY', 'SELL', 'DIVIDEND', 'CASH_DEPOSIT', 'CASH_WITHDRAWAL'].map((type) => `<option ${type === (values.type || 'BUY') ? 'selected' : ''}>${type}</option>`).join('');
-  return `<tr><td><select class="ledger-type">${typeOptions}</select></td><td><select class="ledger-security"><option value="">Cash only</option>${options}</select></td><td><input class="ledger-date" type="date" value="${escapeHtml(values.date || '2024-01-02')}" /></td><td><input class="ledger-quantity" type="number" min="0" step="0.000001" value="${escapeHtml(values.quantity || '1')}" /></td><td><input class="ledger-cash" type="number" min="0" step="0.01" value="${escapeHtml(values.cash || '1000')}" /></td><td><select class="ledger-currency">${currencyOptions}</select></td></tr>`;
+  const comboId = `ledger-security-${document.querySelectorAll('.ledger-security').length + 1}`;
+  const selected = entryForId(selectedId)?.security;
+  const selectedLabel = selected ? securityDisplayLabel(selected) : '';
+  return `<tr><td><select class="ledger-type">${typeOptions}</select></td><td><div class="form-combobox ledger-combobox" data-combobox><input id="${comboId}" class="ledger-security combobox-input" type="text" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="${comboId}-options" autocomplete="off" placeholder="Search or choose cash…" value="${escapeHtml(selectedLabel)}" data-security-id="${escapeHtml(selectedId)}" /><div class="combobox-list hidden" id="${comboId}-options" role="listbox" aria-label="Ledger securities"></div></div></td><td><input class="ledger-date" type="date" value="${escapeHtml(values.date || '2024-01-02')}" /></td><td><input class="ledger-quantity" type="number" min="0" step="0.000001" value="${escapeHtml(values.quantity || '1')}" /></td><td><input class="ledger-cash" type="number" min="0" step="0.01" value="${escapeHtml(values.cash || '1000')}" /></td><td><select class="ledger-currency">${currencyOptions}</select></td></tr>`;
 }
 
-function addLedgerRow(values = {}) { if (has('#ledger-rows')) $('#ledger-rows').insertAdjacentHTML('beforeend', ledgerRowTemplate(values)); }
+function addLedgerRow(values = {}) { if (has('#ledger-rows')) { $('#ledger-rows').insertAdjacentHTML('beforeend', ledgerRowTemplate(values)); wireSecurityComboboxes(); } }
 
 function renderPortfolio(payload, meta = {}) {
   const result = payload.result || payload;
@@ -696,7 +907,7 @@ function renderPortfolio(payload, meta = {}) {
 function s5CollectLedgerRows() {
   return $$('#ledger-rows tr').map((row) => ({
     transaction_type: row.querySelector('.ledger-type').value,
-    security_id: row.querySelector('.ledger-security').value || null,
+    security_id: securityComboboxValue(row.querySelector('.ledger-security')) || null,
     transaction_date: row.querySelector('.ledger-date').value,
     quantity: row.querySelector('.ledger-quantity').value,
     cash_amount: row.querySelector('.ledger-cash').value,
@@ -746,6 +957,7 @@ async function s7RunPortfolio({ mode = 'auto' } = {}) {
         const payload = await fetch(`${API_BASE}/api/portfolio`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ as_of: asOf, transactions }) }).then(async (response) => { const body = await response.json(); if (!response.ok || body.error) throw new Error(body.error || 'Portfolio request failed'); return body; });
         if (!s6RunCurrent('portfolio', runSeq)) return;
         renderPortfolio(payload);
+        if (mode === 'force') focusRenderedHeading('#portfolio-results');
         setComputeMode('adapter');
         return;
       } catch (adapterError) {
@@ -758,7 +970,7 @@ async function s7RunPortfolio({ mode = 'auto' } = {}) {
     const local = await s5LocalPortfolio(asOf, transactions);
     if (!s6RunCurrent('portfolio', runSeq)) return;
     if (local.unavailable) s5ShowPortfolioUnavailable(local.unavailable);
-    else { renderPortfolio(local.envelope, local.meta); setComputeMode(API_BASE ? 'adapterFallback' : 'local'); }
+    else { renderPortfolio(local.envelope, local.meta); if (mode === 'force') focusRenderedHeading('#portfolio-results'); setComputeMode(API_BASE ? 'adapterFallback' : 'local'); }
   } catch (localError) {
     if (s6RunCurrent('portfolio', runSeq)) error.textContent = localError.message;
   }
@@ -770,7 +982,7 @@ function wireEvents() {
   $$('#mobile-nav a').forEach((link) => link.addEventListener('click', () => { $('#mobile-nav')?.classList.add('hidden'); $('#mobile-nav')?.classList.remove('open'); $('#mobile-nav-toggle')?.setAttribute('aria-expanded', 'false'); }));
   ['#catalog-search', '#asset-filter', '#universe-filter', '#market-filter', '#currency-filter', '#distribution-filter', '#active-filter'].forEach((selector) => { if (has(selector)) $(selector).addEventListener('input', renderCatalog); });
   if (has('#catalog-more')) $('#catalog-more').addEventListener('click', () => { state.catalogLimit = Math.min(state.catalogLimit + 100, 1000); renderCatalog(); });
-  if (has('#security-select')) $('#security-select').addEventListener('change', (event) => selectSecurity(event.target.value));
+  if (has('#security-select')) $('#security-select').addEventListener('change', (event) => selectSecurity(securityComboboxValue(event.target)));
   if (has('#scenario-select')) $('#scenario-select').addEventListener('change', (event) => syncPreset(event.target.value));
   ['#dividends-toggle', '#tax-toggle', '#reinvest-toggle'].forEach((selector) => { if (has(selector)) $(selector).addEventListener('change', () => { if (has('#scenario-select')) $('#scenario-select').value = 'custom'; }); });
   if (has('#analysis-form')) $('#analysis-form').addEventListener('submit', submitAnalysis);
@@ -778,7 +990,7 @@ function wireEvents() {
   if (has('#dca-form')) { const form = $('#dca-form'); form.addEventListener('submit', submitDca); form.querySelector('button[type="submit"]').addEventListener('click', (event) => { event.preventDefault(); submitDca({ preventDefault() {}, currentTarget: form }); }); }
   if (has('#portfolio-form')) { const form = $('#portfolio-form'); form.addEventListener('submit', submitPortfolio); form.querySelector('button[type="submit"]').addEventListener('click', (event) => { event.preventDefault(); submitPortfolio({ preventDefault() {}, currentTarget: form }); }); }
   if (has('#add-ledger-row')) $('#add-ledger-row').addEventListener('click', () => { addLedgerRow(); s5AutoSaveLedger(); s7ScheduleAutoRun('portfolio', () => s7RunPortfolio({ mode: 'auto' })); });
-  if (has('#ledger-rows')) $('#ledger-rows').addEventListener('change', (event) => { if (!event.target.classList.contains('ledger-security')) return; const security = entryForId(event.target.value)?.security; if (security) event.target.closest('tr').querySelector('.ledger-currency').value = security.currency; });
+  if (has('#ledger-rows')) $('#ledger-rows').addEventListener('change', (event) => { if (!event.target.classList.contains('ledger-security')) return; const security = entryForId(securityComboboxValue(event.target))?.security; if (security) event.target.closest('tr').querySelector('.ledger-currency').value = security.currency; });
   if (has('#ledger-rows')) s5WireLedgerPersistence();
   $$('.currency-button').forEach((button) => button.addEventListener('click', () => { state.currencyMode = button.dataset.currency; if (state.artifact) renderResult(); }));
   if (has('#warnings-toggle')) $('#warnings-toggle').addEventListener('click', () => { state.warningsOpen = !state.warningsOpen; renderQuality(state.artifact?.result?.data_quality || {}); });
@@ -786,6 +998,9 @@ function wireEvents() {
   if (has('#return-to-demo')) $('#return-to-demo').addEventListener('click', async () => { const entry = entryForTicker('QQQ'); if (!entry) return; selectSecurity(entry.security.security_id); $('#initial-amount').value = '10000'; $('#start-date').value = '2024-01-02'; $('#end-date').value = '2025-01-02'; $('#scenario-select').value = 'investor'; syncPreset('investor'); $('#analysis-form').requestSubmit(); });
   if (has('#download-result')) $('#download-result').addEventListener('click', () => { if (!state.artifact) return; const blob = new Blob([JSON.stringify(state.artifact, null, 2)], { type: 'application/json' }); const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = `sg-invest-${state.artifact.result?.security?.ticker || 'analysis'}.json`; link.click(); URL.revokeObjectURL(link.href); });
   if (has('#copy-link')) $('#copy-link').addEventListener('click', copyAnalysisLink);
+  if (has('#toggle-series-table')) $('#toggle-series-table').addEventListener('click', () => { const table = $('#series-table-wrap'); const button = $('#toggle-series-table'); const open = table.classList.toggle('hidden') === false; button.setAttribute('aria-expanded', String(open)); button.textContent = open ? 'Hide table' : 'View as table'; });
+  if (has('#download-series-csv')) $('#download-series-csv').addEventListener('click', downloadSeriesCsv);
+  initComparePicker();
 }
 
 function applyAnalysisUrl() {
@@ -806,7 +1021,7 @@ async function init() {
   // S6.2: the catalog, status and first-paint series resolve from published
   // static artifacts; the /api probes are adapter-mode only. The committed
   // demo analysis replay stays as the first paint but is explicitly labelled
-  // ('Demo replay · published artifact', see S6.1) and is never substituted
+  // ('Example replay · published artifact', see S6.1) and is never substituted
   // for a failed request.
   const staticCatalog = await loadJson(CATALOG_ARTIFACT, { securities: fallbackCatalog });
   if (API_BASE) {
@@ -1304,7 +1519,7 @@ function s7WireReactive() {
   // Stage 1+2: analysis dropdown selects a security → series + analysis + DCA
   // (the dropdowns mirror one selection; selectSecurity syncs both values).
   if (has('#security-select')) $('#security-select').addEventListener('change', (event) => {
-    const securityId = event.target.value;
+    const securityId = securityComboboxValue(event.target);
     if (!entryForId(securityId)) return;
     s7ScheduleSeries(securityId);
     s7ScheduleAutoRun('analysis', () => s7RunAnalysis({ mode: 'auto' }));
@@ -1313,14 +1528,14 @@ function s7WireReactive() {
   // Stage 1+3: DCA dropdown → series + DCA (the analysis form's own security
   // select is not changed by this dropdown, so no analysis run here).
   if (has('#dca-security')) $('#dca-security').addEventListener('change', (event) => {
-    const securityId = event.target.value;
+    const securityId = securityComboboxValue(event.target);
     if (!entryForId(securityId)) return;
     s7ScheduleSeries(securityId);
     s7ScheduleAutoRun('dca', () => s7RunDca({ mode: 'auto' }));
   });
   // Stage 2: analysis dates → refreshed chart + debounced analysis.
   ['#start-date', '#end-date'].forEach((selector) => { if (has(selector)) $(selector).addEventListener('change', () => {
-    const securityId = $('#security-select')?.value || state.selectedSecurityId;
+    const securityId = securityComboboxValue('#security-select') || state.selectedSecurityId;
     if (securityId) s7ScheduleSeries(securityId);
     s7ScheduleAutoRun('analysis', () => s7RunAnalysis({ mode: 'auto' }));
   }); });

@@ -1,7 +1,7 @@
 /* Self-hosted fonts (Sprint 7 S7.6, decision recorded in docs/data-pack-budgets.md):
    DM Mono, DM Sans and Space Grotesk, latin subset, vendored under fonts/.
-   Family names and weights are identical to the retired Google Fonts @import.
-   DM Sans and Space Grotesk are variable WOFF2 files served for every weight. */
+   DM Sans and Space Grotesk are variable WOFF2 files; declare their supported
+   range so the browser selects the requested weight instead of synthesising it. */
 @font-face {
   font-family: 'DM Mono';
   font-style: normal;
@@ -21,31 +21,7 @@
 @font-face {
   font-family: 'DM Sans';
   font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('fonts/dm-sans-latin-400.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-@font-face {
-  font-family: 'DM Sans';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url('fonts/dm-sans-latin-400.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-@font-face {
-  font-family: 'DM Sans';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url('fonts/dm-sans-latin-400.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-@font-face {
-  font-family: 'DM Sans';
-  font-style: normal;
-  font-weight: 700;
+  font-weight: 400 700;
   font-display: swap;
   src: url('fonts/dm-sans-latin-400.woff2') format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
@@ -53,31 +29,7 @@
 @font-face {
   font-family: 'Space Grotesk';
   font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('fonts/space-grotesk-latin-400.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-@font-face {
-  font-family: 'Space Grotesk';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url('fonts/space-grotesk-latin-400.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-@font-face {
-  font-family: 'Space Grotesk';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url('fonts/space-grotesk-latin-400.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-@font-face {
-  font-family: 'Space Grotesk';
-  font-style: normal;
-  font-weight: 700;
+  font-weight: 400 700;
   font-display: swap;
   src: url('fonts/space-grotesk-latin-400.woff2') format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
@@ -265,3 +217,67 @@ h1 em { color: var(--coral); font-style: normal; }
 .switch-label { font-size: 11px; color: var(--ink-2); }
 .currency-button { font-size: 12px; }
 .lock-label { font-size: 11px; }
+
+/* --- S9 frontend hardening: searchable controls, readable metadata, and alternatives --- */
+.snapshot-dot { width: 7px; height: 7px; display: inline-block; border-radius: 100%; background: var(--muted-2); box-shadow: 0 0 0 4px rgba(107,118,134,.14); }
+.result-badges { display: flex; align-items: flex-end; flex-direction: column; gap: 7px; }
+.example-badge { padding: 7px 9px; color: var(--ink); background: var(--lime); font: 600 10px var(--mono); letter-spacing: .07em; text-transform: uppercase; }
+.form-combobox, .multi-combobox { position: relative; min-width: 0; }
+.combobox-input { height: 44px; width: 100%; border: 1px solid var(--line); background: var(--white); color: var(--ink); padding: 0 12px; font-size: 12px; }
+.analysis-form-panel .combobox-input { border-color: #3a4a61; background: #102035; color: var(--white); }
+.combobox-input::placeholder { color: var(--muted-2); opacity: 1; }
+.analysis-form-panel .combobox-input::placeholder { color: #a9b6c6; }
+.combobox-list { position: absolute; z-index: 30; top: calc(100% + 5px); right: 0; left: 0; max-height: 320px; overflow-y: auto; border: 1px solid var(--line); background: var(--white); box-shadow: 0 15px 30px rgba(16,27,45,.18); }
+.analysis-form-panel .combobox-list { border-color: #3a4a61; background: #102035; color: var(--white); }
+.combobox-option { display: flex; flex-direction: column; gap: 3px; padding: 10px 12px; cursor: pointer; }
+.combobox-option:hover, .combobox-option.active { background: var(--paper-warm); }
+.analysis-form-panel .combobox-option:hover, .analysis-form-panel .combobox-option.active { background: #1e3048; }
+.combobox-option strong { font: 600 12px var(--display); }
+.combobox-option span { overflow: hidden; color: var(--muted); font-size: 11px; text-overflow: ellipsis; white-space: nowrap; }
+.analysis-form-panel .combobox-option span { color: #c4cfda; }
+.combobox-empty, .combobox-more { padding: 11px 12px; color: var(--muted); font-size: 11px; line-height: 1.35; }
+.analysis-form-panel .combobox-empty, .analysis-form-panel .combobox-more { color: #c4cfda; }
+.multi-combobox { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; min-height: 48px; padding: 6px 8px; border: 1px solid var(--line); background: var(--white); }
+.multi-combobox:focus-within { border-color: var(--ink); box-shadow: 0 0 0 3px rgba(255,129,103,.22); }
+.multi-combobox .combobox-list { top: calc(100% + 5px); }
+.multi-combobox .combobox-input { flex: 1 1 120px; height: 32px; min-width: 120px; padding: 0 4px; border: 0; background: transparent; }
+.selected-chips { display: flex; flex-wrap: wrap; gap: 5px; }
+.selected-chip { display: inline-flex; align-items: center; gap: 6px; padding: 6px 8px; border: 0; color: var(--ink); background: var(--lime); cursor: pointer; font: 500 11px var(--mono); }
+.selected-chip span { font-size: 15px; line-height: .7; }
+.ledger-combobox { min-width: 185px; }
+.ledger-combobox .combobox-input { height: 36px; padding-inline: 7px; font: 10px var(--mono); }
+.chart-actions { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 12px; }
+.series-table-wrap { max-height: 310px; margin-top: 12px; overflow: auto; border-top: 1px solid var(--line); }
+.series-table { width: 100%; border-collapse: collapse; font: 11px var(--mono); }
+.series-table caption { padding: 10px 0; color: var(--muted); text-align: left; font: 11px var(--sans); }
+.series-table th, .series-table td { padding: 8px 10px; border-bottom: 1px solid var(--line); text-align: right; white-space: nowrap; }
+.series-table th:first-child, .series-table td:first-child { text-align: left; }
+.series-table thead th { color: var(--muted); font-size: 10px; font-weight: 500; text-transform: uppercase; }
+.inline-help { margin-top: 12px; color: #a9b6c6; font-size: 11px; line-height: 1.45; }
+.light-panel .inline-help, .compare-form .inline-help { color: var(--muted); }
+.inline-help summary { width: fit-content; cursor: pointer; color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+.inline-help p { margin: 7px 0 0; }
+.field-hint, .toggle-row small, .form-footnote { color: var(--muted); }
+.analysis-section .field-hint, .analysis-section .toggle-row small, .analysis-section .form-footnote { color: #a9b6c6; }
+.form-footnote { font-size: 11px; }
+.toggle-row small { font-size: 11px; }
+.security-metadata dt { color: #a9b6c6; font-size: 10px; }
+.security-metadata dd { color: #dae1e8; font-size: 10px; }
+.metric-label, .result-security-line, .output-kicker { letter-spacing: .07em; }
+.result-source, .chart-source { font-size: 11px; }
+.ledger-table th, .holding-table thead th { font-size: 10px; }
+.signal-foot { color: #b9c4d2; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto !important; }
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .01ms !important; }
+  .button:hover, .security-card:hover, .signal-card { transform: none !important; }
+}
+
+@media (max-width: 650px) {
+  .header-meta { font-size: 11px; }
+  .signal-foot { font-size: 11px; }
+  .ledger-combobox { min-width: 170px; }
+  .result-badges { align-items: flex-start; }
+  .series-table { font-size: 10px; }
+}
