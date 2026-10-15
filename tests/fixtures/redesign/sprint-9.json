@@ -1,0 +1,286 @@
+{
+  "fixtures": [
+    {
+      "security": {
+        "security_id": "20000000-0000-0000-0000-000000000002",
+        "ticker": "ES3",
+        "exchange": "SGX",
+        "market": "SG",
+        "name": "ES3 synthetic UI fixture (not market data)",
+        "currency": "SGD",
+        "asset_type": "ETF",
+        "domicile": "SG",
+        "income_source_country": "SG",
+        "isin": null,
+        "cusip": null,
+        "timezone": "UTC",
+        "active": true,
+        "distribution_policy": "distributing",
+        "expense_ratio": null
+      },
+      "pack": {
+        "schema_version": 1,
+        "data_snapshot_id": "s9-fixed-2024",
+        "manifest_version": 1,
+        "security": {
+          "security_id": "20000000-0000-0000-0000-000000000002",
+          "ticker": "ES3",
+          "exchange": "SGX",
+          "market": "SG",
+          "name": "ES3 synthetic UI fixture (not market data)",
+          "currency": "SGD",
+          "asset_type": "ETF",
+          "domicile": "SG",
+          "income_source_country": "SG",
+          "isin": null,
+          "cusip": null,
+          "timezone": "UTC",
+          "active": true,
+          "distribution_policy": "distributing",
+          "expense_ratio": null
+        },
+        "prices": {
+          "dates": [
+            "2024-01-02",
+            "2024-01-03",
+            "2024-02-01",
+            "2024-03-01",
+            "2024-03-15",
+            "2024-04-01",
+            "2024-05-02",
+            "2024-05-17",
+            "2024-06-03",
+            "2024-06-28"
+          ],
+          "close": [
+            "3.10",
+            "3.12",
+            "3.20",
+            "3.15",
+            "3.18",
+            "3.30",
+            "3.25",
+            "3.28",
+            "3.40",
+            "3.45"
+          ]
+        },
+        "dividends": [
+          {
+            "security_id": "20000000-0000-0000-0000-000000000002",
+            "ex_date": "2024-03-01",
+            "amount": "0.05",
+            "currency": "SGD",
+            "pay_date": "2024-03-15",
+            "dividend_type": "regular",
+            "source_country": "SG"
+          },
+          {
+            "security_id": "20000000-0000-0000-0000-000000000002",
+            "ex_date": "2024-05-02",
+            "amount": "0.055",
+            "currency": "SGD",
+            "pay_date": "2024-05-17",
+            "dividend_type": "regular",
+            "source_country": "SG"
+          }
+        ],
+        "corporate_actions": [],
+        "fx": {
+          "dates": [],
+          "rates": [],
+          "base_currency": "SGD"
+        },
+        "coverage": {
+          "first_date": "2024-01-02",
+          "last_date": "2024-06-28",
+          "native_currency": "SGD"
+        },
+        "warnings": [
+          "Synthetic UI fixture; not current market data."
+        ]
+      },
+      "request": {
+        "start_date": "2024-01-02",
+        "end_date": "2024-06-28",
+        "initial_sgd": "3000",
+        "scenario": {
+          "dividends_enabled": true,
+          "reinvest_dividends": true,
+          "withholding_tax_enabled": true
+        }
+      },
+      "source_fixture": "sgd-security-dividends-reinvest"
+    },
+    {
+      "security": {
+        "security_id": "10000000-0000-0000-0000-000000000001",
+        "ticker": "SMH",
+        "exchange": "XTEST",
+        "market": "US",
+        "name": "SMH synthetic UI fixture (not market data)",
+        "currency": "USD",
+        "asset_type": "ETF",
+        "domicile": "US",
+        "income_source_country": "US",
+        "isin": null,
+        "cusip": null,
+        "timezone": "UTC",
+        "active": true,
+        "distribution_policy": "distributing",
+        "expense_ratio": null
+      },
+      "pack": {
+        "schema_version": 1,
+        "data_snapshot_id": "s9-fixed-2024",
+        "manifest_version": 1,
+        "security": {
+          "security_id": "10000000-0000-0000-0000-000000000001",
+          "ticker": "SMH",
+          "exchange": "XTEST",
+          "market": "US",
+          "name": "SMH synthetic UI fixture (not market data)",
+          "currency": "USD",
+          "asset_type": "ETF",
+          "domicile": "US",
+          "income_source_country": "US",
+          "isin": null,
+          "cusip": null,
+          "timezone": "UTC",
+          "active": true,
+          "distribution_policy": "distributing",
+          "expense_ratio": null
+        },
+        "prices": {
+          "dates": [
+            "2024-01-02",
+            "2024-02-01",
+            "2024-03-01",
+            "2024-03-15",
+            "2024-04-01",
+            "2024-05-01",
+            "2024-06-03",
+            "2024-07-01",
+            "2024-08-01",
+            "2024-09-02",
+            "2024-09-16",
+            "2024-10-01",
+            "2024-11-01",
+            "2024-12-02"
+          ],
+          "close": [
+            "100.00",
+            "101.50",
+            "100.20",
+            "101.00",
+            "103.00",
+            "104.20",
+            "105.10",
+            "106.00",
+            "105.40",
+            "107.00",
+            "107.60",
+            "108.20",
+            "109.00",
+            "110.50"
+          ]
+        },
+        "dividends": [
+          {
+            "security_id": "10000000-0000-0000-0000-000000000001",
+            "ex_date": "2024-03-01",
+            "amount": "0.40",
+            "currency": "USD",
+            "pay_date": "2024-03-15",
+            "dividend_type": "regular",
+            "source_country": "US"
+          },
+          {
+            "security_id": "10000000-0000-0000-0000-000000000001",
+            "ex_date": "2024-09-02",
+            "amount": "0.45",
+            "currency": "USD",
+            "pay_date": "2024-09-16",
+            "dividend_type": "regular",
+            "source_country": "US"
+          }
+        ],
+        "corporate_actions": [],
+        "fx": {
+          "dates": [
+            "2024-01-01"
+          ],
+          "rates": [
+            "1.35"
+          ],
+          "base_currency": "USD"
+        },
+        "coverage": {
+          "first_date": "2024-01-02",
+          "last_date": "2024-12-02",
+          "native_currency": "USD"
+        },
+        "warnings": [
+          "Synthetic UI fixture; not current market data."
+        ]
+      },
+      "request": {
+        "start_date": "2024-01-01",
+        "end_date": "2024-12-31",
+        "contribution_sgd": "200",
+        "frequency": "monthly",
+        "scenario": {
+          "dividends_enabled": true,
+          "reinvest_dividends": false,
+          "withholding_tax_enabled": true
+        }
+      },
+      "source_fixture": "dca-monthly-synthetic-cash-dividends"
+    }
+  ],
+  "manifest": {
+    "schema_version": 1,
+    "data_snapshot_id": "s9-fixed-2024",
+    "catalog_version": "s9-ui-fixture",
+    "fx": {
+      "coverage": {
+        "USD": {
+          "first_date": "2024-01-01",
+          "last_date": "2024-06-28"
+        }
+      }
+    },
+    "securities": [
+      {
+        "security_id": "20000000-0000-0000-0000-000000000002",
+        "ticker": "ES3",
+        "native_currency": "SGD",
+        "first_year": 2024,
+        "last_year": 2024,
+        "status": "fully_supported",
+        "years": {
+          "2024": {
+            "status": "fully_supported",
+            "first_date": "2024-01-02",
+            "last_date": "2024-06-28"
+          }
+        }
+      },
+      {
+        "security_id": "10000000-0000-0000-0000-000000000001",
+        "ticker": "SMH",
+        "native_currency": "USD",
+        "first_year": 2024,
+        "last_year": 2024,
+        "status": "fully_supported",
+        "years": {
+          "2024": {
+            "status": "fully_supported",
+            "first_date": "2024-01-02",
+            "last_date": "2024-12-02"
+          }
+        }
+      }
+    ]
+  }
+}

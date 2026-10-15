@@ -1,0 +1,187 @@
+ISC004 Unparenthesized implicit string concatenation in collection
+   --> src/sg_investing/data/backfill.py:157:13
+    |
+155 |           return (
+156 |               "incomplete",
+157 | /             f"Stored price history contains {total_internal_gap} missing market session(s); "
+158 | |             f"largest internal gap is {max_internal_gap}, above the allowed maximum of "
+159 | |             f"{MAX_INTERNAL_PRICE_GAP_SESSIONS}.",
+    | |_________________________________________________^
+160 |           )
+161 |       stale_days = _business_days_between(last_price_date, as_of)
+    |
+help: Did you forget a comma?
+help: Wrap implicitly concatenated strings in parentheses
+    |
+156 |             "incomplete",
+    -             f"Stored price history contains {total_internal_gap} missing market session(s); "
+157 +             (f"Stored price history contains {total_internal_gap} missing market session(s); "
+158 |             f"largest internal gap is {max_internal_gap}, above the allowed maximum of "
+    -             f"{MAX_INTERNAL_PRICE_GAP_SESSIONS}.",
+159 +             f"{MAX_INTERNAL_PRICE_GAP_SESSIONS}."),
+160 |         )
+    |
+note: This is an unsafe fix and may change runtime behavior
+
+ISC004 Unparenthesized implicit string concatenation in collection
+   --> src/sg_investing/data/backfill.py:165:13
+    |
+163 |           return (
+164 |               "incomplete",
+165 | /             f"Last stored price date {last_price_date.isoformat()} is {stale_days} business days before "
+166 | |             f"as-of {as_of.isoformat()}; allowed maximum is {MAX_ACTIVE_PRICE_STALENESS_BUSINESS_DAYS}.",
+    | |________________________________________________________________________________________________________^
+167 |           )
+168 |       return "stored", None
+    |
+help: Did you forget a comma?
+help: Wrap implicitly concatenated strings in parentheses
+    |
+164 |             "incomplete",
+    -             f"Last stored price date {last_price_date.isoformat()} is {stale_days} business days before "
+    -             f"as-of {as_of.isoformat()}; allowed maximum is {MAX_ACTIVE_PRICE_STALENESS_BUSINESS_DAYS}.",
+165 +             (f"Last stored price date {last_price_date.isoformat()} is {stale_days} business days before "
+166 +             f"as-of {as_of.isoformat()}; allowed maximum is {MAX_ACTIVE_PRICE_STALENESS_BUSINESS_DAYS}."),
+167 |         )
+    |
+note: This is an unsafe fix and may change runtime behavior
+
+TRY004 Prefer `TypeError` exception for invalid type
+   --> src/sg_investing/data/backfill.py:233:9
+    |
+231 |     records = payload.setdefault("securities", {})
+232 |     if not isinstance(records, dict):
+233 |         raise RuntimeError(f"Invalid backfill state in {path}.")
+    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+234 |
+235 |     catalog_ids: set[str] = set()
+    |
+
+BLE001 Do not catch blind exception: `Exception`
+   --> src/sg_investing/data/ingestion.py:149:12
+    |
+147 |             store.upsert_dividends(dividend_rows)
+148 |         store.upsert_corporate_actions(action_rows)
+149 |     except Exception as error:  # Error details are retained per security; other updates can continue.
+    |            ^^^^^^^^^
+150 |         return SecurityUpdateResult(
+151 |             security_id=str(security.security_id),
+    |
+
+TRY004 Prefer `TypeError` exception for invalid type
+   --> src/sg_investing/universe/sources.py:189:9
+    |
+187 |     rows = response.json().get("data", {}).get("prices", [])
+188 |     if not isinstance(rows, list):
+189 |         raise ValueError("SGX directory schema changed: data.prices is not a list.")
+    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+190 |     asset_types = {
+191 |         "stocks": AssetType.EQUITY,
+    |
+
+TRY004 Prefer `TypeError` exception for invalid type
+  --> tests/smoke/test_downloaded_price_completeness.py:45:9
+   |
+43 |     payload = json.loads(path.read_text(encoding="utf-8"))
+44 |     if not isinstance(payload, dict):
+45 |         raise AssertionError(f"Expected an object in {path}.")
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+46 |     starts: dict[str, date] = {}
+47 |     for security_id, value in payload.items():
+   |
+
+TRY004 Prefer `TypeError` exception for invalid type
+  --> tests/smoke/test_downloaded_price_completeness.py:49:13
+   |
+47 |     for security_id, value in payload.items():
+48 |         if not isinstance(value, str):
+49 |             raise AssertionError(f"Expected an ISO date for {security_id} in {path}.")
+   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+50 |         starts[security_id] = date.fromisoformat(value)
+51 |     return starts
+   |
+
+SIM401 Use `configured_starts.get(security_id, None)` instead of an `if` block
+  --> tests/smoke/test_downloaded_price_completeness.py:73:17
+   |
+71 |               exchange=security.exchange,
+72 |               expected_start=(
+73 | /                 configured_starts[security_id]
+74 | |                 if security_id in configured_starts
+75 | |                 else None
+   | |_________________________^
+76 |               ),
+77 |               active=security.active,
+   |
+help: Replace with `configured_starts.get(security_id, None)`
+   |
+72 |             expected_start=(
+   -                 configured_starts[security_id]
+   -                 if security_id in configured_starts
+   -                 else None
+73 +                 configured_starts.get(security_id, None)
+74 |             ),
+   |
+note: This is an unsafe fix and may change runtime behavior
+
+SIM117 Use a single `with` statement with multiple contexts instead of nested `with` statements
+  --> tests/test_universe_sources.py:81:5
+   |
+79 |   )
+80 |   def test_blackrock_parser_has_schema_count_and_duplicate_gates(text, minimum_count, message):
+81 | /     with patch.object(sources.requests, "get", return_value=FakeResponse(text=text)):
+82 | |         with pytest.raises(ValueError, match=message):
+   | |______________________________________________________^
+83 |               sources._blackrock_holdings(url="https://example.test/holdings.csv", minimum_count=minimum_count, label="test")
+   |
+help: Combine `with` statements
+
+SIM117 Use a single `with` statement with multiple contexts instead of nested `with` statements
+   --> tests/test_universe_sources.py:115:5
+    |
+113 |               self.pages = [FakePage("Weight (%)\nCompany\nABC\n1.0")]
+114 |
+115 | /     with patch.object(sources, "PdfReader", MissingDateReader):
+116 | |         with pytest.raises(ValueError, match="as-of date"):
+    | |___________________________________________________________^
+117 |               sources._parse_nasdaq_components(b"fixture")
+    |
+help: Combine `with` statements
+
+SIM117 Use a single `with` statement with multiple contexts instead of nested `with` statements
+   --> tests/test_universe_sources.py:164:5
+    |
+163 |   def test_sgx_parser_rejects_schema_changes_in_scope_incomplete_rows_and_duplicates():
+164 | /     with patch.object(sources.requests, "get", return_value=FakeResponse(payload={"data": {"prices": {}}})):
+165 | |         with pytest.raises(ValueError, match="not a list"):
+    | |___________________________________________________________^
+166 |               sources.fetch_sgx_current(as_of=date(2026, 8, 30))
+    |
+help: Combine `with` statements
+
+SIM117 Use a single `with` statement with multiple contexts instead of nested `with` statements
+   --> tests/test_universe_sources.py:170:5
+    |
+168 |       incomplete = [valid_sgx_row(index) for index in range(650)]
+169 |       incomplete[0]["cur"] = ""
+170 | /     with patch.object(sources.requests, "get", return_value=sgx_response(incomplete)):
+171 | |         with pytest.raises(ValueError, match="incomplete"):
+    | |___________________________________________________________^
+172 |               sources.fetch_sgx_current(as_of=date(2026, 8, 30))
+    |
+help: Combine `with` statements
+
+SIM117 Use a single `with` statement with multiple contexts instead of nested `with` statements
+   --> tests/test_universe_sources.py:176:5
+    |
+174 |       duplicate = [valid_sgx_row(index) for index in range(649)]
+175 |       duplicate.append(valid_sgx_row(999, code="C000"))
+176 | /     with patch.object(sources.requests, "get", return_value=sgx_response(duplicate)):
+177 | |         with pytest.raises(ValueError, match="duplicate"):
+    | |__________________________________________________________^
+178 |               sources.fetch_sgx_current(as_of=date(2026, 8, 30))
+    |
+help: Combine `with` statements
+
+Found 13 errors.
+3 unsafe fixes available with `--fix --unsafe-fixes`.

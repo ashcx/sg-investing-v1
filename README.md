@@ -120,9 +120,12 @@ published packs and makes no runtime `/api` calls. The pack origin may be the
 same GitHub Pages site or the configured Tier-2 static origin; neither is a
 calculation server.
 
-Selecting a security loads its series automatically. Analysis, DCA, and
-portfolio panels run after debounced input changes, while their buttons remain
-available as immediate **Force refresh** actions.
+Analysis, DCA, comparison, and portfolio results require **Calculate** or
+**Update results**. Financial edits mark retained outputs as **previous** with
+their original inputs until recalculated. Each tool owns its selection and
+display currency; charts and exports remain attached to the completed request.
+The page starts empty, and coverage notes distinguish requested and resolved
+dates, published security/FX coverage, and the result data snapshot.
 
 ### Adapter mode
 

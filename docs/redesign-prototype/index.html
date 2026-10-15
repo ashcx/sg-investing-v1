@@ -1,0 +1,645 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A low-fidelity interaction prototype for SG / Invest.">
+  <title>SG / Invest — wireframe prototype</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #171717;
+      --muted: #505050;
+      --line: #b8b8b8;
+      --soft-line: #dedede;
+      --paper: #fff;
+      --wash: #f4f4f4;
+      font: 16px/1.5 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    * { box-sizing: border-box; }
+    [hidden] { display: none !important; }
+    body { min-width: 320px; margin: 0; color: var(--ink); background: var(--paper); }
+    button, input, select { color: inherit; font: inherit; }
+    button, input, select { min-height: 44px; }
+    a { color: inherit; }
+    :focus-visible { outline: 3px solid #111; outline-offset: 3px; }
+    .skip {
+      position: absolute; z-index: 5; top: 8px; left: 8px; padding: 8px 12px;
+      transform: translateY(-160%); border: 2px solid var(--ink); background: var(--paper);
+    }
+    .skip:focus { transform: translateY(0); }
+    header { border-bottom: 1px solid var(--line); padding: 12px clamp(12px, 4vw, 48px) 0; }
+    .top, nav { max-width: 1200px; margin-inline: auto; }
+    .top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .brand { font-size: 1.125rem; font-weight: 700; text-decoration: none; }
+    .stamp { border: 1px solid var(--ink); border-radius: 2px; padding: 3px 8px; font-size: .75rem; font-weight: 650; }
+    nav { display: flex; flex-wrap: wrap; gap: 2px 20px; margin-top: 10px; }
+    nav a { display: inline-flex; align-items: center; min-height: 44px; border-bottom: 3px solid transparent; padding: 3px 2px 1px; font-weight: 650; text-decoration: none; }
+    nav a[aria-current="page"] { border-bottom-color: var(--ink); }
+    nav .utility { margin-left: auto; font-weight: 500; }
+    main { width: min(100% - 32px, 1120px); margin: 28px auto 72px; }
+    .view { display: none; }
+    .view.active { display: block; }
+    h1 { margin: 0 0 8px; font-size: clamp(1.6rem, 5vw, 2rem); line-height: 1.2; }
+    h2 { margin: 0 0 8px; font-size: 1.2rem; line-height: 1.3; }
+    h3 { margin: 0 0 6px; font-size: 1rem; }
+    p { margin: 0 0 12px; }
+    .intro { max-width: 68ch; color: var(--muted); }
+    .heading { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-bottom: 20px; }
+    .grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(280px, .86fr); align-items: start; gap: 20px; }
+    .panel, .notice, .empty, .card { border: 1px solid var(--line); border-radius: 4px; background: var(--paper); }
+    .panel { padding: 20px; }
+    .notice, .empty { padding: 14px; background: var(--wash); }
+    .muted, .help, .meta { color: var(--muted); }
+    .help, .meta { font-size: .875rem; }
+    .eyebrow { margin-bottom: 6px; color: var(--muted); font-size: .75rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; }
+    .field { display: grid; gap: 5px; margin: 0 0 16px; }
+    .field label, .legend { font-size: .875rem; font-weight: 650; }
+    input[type="text"], input[type="date"], input[type="number"], select {
+      width: 100%; border: 1px solid #777; border-radius: 4px; padding: 8px 10px; background: var(--paper);
+    }
+    input::placeholder { color: #626262; opacity: 1; }
+    fieldset { min-width: 0; border: 0; padding: 0; }
+    legend { margin-bottom: 5px; }
+    .choices { display: flex; flex-wrap: wrap; gap: 4px 20px; }
+    .choices label, .checks label { display: inline-flex; align-items: center; gap: 8px; min-height: 40px; }
+    input[type="radio"], input[type="checkbox"] { width: 18px; height: 18px; margin: 0; }
+    .cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+    .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; min-height: 44px;
+      border: 1px solid var(--ink); border-radius: 4px; padding: 8px 14px;
+      background: var(--paper); font-weight: 650; text-align: center; text-decoration: none; cursor: pointer;
+    }
+    .primary { color: var(--paper); background: var(--ink); }
+    .small { min-height: 40px; padding: 6px 10px; font-size: .875rem; }
+    .quiet { border-color: transparent; padding-inline: 8px; text-decoration: underline; }
+    .text-button { min-height: 40px; border: 0; padding: 6px 4px; background: transparent; text-decoration: underline; cursor: pointer; }
+    .btn:disabled { cursor: not-allowed; opacity: .55; }
+    details { margin: 4px 0 18px; border-block: 1px solid var(--soft-line); padding: 8px 0; }
+    summary { min-height: 40px; padding: 7px 0; font-weight: 650; cursor: pointer; }
+    .checks { display: grid; gap: 4px; padding: 3px 0 8px; }
+    .summary-text { margin-top: 8px; font-size: .875rem; }
+    .error { margin: 0 0 12px; color: #111; font-weight: 650; }
+    .error:empty { display: none; }
+    .card { padding: 18px; }
+    .card.pending { border-style: dashed; background: var(--wash); }
+    .stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin: 14px 0; }
+    .stat { border: 1px solid var(--soft-line); padding: 10px; }
+    .stat dt { color: var(--muted); font-size: .8125rem; }
+    .stat dd { margin: 2px 0 0; font-weight: 700; }
+    .snapshot { display: grid; grid-template-columns: max-content 1fr; gap: 5px 12px; margin: 12px 0 0; }
+    .snapshot dt { color: var(--muted); }
+    .snapshot dd { margin: 0; overflow-wrap: anywhere; font-weight: 600; }
+    .stack { display: grid; gap: 10px; margin: 14px 0; }
+    .security { border: 1px solid var(--line); border-radius: 4px; padding: 12px; }
+    .security-top { display: flex; justify-content: space-between; align-items: start; gap: 12px; }
+    .security-select { flex: 1; }
+    .coverage { margin-top: 14px; border-left: 3px solid var(--ink); padding: 10px 12px; background: var(--wash); }
+    .transactions { display: grid; gap: 10px; margin: 16px 0 0; padding: 0; list-style: none; }
+    .transaction { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; border: 1px solid var(--line); border-radius: 4px; padding: 12px; }
+    .transaction p { margin: 2px 0; }
+    .transaction-actions { display: flex; gap: 4px; }
+    .methods { display: grid; gap: 12px; margin-top: 16px; }
+    .methods section { border-top: 1px solid var(--soft-line); padding-top: 12px; }
+    .methods section p { margin: 0; }
+    dialog { width: min(100% - 24px, 560px); max-height: min(90vh, 780px); overflow: auto; border: 1px solid var(--ink); border-radius: 4px; padding: 0; color: var(--ink); background: var(--paper); }
+    dialog::backdrop { background: rgb(0 0 0 / 45%); }
+    .dialog-body { padding: 20px; }
+    .dialog-head { display: flex; justify-content: space-between; align-items: start; gap: 12px; margin-bottom: 16px; }
+    .dialog-head h2 { margin: 0; }
+    .close { width: 44px; min-width: 44px; min-height: 44px; border: 1px solid var(--line); border-radius: 4px; background: var(--paper); cursor: pointer; }
+    .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; }
+    @media (max-width: 700px) {
+      main { margin-top: 22px; }
+      .grid { grid-template-columns: 1fr; }
+      .panel { padding: 16px; }
+      .heading { display: block; }
+      .heading > .actions { margin-top: 12px; }
+      nav { gap: 2px 16px; }
+      nav .utility { margin-left: 0; }
+    }
+    @media (max-width: 420px) {
+      header { padding-inline: 12px; }
+      .top { align-items: flex-start; flex-direction: column; gap: 7px; }
+      .stamp { white-space: normal; }
+      nav { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 12px; }
+      nav a { min-height: 42px; }
+      nav .utility { margin-left: 0; }
+      main { width: calc(100% - 24px); margin-top: 18px; }
+      .cols, .stats { grid-template-columns: 1fr; }
+      .transaction { grid-template-columns: 1fr; }
+      .transaction-actions { flex-wrap: wrap; }
+      .snapshot { grid-template-columns: 1fr; gap: 0; }
+      .snapshot dd { margin-bottom: 6px; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to main content</a>
+  <header>
+    <div class="top">
+      <a class="brand" href="#simulate">SG / Invest</a>
+      <span class="stamp">Wireframe • example data • engine not connected</span>
+    </div>
+    <nav aria-label="Main navigation">
+      <a href="#simulate" data-route="simulate">Simulate</a>
+      <a href="#compare" data-route="compare">Compare</a>
+      <a href="#portfolio" data-route="portfolio">Portfolio</a>
+      <a class="utility" href="#methods" data-route="methods">Data &amp; methods</a>
+    </nav>
+  </header>
+  <main id="main" tabindex="-1">
+    <section class="view" id="view-simulate" aria-labelledby="simulate-title">
+      <div class="heading">
+        <div>
+          <h1 id="simulate-title">Investment simulator</h1>
+          <p class="intro">Choose an investment and review the request before any financial result is calculated.</p>
+        </div>
+        <button class="btn small" type="button" data-help="simulate">How this works</button>
+      </div>
+      <div class="grid">
+        <form class="panel" id="sim-form" novalidate>
+          <p class="eyebrow">1 · Choose an investment</p>
+          <div class="field">
+            <label for="sim-security">Security</label>
+            <select id="sim-security"><option value="">Choose a security</option></select>
+            <span class="help">Small sample catalog. Listings and coverage are examples only.</span>
+          </div>
+          <p class="summary-text" id="sim-security-summary" aria-live="polite">Choose a security to see its sample listing details.</p>
+          <fieldset class="field" style="margin-top:20px">
+            <legend>2 · Investing pattern</legend>
+            <div class="choices">
+              <label><input type="radio" name="sim-mode" value="one-time" checked> One-time</label>
+              <label><input type="radio" name="sim-mode" value="regular"> Regular contributions</label>
+            </div>
+          </fieldset>
+          <div class="field" id="sim-one-wrap">
+            <label for="sim-one-amount">Initial amount (SGD)</label>
+            <input id="sim-one-amount" type="number" min="0.01" step="0.01" inputmode="decimal" placeholder="e.g. 1000">
+          </div>
+          <div class="field" id="sim-regular-wrap" hidden>
+            <label for="sim-initial-lump">Initial lump sum (SGD)</label>
+            <input id="sim-initial-lump" type="number" min="0" step="0.01" inputmode="decimal" value="0">
+            <span class="help">Optional amount invested at the start. Use 0 for recurring contributions only.</span>
+            <label for="sim-regular-amount">Contribution per period (SGD)</label>
+            <input id="sim-regular-amount" type="number" min="0.01" step="0.01" inputmode="decimal" placeholder="e.g. 200">
+          </div>
+          <div class="field" id="sim-frequency-wrap" hidden>
+            <label for="sim-frequency">Contribution frequency</label>
+            <select id="sim-frequency"><option>Monthly</option><option>Quarterly</option><option>Yearly</option></select>
+          </div>
+          <div class="cols">
+            <div class="field"><label for="sim-start">Start date</label><input id="sim-start" type="date"></div>
+            <div class="field"><label for="sim-end">End date</label><input id="sim-end" type="date"></div>
+          </div>
+          <p class="help">These are requested dates. Actual trading dates depend on security data.</p>
+          <details>
+            <summary>Adjust assumptions</summary>
+            <div class="checks">
+              <label><input id="sim-dividends" type="checkbox" checked> Include dividends</label>
+              <label><input id="sim-tax" type="checkbox" checked> Apply available withholding rules</label>
+              <label><input id="sim-reinvest" type="checkbox" checked> Reinvest net dividends</label>
+            </div>
+            <p class="help">This prototype does not apply tax or dividend assumptions.</p>
+          </details>
+          <p class="error" id="sim-error" role="alert"></p>
+          <div class="actions">
+            <button class="btn primary" type="submit">Preview result</button>
+            <button class="btn quiet" id="handoff" type="button">Compare with another investment</button>
+          </div>
+          <p class="help" id="handoff-status" role="status" aria-live="polite"></p>
+        </form>
+        <section class="stack" aria-label="Simulator preview">
+          <div id="sim-result" aria-live="polite">
+            <div class="empty"><h2>Before you start</h2><p>Enter an amount and requested dates, then choose <strong>Preview result</strong>. This records your request only; market data and calculations are not connected.</p></div>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <section class="view" id="view-compare" aria-labelledby="compare-title">
+      <div class="heading">
+        <div>
+          <h1 id="compare-title">Compare investments</h1>
+          <p class="intro">Choose two to six securities and one shared setup. Review requested dates and coverage before a comparison.</p>
+        </div>
+        <button class="btn small" type="button" data-help="compare">How this works</button>
+      </div>
+      <div class="grid">
+        <form class="panel" id="compare-form" novalidate>
+          <p class="eyebrow">Securities · 2–6</p>
+          <div id="compare-securities" class="stack"></div>
+          <div class="actions"><button class="btn small" id="add-security" type="button">Add security</button></div>
+          <p class="eyebrow" style="margin-top:20px">Shared setup</p>
+          <p class="help">One-time investment · the same initial amount and requested dates apply to each selection.</p>
+          <div class="field" id="compare-one-wrap"><label for="compare-one-amount">Initial amount (SGD)</label><input id="compare-one-amount" type="number" min="0.01" step="0.01" inputmode="decimal" placeholder="e.g. 1000"></div>
+          <div class="notice" style="margin-bottom:16px">
+            <h3>Dividend and tax assumptions</h3>
+            <p id="compare-assumptions" class="help">No simulator setup copied. Assumptions are not set.</p>
+          </div>
+          <div class="cols">
+            <div class="field"><label for="compare-start">Requested start date</label><input id="compare-start" type="date"></div>
+            <div class="field"><label for="compare-end">Requested end date</label><input id="compare-end" type="date"></div>
+          </div>
+          <p class="error" id="compare-error" role="alert"></p>
+          <button class="btn primary" type="submit">Preview comparison request</button>
+        </form>
+        <section class="stack" aria-label="Comparison preview">
+          <div class="notice">
+            <h2>Actual period and coverage</h2>
+            <p id="compare-coverage">Common dates have not been checked. Sample listings do not include usable price history in this wireframe.</p>
+            <p class="help">A real comparison must disclose the actual dates available for each security and whether entries share one window.</p>
+          </div>
+          <div id="compare-result" aria-live="polite"><div class="empty"><h2>No comparison preview yet</h2><p>Select at least two securities and preview the request. No returns or common window are calculated.</p></div></div>
+          <div class="actions"><a class="btn small" href="#simulate">Back to simulator</a></div>
+        </section>
+      </div>
+    </section>
+
+    <section class="view" id="view-portfolio" aria-labelledby="portfolio-title">
+      <div class="heading">
+        <div><h1 id="portfolio-title">Portfolio</h1><p class="intro">Record transactions in this tab to explore the entry flow. Nothing is saved to a ledger.</p></div>
+        <button class="btn small" type="button" data-help="portfolio">How this works</button>
+      </div>
+      <section class="panel" aria-labelledby="transactions-title">
+        <div class="heading">
+          <div><h2 id="transactions-title">Transactions</h2><p class="help">In memory only · refreshing this page clears entries</p></div>
+          <div class="actions"><button class="btn primary" id="add-transaction" type="button">Add transaction</button><button class="btn small" id="undo-delete" type="button" hidden>Undo last delete</button></div>
+        </div>
+        <div id="portfolio-empty" class="empty"><h2>No transactions yet</h2><p>Add a buy, sell, dividend, cash deposit, or cash withdrawal. This prototype does not save or calculate holdings.</p></div>
+        <ul id="portfolio-list" class="transactions" aria-label="Recorded transactions"></ul>
+        <p id="portfolio-status" class="help" role="status" aria-live="polite"></p>
+      </section>
+    </section>
+
+    <section class="view" id="view-methods" aria-labelledby="methods-title">
+      <div class="heading"><div><h1 id="methods-title">Data &amp; methods</h1><p class="intro">A short guide to the evidence and assumptions a real result should show.</p></div></div>
+      <div class="grid">
+        <section class="panel">
+          <p class="eyebrow">Coverage</p><h2>Know which dates are usable</h2>
+          <p>This wireframe has no connected market data. A real result should distinguish requested dates from the actual security and FX dates used, and explain incomplete or unavailable coverage.</p>
+          <div class="methods">
+            <section><h3>Security listings</h3><p>The small catalog here is illustrative. Ticker, exchange, currency, distribution policy, and price history would come from the published catalog and data packs.</p></section>
+            <section><h3>Sources and provenance</h3><p>A real result should identify its data snapshot, supported period, methodology version, and warnings that affect interpretation.</p></section>
+          </div>
+        </section>
+        <section class="panel">
+          <p class="eyebrow">Calculation approach</p><h2>Observed data plus clear assumptions</h2>
+          <div class="methods">
+            <section><h3>Prices and dates</h3><p>Prices are daily and unadjusted. A purchase uses the next available trading day; valuation uses the previous available trading day.</p></section>
+            <section><h3>Dividends and tax</h3><p>Dividends are modeled separately from prices. Applicable withholding rules depend on security, country, and effective date; missing rules should be disclosed.</p></section>
+            <section><h3>Currency</h3><p>FX is expressed as SGD per unit of foreign currency. A real comparison should identify native and SGD values clearly.</p></section>
+            <section><h3>Costs and portfolio limits</h3><p>The current engine does not model brokerage, sale, FX-conversion, or slippage costs, and does not calculate Singapore capital-gains tax. Portfolio reporting uses weighted-average cost basis.</p></section>
+          </div>
+          <div class="actions" style="margin-top:18px"><a class="btn small" href="#simulate">Go to simulator</a><a class="btn small" href="#compare">Go to compare</a></div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <dialog id="help-dialog" aria-labelledby="help-title">
+    <div class="dialog-body">
+      <div class="dialog-head"><div><p class="eyebrow">Help</p><h2 id="help-title">How this view works</h2></div><button class="close" type="button" data-close="help-dialog" aria-label="Close help">×</button></div>
+      <div id="help-content"></div>
+      <div class="actions" style="margin-top:16px"><a class="btn small" href="#methods" data-close-help>Data &amp; methods</a></div>
+    </div>
+  </dialog>
+
+  <dialog id="transaction-dialog" aria-labelledby="transaction-title">
+    <form class="dialog-body" id="transaction-form" novalidate>
+      <div class="dialog-head"><div><p class="eyebrow">Portfolio entry</p><h2 id="transaction-title">Add transaction</h2></div><button class="close" type="button" data-close="transaction-dialog" aria-label="Close transaction form">×</button></div>
+      <div class="field"><label for="tx-type">Transaction type</label><select id="tx-type"><option value="BUY">Buy</option><option value="SELL">Sell</option><option value="DIVIDEND">Dividend</option><option value="CASH_DEPOSIT">Cash deposit</option><option value="CASH_WITHDRAWAL">Cash withdrawal</option></select></div>
+      <div class="field"><label for="tx-date">Date</label><input id="tx-date" type="date"></div>
+      <div class="field" id="tx-security-wrap"><label for="tx-security">Security</label><select id="tx-security"></select></div>
+      <div class="field" id="tx-quantity-wrap"><label for="tx-quantity">Quantity</label><input id="tx-quantity" type="number" min="0.000001" step="any" inputmode="decimal"></div>
+      <div class="field"><label for="tx-amount" id="tx-amount-label">Transaction cash amount</label><input id="tx-amount" type="number" min="0.01" step="0.01" inputmode="decimal"><span id="tx-amount-help" class="help">For buy or sell, enter total cash, not a unit price.</span></div>
+      <div class="field"><label for="tx-currency">Currency</label><select id="tx-currency"><option>SGD</option><option>USD</option><option>CHF</option><option>GBP</option><option>EUR</option></select></div>
+      <p class="error" id="tx-error" role="alert"></p>
+      <div class="actions"><button class="btn primary" type="submit" id="tx-save">Add transaction</button><button class="btn" type="button" data-close="transaction-dialog">Cancel</button></div>
+    </form>
+  </dialog>
+  <script>
+    (function () {
+      "use strict";
+      const catalog = [
+        { ticker: "QQQ", name: "Invesco QQQ Trust", exchange: "Nasdaq", currency: "USD" },
+        { ticker: "VALL.SW", name: "Vanguard FTSE Global All-Cap UCITS ETF USD Acc", exchange: "SIX Swiss Exchange", currency: "USD" },
+        { ticker: "ES3.SI", name: "SPDR STI ETF", exchange: "SGX", currency: "SGD" },
+        { ticker: "SPY", name: "SPDR S&P 500 ETF Trust", exchange: "NYSE Arca", currency: "USD" },
+        { ticker: "AAPL", name: "Apple Inc.", exchange: "Nasdaq", currency: "USD" },
+        { ticker: "CSPX.L", name: "iShares Core S&P 500 UCITS ETF", exchange: "London Stock Exchange", currency: "USD" }
+      ];
+      const state = {
+        sim: { security: "", mode: "one-time", one: "", regular: "", frequency: "Monthly", start: "", end: "", dividends: true, tax: true, reinvest: true },
+        simDone: null,
+        compare: { securities: ["", ""], one: "", start: "", end: "", assumptions: null },
+        compareDone: null,
+        transactions: [], deleted: null, editId: null, sequence: 0
+      };
+      const $ = function (id) { return document.getElementById(id); };
+      const setText = function (id, value) { $(id).textContent = value; };
+      const item = function (ticker) { return catalog.find(function (s) { return s.ticker === ticker; }) || null; };
+      const label = function (ticker) { const s = item(ticker); return s ? s.ticker + " — " + s.name : "No security selected"; };
+      const options = function (select, blank) {
+        select.replaceChildren();
+        if (blank) { const o = document.createElement("option"); o.value = ""; o.textContent = "Choose a security"; select.append(o); }
+        catalog.forEach(function (s) { const o = document.createElement("option"); o.value = s.ticker; o.textContent = s.ticker + " — " + s.name + " · " + s.exchange + " · " + s.currency; select.append(o); });
+      };
+      options($("sim-security"), true);
+      options($("tx-security"), true);
+
+      function route() { return ["simulate", "compare", "portfolio", "methods"].includes(location.hash.slice(1)) ? location.hash.slice(1) : "simulate"; }
+      function routeRender() {
+        const active = route();
+        document.querySelectorAll(".view").forEach(function (view) {
+          const on = view.id === "view-" + active;
+          view.hidden = !on;
+          view.classList.toggle("active", on);
+        });
+        document.querySelectorAll("[data-route]").forEach(function (a) {
+          if (a.dataset.route === active) a.setAttribute("aria-current", "page");
+          else a.removeAttribute("aria-current");
+        });
+        if (!["simulate", "compare", "portfolio", "methods"].includes(location.hash.slice(1))) history.replaceState(null, "", "#simulate");
+      }
+      addEventListener("hashchange", routeRender);
+      routeRender();
+      document.querySelector(".skip").addEventListener("click", function (event) {
+        event.preventDefault();
+        $("main").focus({ preventScroll: true });
+        $("main").scrollIntoView({ block: "start" });
+      });
+
+      function modeSim() {
+        const regular = document.querySelector('input[name="sim-mode"]:checked').value === "regular";
+        $("sim-one-wrap").hidden = regular; $("sim-regular-wrap").hidden = !regular; $("sim-frequency-wrap").hidden = !regular;
+        setText("handoff-status", "");
+      }
+      function simDraft() {
+        return {
+          security: $("sim-security").value,
+          mode: document.querySelector('input[name="sim-mode"]:checked').value,
+          one: $("sim-one-amount").value,
+          regular: $("sim-regular-amount").value,
+          initialLump: $("sim-initial-lump").value,
+          frequency: $("sim-frequency").value,
+          start: $("sim-start").value,
+          end: $("sim-end").value,
+          dividends: $("sim-dividends").checked,
+          tax: $("sim-tax").checked,
+          reinvest: $("sim-reinvest").checked
+        };
+      }
+      function renderSecurity() {
+        const s = item($("sim-security").value);
+        setText("sim-security-summary", s ? s.ticker + " · " + s.exchange + " · " + s.currency + " · sample listing; coverage not connected" : "Choose a security to see its sample listing details.");
+      }
+      function amountValid(raw) { return raw !== "" && Number.isFinite(Number(raw)) && Number(raw) > 0; }
+      function dateError(start, end) { return !start || !end ? "Enter both requested dates." : start > end ? "Start date must be on or before end date." : ""; }
+      function amountLabel(raw) {
+        if (raw === "") return "Not entered";
+        const n = Number(raw);
+        return Number.isFinite(n) ? "SGD " + n.toLocaleString("en-SG", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : "Not entered";
+      }
+      function simSnap(d) {
+        return {
+          security: d.security, mode: d.mode, amount: d.mode === "regular" ? d.regular : d.one,
+          initialLump: d.mode === "regular" ? d.initialLump : "0",
+          frequency: d.frequency, start: d.start, end: d.end,
+          assumptions: (d.dividends ? "Include dividends" : "Exclude dividends") + "; " +
+            (d.tax ? "apply available withholding rules" : "no withholding rules") + "; " +
+            (d.reinvest ? "reinvest net dividends" : "keep dividends as cash")
+        };
+      }
+      function simSame() { return !!state.simDone && JSON.stringify(simSnap(simDraft())) === JSON.stringify(state.simDone); }
+      function renderSimResult() {
+        if (!state.simDone) return;
+        const snap = state.simDone, host = $("sim-result");
+        host.replaceChildren();
+        const card = document.createElement("section"); card.className = "card" + (simSame() ? "" : " pending");
+        const h = document.createElement("h2"); h.textContent = simSame() ? "Request preview ready" : "Previous request preview · draft has changed";
+        const p = document.createElement("p"); p.textContent = "This is a request preview, not a financial result. The engine is not connected.";
+        card.append(h, p);
+        const stats = document.createElement("dl"); stats.className = "stats";
+        [["Ending value", "Not calculated"], ["Invested amount", "Not calculated"], ["Return", "Not calculated"], ["Actual period", "Not resolved"]].forEach(function (row) {
+          const box = document.createElement("div"); box.className = "stat";
+          const dt = document.createElement("dt"); dt.textContent = row[0];
+          const dd = document.createElement("dd"); dd.textContent = row[1];
+          box.append(dt, dd); stats.append(box);
+        });
+        card.append(stats);
+        const dl = document.createElement("dl"); dl.className = "snapshot";
+        [
+          ["Security", label(snap.security)], ["Pattern", snap.mode === "regular" ? "Regular contributions" : "One-time"],
+          [snap.mode === "regular" ? "Recurring contribution" : "Initial investment", amountLabel(snap.amount)],
+          ...(snap.mode === "regular" ? [["Initial lump sum", amountLabel(snap.initialLump)]] : []),
+          ["Frequency", snap.mode === "regular" ? snap.frequency : "Not applicable"],
+          ["Requested dates", snap.start + " to " + snap.end], ["Assumptions", snap.assumptions]
+        ].forEach(function (row) { const dt = document.createElement("dt"), dd = document.createElement("dd"); dt.textContent = row[0]; dd.textContent = row[1]; dl.append(dt, dd); });
+        card.append(dl); host.append(card);
+      }
+      function changedSim() { if (state.simDone) renderSimResult(); }
+      $("sim-security").addEventListener("change", function () { renderSecurity(); changedSim(); });
+      document.querySelectorAll('input[name="sim-mode"]').forEach(function (el) { el.addEventListener("change", function () { modeSim(); changedSim(); }); });
+      ["sim-one-amount", "sim-initial-lump", "sim-regular-amount", "sim-frequency", "sim-start", "sim-end", "sim-dividends", "sim-tax", "sim-reinvest"].forEach(function (id) {
+        $(id).addEventListener("input", changedSim); $(id).addEventListener("change", changedSim);
+      });
+      $("sim-form").addEventListener("submit", function (event) {
+        event.preventDefault();
+        const d = simDraft();
+        let error = !d.security ? "Choose a security." : !amountValid(d.mode === "regular" ? d.regular : d.one) ? "Enter an amount greater than zero." : dateError(d.start, d.end);
+        if (!error && d.mode === "regular" && (d.initialLump === "" || !Number.isFinite(Number(d.initialLump)) || Number(d.initialLump) < 0)) error = "Enter an initial lump sum of zero or more.";
+        setText("sim-error", error);
+        if (error) { $("sim-error").focus(); return; }
+        state.simDone = simSnap(d); renderSimResult();
+      });
+      modeSim();
+
+      function assumptionsText(assumptions) {
+        if (!assumptions) return "No simulator setup copied. Assumptions are not set.";
+        const parts = [
+          assumptions.dividends ? "Include dividends" : "Exclude dividends",
+          assumptions.tax ? "Apply available withholding rules" : "Do not apply withholding rules",
+          assumptions.reinvest ? "Reinvest net dividends" : "Keep dividends as cash"
+        ];
+        return "Copied from Simulate: " + parts.join("; ") + ". These are request settings only; this prototype does not apply them.";
+      }
+      function compareSnap(d) {
+        return { securities: d.securities.slice(), amount: d.one, start: d.start, end: d.end, assumptions: d.assumptions ? Object.assign({}, d.assumptions) : null };
+      }
+      function compareDraftFromForm() {
+        state.compare.one = $("compare-one-amount").value;
+        state.compare.start = $("compare-start").value;
+        state.compare.end = $("compare-end").value;
+        return state.compare;
+      }
+      function compareSame() { return !!state.compareDone && JSON.stringify(compareSnap(state.compare)) === JSON.stringify(state.compareDone); }
+      function updateCoverage() {
+        const n = state.compare.securities.filter(Boolean).length;
+        setText("compare-coverage", n < 2 ? "Choose at least two securities. Common dates have not been checked." : "Selected securities: " + n + ". Common dates have not been checked because usable sample price history is not connected.");
+      }
+      function renderCompare() {
+        const host = $("compare-securities"); host.replaceChildren();
+        state.compare.securities.forEach(function (ticker, index) {
+          const box = document.createElement("div"); box.className = "security";
+          const top = document.createElement("div"); top.className = "security-top";
+          const title = document.createElement("h3"); title.textContent = "Security " + (index + 1); top.append(title);
+          if (state.compare.securities.length > 2) {
+            const remove = document.createElement("button"); remove.type = "button"; remove.className = "text-button small"; remove.textContent = "Remove"; remove.setAttribute("aria-label", "Remove security " + (index + 1));
+            remove.addEventListener("click", function () { state.compare.securities.splice(index, 1); renderCompare(); updateCoverage(); renderCompareResult(); });
+            top.append(remove);
+          }
+          const select = document.createElement("select"); select.className = "security-select"; select.id = "compare-sec-" + index; select.setAttribute("aria-label", "Security " + (index + 1)); options(select, true); select.value = ticker;
+          const info = document.createElement("p"); info.className = "help"; const s = item(ticker);
+          info.textContent = s ? s.exchange + " · " + s.currency + " · sample listing; price history not connected" : "Choose a sample listing. Coverage is not connected.";
+          select.addEventListener("change", function () {
+            state.compare.securities[index] = select.value;
+            const selected = item(select.value);
+            info.textContent = selected ? selected.exchange + " · " + selected.currency + " · sample listing; price history not connected" : "Choose a sample listing. Coverage is not connected.";
+            updateCoverage();
+            renderCompareResult();
+          });
+          box.append(top, select, info); host.append(box);
+        });
+        $("add-security").disabled = state.compare.securities.length >= 6;
+        $("compare-one-amount").value = state.compare.one;
+        $("compare-start").value = state.compare.start; $("compare-end").value = state.compare.end;
+        setText("compare-assumptions", assumptionsText(state.compare.assumptions));
+      }
+      function renderCompareResult() {
+        if (!state.compareDone) return;
+        const snap = state.compareDone, host = $("compare-result"); host.replaceChildren();
+        const card = document.createElement("section"); card.className = "card" + (compareSame() ? "" : " pending");
+        const h = document.createElement("h2"); h.textContent = compareSame() ? "Comparison request preview ready" : "Previous comparison request · draft has changed";
+        const p = document.createElement("p"); p.textContent = "No financial outputs are available. Requested dates are shown; actual dates and a common window are not resolved.";
+        const list = document.createElement("ul");
+        snap.securities.forEach(function (ticker) { const li = document.createElement("li"); li.textContent = label(ticker); list.append(li); });
+        card.append(h, p, list);
+        const dl = document.createElement("dl"); dl.className = "snapshot";
+        [["Requested dates", snap.start + " to " + snap.end], ["Shared amount", amountLabel(snap.amount)], ["Pattern", "One-time"], ["Actual period", "Not resolved"], ["Common window", "Not checked"], ["Dividend and tax assumptions", assumptionsText(snap.assumptions)]].forEach(function (row) {
+          const dt = document.createElement("dt"), dd = document.createElement("dd"); dt.textContent = row[0]; dd.textContent = row[1]; dl.append(dt, dd);
+        });
+        card.append(dl); host.append(card);
+      }
+      function changedCompare() { compareDraftFromForm(); if (state.compareDone) { updateCoverage(); renderCompareResult(); } }
+      ["compare-one-amount", "compare-start", "compare-end"].forEach(function (id) {
+        $(id).addEventListener("input", changedCompare); $(id).addEventListener("change", changedCompare);
+      });
+      $("add-security").addEventListener("click", function () {
+        if (state.compare.securities.length < 6) { state.compare.securities.push(""); renderCompare(); updateCoverage(); renderCompareResult(); }
+      });
+      $("compare-form").addEventListener("submit", function (event) {
+        event.preventDefault(); compareDraftFromForm();
+        const d = state.compare, selected = d.securities.filter(Boolean);
+        let error = selected.length < 2 ? "Choose at least two securities." :
+          selected.length > 6 ? "Choose no more than six securities." :
+          new Set(selected).size !== selected.length ? "Choose a different security in each slot." :
+          !amountValid(d.one) ? "Enter a shared amount greater than zero." : dateError(d.start, d.end);
+        setText("compare-error", error);
+        if (error) { $("compare-error").focus(); return; }
+        state.compareDone = compareSnap(d); updateCoverage(); renderCompareResult();
+      });
+      $("handoff").addEventListener("click", function () {
+        const d = simDraft();
+        if (d.mode === "regular") {
+          setText("handoff-status", "Compare supports one-time investments only. Your regular contribution setup remains here; nothing was copied or treated as an initial amount.");
+          return;
+        }
+        setText("handoff-status", "");
+        state.compare = {
+          securities: [d.security, ""],
+          one: d.one,
+          start: d.start,
+          end: d.end,
+          assumptions: { dividends: d.dividends, tax: d.tax, reinvest: d.reinvest }
+        };
+        setText("compare-error", "");
+        renderCompare(); updateCoverage(); renderCompareResult(); location.hash = "#compare";
+      });
+      renderCompare(); updateCoverage();
+
+      const txDialog = $("transaction-dialog");
+      function syncTxFields() {
+        const type = $("tx-type").value, stock = type === "BUY" || type === "SELL", sec = stock || type === "DIVIDEND";
+        $("tx-security-wrap").hidden = !sec; $("tx-quantity-wrap").hidden = !stock;
+        $("tx-amount-label").textContent = ({ BUY: "Transaction cash amount", SELL: "Transaction cash amount", DIVIDEND: "Dividend cash amount", CASH_DEPOSIT: "Deposit amount", CASH_WITHDRAWAL: "Withdrawal amount" })[type];
+        $("tx-amount-help").textContent = stock ? "Enter total cash for the transaction, not a unit price." : "Enter the cash amount in the selected currency.";
+      }
+      function openTx(record) {
+        state.editId = record ? record.id : null;
+        $("transaction-title").textContent = record ? "Edit transaction" : "Add transaction";
+        $("tx-save").textContent = record ? "Save changes" : "Add transaction";
+        $("tx-type").value = record ? record.type : "BUY"; $("tx-date").value = record ? record.date : "";
+        $("tx-security").value = record ? record.security : "";
+        $("tx-quantity").value = record ? record.quantity : ""; $("tx-amount").value = record ? record.amount : "";
+        $("tx-currency").value = record ? record.currency : "SGD"; setText("tx-error", "");
+        syncTxFields(); txDialog.showModal();
+      }
+      $("tx-type").addEventListener("change", syncTxFields);
+      $("tx-security").addEventListener("change", function () {
+        const selected = item($("tx-security").value);
+        if (selected) $("tx-currency").value = selected.currency;
+      });
+      $("add-transaction").addEventListener("click", function () { openTx(null); });
+      document.querySelectorAll("[data-close]").forEach(function (button) { button.addEventListener("click", function () { $(button.dataset.close).close(); }); });
+      document.querySelectorAll("[data-close-help]").forEach(function (link) { link.addEventListener("click", function () { $("help-dialog").close(); }); });
+      function txDescription(r) {
+        const names = { BUY: "Buy", SELL: "Sell", DIVIDEND: "Dividend", CASH_DEPOSIT: "Cash deposit", CASH_WITHDRAWAL: "Cash withdrawal" };
+        const parts = []; if (r.security) parts.push(label(r.security)); if (r.quantity) parts.push("Quantity " + r.quantity);
+        return names[r.type] + (parts.length ? " · " + parts.join(" · ") : "");
+      }
+      function renderTx() {
+        const list = $("portfolio-list"); list.replaceChildren(); $("portfolio-empty").hidden = state.transactions.length > 0;
+        state.transactions.forEach(function (r) {
+          const li = document.createElement("li"); li.className = "transaction";
+          const body = document.createElement("div"), title = document.createElement("strong"), date = document.createElement("p"), cash = document.createElement("p");
+          title.textContent = txDescription(r); date.textContent = "Date: " + r.date;
+          cash.textContent = "Cash amount: " + r.currency + " " + Number(r.amount).toLocaleString("en-SG", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+          body.append(title, date, cash);
+          const actions = document.createElement("div"); actions.className = "transaction-actions";
+          [["Edit", function () { openTx(r); }], ["Delete", function () {
+            const i = state.transactions.findIndex(function (x) { return x.id === r.id; }); if (i < 0) return;
+            state.deleted = { record: state.transactions[i], index: i }; state.transactions.splice(i, 1);
+            setText("portfolio-status", "Transaction deleted. You can undo this deletion."); renderTx();
+          }]].forEach(function (entry) {
+            const b = document.createElement("button"); b.type = "button"; b.className = "btn small"; b.textContent = entry[0];
+            b.setAttribute("aria-label", entry[0] + " " + txDescription(r)); b.addEventListener("click", entry[1]); actions.append(b);
+          });
+          li.append(body, actions); list.append(li);
+        });
+        $("undo-delete").hidden = !state.deleted;
+      }
+      $("undo-delete").addEventListener("click", function () {
+        if (!state.deleted) return;
+        state.transactions.splice(state.deleted.index, 0, state.deleted.record); state.deleted = null;
+        setText("portfolio-status", "Last deletion undone."); renderTx();
+      });
+      $("transaction-form").addEventListener("submit", function (event) {
+        event.preventDefault();
+        const type = $("tx-type").value, stock = type === "BUY" || type === "SELL", sec = stock || type === "DIVIDEND";
+        const error = !$("tx-date").value ? "Enter a transaction date." :
+          sec && !$("tx-security").value ? "Choose a security." :
+          stock && !amountValid($("tx-quantity").value) ? "Enter a quantity greater than zero." :
+          !amountValid($("tx-amount").value) ? "Enter a cash amount greater than zero." : "";
+        setText("tx-error", error); if (error) return;
+        const old = state.editId ? state.transactions.find(function (x) { return x.id === state.editId; }) : null;
+        const record = { id: old ? old.id : ++state.sequence, type: type, date: $("tx-date").value, security: sec ? $("tx-security").value : "", quantity: stock ? $("tx-quantity").value : "", amount: $("tx-amount").value, currency: $("tx-currency").value };
+        if (old) { const i = state.transactions.findIndex(function (x) { return x.id === old.id; }); state.transactions[i] = record; setText("portfolio-status", "Transaction updated in this tab only."); }
+        else { state.transactions.push(record); setText("portfolio-status", "Transaction added in this tab only."); }
+        state.deleted = null; txDialog.close(); renderTx();
+      });
+      syncTxFields(); renderTx();
+
+      const help = {
+        simulate: "<p>Choose one-time or regular contributions, enter an amount and requested dates, then preview. The preview keeps a copy of the completed request. Editing the form marks that preview as previous until you preview again.</p><p>No returns, prices, taxes, or actual trading dates are calculated here.</p>",
+        compare: "<p>Choose two to six different securities and one shared setup. A real comparison should show actual available dates for each security and confirm whether they share a common window.</p><p>This wireframe validates the request only.</p>",
+        portfolio: "<p>Add a transaction using fields relevant to its type. Buy and sell cash is the total transaction amount, not a unit price. Edit, delete, and undo operate only in this tab.</p><p>Refreshing clears entries. Holdings and gains are not calculated.</p>"
+      };
+      document.querySelectorAll("[data-help]").forEach(function (button) {
+        button.addEventListener("click", function () { $("help-content").innerHTML = help[button.dataset.help]; $("help-dialog").showModal(); });
+      });
+    }());
+  </script>
+</body>
+</html>

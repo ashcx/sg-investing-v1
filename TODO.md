@@ -1,14 +1,18 @@
 # SG / Invest — GitHub Pages completion roadmap
 
-This roadmap tracks the work required for the full frontend experience to run
-on GitHub Pages without a runtime backend/API endpoint. The current site is a
-static replay: the catalog and representative QQQ artifacts load, but arbitrary
-analysis, DCA, comparison and portfolio requests still depend on the Python
-adapter or a checked-in artifact.
+This roadmap tracks the full frontend experience on GitHub Pages without a
+runtime backend/API endpoint. Sprints 0–8 delivered browser calculation and
+static data-pack hosting. Sprints 9–14 propose a task-focused website redesign
+and repair the usability and result-state regressions documented in the
+[13 October 2026 audit](docs/ux-audit-2026-10-13/README.md). The
+[redesign Scrum plan](Todo/redesign-scrum-plan.md) coordinates the sequential
+sprints and sequential work performed entirely in the main instance. The
+[clickable low-fidelity prototype](docs/redesign-prototype/index.html) is a
+planning artifact, not an implemented production increment.
 
 ## How this Todo system works
 
-The work is split into ten sprints (Sprint 7.5 slots between 7 and 8). Each sprint is one file in the `Todo/`
+The work is split into sixteen sprints (Sprint 7.5 slots between 7 and 8). Each sprint is one file in the `Todo/`
 folder. Agents and humans must follow these rules:
 
 1. **One sprint at a time.** Pick the lowest-numbered sprint whose entry
@@ -25,17 +29,23 @@ folder. Agents and humans must follow these rules:
    ticked, the sprint is still in progress — record the blocker in the sprint
    file.
 5. **Update the status column below** whenever sprint status changes:
-   `Not started` → `In progress` → `Complete`. Also note parallel work (e.g.
-   Sprints 4 and 5 in flight together) in the status cell.
-6. **Do not skip or reorder sprints** beyond the parallelism noted below.
+   `Not started` → `In progress` → `Complete`.
+6. **Do not skip or reorder sprints.** All tasks, tests, reviews, and
+   documentation run sequentially in the main instance, without child agents.
    Scope changes go through the sprint file (edit tasks there), never as
    side notes in code or PRs.
 7. **Final acceptance** is the "Done when" section at the bottom of this file.
-   It is only evaluated after Sprint 7 is complete.
-8. **Task-level sequencing** (which tasks are sequential vs parallel, staffing
-   patterns, freeze points) is coordinated in
+   Preserve the core-roadmap checks from Sprint 7 onward. The redesign is
+   accepted only after Sprint 14 and all of its predecessor exit gates are met;
+   core-engine completion alone does not complete the redesign.
+8. **Task-level sequencing** (task order, contract freezes, and recorded
+   verification) is coordinated in
    [Todo/orchestration-plan.md](Todo/orchestration-plan.md). That plan never
    overrides a sprint file's entry/exit gates.
+9. **Record results before continuing.** Update the owning sprint checklist
+   and execution log with changed files, exact check results, evidence paths,
+   blockers, and next action. Review follows implementation in the main instance;
+   self-review is never described as independent review or human acceptance.
 
 | Sprint | File | Outcome | Depends on | Status |
 | --- | --- | --- | --- | --- |
@@ -49,20 +59,30 @@ folder. Agents and humans must follow these rules:
 | 7 — Release hardening & launch | [Todo/sprint-7-release-hardening.md](Todo/sprint-7-release-hardening.md) | Hardened CI, QA and confirmed GitHub Pages deployment | 4, 5, 6 | Complete |
 | 7.5 — FX to 2000, incremental updates, reactive UI | [Todo/sprint-7.5-fx-incremental-reactive.md](Todo/sprint-7.5-fx-incremental-reactive.md) | Foreign-currency history back to 2000; incremental date-range updates without full rebuild; staged auto-loading UI | 7 | Complete |
 | 8 — Pack origin & full-breadth hosting | [Todo/sprint-8-pack-origin.md](Todo/sprint-8-pack-origin.md) | Full 3,188-security set reachable client-side via a configurable non-Pages origin | 7 | Complete |
+| 9 — Result trust and shared contracts | [Todo/sprint-9-user-experience-redesign.md](Todo/sprint-9-user-experience-redesign.md) | Reliable request/result ownership and regression protection | 7, 7.5, 8 | In progress |
+| 10 — Workspace and discovery | [Todo/sprint-10-workspace-and-discovery.md](Todo/sprint-10-workspace-and-discovery.md) | Clear navigation, reusable search and coverage preview | 9 | Not started |
+| 11 — Investment simulator | [Todo/sprint-11-investment-simulator.md](Todo/sprint-11-investment-simulator.md) | One-time investing and optional initial lump sum + DCA in one coherent simulator | 10 | Not started |
+| 12 — Fair comparisons | [Todo/sprint-12-fair-comparisons.md](Todo/sprint-12-fair-comparisons.md) | Common-period handling and labeled responsive comparisons | 11 | Not started |
+| 13 — Portfolio workflow | [Todo/sprint-13-portfolio-workflow.md](Todo/sprint-13-portfolio-workflow.md) | Guided transaction editing and safe existing-ledger preservation | 12 | Not started |
+| 14 — Release and usability | [Todo/sprint-14-release-and-usability.md](Todo/sprint-14-release-and-usability.md) | Verified journeys, accessibility, usability and release evidence | 13 | Not started |
 
 Sequencing notes:
 
-- Sprints 4 and 5 are independent of each other and may run in either order or
-  in parallel once Sprints 1–3 are complete.
-- Sprint 2 may start against fixtures before Sprint 1 packs exist, but
-  end-to-end feature work needs Sprint 1.
-- Do not start Sprint 6 until both feature sprints (4 and 5) have delivered,
-  since it removes the fallback paths they previously depended on.
-- Sprint 7.5 is independent of Sprint 8 and may run before, after, or in
-  parallel with it (only minor CI-workflow coordination).
-- Sprint 8 (pack origin & full-breadth hosting) trails Sprint 7 so the
-  Tier-1 Pages deployment and the `sg-invest-pack-base` override exist to
-  build on; its research tasks may run as early-lane work at any time.
+- Execute Sprints 0 → 1 → 2 → 3 → 4 → 5 → 6 → 7 → 7.5 → 8 → 9 → 10 →
+  11 → 12 → 13 → 14, one at a time. Dependencies in the table are minimum
+  technical prerequisites, not permission to start another sprint early.
+- Verify all depended-on exits and the active sprint's entry criteria before
+  starting work. Sprints 0–8 retain their historical completion evidence.
+- Sprint 9 is In progress; Sprints 10–14 remain Not started. Historical exits do not negate the
+  regressions recorded by the audit.
+- User decision, 15 October 2026: all work belongs to the main instance, with
+  sequential implementation, verification, self-review, and recorded results.
+- Product Owner decision, 15 October 2026: adopt explicit Calculate/Update;
+  edited results are labeled previous until recalculated. Sprint 9 records the
+  amendment to Sprint 7.5's automatic-calculation behavior.
+- Redesign timebox commitment: US01 + US02 = 6 SP; US03 = 3 SP stretch, with
+  20–30% of capacity reserved for review/rework. Stretch remains required for
+  sprint exit; use a recovery timebox if needed before starting the next sprint.
 
 ## Done when (final acceptance)
 
@@ -74,3 +94,9 @@ Sequencing notes:
       and never silently substitute a demo artifact.
 - [ ] The site remains responsive, accessible and usable when data is missing,
       incomplete or stale.
+- [ ] All Sprint 9–14 tasks and exit criteria are satisfied, with the audit
+      findings reconciled to evidence and no reproduced P1 defect remaining.
+- [ ] Existing ledgers remain compatible and recoverable, and every result,
+      chart, date, warning, and export identifies the request it represents.
+- [ ] Sprint 14's real-user task sessions and usability targets are evidenced;
+      agent review or prototype testing is not represented as human acceptance.

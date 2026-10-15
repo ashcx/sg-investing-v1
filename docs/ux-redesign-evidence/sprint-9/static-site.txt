@@ -1,0 +1,9 @@
+static-site checks over /Users/macbook/Documents/test/sg-investing-v1/frontend
+index.html: 19 src/href reference(s)
+app.js: 9 path-like literal(s)
+  optional (may 404 by design): sg-invest-ledger.json
+ledger-store.js: 0 path-like literal(s)
+frontend/data: parsing 8 JSON artifact(s) (packs excluded)
+frontend/data/packs: manifest absent (plain checkout) — pack existence check skipped
+
+OK: all static-site checks passed (8 file reference(s) resolved)

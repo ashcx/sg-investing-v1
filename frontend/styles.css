@@ -281,3 +281,39 @@ h1 em { color: var(--coral); font-style: normal; }
   .result-badges { align-items: flex-start; }
   .series-table { font-size: 10px; }
 }
+
+/* Request status belongs to the output it describes, including retained results. */
+.request-state { padding: 14px 16px; border: 1px solid #64748b; border-radius: 8px;
+  color: #f1f5f9; background: #172332; line-height: 1.6; overflow-wrap: anywhere; }
+.request-state[data-state="current"] { border-color: #568579; }
+.request-state[data-state="pending"], .request-state[data-state="failed"],
+.request-state[data-state="invalid"] { border-color: #c99955; }
+.light-panel .request-state { color: #172332; background: #f4f1e8; }
+
+.coverage-summary { margin: 16px 0; padding: 16px; border: 1px solid #64748b;
+  border-radius: 8px; color: #e2e8f0; background: #172332; font-size: 13px;
+  line-height: 1.6; overflow-wrap: anywhere; }
+.coverage-summary p { color: inherit; margin: 8px 0; }
+.coverage-summary summary { cursor: pointer; padding: 8px 0; }
+.coverage-summary button { color: #c2eee2; }
+
+/* Coverage copy must not inherit the headline-value typography. */
+#analysis-coverage { width: 100%; max-width: 100%; }
+#analysis-coverage > strong { display: block; font-size: 14px; font-weight: 650;
+  letter-spacing: normal; line-height: 1.5; }
+#analysis-coverage p { font-family: inherit; font-size: 13px; line-height: 1.6;
+  letter-spacing: normal; }
+.analysis-layout > *, .analysis-form-panel { min-width: 0; }
+@media (max-width: 650px) {
+  .analysis-layout { grid-template-columns: minmax(0, 1fr); }
+  .analysis-form-panel, .results-panel { padding: 18px; }
+  .analysis-form-panel .form-grid { grid-template-columns: minmax(0, 1fr); }
+  .analysis-form-panel input { min-width: 0; max-width: 100%; }
+  .headline-metric { flex-wrap: wrap; }
+  .request-state { font-size: 13px; }
+}
+@media (max-width: 650px) {
+  .result-header { flex-wrap: wrap; gap: 12px; }
+  .result-header > div { min-width: 0; max-width: 100%; }
+  .result-security-line { flex-wrap: wrap; }
+}

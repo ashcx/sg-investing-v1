@@ -1,0 +1,26 @@
+
+== Protocol units (request tracker, envelope factories, stale guard)
+
+== S6: native tracker nextId(scope, payload) (additive reconciliation)
+
+== Parity: worker result envelopes equal in-thread engine envelopes
+  info: long DCA (40y monthly) in-thread compute = 4147ms; worker roundtrip for 20y DCA = 3895ms
+
+== Invalid requests produce typed errors on the matching id
+
+== Error modes: debug stacks on request, absent in production mode
+
+== Cancellation poison regression: stale cancels must not blacklist content-derived ids
+
+== Cancellation: cooperative queued-cancel
+  info: cooperative queued-cancel completed in 0.2ms
+
+== Cancellation: forced abort of an in-flight computation
+  info: forced cancel of in-flight computation terminal after 151.9ms
+
+== Responsiveness: parent event loop keeps ticking during worker computation
+  info: parent ticked 156 times (4ms interval) during 700ms of worker computation
+
+== Request keys: identical payloads share ids, different payloads never do
+
+==== WORKER SELFTEST SUMMARY: PASS 90 / FAIL 0 ==== all checks green
