@@ -1,5 +1,8 @@
 # Sprint 11 — unified investment simulator
 
+[PR #3](https://github.com/ashcx/sg-investing-v1/pull/3), stacked on
+[Sprint 10 PR #2](https://github.com/ashcx/sg-investing-v1/pull/2).
+
 Implementation and main-instance technical/design review are complete; human
 product acceptance is pending. This increment is stacked on Sprint 10 PR #2.
 

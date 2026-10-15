@@ -115,7 +115,7 @@ order, including checks and recorded self-review before advancing.
 - [x] Inspect the actual locally served webpage design after this sprint at
       desktop and mobile widths; record captures, changed-state checks, and
       findings under `docs/ux-redesign-evidence/sprint-11/`.
-- [ ] Open the sprint PR in `ashcx/sg-investing-v1` with the sprint plan,
+- [x] Open the sprint PR in `ashcx/sg-investing-v1` with the sprint plan,
       implementation changes, checks/results, and remaining gaps; record its URL.
 
 
@@ -233,3 +233,10 @@ regressions PASS. Static-site, module syntax, changed-Python Ruff and whitespace
 checks PASS. Full generated-pack integration is not claimed (packs absent).
 All evidence is retained under `docs/ux-redesign-evidence/sprint-11/`.
 Human review and PR publication remain the last exit items; no S12 work started.
+
+### PR published; product review pending
+
+PR: https://github.com/ashcx/sg-investing-v1/pull/3, stacked on Sprint 10 PR #2.
+All technical/design/PR exit items are checked. Human product review remains
+open for S10 and S11. No S12 task, merge, deployment or live-data refresh was
+performed. Working branch: `codex/sprint-11-simulator`.
