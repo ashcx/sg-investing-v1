@@ -1,0 +1,531 @@
+{
+  "notes": "Independent hand calculations: price fixed at 10. SGD 10000 + twelve 500 = 16000, 1600 shares, zero return. FX case: Jan(1000+100)/2/10=55 shares; Feb100/1/10=10 shares; final650SGD; native capital650. Dividend case: first110shares pay 110cash, reinvest11shares if enabled, plus second10shares =131; cash equivalent1310. Initial is additional to first recurring contribution.",
+  "fixtures": [
+    {
+      "name": "pure-dca-zero-initial",
+      "input": {
+        "security": {
+          "security_id": "11111111-1111-1111-1111-111111111111",
+          "ticker": "LUMP",
+          "exchange": "XTEST",
+          "market": "SG",
+          "name": "Independent initial plus recurring fixture",
+          "currency": "SGD",
+          "asset_type": "ETF",
+          "domicile": null,
+          "income_source_country": "SG",
+          "isin": null,
+          "cusip": null,
+          "timezone": "UTC",
+          "active": true,
+          "distribution_policy": "distributing",
+          "expense_ratio": null
+        },
+        "prices": [
+          {
+            "security_id": "11111111-1111-1111-1111-111111111111",
+            "trading_date": "2024-01-02",
+            "close": "10",
+            "currency": "SGD"
+          },
+          {
+            "security_id": "11111111-1111-1111-1111-111111111111",
+            "trading_date": "2024-02-02",
+            "close": "10",
+            "currency": "SGD"
+          },
+          {
+            "security_id": "11111111-1111-1111-1111-111111111111",
+            "trading_date": "2024-03-02",
+            "close": "10",
+            "currency": "SGD"
+          },
+          {
+            "security_id": "11111111-1111-1111-1111-111111111111",
+            "trading_date": "2024-04-02",
+            "close": "10",
+            "currency": "SGD"
+          },
+          {
+            "security_id": "11111111-1111-1111-1111-111111111111",
+            "trading_date": "2024-05-02",
+            "close": "10",
+            "currency": "SGD"
+          },
+          {
+            "security_id": "11111111-1111-1111-1111-111111111111",
+            "trading_date": "2024-06-02",
+            "close": "10",
+            "currency": "SGD"
+          },
+          {
+            "security_id": "11111111-1111-1111-1111-111111111111",
+            "trading_date": "2024-07-02",
+            "close": "10",
+            "currency": "SGD"
+          },
+          {
+            "security_id": "11111111-1111-1111-1111-111111111111",
+            "trading_date": "2024-08-02",
+            "close": "10",
+            "currency": "SGD"
+          },
+          {
+            "security_id": "11111111-1111-1111-1111-111111111111",
+            "trading_date": "2024-09-02",
+            "close": "10",
+            "currency": "SGD"
+          },
+          {
+            "security_id": "11111111-1111-1111-1111-111111111111",
+            "trading_date": "2024-10-02",
+            "close": "10",
+            "currency": "SGD"
+          },
+          {
+            "security_id": "11111111-1111-1111-1111-111111111111",
+            "trading_date": "2024-11-02",
+            "close": "10",
+            "currency": "SGD"
+          },
+          {
+            "security_id": "11111111-1111-1111-1111-111111111111",
+            "trading_date": "2024-12-02",
+            "close": "10",
+            "currency": "SGD"
+          }
+        ],
+        "fx_rates": [],
+        "dividends": [],
+        "tax_rules": [],
+        "corporate_actions": [],
+        "start_date": "2024-01-01",
+        "end_date": "2024-12-02",
+        "initial_sgd": "0",
+        "contribution_sgd": "500",
+        "frequency": "monthly",
+        "scenario": {
+          "dividends_enabled": true,
+          "withholding_tax_enabled": false,
+          "reinvest_dividends": false
+        }
+      },
+      "expected": {
+        "total_contributed_sgd": "6000",
+        "shares": "600",
+        "final_value_sgd": "6000",
+        "xirr": "0",
+        "recurring_count": 12
+      }
+    },
+    {
+      "name": "initial-plus-twelve-contributions",
+      "input": {
+        "security": {
+          "security_id": "11111111-1111-1111-1111-111111111111",
+          "ticker": "LUMP",
+          "exchange": "XTEST",
+          "market": "SG",
+          "name": "Independent initial plus recurring fixture",
+          "currency": "SGD",
+          "asset_type": "ETF",
+          "domicile": null,
+          "income_source_country": "SG",
+          "isin": null,
+          "cusip": null,
+          "timezone": "UTC",
+          "active": true,
+          "distribution_policy": "distributing",
+          "expense_ratio": null
+        },
+        "prices": [
+          {
+            "security_id": "11111111-1111-1111-1111-111111111111",
+            "trading_date": "2024-01-02",
+            "close": "10",
+            "currency": "SGD"
+          },
+          {
+            "security_id": "11111111-1111-1111-1111-111111111111",
+            "trading_date": "2024-02-02",
+            "close": "10",
+            "currency": "SGD"
+          },
+          {
+            "security_id": "11111111-1111-1111-1111-111111111111",
+            "trading_date": "2024-03-02",
+            "close": "10",
+            "currency": "SGD"
+          },
+          {
+            "security_id": "11111111-1111-1111-1111-111111111111",
+            "trading_date": "2024-04-02",
+            "close": "10",
+            "currency": "SGD"
+          },
+          {
+            "security_id": "11111111-1111-1111-1111-111111111111",
+            "trading_date": "2024-05-02",
+            "close": "10",
+            "currency": "SGD"
+          },
+          {
+            "security_id": "11111111-1111-1111-1111-111111111111",
+            "trading_date": "2024-06-02",
+            "close": "10",
+            "currency": "SGD"
+          },
+          {
+            "security_id": "11111111-1111-1111-1111-111111111111",
+            "trading_date": "2024-07-02",
+            "close": "10",
+            "currency": "SGD"
+          },
+          {
+            "security_id": "11111111-1111-1111-1111-111111111111",
+            "trading_date": "2024-08-02",
+            "close": "10",
+            "currency": "SGD"
+          },
+          {
+            "security_id": "11111111-1111-1111-1111-111111111111",
+            "trading_date": "2024-09-02",
+            "close": "10",
+            "currency": "SGD"
+          },
+          {
+            "security_id": "11111111-1111-1111-1111-111111111111",
+            "trading_date": "2024-10-02",
+            "close": "10",
+            "currency": "SGD"
+          },
+          {
+            "security_id": "11111111-1111-1111-1111-111111111111",
+            "trading_date": "2024-11-02",
+            "close": "10",
+            "currency": "SGD"
+          },
+          {
+            "security_id": "11111111-1111-1111-1111-111111111111",
+            "trading_date": "2024-12-02",
+            "close": "10",
+            "currency": "SGD"
+          }
+        ],
+        "fx_rates": [],
+        "dividends": [],
+        "tax_rules": [],
+        "corporate_actions": [],
+        "start_date": "2024-01-01",
+        "end_date": "2024-12-02",
+        "initial_sgd": "10000",
+        "contribution_sgd": "500",
+        "frequency": "monthly",
+        "scenario": {
+          "dividends_enabled": true,
+          "withholding_tax_enabled": false,
+          "reinvest_dividends": false
+        }
+      },
+      "expected": {
+        "total_contributed_sgd": "16000",
+        "shares": "1600",
+        "final_value_sgd": "16000",
+        "xirr": "0",
+        "recurring_count": 12
+      }
+    },
+    {
+      "name": "fx-initial-and-recurring",
+      "input": {
+        "security": {
+          "security_id": "11111111-1111-1111-1111-111111111111",
+          "ticker": "LUMP",
+          "exchange": "XTEST",
+          "market": "SG",
+          "name": "Independent initial plus recurring fixture",
+          "currency": "USD",
+          "asset_type": "ETF",
+          "domicile": null,
+          "income_source_country": "US",
+          "isin": null,
+          "cusip": null,
+          "timezone": "UTC",
+          "active": true,
+          "distribution_policy": "distributing",
+          "expense_ratio": null
+        },
+        "prices": [
+          {
+            "security_id": "11111111-1111-1111-1111-111111111111",
+            "trading_date": "2024-01-02",
+            "close": "10",
+            "currency": "USD"
+          },
+          {
+            "security_id": "11111111-1111-1111-1111-111111111111",
+            "trading_date": "2024-02-02",
+            "close": "10",
+            "currency": "USD"
+          }
+        ],
+        "fx_rates": [
+          {
+            "rate_date": "2024-01-02",
+            "base_currency": "USD",
+            "rate_to_sgd": "2"
+          },
+          {
+            "rate_date": "2024-02-02",
+            "base_currency": "USD",
+            "rate_to_sgd": "1"
+          }
+        ],
+        "dividends": [],
+        "tax_rules": [],
+        "corporate_actions": [],
+        "start_date": "2024-01-01",
+        "end_date": "2024-02-02",
+        "initial_sgd": "1000",
+        "contribution_sgd": "100",
+        "frequency": "monthly",
+        "scenario": {
+          "dividends_enabled": true,
+          "withholding_tax_enabled": false,
+          "reinvest_dividends": false
+        }
+      },
+      "expected": {
+        "total_contributed_sgd": "1200",
+        "total_contributed_foreign_currency": "650",
+        "shares": "65",
+        "final_value_sgd": "650",
+        "gain_loss_sgd": "-550",
+        "xirr_foreign_currency": "0",
+        "recurring_count": 2
+      }
+    },
+    {
+      "name": "dividend-cash",
+      "input": {
+        "security": {
+          "security_id": "11111111-1111-1111-1111-111111111111",
+          "ticker": "LUMP",
+          "exchange": "XTEST",
+          "market": "SG",
+          "name": "Independent initial plus recurring fixture",
+          "currency": "SGD",
+          "asset_type": "ETF",
+          "domicile": null,
+          "income_source_country": "SG",
+          "isin": null,
+          "cusip": null,
+          "timezone": "UTC",
+          "active": true,
+          "distribution_policy": "distributing",
+          "expense_ratio": null
+        },
+        "prices": [
+          {
+            "security_id": "11111111-1111-1111-1111-111111111111",
+            "trading_date": "2024-01-02",
+            "close": "10",
+            "currency": "SGD"
+          },
+          {
+            "security_id": "11111111-1111-1111-1111-111111111111",
+            "trading_date": "2024-01-16",
+            "close": "10",
+            "currency": "SGD"
+          },
+          {
+            "security_id": "11111111-1111-1111-1111-111111111111",
+            "trading_date": "2024-02-02",
+            "close": "10",
+            "currency": "SGD"
+          }
+        ],
+        "fx_rates": [],
+        "dividends": [
+          {
+            "security_id": "11111111-1111-1111-1111-111111111111",
+            "ex_date": "2024-01-10",
+            "pay_date": "2024-01-16",
+            "amount": "1",
+            "currency": "SGD",
+            "dividend_type": "regular",
+            "source_country": "SG",
+            "source": "synthetic"
+          }
+        ],
+        "tax_rules": [],
+        "corporate_actions": [],
+        "start_date": "2024-01-01",
+        "end_date": "2024-02-02",
+        "initial_sgd": "1000",
+        "contribution_sgd": "100",
+        "frequency": "monthly",
+        "scenario": {
+          "dividends_enabled": true,
+          "withholding_tax_enabled": false,
+          "reinvest_dividends": false
+        }
+      },
+      "expected": {
+        "total_contributed_sgd": "1200",
+        "shares": "120",
+        "final_value_sgd": "1310",
+        "gain_loss_sgd": "110",
+        "recurring_count": 2
+      }
+    },
+    {
+      "name": "dividend-reinvest",
+      "input": {
+        "security": {
+          "security_id": "11111111-1111-1111-1111-111111111111",
+          "ticker": "LUMP",
+          "exchange": "XTEST",
+          "market": "SG",
+          "name": "Independent initial plus recurring fixture",
+          "currency": "SGD",
+          "asset_type": "ETF",
+          "domicile": null,
+          "income_source_country": "SG",
+          "isin": null,
+          "cusip": null,
+          "timezone": "UTC",
+          "active": true,
+          "distribution_policy": "distributing",
+          "expense_ratio": null
+        },
+        "prices": [
+          {
+            "security_id": "11111111-1111-1111-1111-111111111111",
+            "trading_date": "2024-01-02",
+            "close": "10",
+            "currency": "SGD"
+          },
+          {
+            "security_id": "11111111-1111-1111-1111-111111111111",
+            "trading_date": "2024-01-16",
+            "close": "10",
+            "currency": "SGD"
+          },
+          {
+            "security_id": "11111111-1111-1111-1111-111111111111",
+            "trading_date": "2024-02-02",
+            "close": "10",
+            "currency": "SGD"
+          }
+        ],
+        "fx_rates": [],
+        "dividends": [
+          {
+            "security_id": "11111111-1111-1111-1111-111111111111",
+            "ex_date": "2024-01-10",
+            "pay_date": "2024-01-16",
+            "amount": "1",
+            "currency": "SGD",
+            "dividend_type": "regular",
+            "source_country": "SG",
+            "source": "synthetic"
+          }
+        ],
+        "tax_rules": [],
+        "corporate_actions": [],
+        "start_date": "2024-01-01",
+        "end_date": "2024-02-02",
+        "initial_sgd": "1000",
+        "contribution_sgd": "100",
+        "frequency": "monthly",
+        "scenario": {
+          "dividends_enabled": true,
+          "withholding_tax_enabled": false,
+          "reinvest_dividends": true
+        }
+      },
+      "expected": {
+        "total_contributed_sgd": "1200",
+        "shares": "131",
+        "final_value_sgd": "1310",
+        "gain_loss_sgd": "110",
+        "recurring_count": 2
+      }
+    },
+    {
+      "name": "accumulating-no-invented-dividend",
+      "input": {
+        "security": {
+          "security_id": "11111111-1111-1111-1111-111111111111",
+          "ticker": "LUMP",
+          "exchange": "XTEST",
+          "market": "SG",
+          "name": "Independent initial plus recurring fixture",
+          "currency": "SGD",
+          "asset_type": "ETF",
+          "domicile": null,
+          "income_source_country": "SG",
+          "isin": null,
+          "cusip": null,
+          "timezone": "UTC",
+          "active": true,
+          "distribution_policy": "accumulating",
+          "expense_ratio": null
+        },
+        "prices": [
+          {
+            "security_id": "11111111-1111-1111-1111-111111111111",
+            "trading_date": "2024-01-02",
+            "close": "10",
+            "currency": "SGD"
+          },
+          {
+            "security_id": "11111111-1111-1111-1111-111111111111",
+            "trading_date": "2024-01-16",
+            "close": "10",
+            "currency": "SGD"
+          },
+          {
+            "security_id": "11111111-1111-1111-1111-111111111111",
+            "trading_date": "2024-02-02",
+            "close": "10",
+            "currency": "SGD"
+          }
+        ],
+        "fx_rates": [],
+        "dividends": [
+          {
+            "security_id": "11111111-1111-1111-1111-111111111111",
+            "ex_date": "2024-01-10",
+            "pay_date": "2024-01-16",
+            "amount": "1",
+            "currency": "SGD",
+            "dividend_type": "regular",
+            "source_country": "SG",
+            "source": "synthetic"
+          }
+        ],
+        "tax_rules": [],
+        "corporate_actions": [],
+        "start_date": "2024-01-01",
+        "end_date": "2024-02-02",
+        "initial_sgd": "1000",
+        "contribution_sgd": "100",
+        "frequency": "monthly",
+        "scenario": {
+          "dividends_enabled": true,
+          "withholding_tax_enabled": false,
+          "reinvest_dividends": true
+        }
+      },
+      "expected": {
+        "total_contributed_sgd": "1200",
+        "shares": "120",
+        "final_value_sgd": "1200",
+        "xirr": "0",
+        "recurring_count": 2
+      }
+    }
+  ]
+}

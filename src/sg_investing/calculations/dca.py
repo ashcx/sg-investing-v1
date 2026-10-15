@@ -114,6 +114,7 @@ def dca_analysis(
     start_date: date,
     end_date: date,
     contribution_sgd: Decimal | int | str,
+    initial_sgd: Decimal | int | str = 0,
     frequency: DcaFrequency = DcaFrequency.MONTHLY,
     scenario: AnalysisScenario | None = None,
     dividends: Iterable[DividendEvent] = (),
@@ -124,6 +125,9 @@ def dca_analysis(
 
     scenario = scenario or AnalysisScenario()
     contribution = Decimal(str(contribution_sgd))
+    initial = Decimal(str(initial_sgd))
+    if not initial.is_finite() or initial < _ZERO:
+        raise ValueError("initial_sgd must be finite and non-negative.")
     if contribution <= _ZERO:
         raise ValueError("contribution_sgd must be greater than zero.")
     if end_date < start_date:
@@ -137,6 +141,7 @@ def dca_analysis(
         raise AnalysisDataError("No valuation price exists on or before the requested end date.")
 
     contributions_by_date = {item: contribution for item in purchase_dates}
+    contributions_by_date[purchase_dates[0]] += initial
     warnings: list[str] = []
     supplied_dividends = [event for event in dividends if event.security_id == security.security_id]
     dividend_validation = validate_dividends(supplied_dividends)
@@ -238,12 +243,20 @@ def dca_analysis(
     end_fx = _rate_for_date(security.currency, valuation.trading_date, fx_rates)
     final_value_foreign_currency = shares * valuation.close + cash_dividends
     final_value = final_value_foreign_currency * end_fx
-    total = contribution * len(purchase_dates)
+    total = contribution * len(purchase_dates) + initial
     contributions_foreign_currency = [
         contribution / _rate_for_date(security.currency, purchase_date, fx_rates)
         for purchase_date in purchase_dates
     ]
-    total_foreign_currency = sum(contributions_foreign_currency, start=_ZERO)
+    initial_foreign = initial / _rate_for_date(security.currency, purchase_dates[0], fx_rates)
+    total_foreign_currency = sum(contributions_foreign_currency, start=_ZERO) + initial_foreign
+    initial_flows = [(purchase_dates[0], -initial)] if initial else []
+    initial_foreign_flows = [(purchase_dates[0], -initial_foreign)] if initial else []
+    initial_metadata = {
+        "initial_lump_sum_sgd": str(initial),
+        "initial_purchase_date": purchase_dates[0].isoformat(),
+        "methodology_version": "1.1",
+    } if initial else {}
     return DcaResult(
         security=security,
         contribution_dates=purchase_dates,
@@ -253,13 +266,14 @@ def dca_analysis(
         final_value_foreign_currency=final_value_foreign_currency,
         gain_loss_sgd=final_value - total,
         gain_loss_foreign_currency=final_value_foreign_currency - total_foreign_currency,
-        xirr=xirr([(day, -contribution) for day in purchase_dates] + [(valuation.trading_date, final_value)]),
+        xirr=xirr(initial_flows + [(day, -contribution) for day in purchase_dates] + [(valuation.trading_date, final_value)]),
         xirr_foreign_currency=xirr(
-            list(zip(purchase_dates, (-amount for amount in contributions_foreign_currency), strict=True))
+            initial_foreign_flows + list(zip(purchase_dates, (-amount for amount in contributions_foreign_currency), strict=True))
             + [(valuation.trading_date, final_value_foreign_currency)]
         ),
         shares=shares,
         methodology={
+            **initial_metadata,
             "contribution_timing": "first_available_trading_day_of_period",
             "cost_basis": "weighted_average_not_applicable_to_dca_return",
             "dividend_reinvestment": scenario.reinvest_dividends,

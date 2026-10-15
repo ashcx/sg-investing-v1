@@ -63,7 +63,7 @@ scheduling may need additional timeboxes.
 | --- | --- | --- | --- | --- | --- |
 | 9 | [Result trust and shared result contracts](sprint-9-user-experience-redesign.md): S9-US01–03, 6 SP committed + 3 SP stretch | Results, charts, warnings, and exports stay with the request that produced them; current, pending, previous, coverage, and currency states are clear. | F01–F03, F07–F09, F15 | 7, 7.5, 8 | Complete |
 | 10 | [Workspace and security discovery](sprint-10-workspace-and-discovery.md): S10-US01–03, 6 SP committed + 3 SP stretch | Task navigation, reusable security search, coherent visual language, and security-specific Data & methods. | F05, F12, F14, F16–F19 | 9 | In progress |
-| 11 | [Unified investment simulator](sprint-11-investment-simulator.md): S11-US01–03, 6 SP committed + 3 SP stretch | One-time and regular investing share one setup, show an honest answer/chart, and explicitly hand off to comparison. | F03, F10, F12, F13, F16 | 10 | Not started |
+| 11 | [Unified investment simulator](sprint-11-investment-simulator.md): S11-US01–03, 7 SP committed + 2 SP stretch | One-time and regular investing share one setup, show an honest answer/chart, and explicitly hand off to comparison. | F03, F10, F12, F13, F16 | 10 | In progress |
 | 12 | [Fair investment comparisons](sprint-12-fair-comparisons.md): S12-US01–03, 6 SP committed + 3 SP stretch | Common windows are checked against actual resolved dates; partial results and mobile values remain honest. | F04, F06, F15 | 11 | Not started |
 | 13 | [Guided portfolio workflow](sprint-13-portfolio-workflow.md): S13-US01–03, 6 SP committed + 3 SP stretch | Users can add, edit, undo, import, and read a local ledger without losing existing data or seeing unsupported claims. | F11, F16 | 12 | Not started |
 | 14 | [Release validation and usability](sprint-14-release-and-usability.md): S14-US01–03, 6 SP committed + 3 SP stretch | Full calculation, responsive/accessibility, pack smoke, audit, and real-human usability evidence is recorded. | F01–F19 | 13 | Not started |
@@ -261,3 +261,7 @@ authorized pair, final human product review may occur after both increments;
 record it as pending, never infer acceptance of unseen work. Sprint 11's entry
 therefore requires every Sprint 10 technical/design/PR exit, with human review
 tracked separately. No later sprint, merge, or deployment is authorized here.
+
+Sprint 11 planning re-estimate: US01 5 SP, US02 2 SP, US03 2 SP; 7 SP committed
+plus 2 SP stretch/review headroom. Both S10 and S11 technical work is complete,
+with product review pending. This does not authorize Sprint 12 or deployment.

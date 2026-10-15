@@ -1,0 +1,27 @@
+== SG/Invest engine property tests (S3.2) ==
+base seeds: 0x5347494e, 0x12345678, 0xbadc0de, 0xd15ea5e
+[rounding (money.js)]
+  ok   quantize_idempotent cases=100
+  ok   half_even_sign_symmetry cases=100
+  ok   half_even_known_tie_vectors cases=12
+  ok   decimal_sum_traps_exact cases=100
+  ok   dec_decstring_roundtrip cases=100
+[contribution scaling (dca.js)]
+  ok   contribution_dates_first_available_trading_day cases=60
+  ok   contribution_count_matches_frequency cases=60
+  ok   total_invested_sum_string_exact cases=60
+[split handling (splits.js)]
+  ok   apply_ratio_is_exact_multiplication cases=80
+  ok   split_preserves_total_cost_per_share_scales_inverse cases=80
+  ok   ratio_then_inverse_returns_original_shares cases=80
+  ok   group_by_effective_date_is_shuffle_invariant cases=40
+[cash-flow ordering (portfolio.js / xirr)]
+  ok   portfolio_shuffle_invariance cases=40
+  ok   xirr_order_invariance cases=60
+  ok   equal_date_tiebreak_is_ascending_transaction_id cases=1
+[request keys (request-keys.js)]
+  ok   key_order_invariance cases=150
+  ok   different_scopes_never_collide cases=100
+  ok   stable_across_runs_and_fnv_reference cases=100
+  ok   canonical_json_roundtrip cases=150
+summary: groups=5 properties=19 cases=1473 failed-properties=0 result=PASS

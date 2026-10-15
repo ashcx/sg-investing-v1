@@ -90,3 +90,25 @@ main:focus { outline: none; }
  .methods-facts dd { margin-bottom:12px; }.request-state { font-size:12px; }
 }
 @media(prefers-reduced-motion:reduce) { *, *::before, *::after { scroll-behavior:auto !important; transition:none !important; animation:none !important; } }
+.investing-modes { display:flex; gap:8px; padding-bottom:22px; }
+.investing-modes button { flex:1; padding:12px 8px; border:1px solid #8190a3; background:transparent; color:#eef3fa; border-radius:6px; cursor:pointer; font-size:12px; }
+.investing-modes button[aria-pressed=true] { background:#d6f574; color:#142237; border-color:#d6f574; font-weight:700; }
+#one-time-inputs { grid-template-columns: minmax(0,1fr); }
+#regular-inputs input[type=number] { width:100%; height:44px; padding:10px; border:1px solid #8190a3; color:#eef3fa; background:#102035; }
+.assumptions-editor { border-top:1px solid #526277; border-bottom:1px solid #526277; margin:18px 0; }
+.assumptions-editor summary { color:#eef3fa; cursor:pointer; padding:14px 0; font-size:12px; line-height:1.7; }
+#simulator-to-compare, #use-covered-dates { color:#d6f574; font-size:12px; margin-top:14px; }
+#comparison-handoff-note { color:#eef3fa; }
+.dca-price-chart { margin-top:24px; border-top:1px solid #cdd5d8; padding-top:16px; }
+.dca-price-chart svg { width:100%; display:block; }
+.dca-price-chart summary { cursor:pointer; font-size:13px; }
+#dca-results .analysis-output { color:#142237; }
+#dca-results .detail-note { font-size:12px; line-height:1.6; }
+
+.analysis-form-panel .clear-selection { color:#c4cfda; }
+#dca-results h3 { font-size:clamp(30px,4vw,46px); }
+
+.chart-wrap { overflow-x:auto; max-width:100%; }
+.chart-wrap svg { min-width:640px; }
+.dca-price-chart { max-width:100%; overflow-x:auto; }
+.dca-price-chart svg { min-width:640px; }

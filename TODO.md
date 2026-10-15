@@ -61,7 +61,7 @@ folder. Agents and humans must follow these rules:
 | 8 — Pack origin & full-breadth hosting | [Todo/sprint-8-pack-origin.md](Todo/sprint-8-pack-origin.md) | Full 3,188-security set reachable client-side via a configurable non-Pages origin | 7 | Complete |
 | 9 — Result trust and shared contracts | [Todo/sprint-9-user-experience-redesign.md](Todo/sprint-9-user-experience-redesign.md) | Reliable request/result ownership and regression protection | 7, 7.5, 8 | Complete |
 | 10 — Workspace and discovery | [Todo/sprint-10-workspace-and-discovery.md](Todo/sprint-10-workspace-and-discovery.md) | Clear navigation, reusable search and coverage preview | 9 | In progress |
-| 11 — Investment simulator | [Todo/sprint-11-investment-simulator.md](Todo/sprint-11-investment-simulator.md) | One-time investing and optional initial lump sum + DCA in one coherent simulator | 10 | Not started |
+| 11 — Investment simulator | [Todo/sprint-11-investment-simulator.md](Todo/sprint-11-investment-simulator.md) | One-time investing and optional initial lump sum + DCA in one coherent simulator | 10 | In progress |
 | 12 — Fair comparisons | [Todo/sprint-12-fair-comparisons.md](Todo/sprint-12-fair-comparisons.md) | Common-period handling and labeled responsive comparisons | 11 | Not started |
 | 13 — Portfolio workflow | [Todo/sprint-13-portfolio-workflow.md](Todo/sprint-13-portfolio-workflow.md) | Guided transaction editing and safe existing-ledger preservation | 12 | Not started |
 | 14 — Release and usability | [Todo/sprint-14-release-and-usability.md](Todo/sprint-14-release-and-usability.md) | Verified journeys, accessibility, usability and release evidence | 13 | Not started |
@@ -73,7 +73,7 @@ Sequencing notes:
   technical prerequisites, not permission to start another sprint early.
 - Verify all depended-on exits and the active sprint's entry criteria before
   starting work. Sprints 0–8 retain their historical completion evidence.
-- Sprint 9 is Complete; Sprint 10 is In progress; Sprints 11–14 remain Not started. Historical exits do not negate the
+- Sprint 9 is Complete; Sprints 10 and 11 are In progress pending product review; Sprints 12–14 remain Not started. Historical exits do not negate the
   regressions recorded by the audit.
 - User decision, 15 October 2026: all work belongs to the main instance, with
   sequential implementation, verification, self-review, and recorded results.

@@ -2,7 +2,8 @@ const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const fixed = require('../fixtures/redesign/sprint-9.json');
-const out='docs/ux-redesign-evidence/sprint-10';
+const out=process.env.SG_EVIDENCE_DIR||'docs/ux-redesign-evidence/sprint-10';
+fs.mkdirSync(out,{recursive:true});
 const catalog=fixed.fixtures.map(f=>({universe:'sgx_active',security:{...f.security,isin:f.security.ticker==='ES3'?'SGTEST1234567':null}}));
 // Frozen search cases: 1,051 distinct entries force pagination beyond the old 1,000 cap.
 for(let i=0;i<1049;i++) catalog.push({universe:'major_global_etfs',security:{...catalog[0].security,security_id:`search-${i}`,ticker:`TEST${i}`,name:`Search fixture ${i}`,isin:`ISIN${i}`}});
