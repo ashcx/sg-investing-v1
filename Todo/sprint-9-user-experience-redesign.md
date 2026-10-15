@@ -127,7 +127,7 @@ order, including checks and recorded self-review before advancing.
 - [x] Inspect the actual locally served webpage design after this sprint at
       desktop and mobile widths; record captures, changed-state checks, and
       findings under `docs/ux-redesign-evidence/sprint-9/`.
-- [ ] Open the sprint PR in `ashcx/sg-investing-v1` with the sprint plan,
+- [x] Open the sprint PR in `ashcx/sg-investing-v1` with the sprint plan,
       implementation changes, checks/results, and remaining gaps; record its URL.
 
 
@@ -250,3 +250,14 @@ action here before proceeding. Human acceptance is recorded only when given.
   fixed-pack browser checks run the actual worker and make no live data calls.
 - Next: publish sprint PR with these checks and obtain human product review.
   Sprint 9 remains In progress until actual acceptance; Sprint 10 stays gated.
+
+### 15 October 2026 — PR published; product review pending
+
+- PR: https://github.com/ashcx/sg-investing-v1/pull/1
+- Branch: `codex/sprint-9-result-trust`; targets `main` in the configured repo.
+- PR includes the Scrum plan, Sprint 9 changes, verification results, screenshots,
+  baseline lint findings, and remaining later-sprint scope.
+- Connected GitHub app could read the repo but denied PR creation (HTTP 403);
+  the repository's working Git authentication created the PR successfully.
+- All technical and design-review exit items are checked. Human Product Owner
+  acceptance is still unchecked; no merge/deploy or Sprint 10 work performed.

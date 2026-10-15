@@ -1,5 +1,7 @@
 # Sprint 9 review evidence — 15 October 2026
 
+[Sprint 9 pull request](https://github.com/ashcx/sg-investing-v1/pull/1).
+
 Implementation and technical self-review are complete. Human product acceptance
 is pending; Sprint 9 remains In progress and Sprint 10 has not started.
 
