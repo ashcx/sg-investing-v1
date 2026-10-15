@@ -1,5 +1,7 @@
 # Sprint 10 — workspace and discovery
 
+[PR #2](https://github.com/ashcx/sg-investing-v1/pull/2), stacked on Sprint 9.
+
 Technical work and main-instance design inspection complete; human acceptance
 remains pending. The user authorized building Sprints 10 and 11 sequentially,
 with final product review after both as recorded in the Scrum plan.

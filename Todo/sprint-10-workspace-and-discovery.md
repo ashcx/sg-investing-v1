@@ -112,7 +112,7 @@ order, including checks and recorded self-review before advancing.
 - [x] Inspect the actual locally served webpage design after this sprint at
       desktop and mobile widths; record captures, changed-state checks, and
       findings under `docs/ux-redesign-evidence/sprint-10/`.
-- [ ] Open the sprint PR in `ashcx/sg-investing-v1` with the sprint plan,
+- [x] Open the sprint PR in `ashcx/sg-investing-v1` with the sprint plan,
       implementation changes, checks/results, and remaining gaps; record its URL.
 
 
@@ -198,3 +198,6 @@ Static-site, module syntax and whitespace checks PASS. No calculation or worker
 changes in this sprint. Reports/captures: `docs/ux-redesign-evidence/sprint-10/`.
 Human review remains pending under the user-authorized S10/11 execution amendment.
 Next: publish the Sprint 10 PR, then verify its technical gates before S11.
+
+PR published: https://github.com/ashcx/sg-investing-v1/pull/2 (stacked on #1).
+All technical/design/PR exits verified. Human product review remains pending.
