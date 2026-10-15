@@ -6,11 +6,11 @@ Give users a small set of clear destinations and a reusable way to find and
 identify a security. Establish the shared visual and language rules used by the
 simulator, comparison, portfolio, and Data & methods views.
 
-Status: **Not started**.
+Status: **In progress**.
 
 ## Entry criteria
 
-- [ ] Every Sprint 9 exit criterion is checked, including the request-identity,
+- [x] Every Sprint 9 exit criterion is checked, including the request-identity,
       result-state, currency, coverage, and warning evidence.
 
 ## Depends on
@@ -24,57 +24,57 @@ Timebox commitment: **S10-US01 + S10-US02 (6 SP)**. **S10-US03 (3 SP) is
 stretch**, still required for sprint exit. Execute stories and their tasks in
 order, including checks and recorded self-review before advancing.
 
-- [ ] **S10-US01 — Navigate by task and return to a view** (P1, 3 SP; owner: main instance; review: subsequent main-instance self-review).
+- [x] **S10-US01 — Navigate by task and return to a view** (P1, 3 SP; owner: main instance; review: subsequent main-instance self-review).
   - **Given** a visitor arriving at the site or opening a destination directly,
     **when** they choose Simulator, Compare investments, My portfolio, or
     Data & methods, **then** the selected destination is clear, its URL can be
     reloaded, browser Back works, and keyboard users can skip to its content.
     (F12)
   - Tasks:
-    - [ ] Review [the low-fidelity prototype](../docs/redesign-prototype/index.html),
+    - [x] Review [the low-fidelity prototype](../docs/redesign-prototype/index.html),
           its [README](../docs/redesign-prototype/README.md), and the audit.
           Walk through the navigation and state annotations with the Product
           Owner in the normal Sprint Planning/Review cadence, then freeze the
           agreed route and state design in the frontend specification before
           shell implementation. This review is part of the sprint, not a
           separate approval gate; the prototype remains design input.
-    - [ ] Replace the long feature-first page structure with compact persistent
+    - [x] Replace the long feature-first page structure with compact persistent
           task navigation and one active workspace view.
-    - [ ] Make direct links, browser Back/Forward, reload, and supported legacy
+    - [x] Make direct links, browser Back/Forward, reload, and supported legacy
           section links open a meaningful destination; record the legacy-link
           mapping.
-    - [ ] Specify share-link semantics: links recalculate using available latest
+    - [x] Specify share-link semantics: links recalculate using available latest
           published packs; exports retain the produced snapshot metadata. Do not
           imply a historical snapshot is loaded solely because its ID is in a URL.
-    - [ ] Add a skip-to-content link and a keyboard/touch-operable collapsed
+    - [x] Add a skip-to-content link and a keyboard/touch-operable collapsed
           navigation for narrow screens.
-    - [ ] Replace the promotional first screen with a short task introduction
+    - [x] Replace the promotional first screen with a short task introduction
           and an optional example action.
   - **Evidence:** frozen route/state design, prototype and audit walkthrough
     notes, route/deep-link browser checks, keyboard path, and captures of
     desktop and narrow-screen navigation.
 
-- [ ] **S10-US02 — Find a security and recover from an empty search** (P1, 3 SP;
+- [x] **S10-US02 — Find a security and recover from an empty search** (P1, 3 SP;
       owner: main instance; review: subsequent main-instance self-review).
   - **Given** a user searching by ticker, name, or ISIN, **when** results appear
     or the query has no match, **then** each result identifies the security,
     exchange, currency, and coverage, and an uncommitted/unknown query cannot
     inherit metadata from the previous selection. (F14, F19)
   - Tasks:
-    - [ ] Build one reusable search/browse panel with Arrow keys, Enter, Escape,
+    - [x] Build one reusable search/browse panel with Arrow keys, Enter, Escape,
           touch selection, clear/reset, and visible query/selection states.
-    - [ ] Move advanced filters behind a progressive browse control; translate
+    - [x] Move advanced filters behind a progressive browse control; translate
           internal universe names into friendly labels and show active filters.
-    - [ ] Fix result counts and bounded pagination so the count is not clipped
+    - [x] Fix result counts and bounded pagination so the count is not clipped
           and no visible “Show more” action leads to an unreachable result.
-    - [ ] Show identity and usable-history/coverage facts before selection.
-    - [ ] Add deterministic fixtures for known, unknown, empty, and paginated
+    - [x] Show identity and usable-history/coverage facts before selection.
+    - [x] Add deterministic fixtures for known, unknown, empty, and paginated
           searches; begin subsequent main-instance test/self-review only after fixtures are
           frozen.
   - **Evidence:** search fixture output, keyboard/touch browser checks, and
     captures of selected, uncommitted, empty, and filtered states.
 
-- [ ] **S10-US03 — Apply one readable workspace language and style** (P1/P2,
+- [x] **S10-US03 — Apply one readable workspace language and style** (P1/P2,
       3 SP; owner: main instance; review: subsequent main-instance self-review).
   - **Given** a user moving among workspace views or checking a security's
     methodology, **when** labels and controls are rendered, **then** form labels
@@ -82,22 +82,22 @@ order, including checks and recorded self-review before advancing.
     shows security-specific coverage, sources, assumptions, and provenance.
     (F05, F16, F17, F18)
   - Tasks:
-    - [ ] Define semantic type, spacing, surface, focus, status, control, and
+    - [x] Define semantic type, spacing, surface, focus, status, control, and
           responsive tokens; scope surfaces so form text stays legible on its
           background and normal text meets the audit's contrast target.
-    - [ ] Apply consistent labels, fields, buttons, cards, and status patterns
+    - [x] Apply consistent labels, fields, buttons, cards, and status patterns
           to the workspace shell and security picker.
-    - [ ] Create the Data & methods utility view with contextual coverage and
+    - [x] Create the Data & methods utility view with contextual coverage and
           provenance for the selected security; retain general methodology as
           supporting help.
-    - [ ] Record a plain-language glossary; use agreed names such as
+    - [x] Record a plain-language glossary; use agreed names such as
           “Compare investments,” “Currency,” and “Average cost” in shared
           chrome. Simulator and portfolio-specific advanced terms are completed
           in their owning sprints. Map “Force refresh”/“replay” to Calculate or
           Update results, “same lens” to same assumptions, “dividend bridge” to
           Dividend details, and CCY/WAC to Currency/Average cost; Sprints 11 and
           13 explain XIRR and average cost in context.
-    - [ ] Check visible focus, reduced motion, text sizing, and labels at the
+    - [x] Check visible focus, reduced motion, text sizing, and labels at the
           widths in the UX audit; record any limitation for Sprint 14.
   - **Evidence:** token/glossary specification, contrast measurements, and
     browser captures of forms and security-specific Data & methods content.
@@ -105,27 +105,29 @@ order, including checks and recorded self-review before advancing.
 ## Exit criteria
 
 - [ ] Human Product Owner reviews the sprint outcome and evidence; record
-      actual acceptance or requested changes before starting the next sprint.
+      actual acceptance or requested changes. For the user-authorized S10→S11
+      pair, review may follow both increments; all technical/design/PR gates
+      still apply before S11, as recorded in the Scrum execution amendment.
 
-- [ ] Inspect the actual locally served webpage design after this sprint at
+- [x] Inspect the actual locally served webpage design after this sprint at
       desktop and mobile widths; record captures, changed-state checks, and
       findings under `docs/ux-redesign-evidence/sprint-10/`.
 - [ ] Open the sprint PR in `ashcx/sg-investing-v1` with the sprint plan,
       implementation changes, checks/results, and remaining gaps; record its URL.
 
 
-- [ ] The four destinations have distinct active navigation; direct URLs,
+- [x] The four destinations have distinct active navigation; direct URLs,
       reload, Back/Forward, skip-to-content, and narrow-screen navigation work.
-- [ ] Search covers ticker/name/ISIN, recovery, friendly filters, selected vs
+- [x] Search covers ticker/name/ISIN, recovery, friendly filters, selected vs
       uncommitted identity, usable-history/coverage, and bounded pagination;
       F14 and F19 have deterministic evidence.
-- [ ] F05 and F17 are resolved by a consistent component system with readable
+- [x] F05 and F17 are resolved by a consistent component system with readable
       labels, usable focus, and documented responsive rules.
-- [ ] F18 has actionable security-specific Data & methods content with retained
+- [x] F18 has actionable security-specific Data & methods content with retained
       provenance and assumptions.
-- [ ] Shared terminology is recorded and applied to navigation and discovery;
+- [x] Shared terminology is recorded and applied to navigation and discovery;
       remaining context-specific terminology is assigned to Sprints 11–13.
-- [ ] Sprint evidence is recorded under `docs/ux-redesign-evidence/sprint-10/`;
+- [x] Sprint evidence is recorded under `docs/ux-redesign-evidence/sprint-10/`;
       every story acceptance condition and evidence item is satisfied.
 
 ## Scrum details
@@ -163,3 +165,36 @@ no implementation evidence or completed task is claimed by this amendment.
 For each task, record date/ID, status, changed files, checks and exact results,
 evidence paths, separate self-review findings, blockers, and next sequential
 action here before proceeding. Human acceptance is recorded only when given.
+
+### 15 October 2026 — Planning and route freeze
+
+Owner: main instance. User authorized Sprints 10 and 11 after the outcome summary.
+Reviewed Sprint 9 exits/evidence, prototype, prototype README/QA and audit.
+Commitment: US01 + US02, 6 SP; US03 is required stretch. Desktop/mobile checks
+and separate PR precede Sprint 11. Human review is deferred for this authorized
+pair and remains explicitly pending; this is not product acceptance of S10.
+Route contract is frozen in the frontend specification before shell changes.
+
+### S10-US01 complete
+
+Four mounted workspaces, canonical and legacy URL routes, route-preserving skip
+link, compact navigation and task introduction implemented. Frozen contract in
+frontend specification. Chrome routes/direct links/Back/Forward/reload/skip
+checks PASS (`docs/ux-redesign-evidence/sprint-10/routes.txt`). Subsequent
+self-review corrected initialization order; no result is recalculated on route
+changes. Next: US02; fixed search cases in `tests/browser/sprint-10.cjs` include
+1,051 unique catalog entries, known ISIN, empty search and unknown text.
+
+### S10-US02 and US03 complete — technical/design review
+
+Frozen search fixture: 1,051 unique entries, known ISIN, unknown/empty query and
+pagination beyond the former cap. Browser checks PASS: keyboard selection,
+metadata clearing, clear/reset, complete pagination, coverage previews,
+contextual methodology, mobile menu and Back/Forward. Light-form label contrast
+measured at 15.84:1. Reduced motion exercised; focus styles and skip link checked.
+Actual page captures inspected at 1440/1280/768/390/320px; no page overflow.
+Sprint 9 result-state/export/share regressions PASS in the new workspace.
+Static-site, module syntax and whitespace checks PASS. No calculation or worker
+changes in this sprint. Reports/captures: `docs/ux-redesign-evidence/sprint-10/`.
+Human review remains pending under the user-authorized S10/11 execution amendment.
+Next: publish the Sprint 10 PR, then verify its technical gates before S11.

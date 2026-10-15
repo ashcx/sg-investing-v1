@@ -1,0 +1,4 @@
+PASS: routes, one active workspace, legacy links, Back/Forward, reload and route-preserving skip link.
+PASS: ISIN/keyboard search, uncommitted metadata reset, clear/reset, coverage preview, and all 1,051 paginated entries reachable.
+PASS: light-form label contrast 15.84:1, reduced-motion styles exercised.
+PASS: contextual methods, mobile menu, responsive workspace and no browser errors.
