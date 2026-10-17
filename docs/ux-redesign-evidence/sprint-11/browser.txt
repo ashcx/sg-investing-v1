@@ -1,0 +1,1 @@
+PASS: unified selection/dates/assumptions, independent mode amounts, 16000 capital/12 contributions, single-currency charts, previous export, negative amount, one-time-only independent comparison copy, reload-safe drafts, supported dates, responsive layouts and no browser errors.

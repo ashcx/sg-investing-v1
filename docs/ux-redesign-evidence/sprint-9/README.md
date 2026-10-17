@@ -3,7 +3,8 @@
 [Sprint 9 pull request](https://github.com/ashcx/sg-investing-v1/pull/1).
 
 Implementation and technical self-review are complete. Human product acceptance
-is pending; Sprint 9 remains In progress and Sprint 10 has not started.
+was given by the user’s instruction to proceed with Sprints 10 and 11 on
+15 October 2026; Sprint 9 is Complete. Its PR remains unmerged.
 
 The increment repairs result ownership before the later navigation and visual
 redesign. Each tool has explicit Calculate/Update, current/pending/previous/error

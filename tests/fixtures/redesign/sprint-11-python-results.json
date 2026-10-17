@@ -1,0 +1,297 @@
+{
+  "pure-dca-zero-initial": {
+    "security": {
+      "security_id": "11111111-1111-1111-1111-111111111111",
+      "ticker": "LUMP",
+      "exchange": "XTEST",
+      "market": "SG",
+      "name": "Independent initial plus recurring fixture",
+      "currency": "SGD",
+      "asset_type": "ETF",
+      "domicile": null,
+      "income_source_country": "SG",
+      "isin": null,
+      "cusip": null,
+      "timezone": "UTC",
+      "active": true,
+      "distribution_policy": "distributing",
+      "expense_ratio": null
+    },
+    "contribution_dates": [
+      "2024-01-02",
+      "2024-02-02",
+      "2024-03-02",
+      "2024-04-02",
+      "2024-05-02",
+      "2024-06-02",
+      "2024-07-02",
+      "2024-08-02",
+      "2024-09-02",
+      "2024-10-02",
+      "2024-11-02",
+      "2024-12-02"
+    ],
+    "total_contributed_sgd": "6000",
+    "total_contributed_foreign_currency": "6000",
+    "final_value_sgd": "6000",
+    "final_value_foreign_currency": "6000",
+    "gain_loss_sgd": "0",
+    "gain_loss_foreign_currency": "0",
+    "xirr": "-1.9658407591462983E-14",
+    "xirr_foreign_currency": "-1.9658407591462983E-14",
+    "shares": "600",
+    "methodology": {
+      "contribution_timing": "first_available_trading_day_of_period",
+      "cost_basis": "weighted_average_not_applicable_to_dca_return",
+      "dividend_reinvestment": false,
+      "dividend_type_handling": "regular/special/unknown treated as cash; return_of_capital treated as cash without assumed withholding",
+      "ter_deducted": false
+    },
+    "data_quality": {
+      "status": "OK",
+      "warnings": []
+    }
+  },
+  "initial-plus-twelve-contributions": {
+    "security": {
+      "security_id": "11111111-1111-1111-1111-111111111111",
+      "ticker": "LUMP",
+      "exchange": "XTEST",
+      "market": "SG",
+      "name": "Independent initial plus recurring fixture",
+      "currency": "SGD",
+      "asset_type": "ETF",
+      "domicile": null,
+      "income_source_country": "SG",
+      "isin": null,
+      "cusip": null,
+      "timezone": "UTC",
+      "active": true,
+      "distribution_policy": "distributing",
+      "expense_ratio": null
+    },
+    "contribution_dates": [
+      "2024-01-02",
+      "2024-02-02",
+      "2024-03-02",
+      "2024-04-02",
+      "2024-05-02",
+      "2024-06-02",
+      "2024-07-02",
+      "2024-08-02",
+      "2024-09-02",
+      "2024-10-02",
+      "2024-11-02",
+      "2024-12-02"
+    ],
+    "total_contributed_sgd": "16000",
+    "total_contributed_foreign_currency": "16000",
+    "final_value_sgd": "16000",
+    "final_value_foreign_currency": "16000",
+    "gain_loss_sgd": "0",
+    "gain_loss_foreign_currency": "0",
+    "xirr": "-1.1865999374417075E-16",
+    "xirr_foreign_currency": "-1.1865999374417075E-16",
+    "shares": "1600",
+    "methodology": {
+      "initial_lump_sum_sgd": "10000",
+      "initial_purchase_date": "2024-01-02",
+      "methodology_version": "1.1",
+      "contribution_timing": "first_available_trading_day_of_period",
+      "cost_basis": "weighted_average_not_applicable_to_dca_return",
+      "dividend_reinvestment": false,
+      "dividend_type_handling": "regular/special/unknown treated as cash; return_of_capital treated as cash without assumed withholding",
+      "ter_deducted": false
+    },
+    "data_quality": {
+      "status": "OK",
+      "warnings": []
+    }
+  },
+  "fx-initial-and-recurring": {
+    "security": {
+      "security_id": "11111111-1111-1111-1111-111111111111",
+      "ticker": "LUMP",
+      "exchange": "XTEST",
+      "market": "SG",
+      "name": "Independent initial plus recurring fixture",
+      "currency": "USD",
+      "asset_type": "ETF",
+      "domicile": null,
+      "income_source_country": "US",
+      "isin": null,
+      "cusip": null,
+      "timezone": "UTC",
+      "active": true,
+      "distribution_policy": "distributing",
+      "expense_ratio": null
+    },
+    "contribution_dates": [
+      "2024-01-02",
+      "2024-02-02"
+    ],
+    "total_contributed_sgd": "1200",
+    "total_contributed_foreign_currency": "650",
+    "final_value_sgd": "650",
+    "final_value_foreign_currency": "650",
+    "gain_loss_sgd": "-550",
+    "gain_loss_foreign_currency": "0",
+    "xirr": "-0.9997160383207568",
+    "xirr_foreign_currency": "-2.5413537876408873E-13",
+    "shares": "65",
+    "methodology": {
+      "initial_lump_sum_sgd": "1000",
+      "initial_purchase_date": "2024-01-02",
+      "methodology_version": "1.1",
+      "contribution_timing": "first_available_trading_day_of_period",
+      "cost_basis": "weighted_average_not_applicable_to_dca_return",
+      "dividend_reinvestment": false,
+      "dividend_type_handling": "regular/special/unknown treated as cash; return_of_capital treated as cash without assumed withholding",
+      "ter_deducted": false
+    },
+    "data_quality": {
+      "status": "OK",
+      "warnings": []
+    }
+  },
+  "dividend-cash": {
+    "security": {
+      "security_id": "11111111-1111-1111-1111-111111111111",
+      "ticker": "LUMP",
+      "exchange": "XTEST",
+      "market": "SG",
+      "name": "Independent initial plus recurring fixture",
+      "currency": "SGD",
+      "asset_type": "ETF",
+      "domicile": null,
+      "income_source_country": "SG",
+      "isin": null,
+      "cusip": null,
+      "timezone": "UTC",
+      "active": true,
+      "distribution_policy": "distributing",
+      "expense_ratio": null
+    },
+    "contribution_dates": [
+      "2024-01-02",
+      "2024-02-02"
+    ],
+    "total_contributed_sgd": "1200",
+    "total_contributed_foreign_currency": "1200",
+    "final_value_sgd": "1310",
+    "final_value_foreign_currency": "1310",
+    "gain_loss_sgd": "110",
+    "gain_loss_foreign_currency": "110",
+    "xirr": "2.0738968093921812",
+    "xirr_foreign_currency": "2.0738968093921812",
+    "shares": "120",
+    "methodology": {
+      "initial_lump_sum_sgd": "1000",
+      "initial_purchase_date": "2024-01-02",
+      "methodology_version": "1.1",
+      "contribution_timing": "first_available_trading_day_of_period",
+      "cost_basis": "weighted_average_not_applicable_to_dca_return",
+      "dividend_reinvestment": false,
+      "dividend_type_handling": "regular/special/unknown treated as cash; return_of_capital treated as cash without assumed withholding",
+      "ter_deducted": false
+    },
+    "data_quality": {
+      "status": "OK",
+      "warnings": []
+    }
+  },
+  "dividend-reinvest": {
+    "security": {
+      "security_id": "11111111-1111-1111-1111-111111111111",
+      "ticker": "LUMP",
+      "exchange": "XTEST",
+      "market": "SG",
+      "name": "Independent initial plus recurring fixture",
+      "currency": "SGD",
+      "asset_type": "ETF",
+      "domicile": null,
+      "income_source_country": "SG",
+      "isin": null,
+      "cusip": null,
+      "timezone": "UTC",
+      "active": true,
+      "distribution_policy": "distributing",
+      "expense_ratio": null
+    },
+    "contribution_dates": [
+      "2024-01-02",
+      "2024-02-02"
+    ],
+    "total_contributed_sgd": "1200",
+    "total_contributed_foreign_currency": "1200",
+    "final_value_sgd": "1310",
+    "final_value_foreign_currency": "1310",
+    "gain_loss_sgd": "110",
+    "gain_loss_foreign_currency": "110",
+    "xirr": "2.0738968093921812",
+    "xirr_foreign_currency": "2.0738968093921812",
+    "shares": "131",
+    "methodology": {
+      "initial_lump_sum_sgd": "1000",
+      "initial_purchase_date": "2024-01-02",
+      "methodology_version": "1.1",
+      "contribution_timing": "first_available_trading_day_of_period",
+      "cost_basis": "weighted_average_not_applicable_to_dca_return",
+      "dividend_reinvestment": true,
+      "dividend_type_handling": "regular/special/unknown treated as cash; return_of_capital treated as cash without assumed withholding",
+      "ter_deducted": false
+    },
+    "data_quality": {
+      "status": "OK",
+      "warnings": []
+    }
+  },
+  "accumulating-no-invented-dividend": {
+    "security": {
+      "security_id": "11111111-1111-1111-1111-111111111111",
+      "ticker": "LUMP",
+      "exchange": "XTEST",
+      "market": "SG",
+      "name": "Independent initial plus recurring fixture",
+      "currency": "SGD",
+      "asset_type": "ETF",
+      "domicile": null,
+      "income_source_country": "SG",
+      "isin": null,
+      "cusip": null,
+      "timezone": "UTC",
+      "active": true,
+      "distribution_policy": "accumulating",
+      "expense_ratio": null
+    },
+    "contribution_dates": [
+      "2024-01-02",
+      "2024-02-02"
+    ],
+    "total_contributed_sgd": "1200",
+    "total_contributed_foreign_currency": "1200",
+    "final_value_sgd": "1200",
+    "final_value_foreign_currency": "1200",
+    "gain_loss_sgd": "0",
+    "gain_loss_foreign_currency": "0",
+    "xirr": "-2.5413537876408873E-13",
+    "xirr_foreign_currency": "-2.5413537876408873E-13",
+    "shares": "120",
+    "methodology": {
+      "initial_lump_sum_sgd": "1000",
+      "initial_purchase_date": "2024-01-02",
+      "methodology_version": "1.1",
+      "contribution_timing": "first_available_trading_day_of_period",
+      "cost_basis": "weighted_average_not_applicable_to_dca_return",
+      "dividend_reinvestment": true,
+      "dividend_type_handling": "regular/special/unknown treated as cash; return_of_capital treated as cash without assumed withholding",
+      "ter_deducted": false
+    },
+    "data_quality": {
+      "status": "WARNING",
+      "warnings": [
+        "Dividend events ignored because this security is marked accumulating."
+      ]
+    }
+  }
+}

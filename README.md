@@ -353,3 +353,17 @@ pack build.
 - Parity report: [`docs/parity-report.md`](docs/parity-report.md)
 - Architecture decisions: [`docs/adr/`](docs/adr/)
 - Roadmap and sprint files: [`TODO.md`](TODO.md) and [`Todo/`](Todo/)
+
+## Redesign preview (Sprints 10–11)
+
+The workspace has Simulator, Compare investments, My portfolio, and Data &
+methods destinations. Simulator shares security, dates and assumptions between
+one-time and regular investing. Regular investing accepts an optional initial
+lump sum plus recurring contributions. Both amounts are included in capital
+and XIRR cash flows; the initial purchase is separate from the recurring count.
+A zero initial amount preserves existing DCA behavior. Price charts show one
+currency at a time and are explicitly not investment-value/total-return curves.
+
+Work is proposed in separate sprint PRs and is not deployed until merged and
+published through the existing release workflow. Browser review evidence and
+checks live under `docs/ux-redesign-evidence/`.

@@ -30,8 +30,8 @@ const PAYLOAD_SPEC = Object.freeze({
   }),
   dca: Object.freeze({
     required: Object.freeze(['security', 'prices', 'fx_rates', 'start_date', 'end_date', 'contribution_sgd']),
-    optional: Object.freeze(['frequency', 'scenario', 'dividends', 'corporate_actions', 'tax_rules']),
-    numericStrings: Object.freeze(['contribution_sgd']),
+    optional: Object.freeze(['initial_sgd', 'frequency', 'scenario', 'dividends', 'corporate_actions', 'tax_rules']),
+    numericStrings: Object.freeze(['contribution_sgd', 'initial_sgd']),
     dateStrings: Object.freeze(['start_date', 'end_date']),
   }),
   portfolio: Object.freeze({
@@ -123,6 +123,7 @@ export function payloadToEngineArgs(scope, payload) {
       startDate: payload.start_date,
       endDate: payload.end_date,
       contributionSgd: payload.contribution_sgd,
+      initialSgd: payload.initial_sgd,
       frequency: payload.frequency,
       scenario: payload.scenario,
       dividends: payload.dividends,

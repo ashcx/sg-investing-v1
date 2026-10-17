@@ -8,6 +8,7 @@ import { createEngineClient } from './engine/engine-client.js';
 import { createPackLoader } from './engine/pack-loader.js';
 import { rateForDate } from './engine/fx.js';
 import { dec } from './engine/money.js';
+import { initWorkspace } from './workspace.js';
 import { ledgerStore } from './ledger-store.js';
 
 const CATALOG_ARTIFACT = 'data/catalog.json';
@@ -72,8 +73,10 @@ const state = {
   dcaCurrencyMode: 'sgd',
   dcaContext: {},
   analysisCoverage: {},
+  simulatorMode: 'one-time',
   warningsOpen: false,
   catalogLimit: 12,
+  discoveryManifest: null,
 };
 
 const $ = (selector) => document.querySelector(selector);
@@ -113,7 +116,7 @@ function renderSecurityCombobox(input, query = input.value) {
     return !wanted || text.includes(wanted);
   });
   const visible = matches.slice(0, COMBOBOX_RESULT_LIMIT);
-  list.innerHTML = visible.map(({ security }, index) => `<div class="combobox-option" id="${escapeHtml(input.id)}-option-${index}" role="option" aria-selected="${securityComboboxValue(input) === security.security_id}" data-security-id="${escapeHtml(security.security_id)}"><strong>${escapeHtml(security.ticker)}</strong><span>${escapeHtml(security.name)} · ${escapeHtml(security.exchange)}</span></div>`).join('')
+  list.innerHTML = visible.map(({ security }, index) => `<div class="combobox-option" id="${escapeHtml(input.id)}-option-${index}" role="option" aria-selected="${securityComboboxValue(input) === security.security_id}" data-security-id="${escapeHtml(security.security_id)}"><strong>${escapeHtml(security.ticker)}</strong><span>${escapeHtml(security.name)} · ${escapeHtml(security.exchange)} · ${escapeHtml(security.currency)}<br>${escapeHtml(discoveryCoverage(security.security_id))}</span></div>`).join('')
     || '<div class="combobox-empty" role="status">No published securities match that search.</div>';
   if (matches.length > COMBOBOX_RESULT_LIMIT) {
     list.insertAdjacentHTML('beforeend', `<div class="combobox-more" role="status">Showing ${COMBOBOX_RESULT_LIMIT} of ${matches.length}. Keep typing to narrow the list.</div>`);
@@ -139,6 +142,7 @@ function wireSecurityCombobox(input) {
   input.addEventListener('focus', () => renderSecurityCombobox(input));
   input.addEventListener('input', () => {
     delete input.dataset.securityId;
+    clearSelectionMetadata(input);
     input.removeAttribute('aria-invalid');
     renderSecurityCombobox(input, input.value);
   });
@@ -162,7 +166,7 @@ function wireSecurityCombobox(input) {
   input.addEventListener('blur', () => setTimeout(() => {
     if (!input.closest('[data-combobox]')?.contains(document.activeElement)) closeSecurityCombobox(input);
   }, 0));
-  input.closest('[data-combobox]')?.querySelector('.combobox-list')?.addEventListener('mousedown', (event) => {
+  input.closest('[data-combobox]')?.querySelector('.combobox-list')?.addEventListener('pointerdown', (event) => {
     const option = event.target.closest('.combobox-option');
     if (!option) return;
     event.preventDefault();
@@ -188,7 +192,8 @@ function formatMoney(value, currency) {
 
 function formatPercent(value) {
   if (value === null || value === undefined || value === '') return '—';
-  const amount = Number(value) * 100;
+  const numeric = Number(value) * 100;
+  const amount = Math.abs(numeric) < 0.005 ? 0 : numeric;
   return Number.isFinite(amount) ? `${amount >= 0 ? '+' : ''}${amount.toFixed(2)}%` : '—';
 }
 
@@ -292,7 +297,7 @@ function renderUniverseOptions() {
   if (!has('#universe-filter')) return;
   const select = $('#universe-filter');
   const universes = [...new Set(state.catalog.map((entry) => entry.universe).filter(Boolean))].sort();
-  select.innerHTML = '<option value="all">All universes</option>' + universes.map((universe) => `<option value="${escapeHtml(universe)}">${escapeHtml(titleCase(universe))}</option>`).join('');
+  select.innerHTML = '<option value="all">All universes</option>' + universes.map((universe) => `<option value="${escapeHtml(universe)}">${escapeHtml(universeLabel(universe))}</option>`).join('');
 }
 
 function renderDimensionOptions() {
@@ -315,7 +320,7 @@ function filteredEntries() {
     const text = [security.ticker, security.name, security.isin, security.exchange, security.market].filter(Boolean).join(' ').toLowerCase();
     return (!query || text.includes(query))
       && (asset === 'all' || security.asset_type === asset)
-      && (universe === 'all' || entryUniverse === universe)
+      && (universe === 'all' || state.catalog.some(item => item.security?.security_id === security.security_id && item.universe === universe))
       && (market === 'all' || security.market === market)
       && (currency === 'all' || security.currency === currency)
       && (distribution === 'all' || security.distribution_policy === distribution)
@@ -326,13 +331,18 @@ function filteredEntries() {
 function renderCatalog() {
   const entries = filteredEntries();
   if (has('#catalog-count')) $('#catalog-count').textContent = `${entries.length} ${entries.length === 1 ? 'security' : 'securities'} · published catalog`;
+  const filters = ['asset','universe','market','currency','distribution','active'].map(name => {
+    const field = $(`#${name}-filter`); return field && !['all','active'].includes(field.value) ? field.options[field.selectedIndex].textContent : null;
+  }).filter(Boolean);
+  if (has('#active-filters')) $('#active-filters').textContent = filters.length ? `Active filters: ${filters.join(' · ')}` : 'No advanced filters selected.';
   const visible = entries.slice(0, state.catalogLimit);
   if (has('#catalog-grid')) {
     $('#catalog-grid').innerHTML = visible.map(({ security, universe }) => `<button class="security-card" type="button" data-security-id="${escapeHtml(security.security_id)}">
       <span class="security-card-top"><span>${escapeHtml(security.exchange)} · ${escapeHtml(security.market)}</span><span class="security-tag">${escapeHtml(security.asset_type)}</span></span>
       <span><strong class="security-ticker">${escapeHtml(security.ticker)}</strong><span class="security-name">${escapeHtml(security.name)}</span></span>
-      <span class="security-card-bottom"><span>${escapeHtml(security.currency)} · ${escapeHtml(security.distribution_policy || 'unknown')}</span><span>${escapeHtml(titleCase(universe))} ↗</span></span>
-    </button>`).join('') || '<div class="catalog-empty">No published securities match this lens.</div>';
+      <span class="security-card-bottom"><span>${escapeHtml(security.currency)} · ${escapeHtml(security.distribution_policy || 'unknown')}</span><span>${escapeHtml(universeLabel(universe))} ↗</span></span>
+      <span class="coverage-preview">${escapeHtml(discoveryCoverage(security.security_id))}</span>
+    </button>`).join('') || '<div class="catalog-empty">No securities match. Clear the search or filters to try again.</div>';
     $$('.security-card').forEach((card) => card.addEventListener('click', () => { selectSecurity(card.dataset.securityId, true); s7OnSecurityCardPicked(card.dataset.securityId); }));
   }
   if (has('#catalog-more')) {
@@ -384,13 +394,16 @@ function viewSummary(kind, request) {
   if (kind === 'portfolio') return `${request.transactions.length} transactions · as of ${request.as_of}`;
   const security = entryForId(request.security_id)?.security;
   const name = security?.ticker || request.tickers || request.security_id;
-  const amount = kind === 'dca' ? `${request.contribution_sgd} SGD ${request.frequency}` : `${request.initial_sgd} SGD initial`;
+  const amount = kind === 'dca' ? `${request.initial_sgd || '0'} SGD initial + ${request.contribution_sgd} SGD ${request.frequency}` : `${request.initial_sgd} SGD initial`;
   return `${name} · ${request.start_date} → ${request.end_date} · ${amount} · dividends ${request.dividends}, withholding ${request.withholding}, reinvest ${request.reinvest}`;
 }
 
+function viewForm(kind) { return $(kind === 'dca' ? '#analysis-form' : `#${kind}-form`); }
+function activeSimulatorKind() { return state.simulatorMode === 'regular' ? 'dca' : 'analysis'; }
+
 function renderViewState(kind) {
   const view = resultViews[kind];
-  const form = $(`#${kind === 'analysis' ? 'analysis' : kind}-form`);
+  const form = viewForm(kind);
   if (!form) return;
   let notice = $(`#${kind}-request-state`);
   if (!notice) {
@@ -399,7 +412,8 @@ function renderViewState(kind) {
     const output = $({ analysis: '#result-content', dca: '#dca-results', compare: '#compare-results', portfolio: '#portfolio-results' }[kind]);
     output.before(notice);
   }
-  form.dataset.resultState = view.phase;
+  const active = !['analysis','dca'].includes(kind) || activeSimulatorKind() === kind;
+  if (active) form.dataset.resultState = view.phase;
   notice.dataset.state = view.phase;
   const current = view.phase === 'current';
   const labels = { empty: 'Choose your inputs, then Calculate.', pending: 'Inputs edited. Calculate to see a result.', loading: 'Calculating the submitted request…', invalid: 'Check the input error, then Calculate.', failed: 'This request could not be calculated. Check the error and try again.', current: 'Current result' };
@@ -407,11 +421,13 @@ function renderViewState(kind) {
     ? `${current ? 'Current result' : 'Previous result — not current for the edited inputs'}. ${viewSummary(kind, view.request)}${current ? '' : ` · ${labels[view.phase] || 'Select Update results to recalculate.'}`}`
     : labels[view.phase] || labels.pending;
   const button = form.querySelector('button[type="submit"]');
-  if (button && view.phase !== 'loading') {
+  if (button && active && view.phase !== 'loading') {
     setBusy(button, false); delete form.dataset.s7Inflight;
     button.textContent = view.request ? 'Update results' : 'Calculate';
     button.dataset.originalLabel = button.innerHTML;
   }
+  notice.hidden = ['analysis','dca'].includes(kind) && !active;
+  if (kind === 'dca' && has('[data-download-dca]')) { $('[data-download-dca]').textContent = current ? 'Download this result JSON' : 'Download JSON · previous request'; $('[data-download-dca]').title = viewSummary(kind,view.request); }
   if (kind === 'analysis') {
     [['#download-result', 'Download JSON'], ['#copy-link', 'Copy analysis link'], ['#download-series-csv', 'Download CSV']].forEach(([sel,label]) => {
       const control = $(sel); if (!control) return;
@@ -426,7 +442,8 @@ function editView(kind) {
   s7CancelAutoRun(kind);
   if (kind === 'dca') s4State.runSeq = (s4State.runSeq || 0) + 1;
   else s6Runs[kind] += 1;
-  resultViews[kind].phase = 'pending';
+  resultViews[kind].phase = 'pending'; resultViews[kind].error = '';
+  if (['analysis','dca'].includes(kind) && activeSimulatorKind() === kind && has('#form-error')) $('#form-error').textContent = '';
   renderViewState(kind);
 }
 
@@ -438,12 +455,14 @@ function beginView(kind) {
 function completeView(kind, request, artifact) {
   const view = resultViews[kind];
   view.request = Object.freeze(JSON.parse(JSON.stringify(request)));
-  view.artifact = artifact; view.phase = 'current';
+  view.artifact = artifact; view.phase = 'current'; view.error = '';
   renderViewState(kind);
 }
 
 function failView(kind, phase = 'failed') {
-  resultViews[kind].phase = phase; renderViewState(kind);
+  resultViews[kind].phase = phase;
+  if (['analysis','dca'].includes(kind)) resultViews[kind].error = $('#form-error')?.textContent || '';
+  renderViewState(kind);
 }
 
 function analysisLink() {
@@ -563,7 +582,8 @@ function coverageFromInputs(entry, inputs, manifest) {
 function renderCoverage(kind, result, coverage = {}) {
   const request = resultViews[kind].request;
   if (!request) return;
-  const actual = result.period;
+  const dcaPoints = state.dcaContext.series?.points;
+  const actual = result.period || (kind === 'dca' && dcaPoints?.length ? { start_date: result.contribution_dates[0], end_date: dcaPoints.at(-1).date } : null);
   const resolved = actual ? `${actual.start_date} → ${actual.end_date}` : 'Not separately published by this result';
   const truncated = actual && (actual.start_date !== request.start_date || actual.end_date !== request.end_date);
   const warnings = result.data_quality?.warnings || [];
@@ -576,7 +596,7 @@ function renderCoverage(kind, result, coverage = {}) {
   if (kind === 'analysis') $('#result-period').after(box);
   else $('#dca-results .analysis-output')?.append(box);
   box.innerHTML = html;
-  box.querySelector('button').addEventListener('click', () => $(kind === 'analysis' ? '#start-date' : '#dca-start').focus());
+  box.querySelector('button').addEventListener('click', () => $('#start-date').focus());
 }
 
 function renderQuality(quality = {}) {
@@ -592,21 +612,31 @@ function renderQuality(quality = {}) {
   $('#warnings-toggle').setAttribute('aria-expanded', String(state.warningsOpen));
 }
 
+function chartModel(series, native) {
+  if (!series?.points?.length) return null;
+  const currency = native ? series.security.currency : 'SGD';
+  const values = series.points.map(point => Number(native ? point.native_close : point.sgd_close));
+  const min = Math.min(...values), max = Math.max(...values), spread = max-min || 1;
+  const points = values.map((value,i)=>`${140+i/Math.max(1,values.length-1)*785},${225-(value-min)/spread*185}`).join(' ');
+  const ticks = [0,.5,1].map(f=>{const y=225-f*185; return `<text x="130" y="${y+4}" text-anchor="end">${(min+f*spread).toFixed(2)}</text><line x1="140" y1="${y}" x2="925" y2="${y}" stroke="#cdd5d8"/>`;}).join('');
+  const svg=`<g fill="#526277" font-size="20">${ticks}<text x="140" y="255">${series.points[0].date}</text><text x="925" y="255" text-anchor="end">${series.points.at(-1).date}</text></g><polyline fill="none" stroke="#376f64" stroke-width="3" points="${points}"/>`;
+  return {currency,svg};
+}
+function priceChartHtml(series,native) {
+  const chart=chartModel(series,native);if(!chart)return '<p class="detail-note">Price history chart is not available for this result.</p>';
+  return `<h4>Price history · ${escapeHtml(chart.currency)}</h4><p class="detail-note">Daily closing price, not investment value or total return.</p><svg viewBox="0 0 1000 270" role="img" aria-label="${escapeHtml(chart.currency)} closing price history">${chart.svg}</svg><details><summary>View price table</summary><div class="holding-table-wrap"><table class="series-table"><thead><tr><th>Date</th><th>Close (${escapeHtml(chart.currency)})</th></tr></thead><tbody>${series.points.map(p=>`<tr><td>${escapeHtml(p.date)}</td><td>${escapeHtml(native?p.native_close:p.sgd_close)}</td></tr>`).join('')}</tbody></table></div></details>`;
+}
 function renderSeries(series) {
   if (!has('#series-chart')) return;
-  if (!series) { $('#series-card').classList.add('hidden'); return; }
-  const points = series.points || [];
-  if (!points.length) { $('#series-card').classList.add('hidden'); return; }
-  $('#series-card').classList.remove('hidden');
-  $('#series-range').textContent = `${formatDate(points[0].date)} → ${formatDate(points.at(-1).date)} · ${points.length} closes`;
-  const native = points.map((point) => Number(point.native_close));
-  const sgd = points.map((point) => Number(point.sgd_close));
-  const all = [...native, ...sgd].filter(Number.isFinite);
-  const min = Math.min(...all); const max = Math.max(...all); const spread = max - min || 1;
-  const plot = (values) => values.map((value, index) => `${(index / Math.max(1, values.length - 1)) * 980 + 10},${245 - ((value - min) / spread) * 220}`).join(' ');
-  $('#series-chart').innerHTML = `<polyline class="series-line series-native" points="${plot(native)}"></polyline><polyline class="series-line series-sgd" points="${plot(sgd)}"></polyline><line class="series-axis" x1="10" y1="245" x2="990" y2="245"></line>`;
-  if (has('#native-legend')) $('#native-legend').textContent = `${series.security.currency} native close`;
-  if (has('.chart-source')) $('.chart-source').textContent = state.seriesSource === 'local' || state.artifactSource === 'local' || state.artifactSource === 'adapterFallback' ? 'Series computed from local data packs' : 'Backend series artifact';
+  const chart=chartModel(series,state.currencyMode==='native');
+  $('#series-card').classList.toggle('hidden',!chart);if(!chart)return;
+  $('#series-chart').innerHTML=chart.svg;
+  $('#series-chart').setAttribute('aria-label',`${chart.currency} closing price history`);
+  $('#series-card h4').textContent=`Price history · ${chart.currency}`;
+  $('#series-range').textContent=`${series.points[0].date} → ${series.points.at(-1).date}`;
+  if(has('#native-legend')) $('#native-legend').textContent=`${chart.currency} close · price history, not investment value`;
+  if(has('.sgd-line')) $('.sgd-line').parentElement.classList.add('hidden');
+  if(has('.chart-source')) $('.chart-source').textContent='Daily closes from the result’s data snapshot';
   renderSeriesTable(series);
 }
 
@@ -685,6 +715,7 @@ window.__sgInvestReactive = s7Reactive;
 // Explicit submission captures the financial request; edits invalidate it immediately.
 async function submitAnalysis(event) {
   event.preventDefault();
+  if (state.simulatorMode === 'regular') { await s7RunDca({ mode: 'force' }); return; }
   s7CancelAutoRun('analysis');
   await s7RunAnalysis({ mode: 'force' });
 }
@@ -778,7 +809,7 @@ function renderComparePicker(query = '') {
     return !wanted || text.includes(wanted);
   });
   const visible = matches.slice(0, COMBOBOX_RESULT_LIMIT);
-  list.innerHTML = visible.map(({ security }, index) => `<div class="combobox-option" id="compare-ticker-option-${index}" role="option" data-security-id="${escapeHtml(security.security_id)}"><strong>${escapeHtml(security.ticker)}</strong><span>${escapeHtml(security.name)} · ${escapeHtml(security.exchange)}</span></div>`).join('')
+  list.innerHTML = visible.map(({ security }, index) => `<div class="combobox-option" id="compare-ticker-option-${index}" role="option" data-security-id="${escapeHtml(security.security_id)}"><strong>${escapeHtml(security.ticker)}</strong><span>${escapeHtml(security.name)} · ${escapeHtml(security.exchange)} · ${escapeHtml(security.currency)}<br>${escapeHtml(discoveryCoverage(security.security_id))}</span></div>`).join('')
     || '<div class="combobox-empty" role="status">No additional securities match that search.</div>';
   if (matches.length > COMBOBOX_RESULT_LIMIT) list.insertAdjacentHTML('beforeend', `<div class="combobox-more" role="status">Showing ${COMBOBOX_RESULT_LIMIT} of ${matches.length}. Keep typing to narrow the list.</div>`);
   list.classList.remove('hidden');
@@ -799,6 +830,7 @@ function selectCompareSecurity(securityId) {
   if (!entryForId(securityId) || state.compareTickers.includes(securityId) || state.compareTickers.length >= 6) return;
   state.compareTickers.push(securityId);
   renderCompareChips();
+  saveComparisonDraft();
   editView('compare');
   const input = $('#compare-tickers');
   if (input) { input.value = ''; input.focus(); }
@@ -829,7 +861,7 @@ function initComparePicker() {
       event.preventDefault();
       selectCompareSecurity(options[active].dataset.securityId);
     } else if (event.key === 'Backspace' && !input.value && state.compareTickers.length) {
-      state.compareTickers.pop(); editView('compare'); renderCompareChips(); renderComparePicker('');
+      state.compareTickers.pop(); editView('compare'); saveComparisonDraft(); renderCompareChips(); renderComparePicker('');
     } else if (event.key === 'Escape') {
       list.classList.add('hidden'); input.setAttribute('aria-expanded', 'false');
     }
@@ -846,7 +878,7 @@ function initComparePicker() {
     const button = event.target.closest('[data-remove-security-id]');
     if (!button) return;
     editView('compare'); state.compareTickers = state.compareTickers.filter((securityId) => securityId !== button.dataset.removeSecurityId);
-    renderCompareChips(); renderComparePicker(input.value);
+    renderCompareChips(); saveComparisonDraft(); renderComparePicker(input.value);
   });
 }
 
@@ -860,7 +892,7 @@ async function submitCompare(event) {
   if (tickers.length < 2 || tickers.length > 6) { error.textContent = 'Enter between 2 and 6 catalog tickers.'; failView('compare', 'invalid'); return; }
   const amount = Number($('#compare-amount').value); if (!(amount > 0)) { error.textContent = 'Enter capital greater than S$0.'; failView('compare', 'invalid'); return; }
   if ($('#compare-end').value < $('#compare-start').value) { error.textContent = 'End date must be on or after start date.'; failView('compare', 'invalid'); return; }
-  const scenario = PRESETS[$('#compare-scenario').value] || PRESETS.investor; const request = { tickers: tickers.join(','), initial_sgd: $('#compare-amount').value, start_date: $('#compare-start').value, end_date: $('#compare-end').value, ...scenario }; const button = event.currentTarget.querySelector('button[type="submit"]'); setBusy(button, true);
+  const scenario = ($('#compare-scenario').value === 'custom' ? state.compareCopiedScenario : PRESETS[$('#compare-scenario').value]) || PRESETS.investor; const request = { tickers: tickers.join(','), initial_sgd: $('#compare-amount').value, start_date: $('#compare-start').value, end_date: $('#compare-end').value, ...scenario }; const button = event.currentTarget.querySelector('button[type="submit"]'); setBusy(button, true);
   const runSeq = s6Runs.compare += 1;
   try {
     if (API_BASE) {
@@ -917,15 +949,18 @@ function renderDca(payload, context = {}) {
   const gainLoss = native ? result.gain_loss_foreign_currency : result.gain_loss_sgd;
   const xirr = native ? result.xirr_foreign_currency : result.xirr;
   const warnings = result.data_quality.warnings || [];
-  const noWarningsCopy = payload.request ? 'Backend replay completed with no warnings.' : 'Local engine replay completed with no warnings.';
+  const noWarningsCopy = payload.request ? 'Adapter calculation completed with no warnings.' : 'Calculated locally with no warnings.';
   const support = context.support;
   const packWarnings = context.packWarnings || [];
   const supportNotice = support && support.status !== 'fully_supported'
     ? `<p class="consistency-warning" role="alert">Data pack coverage for ${escapeHtml(security.ticker)} is ${escapeHtml(support.status)}${support.reason ? `: ${escapeHtml(support.reason)}` : ''}. Results use the data actually present in the packs.${packWarnings.length ? ` Pack notes: ${escapeHtml(packWarnings.join(' '))}` : ''}</p>`
     : '';
-  $('#dca-results').innerHTML = `<div class="analysis-output"><div class="dca-output-head"><div class="output-kicker">${escapeHtml(security.ticker)} · ${escapeHtml(titleCase(request?.frequency || 'monthly'))}</div><div class="mini-switch" role="group" aria-label="DCA display currency"><button type="button" data-dca-currency="native" aria-pressed="${native}" class="${native ? 'active' : ''} ${security.currency === 'SGD' ? 'hidden' : ''}">${escapeHtml(security.currency)}</button><button type="button" data-dca-currency="sgd" aria-pressed="${!native}" class="${native ? '' : 'active'}">SGD</button></div></div><h3>${formatMoney(finalValue, currency)}</h3><p>Ending value after ${escapeHtml(String(result.contribution_dates.length))} contributions.</p><div class="output-grid"><span>Contributed<strong>${formatMoney(contributed, currency)}</strong></span><span>Gain / loss<strong>${formatMoney(gainLoss, currency)}</strong></span><span>XIRR · money-weighted<strong>${formatPercent(xirr)}</strong></span><span>Shares<strong>${Number(result.shares).toFixed(5)}</strong></span></div><details class="contribution-dates"><summary>Contribution dates (${result.contribution_dates.length})</summary><p>${result.contribution_dates.map((date) => `<time datetime="${escapeHtml(date)}">${escapeHtml(formatDate(date))}</time>`).join(' · ')}</p></details><p class="detail-note">${escapeHtml(warnings.join(' ') || noWarningsCopy)}</p>${supportNotice}</div>`;
+  $('#dca-results').innerHTML = `<div class="analysis-output"><div class="dca-output-head"><div class="output-kicker">${escapeHtml(security.ticker)} · ${escapeHtml(titleCase(request?.frequency || 'monthly'))}</div><div class="mini-switch" role="group" aria-label="DCA display currency"><button type="button" data-dca-currency="native" aria-pressed="${native}" class="${native ? 'active' : ''} ${security.currency === 'SGD' ? 'hidden' : ''}">${escapeHtml(security.currency)}</button><button type="button" data-dca-currency="sgd" aria-pressed="${!native}" class="${native ? '' : 'active'}">SGD</button></div></div><h3>${formatMoney(finalValue, currency)}</h3><p>Ending value after ${escapeHtml(String(result.contribution_dates.length))} recurring contributions. Initial lump sum: ${formatMoney(request?.initial_sgd || 0, 'SGD')}, invested ${escapeHtml(result.methodology.initial_purchase_date || result.contribution_dates[0])}.</p><div class="output-grid"><span>Total invested<strong>${formatMoney(contributed, currency)}</strong></span><span>Gain / loss<strong>${formatMoney(gainLoss, currency)}</strong></span><span>XIRR · annualised, money-weighted<strong>${formatPercent(xirr)}</strong></span><span>Shares<strong>${Number(result.shares).toFixed(5)}</strong></span></div><p class="detail-note">XIRR is an annualised return that accounts for the dates and amounts of all investments, including the initial lump sum.</p><details class="contribution-dates"><summary>Contribution dates (${result.contribution_dates.length})</summary><p>${result.contribution_dates.map((date) => `<time datetime="${escapeHtml(date)}">${escapeHtml(formatDate(date))}</time>`).join(' · ')}</p></details><p class="detail-note">${escapeHtml(warnings.join(' ') || noWarningsCopy)}</p>${supportNotice}</div>`;
+  const chart = document.createElement('div'); chart.className = 'dca-price-chart'; chart.innerHTML = priceChartHtml(context.series, native); $('#dca-results .analysis-output').append(chart);
   renderCoverage('dca', result, context.coverage);
+  const exportButton = document.createElement('button'); exportButton.type='button'; exportButton.dataset.downloadDca=''; exportButton.className='text-button'; exportButton.textContent='Download this result JSON'; exportButton.addEventListener('click',()=>downloadCompleted('dca')); $('#dca-results .analysis-output').append(exportButton);
   $$('[data-dca-currency]').forEach((button) => button.addEventListener('click', () => { state.dcaCurrencyMode = button.dataset.dcaCurrency; if (state.dcaArtifact) renderDca(state.dcaArtifact); }));
+  renderViewState('dca');
 }
 
 // Explicit DCA submission uses the existing worker supersede/cancel contract.
@@ -936,15 +971,17 @@ async function submitDca(event) {
 }
 
 async function s7RunDca({ mode = 'force' } = {}) {
-  const form = $('#dca-form');
+  const form = $('#analysis-form');
   if (!form) return;
   beginView('dca');
-  const error = $('#dca-error'); error.textContent = '';
-  if ($('#dca-end').value < $('#dca-start').value) { error.textContent = 'End date must be on or after start date.'; failView('dca', 'invalid'); return; }
+  const error = $('#form-error'); error.textContent = '';
+  if ($('#end-date').value < $('#start-date').value) { error.textContent = 'End date must be on or after start date.'; failView('dca', 'invalid'); return; }
   const contribution = Number($('#dca-contribution').value); if (!(contribution > 0)) { error.textContent = 'Enter a contribution greater than S$0.'; failView('dca', 'invalid'); return; }
-  const scenario = scenarioValues('dca');
-  const request = { security_id: securityComboboxValue('#dca-security'), contribution_sgd: $('#dca-contribution').value, frequency: $('#dca-frequency').value, start_date: $('#dca-start').value, end_date: $('#dca-end').value, ...scenario };
-  if (!request.security_id) { error.textContent = 'Choose a security from the published catalog.'; $('#dca-security')?.setAttribute('aria-invalid', 'true'); failView('dca', 'invalid'); return; }
+  const initial = $('#dca-initial').value;
+  if (initial === '' || !Number.isFinite(Number(initial)) || Number(initial) < 0) { error.textContent = 'Enter a non-negative initial lump sum.'; failView('dca','invalid'); return; }
+  const scenario = scenarioValues();
+  const request = { initial_sgd: initial, security_id: securityComboboxValue('#security-select'), contribution_sgd: $('#dca-contribution').value, frequency: $('#dca-frequency').value, start_date: $('#start-date').value, end_date: $('#end-date').value, ...scenario };
+  if (!request.security_id) { error.textContent = 'Choose a security from the published catalog.'; $('#security-select')?.setAttribute('aria-invalid', 'true'); failView('dca', 'invalid'); return; }
   const button = form.querySelector('button[type="submit"]');
   const previousEngineId = s4State.requestId;
   s4State.request = request; s4State.button = button; s4State.requestId = null;
@@ -999,7 +1036,7 @@ function renderPortfolio(payload, meta = {}) {
   const warnings = meta.warnings || [];
   const warningNote = warnings.length ? `<p class="detail-note" role="alert">Data warnings: ${escapeHtml(warnings.join(' '))}</p>` : '';
   const sourceNote = meta.source === 'local' ? '<p class="detail-note">Reconstructed locally in your browser from the published data packs.</p>' : '';
-  $('#portfolio-results').innerHTML = `<div class="analysis-output"><div class="output-kicker">AS OF ${escapeHtml(formatDate(result.as_of))}</div><h3>${formatMoney(result.total_market_value_sgd, 'SGD')}</h3><p>Mark-to-market portfolio value across ${result.holdings.length} holding${result.holdings.length === 1 ? '' : 's'}.</p><div class="holding-table-wrap"><table class="holding-table"><caption class="sr-only">Portfolio holdings as of ${escapeHtml(formatDate(result.as_of))}</caption><thead><tr><th scope="col">Ticker</th><th scope="col">Quantity</th><th scope="col">WAC</th><th scope="col">Native value</th><th scope="col">SGD value</th><th scope="col">Realised P/L</th><th scope="col">Unrealised P/L</th></tr></thead><tbody>${rows || '<tr><td colspan="7">No open holdings on this date.</td></tr>'}</tbody></table></div><p class="detail-note">Cash: ${Object.entries(result.cash_by_currency || {}).map(([currency, amount]) => `${formatMoney(amount, currency)}`).join(' · ') || 'none'} · Realised P/L: ${Object.entries(result.realized_pl_native || {}).map(([currency, amount]) => `${formatMoney(amount, currency)}`).join(' · ') || 'none'}.</p>${warningNote}${sourceNote}<p class="detail-note">Weighted-average cost is a reporting convention, not a Singapore capital-gains tax calculation.</p></div>`;
+  $('#portfolio-results').innerHTML = `<div class="analysis-output"><div class="output-kicker">AS OF ${escapeHtml(formatDate(result.as_of))}</div><h3>${formatMoney(result.total_market_value_sgd, 'SGD')}</h3><p>Mark-to-market portfolio value across ${result.holdings.length} holding${result.holdings.length === 1 ? '' : 's'}.</p><div class="holding-table-wrap"><table class="holding-table"><caption class="sr-only">Portfolio holdings as of ${escapeHtml(formatDate(result.as_of))}</caption><thead><tr><th scope="col">Ticker</th><th scope="col">Quantity</th><th scope="col">Average cost</th><th scope="col">Native value</th><th scope="col">SGD value</th><th scope="col">Realised P/L</th><th scope="col">Unrealised P/L</th></tr></thead><tbody>${rows || '<tr><td colspan="7">No open holdings on this date.</td></tr>'}</tbody></table></div><p class="detail-note">Cash: ${Object.entries(result.cash_by_currency || {}).map(([currency, amount]) => `${formatMoney(amount, currency)}`).join(' · ') || 'none'} · Realised P/L: ${Object.entries(result.realized_pl_native || {}).map(([currency, amount]) => `${formatMoney(amount, currency)}`).join(' · ') || 'none'}.</p>${warningNote}${sourceNote}<p class="detail-note">Weighted-average cost is a reporting convention, not a Singapore capital-gains tax calculation.</p></div>`;
 }
 
 function s5CollectLedgerRows() {
@@ -1077,8 +1114,8 @@ async function s7RunPortfolio({ mode = 'force' } = {}) {
 function wireEvents() {
   if (has('#mobile-nav-toggle')) $('#mobile-nav-toggle').addEventListener('click', () => { const menu = $('#mobile-nav'); const open = !menu.classList.contains('open'); menu.classList.toggle('hidden', !open); menu.classList.toggle('open', open); $('#mobile-nav-toggle').setAttribute('aria-expanded', String(open)); });
   $$('#mobile-nav a').forEach((link) => link.addEventListener('click', () => { $('#mobile-nav')?.classList.add('hidden'); $('#mobile-nav')?.classList.remove('open'); $('#mobile-nav-toggle')?.setAttribute('aria-expanded', 'false'); }));
-  ['#catalog-search', '#asset-filter', '#universe-filter', '#market-filter', '#currency-filter', '#distribution-filter', '#active-filter'].forEach((selector) => { if (has(selector)) $(selector).addEventListener('input', renderCatalog); });
-  if (has('#catalog-more')) $('#catalog-more').addEventListener('click', () => { state.catalogLimit = Math.min(state.catalogLimit + 100, 1000); renderCatalog(); });
+  ['#catalog-search', '#asset-filter', '#universe-filter', '#market-filter', '#currency-filter', '#distribution-filter', '#active-filter'].forEach((selector) => { if (has(selector)) $(selector).addEventListener('input', () => { state.catalogLimit = 12; renderCatalog(); }); });
+  if (has('#catalog-more')) $('#catalog-more').addEventListener('click', () => { state.catalogLimit = state.catalogLimit + 100; renderCatalog(); });
   if (has('#security-select')) $('#security-select').addEventListener('change', (event) => selectSecurity(securityComboboxValue(event.target)));
   if (has('#scenario-select')) $('#scenario-select').addEventListener('change', (event) => syncPreset(event.target.value));
   ['#dividends-toggle', '#tax-toggle', '#reinvest-toggle'].forEach((selector) => { if (has(selector)) $(selector).addEventListener('change', () => { if (has('#scenario-select')) $('#scenario-select').value = 'custom'; }); });
@@ -1093,7 +1130,7 @@ function wireEvents() {
   if (has('#warnings-toggle')) $('#warnings-toggle').addEventListener('click', () => { state.warningsOpen = !state.warningsOpen; renderQuality(state.artifact?.result?.data_quality || {}); });
   ['#dca-form', '#portfolio-form', '#compare-form'].forEach(sel => { if (has(sel)) $(sel).noValidate = true; });
   wireRequestEdits();
-  if (has('#return-to-demo')) $('#return-to-demo').addEventListener('click', async () => { const entry = entryForTicker('QQQ'); if (!entry) return; selectSecurity(entry.security.security_id); $('#initial-amount').value = '10000'; $('#start-date').value = '2024-01-02'; $('#end-date').value = '2025-01-02'; $('#scenario-select').value = 'investor'; syncPreset('investor'); $('#analysis-form').requestSubmit(); });
+  if (has('#return-to-demo')) $('#return-to-demo').addEventListener('click', async () => { const entry = entryForTicker('QQQ'); if (!entry) return; setSimulatorMode('one-time'); selectSecurity(entry.security.security_id); $('#initial-amount').value = '10000'; $('#start-date').value = '2024-01-02'; $('#end-date').value = '2025-01-02'; $('#scenario-select').value = 'investor'; syncPreset('investor'); $('#analysis-form').requestSubmit(); });
   if (has('#download-result')) $('#download-result').addEventListener('click', () => { if (!state.artifact) return; const blob = new Blob([JSON.stringify(state.artifact, null, 2)], { type: 'application/json' }); const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = `sg-invest-${state.artifact.result?.security?.ticker || 'analysis'}.json`; link.click(); URL.revokeObjectURL(link.href); });
   if (has('#copy-link')) $('#copy-link').addEventListener('click', copyAnalysisLink);
   if (has('#toggle-series-table')) $('#toggle-series-table').addEventListener('click', () => { const table = $('#series-table-wrap'); const button = $('#toggle-series-table'); const open = table.classList.toggle('hidden') === false; button.setAttribute('aria-expanded', String(open)); button.textContent = open ? 'Hide table' : 'View as table'; });
@@ -1104,6 +1141,7 @@ function wireEvents() {
 function applyAnalysisUrl() {
   const params = new URLSearchParams(window.location.search);
   if (!params.get('security_id') || !entryForId(params.get('security_id')) || !has('#analysis-form')) return;
+  setSimulatorMode('one-time');
   selectSecurity(params.get('security_id'));
   if (params.get('initial_sgd')) $('#initial-amount').value = params.get('initial_sgd');
   if (params.get('start_date')) $('#start-date').value = params.get('start_date');
@@ -1138,12 +1176,16 @@ async function init() {
   // to be silently lost (listeners did not exist yet).
   s5RestoreLedger();
   wireEvents();
+
+  initializeDiscovery();
+  initializeSimulator();
   initializeResultStates();
   setComputeMode(API_BASE ? 'adapter' : 'local');
   if (has('#data-date')) {
     const status = API_BASE ? await apiGet('/status').catch(() => loadJson('data/data-status.json', null)) : await loadJson('data/data-status.json', null);
-    $('#data-date').textContent = status?.backfill?.as_of ? formatDate(status.backfill.as_of) : '30 Aug 2026';
+    $('#data-date').textContent = status?.backfill?.as_of ? formatDate(status.backfill.as_of) : 'Not published';
   }
+  initWorkspace((name, legacy) => { if (name === 'methods') renderSecurityMethods(); if (legacy === 'explore') $('.discovery').open = true; if (legacy === 'dca') setSimulatorMode('regular'); });
   applyAnalysisUrl();
 }
 
@@ -1340,6 +1382,7 @@ async function s4DcaViaPacks(request, { previousEngineId = null, isCurrent = () 
     start_date: request.start_date,
     end_date: request.end_date,
     contribution_sgd: String(request.contribution_sgd),
+    initial_sgd: String(request.initial_sgd || '0'),
     frequency: request.frequency,
     scenario: { dividends_enabled: request.dividends !== false, withholding_tax_enabled: request.withholding !== false, reinvest_dividends: request.reinvest !== false },
   };
@@ -1357,7 +1400,7 @@ async function s4DcaViaPacks(request, { previousEngineId = null, isCurrent = () 
     const envelope = await promise;
     if (id !== s4State.requestId) return null;
     const manifest = await origin.loadManifest();
-    return { envelope, context: { support, packWarnings: inputs.warnings || [], coverage: coverageFromInputs(entry, inputs, manifest) } };
+    return { envelope, context: { support, packWarnings: inputs.warnings || [], coverage: coverageFromInputs(entry, inputs, manifest), series: s6SeriesFromInputs(inputs, request) } };
   } catch (engineError) {
     if (id !== s4State.requestId) return null;
     throw new Error(s4EngineErrorMessage(engineError));
@@ -1526,12 +1569,118 @@ function initializeResultStates() {
 }
 
 function wireRequestEdits() {
-  Object.keys(resultViews).forEach(kind => {
-    const form = $(`#${kind}-form`);
-    if (!form) return;
-    ['input', 'change'].forEach(type => form.addEventListener(type, event => {
-      if (!event.target.matches('input, select, textarea')) return;
-      editView(kind);
+  ['analysis','compare','portfolio'].forEach(kind => {
+    const form = viewForm(kind); if (!form) return;
+    ['input','change'].forEach(type => form.addEventListener(type,event => {
+      if (!event.target.matches('input,select,textarea')) return;
+      if (kind !== 'analysis') { editView(kind); if(kind==='compare')saveComparisonDraft(); return; }
+      const id = event.target.id;
+      if (id !== 'initial-amount') editView('dca');
+      if (!['dca-initial','dca-contribution','dca-frequency'].includes(id)) editView('analysis');
+      updateAssumptions(); saveSimulatorDraft();
     }));
   });
+}
+
+function universeLabel(value) {
+  return ({ sgx_active: 'Singapore listings', sp500_current: 'S&P 500', nasdaq100_current: 'Nasdaq 100', russell2000_current: 'Russell 2000', major_global_etfs: 'Global ETFs', ui_fixture: 'Test catalog' })[value] || titleCase(value);
+}
+
+function discoveryCoverage(id) {
+  const entry = state.discoveryManifest?.securities?.find(item => item.security_id === id);
+  if (!entry) return 'Coverage not published in the available manifest';
+  const years = Object.values(entry.years || {});
+  const first = entry.first_date || years.map(y => y.first_date).filter(Boolean).sort()[0];
+  const last = entry.last_date || years.map(y => y.last_date).filter(Boolean).sort().at(-1);
+  return `${titleCase(entry.status || 'unknown')} · ${first || entry.first_year || 'unknown'} → ${last || entry.last_year || 'unknown'}`;
+}
+
+function clearSelectionMetadata(input) {
+  if (input.id === 'security-select') {
+    $('#security-hint').textContent = 'Search text is not a selected security. Choose a result.';
+    ['#security-domicile','#security-isin','#security-expense'].forEach(sel => { $(sel).textContent = '—'; });
+  }
+  if (input.id === 'methods-security') $('#security-methods').textContent = 'Choose a search result to see security-specific data.';
+}
+
+async function renderSecurityMethods() {
+  if (!has('#security-methods')) return;
+  const id = securityComboboxValue('#methods-security');
+  const entry = entryForId(id);
+  if (!entry) { $('#security-methods').textContent = 'Choose a security to inspect its published coverage and sources.'; return; }
+  const security = entry.security;
+  const manifest = state.discoveryManifest;
+  const text = `${security.ticker} · ${security.name} · ${security.exchange} · ${security.currency}`;
+  $('#security-methods').innerHTML = `<h3>${escapeHtml(text)}</h3><p>${escapeHtml(discoveryCoverage(id))}</p><dl class="methods-facts"><dt>Distribution policy</dt><dd>${escapeHtml(titleCase(security.distribution_policy || 'unknown'))}</dd><dt>Published source</dt><dd>${escapeHtml(manifest?.source || 'Not published')}</dd><dt>Snapshot</dt><dd>${escapeHtml(manifest?.data_snapshot_id || 'Not published')}</dd><dt>Generated</dt><dd>${escapeHtml(manifest?.generated_at || 'Not published')}</dd><dt>Assumptions</dt><dd>Daily unadjusted closes; purchase resolves forward, valuation backward. FX is SGD per unit of foreign currency. Investor-level withholding and reinvestment follow your selected assumptions.</dd></dl><p>Coverage describes available observations, not a promise of complete history. Review result warnings for missing or stale data. ETF expense ratio is metadata; no extra TER is deducted.</p>`;
+}
+
+function initializeDiscovery() {
+  $$('.form-combobox input').forEach(input => {
+    if (input.closest('[data-combobox]').querySelector('[data-clear-security]')) return;
+    const clear = document.createElement('button'); clear.type = 'button'; clear.className = 'text-button clear-selection'; clear.dataset.clearSecurity = input.id; clear.textContent = 'Clear selection';
+    clear.addEventListener('click', () => { input.value = ''; delete input.dataset.securityId; clearSelectionMetadata(input); input.dispatchEvent(new Event('input',{bubbles:true})); input.focus(); });
+    input.closest('[data-combobox]').append(clear);
+  });
+  $('#methods-security')?.addEventListener('change', renderSecurityMethods);
+  $('#reset-search')?.addEventListener('click', () => {
+    $('#catalog-search').value = ''; ['asset','universe','market','currency','distribution','active'].forEach(name => { $(`#${name}-filter`).value = name === 'active' ? 'active' : 'all'; }); state.catalogLimit = 12; renderCatalog(); $('#catalog-search').focus();
+  });
+  (async () => {
+    for (const loader of [packs,packsRemote].filter(Boolean)) {
+      try { state.discoveryManifest = await loader.loadManifest(); break; } catch { /* Explicit unknown coverage if neither origin responds. */ }
+    }
+    renderCatalog(); renderSecurityMethods();
+  })();
+}
+
+
+function setSimulatorMode(mode) {
+  if (mode !== state.simulatorMode && resultViews[activeSimulatorKind()].phase === 'loading') editView(activeSimulatorKind());
+  state.simulatorMode=mode==='regular'?'regular':'one-time';
+  const regular=state.simulatorMode==='regular';
+  $('#form-error').textContent = resultViews[activeSimulatorKind()].error || '';
+  $('#regular-inputs').hidden=!regular; $('#one-time-inputs').hidden=regular;
+  $('#dca-results').hidden=!regular;
+  $('#result-content').classList.toggle('hidden',regular||!state.artifact);
+  $('#result-empty').classList.toggle('hidden',regular||Boolean(state.artifact));
+  $('#artifact-unavailable').classList.add('hidden');
+  $$('[data-investing-mode]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.investingMode===state.simulatorMode)));
+  renderViewState('analysis');renderViewState('dca'); saveSimulatorDraft();
+}
+function updateAssumptions() {
+  const values=scenarioValues();
+  $('#assumptions-summary').textContent=`Dividends ${values.dividends?'on':'off'} · Withholding ${values.withholding?'on':'off'} · Reinvestment ${values.reinvest?'on':'off'} · Edit assumptions`;
+  const security=entryForId(securityComboboxValue('#security-select'))?.security;
+  $('#distribution-explanation').textContent=security?.distribution_policy==='accumulating'?'Accumulating funds retain distributions internally; investor cash dividends are not invented.':security?.distribution_policy==='distributing'?'Distributing security: dividend events follow the selected assumptions.':'Distribution policy unknown; review data notes before interpreting dividends.';
+}
+const SIMULATOR_DRAFT='sg-invest-simulator-draft-v1';
+function saveSimulatorDraft() {
+  try { const fields={}; ['security-select','initial-amount','start-date','end-date','dca-initial','dca-contribution','dca-frequency'].forEach(id=>{fields[id]=$(`#${id}`).value;});fields.securityId=securityComboboxValue('#security-select');fields.mode=state.simulatorMode;fields.scenario=scenarioValues();sessionStorage.setItem(SIMULATOR_DRAFT,JSON.stringify(fields)); } catch { /* Draft persistence is optional; ledger storage is unchanged. */ }
+}
+function initializeSimulator() {
+  try { const draft=JSON.parse(sessionStorage.getItem(SIMULATOR_DRAFT)||'null');if(draft){Object.entries(draft).forEach(([id,value])=>{const el=document.getElementById(id);if(el&&typeof value==='string')el.value=value;});if(entryForId(draft.securityId))selectSecurity(draft.securityId);if(draft.scenario){$('#dividends-toggle').checked=draft.scenario.dividends;$('#tax-toggle').checked=draft.scenario.withholding;$('#reinvest-toggle').checked=draft.scenario.reinvest;}state.simulatorMode=draft.mode==='regular'?'regular':'one-time';} } catch { /* Ignore an invalid local draft. */ }
+  $$('[data-investing-mode]').forEach(button=>button.addEventListener('click',()=>setSimulatorMode(button.dataset.investingMode)));
+  $('#use-covered-dates').addEventListener('click',()=>{const id=securityComboboxValue('#security-select');const entry=state.discoveryManifest?.securities?.find(s=>s.security_id===id);const dates=Object.values(entry?.years||{});let first=entry?.first_date||dates.map(y=>y.first_date).filter(Boolean).sort()[0];let last=entry?.last_date||dates.map(y=>y.last_date).filter(Boolean).sort().at(-1);const currency=entryForId(id)?.security.currency;const fx=state.discoveryManifest?.fx?.coverage?.[currency];if(currency!=='SGD'){if(!fx?.first_date||!fx?.last_date){$('#preset-coverage-note').textContent='Usable FX coverage is not published. Enter dates and review result warnings.';return;}first=[first,fx.first_date].filter(Boolean).sort().at(-1);last=[last,fx.last_date].filter(Boolean).sort()[0];}if(!first||!last||first>last||entry.status==='unavailable'){$('#preset-coverage-note').textContent='Published usable history is unavailable. Enter dates and review result coverage.';return;}$('#start-date').value=first;$('#end-date').value=last;$('#preset-coverage-note').textContent=`Published security history ${first} → ${last}. FX availability is checked when calculating.`;editView('analysis');editView('dca');saveSimulatorDraft();});
+  $('#simulator-to-compare').addEventListener('click',copySimulatorToComparison);
+  try {const draft=JSON.parse(sessionStorage.getItem('sg-invest-compare-draft-v1')||'null');if(draft){state.compareTickers=draft.ids.filter(id=>entryForId(id));state.compareCopiedScenario=draft.copiedScenario;['amount','start','end','scenario'].forEach(name=>{$(`#compare-${name}`).value=draft[name];});renderCompareChips();}}catch{}
+  updateAssumptions();setSimulatorMode(state.simulatorMode);
+}
+function copySimulatorToComparison() {
+  const note=$('#comparison-handoff-note');
+  if(state.simulatorMode==='regular'){note.textContent='Compare supports one-time investments. Your regular contributions remain in the simulator.';return;}
+  const id=securityComboboxValue('#security-select');if(!entryForId(id)){note.textContent='Choose a security before copying the setup.';return;}
+  state.compareTickers=[id];renderCompareChips();
+  $('#compare-amount').value=$('#initial-amount').value;$('#compare-start').value=$('#start-date').value;$('#compare-end').value=$('#end-date').value;
+  const assumptions=scenarioValues();state.compareCopiedScenario={...assumptions};$('#compare-scenario').value='custom';
+  editView('compare');saveComparisonDraft();note.textContent='Copied your security, one-time capital, requested dates and assumptions. Choose another security in Compare.';
+  $('#compare-error').textContent=note.textContent;location.hash='compare';
+}
+function downloadCompleted(kind) {
+  const view=resultViews[kind];if(!view.artifact)return;
+  const content={request:view.request,result:view.artifact.result||view.artifact,data_snapshot_id:state.dcaContext.coverage?.snapshotId||view.artifact.data_snapshot_id,methodology_version:(view.artifact.result||view.artifact).methodology?.methodology_version||'1.0'};
+  const blob=new Blob([JSON.stringify(content,null,2)],{type:'application/json'});const link=document.createElement('a');link.href=URL.createObjectURL(blob);link.download=`sg-invest-${kind}-result.json`;link.click();URL.revokeObjectURL(link.href);
+}
+
+function saveComparisonDraft() {
+  try { const draft={ids:[...state.compareTickers]};['amount','start','end','scenario'].forEach(name=>{draft[name]=$(`#compare-${name}`).value;});draft.copiedScenario=state.compareCopiedScenario;sessionStorage.setItem('sg-invest-compare-draft-v1',JSON.stringify(draft)); } catch {}
 }
