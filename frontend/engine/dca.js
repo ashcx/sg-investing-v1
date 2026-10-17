@@ -87,6 +87,7 @@ export function dcaAnalysis({
   startDate,
   endDate,
   contributionSgd,
+  initialSgd = '0',
   frequency = DcaFrequency.MONTHLY,
   scenario,
   dividends = [],
@@ -95,6 +96,8 @@ export function dcaAnalysis({
 }) {
   const activeScenario = normalizeScenario(scenario);
   const contribution = dec(contributionSgd);
+  const initial = dec(initialSgd);
+  if (!initial.isFinite() || initial.lt(0)) throw new EngineValueError('initial_sgd must be finite and non-negative.');
   if (contribution.lte(0)) throw new EngineValueError('contribution_sgd must be greater than zero.');
   if (endDate < startDate) throw new EngineValueError('end_date must not precede start_date.');
   const priceRows = sortedPrices(prices, security);
@@ -114,6 +117,7 @@ export function dcaAnalysis({
   }
 
   const contributionsByDate = new Map(purchaseDates.map((date) => [date, contribution]));
+  contributionsByDate.set(purchaseDates[0], contribution.plus(initial));
   const warnings = [];
   const suppliedDividends = dividends.filter((event) => event.security_id === security.security_id);
   const dividendValidation = validateDividends(suppliedDividends);
@@ -228,11 +232,12 @@ export function dcaAnalysis({
   const endFx = rateForDate(security.currency, valuation.trading_date, fxRates);
   const finalValueForeignCurrency = shares.times(dec(valuation.close)).plus(cashDividends);
   const finalValue = finalValueForeignCurrency.times(endFx);
-  const total = contribution.times(dec(purchaseDates.length));
+  const total = contribution.times(dec(purchaseDates.length)).plus(initial);
   const contributionsForeignCurrency = purchaseDates.map(
     (purchaseDate) => contribution.div(rateForDate(security.currency, purchaseDate, fxRates)),
   );
-  const totalForeignCurrency = sumDecimals(contributionsForeignCurrency);
+  const initialForeign = initial.div(rateForDate(security.currency, purchaseDates[0], fxRates));
+  const totalForeignCurrency = sumDecimals(contributionsForeignCurrency).plus(initialForeign);
 
   return {
     security,
@@ -244,15 +249,18 @@ export function dcaAnalysis({
     gain_loss_sgd: finalValue.minus(total),
     gain_loss_foreign_currency: finalValueForeignCurrency.minus(totalForeignCurrency),
     xirr: xirr([
+      ...(initial.isZero() ? [] : [[purchaseDates[0], initial.neg()]]),
       ...purchaseDates.map((date) => [date, contribution.neg()]),
       [valuation.trading_date, finalValue],
     ]),
     xirr_foreign_currency: xirr([
+      ...(initial.isZero() ? [] : [[purchaseDates[0], initialForeign.neg()]]),
       ...purchaseDates.map((date, i) => [date, contributionsForeignCurrency[i].neg()]),
       [valuation.trading_date, finalValueForeignCurrency],
     ]),
     shares,
     methodology: {
+      ...(initial.isZero() ? {} : { initial_lump_sum_sgd: initial.toString(), initial_purchase_date: purchaseDates[0], methodology_version: '1.1' }),
       contribution_timing: 'first_available_trading_day_of_period',
       cost_basis: 'weighted_average_not_applicable_to_dca_return',
       dividend_reinvestment: activeScenario.reinvest_dividends,

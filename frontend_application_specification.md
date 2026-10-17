@@ -753,3 +753,34 @@ Reduced-motion preference disables animated transitions and smooth scrolling.
 Use Simulator, Compare investments, My portfolio, Data & methods, Calculate,
 Update results, Currency, Average cost, and Dividend details. Advanced return
 terms are explained in the owning simulator/portfolio workflow.
+
+## Sprint 11 simulator contract and methodology amendment
+
+One mounted simulator form owns a selected security, requested dates and
+assumption switches. One-time capital is retained separately from initial lump
+sum and recurring amount/frequency. Explicit mode buttons preserve those values;
+shared edits invalidate both applicable results and amount-only edits invalidate
+their own mode. Switching away from a loading mode invalidates its outstanding
+response. Errors, completed requests, price data and display currency remain
+per mode. Session storage retains drafts only; reload starts with empty results,
+never old numbers presented as current. The existing ledger store is unchanged.
+
+DCA requests accept optional `initial_sgd` (decimal string), Python accepts
+`initial_sgd=0`, and JS accepts `initialSgd='0'`. Initial capital is bought once
+at the resolved first purchase date, additional to the first recurring payment.
+Recurring contribution dates/count remain unchanged. Total capital, native
+capital, shares and dated cash flows include the lump sum. Zero/omitted amounts
+preserve the old result shape and methodology; nonzero methodology adds the
+initial amount/date and version 1.1. The worker change is additive and optional;
+existing request keys include this field through the existing canonical payload.
+
+Price charts show one display currency at a time with numeric/date axes and a
+matching data table. They are explicitly price history, not wealth or total
+return. A narrow screen can scroll the chart horizontally; the table remains
+an alternative. CAGR and XIRR are explained as different return measures.
+
+Comparison handoff is explicit and one-time only. It copies security, capital,
+requested dates and exact assumptions; adding/editing comparison inputs cannot
+mutate the simulator draft/result. Regular-mode handoff explains the limitation
+and stays in the simulator. Separate session drafts preserve this independence
+on navigation/reload. Preset dates use published security/FX coverage only.

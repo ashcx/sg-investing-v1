@@ -58,6 +58,13 @@ class FrontendAdapterContractTests(unittest.TestCase):
         self.assertGreater(len(series["result"]["points"]), 200)
         dca = self.service.dca({**self._params(), "contribution_sgd": ["500"], "frequency": ["monthly"]})
         self.assertIn("xirr", dca["result"])
+        self.assertEqual(dca["result"]["methodology"]["initial_lump_sum_sgd"], "10000")
+        pure = self.service.dca({**self._params(), "initial_sgd": ["0"],
+                                 "contribution_sgd": ["500"], "frequency": ["monthly"]})
+        self.assertEqual(
+            float(dca["result"]["total_contributed_sgd"])
+            - float(pure["result"]["total_contributed_sgd"]), 10000,
+        )
         compare = self.service.compare({**self._params(), "tickers": ["QQQ,SMH,SOXX"]})
         self.assertEqual(len(compare["results"]), 3)
 
