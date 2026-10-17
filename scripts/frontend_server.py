@@ -225,6 +225,7 @@ class FrontendDataService:
             start_date=start,
             end_date=end,
             contribution_sgd=_one(params, "contribution_sgd", "500"),
+            initial_sgd=_one(params, "initial_sgd", "0"),
             frequency=DcaFrequency(_one(params, "frequency", "monthly")),
             scenario=scenario,
             dividends=self.dividends(security, years),

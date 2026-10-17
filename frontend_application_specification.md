@@ -724,3 +724,63 @@ result, or be omitted. Previous output includes its original input summary;
 JSON, CSV and share controls explicitly identify that previous request.
 Coverage and warnings are attached to the completed request and survive display
 currency changes. No latest-coverage date is invented if not published.
+
+## Sprint 10 workspace contract — frozen 15 October 2026
+
+The four destinations are #simulator (default), #compare, #portfolio, #methods.
+Only one workspace is active. #home/#analyse/#explore map to Simulator;
+#dca maps to regular investing within Simulator; #methodology maps to Methods.
+Routes use the URL hash, supporting direct entry, reload, Back and Forward.
+The skip link focuses main without replacing the current route. Mobile menu
+is a button with aria-expanded and keyboard-operable links. View navigation
+preserves mounted form/result state; it does not calculate or alter inputs.
+Search matches ticker/name/ISIN and listing identity, with bounded pagination,
+reset, clear selection and usable-history metadata. Uncommitted text has no
+selected security metadata. Coverage is fetched from published manifests and
+is explicitly unknown if metadata is unavailable; catalog presence is not proof
+of supported prices. User IDs and text are escaped when rendered.
+Share links describe requests recalculated against currently available packs;
+exports retain the metadata of the snapshot actually used. URL snapshot IDs
+alone do not load or guarantee a historical snapshot.
+
+### Shared visual tokens and glossary (Sprint 10)
+
+Page/card/dark surfaces: #f3f5f2 / #fffefa / #17263b; main/muted/on-dark text:
+#142237 / #526277 / #eef3fa; focus ring #376fd0. Spacing uses an 8px base,
+forms use readable 13px labels, and interactive focus is visible. Below 900px,
+analysis stacks; below 650px, navigation collapses and form grids use one column.
+Reduced-motion preference disables animated transitions and smooth scrolling.
+Use Simulator, Compare investments, My portfolio, Data & methods, Calculate,
+Update results, Currency, Average cost, and Dividend details. Advanced return
+terms are explained in the owning simulator/portfolio workflow.
+
+## Sprint 11 simulator contract and methodology amendment
+
+One mounted simulator form owns a selected security, requested dates and
+assumption switches. One-time capital is retained separately from initial lump
+sum and recurring amount/frequency. Explicit mode buttons preserve those values;
+shared edits invalidate both applicable results and amount-only edits invalidate
+their own mode. Switching away from a loading mode invalidates its outstanding
+response. Errors, completed requests, price data and display currency remain
+per mode. Session storage retains drafts only; reload starts with empty results,
+never old numbers presented as current. The existing ledger store is unchanged.
+
+DCA requests accept optional `initial_sgd` (decimal string), Python accepts
+`initial_sgd=0`, and JS accepts `initialSgd='0'`. Initial capital is bought once
+at the resolved first purchase date, additional to the first recurring payment.
+Recurring contribution dates/count remain unchanged. Total capital, native
+capital, shares and dated cash flows include the lump sum. Zero/omitted amounts
+preserve the old result shape and methodology; nonzero methodology adds the
+initial amount/date and version 1.1. The worker change is additive and optional;
+existing request keys include this field through the existing canonical payload.
+
+Price charts show one display currency at a time with numeric/date axes and a
+matching data table. They are explicitly price history, not wealth or total
+return. A narrow screen can scroll the chart horizontally; the table remains
+an alternative. CAGR and XIRR are explained as different return measures.
+
+Comparison handoff is explicit and one-time only. It copies security, capital,
+requested dates and exact assumptions; adding/editing comparison inputs cannot
+mutate the simulator draft/result. Regular-mode handoff explains the limitation
+and stays in the simulator. Separate session drafts preserve this independence
+on navigation/reload. Preset dates use published security/FX coverage only.
