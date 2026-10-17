@@ -4,6 +4,10 @@ Operator procedures for keeping the canonical store (`data/`, LFS-tracked)
 and the browser packs (`frontend/data/packs/`, gitignored, built) current.
 The update contract itself is documented in `docs/incremental-updates.md`.
 
+Commands that build scoped packs require a complete pack baseline from the
+same reviewed canonical checkout. In a clean checkout, use `--no-build-packs`
+and build the full set after validation; see the recovery contract below.
+
 Three update paths exist:
 
 | Path | Command | Duration | Use |
@@ -56,8 +60,8 @@ python scripts/update_incremental.py --since "$(date -d '-10 days' +%F)"
 - gap backfill (`--since`) also fills missing mid-range price/FX dates; new
   FX rates that land inside existing price coverage invalidate the affected
   packs automatically;
-- leave corporate actions ON for the sweep (`--skip-actions` is meant for
-  the daily run if provider latency becomes a problem).
+- leave corporate actions ON. `--skip-actions` is an explicit diagnostic-only
+  omission; such a run is incomplete and cannot produce a publication artifact.
 
 ## Manual full rebuild
 

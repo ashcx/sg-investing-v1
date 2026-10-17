@@ -288,3 +288,18 @@ counts to long-running price/event journals. Final Python battery: 248 passed,
 8 opt-in smoke deselected in 6.60s; changed-file Ruff passed. Prior browser-engine
 and generated-pack checks remain valid: neither engine nor committed snapshot
 changed. Next: full-universe live run on another disposable copied snapshot.
+
+
+Recovery draft PR published: https://github.com/ashcx/sg-investing-v1/pull/5
+Branch `codex/recover-incremental-updates`, initial head e217145. Local full-
+universe run remains active on its disposable copy; no success or restored
+schedule is claimed. Separate Sprint 12–15 PRs remain pending the required
+prerequisite and human review gates.
+
+
+PR #5 initial head e217145: all six GitHub checks passed. Subsequent self-review
+also added always-attempted diagnostic retention and an explicit incomplete-
+artifact guard to the manual full-refresh workflow; its prior script can report
+failed listings while returning zero. Focused incremental/workflow tests: 30
+passed in 2.28s. No runtime code changed after the final 248-test battery.
+Full-universe local verification remains active on the disposable copy.
