@@ -1,0 +1,18 @@
+
+== Decimal exactness
+
+== Trading-day calendar and price resolution rules
+
+== Purchase/valuation date rules and FX
+
+== Dividend handling
+
+== Splits and corporate actions
+
+== DCA schedules and XIRR
+
+== Portfolio weighted-average cost reconstruction
+
+== Python envelope parity (model_dump(mode="json") shapes)
+
+==== SELFTEST SUMMARY: PASS 68 / FAIL 0 ==== all checks green

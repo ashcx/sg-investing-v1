@@ -1,0 +1,119 @@
+{
+  "mode": "incremental",
+  "generated_at": "2026-10-17T23:03:49+00:00",
+  "since": "auto",
+  "end_date": "2026-10-17",
+  "reconciliation_days": 45,
+  "pipeline_version": "0.1.0",
+  "provider": "yahoo_finance",
+  "provider_telemetry": {
+    "requests": 9,
+    "retries": 0,
+    "circuit_reason": null,
+    "elapsed_seconds": 8.094
+  },
+  "skipped_datasets": [],
+  "securities_selected_count": 3,
+  "full_history_fetch_securities": [],
+  "base_data_snapshot_id": "sha256-1b3f233b465d55a708c06b07a590bde9f5ed336b225c796407604713e7b8f58b",
+  "data_snapshot_id": "sha256-bfde6febcf66ee25409cde1d4ad9c498aafb2474e8abbf144ee6236d8f3163d4",
+  "store_content_hash_unchanged": false,
+  "incremental_snapshot_id": "incr-4abdf29bcbd5e611ebe46885d3a1ea99",
+  "changed_securities": [
+    "2a5195cd-7534-5c3d-bc3e-17afedf92e03",
+    "68abbb5a-81d0-4035-973a-98135bbeccf9",
+    "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b"
+  ],
+  "changed_years": {
+    "2026": [
+      "2a5195cd-7534-5c3d-bc3e-17afedf92e03",
+      "68abbb5a-81d0-4035-973a-98135bbeccf9",
+      "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b"
+    ]
+  },
+  "price_rows_fetched": 141,
+  "price_batch_size_limit": 32,
+  "max_price_comparison_keys": 69,
+  "price_dates_new": 74,
+  "price_dates_restated": 0,
+  "dividend_events_new_or_restated": 1,
+  "dividend_events_restated": 0,
+  "corporate_actions_new_or_restated": 0,
+  "corporate_actions_restated": 0,
+  "corporate_action_errors": {},
+  "fx_rows_new_or_restated": 0,
+  "fx_rows_restated": 0,
+  "fx_fetch_errors": {
+    "USD": "Provider returned FX date 2026-10-18 outside requested range."
+  },
+  "updated": 3,
+  "warnings": 0,
+  "failed": 0,
+  "dividend_coverage_warnings": [],
+  "dividend_updates": [
+    {
+      "security_id": "2a5195cd-7534-5c3d-bc3e-17afedf92e03",
+      "ticker": "ES3.SI",
+      "start_date": "2026-07-17",
+      "end_date": "2026-10-17",
+      "status": "data_available",
+      "rows_fetched": 1,
+      "error": null
+    },
+    {
+      "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+      "ticker": "QQQ",
+      "start_date": "2026-07-17",
+      "end_date": "2026-10-17",
+      "status": "data_available",
+      "rows_fetched": 1,
+      "error": null
+    },
+    {
+      "security_id": "68abbb5a-81d0-4035-973a-98135bbeccf9",
+      "ticker": "VALL.SW",
+      "start_date": "2000-01-01",
+      "end_date": "2026-10-17",
+      "status": "known_accumulating",
+      "rows_fetched": 0,
+      "error": null
+    }
+  ],
+  "fx_rows_written": 0,
+  "provider_warnings": {},
+  "results": [
+    {
+      "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+      "ticker": "QQQ",
+      "status": "OK",
+      "start_date": "2026-07-13",
+      "end_date": "2026-10-17",
+      "rows_written": 69,
+      "error": null,
+      "partitions_written": 1
+    },
+    {
+      "security_id": "68abbb5a-81d0-4035-973a-98135bbeccf9",
+      "ticker": "VALL.SW",
+      "status": "OK",
+      "start_date": "2026-07-13",
+      "end_date": "2026-10-17",
+      "rows_written": 3,
+      "error": null,
+      "partitions_written": 1
+    },
+    {
+      "security_id": "2a5195cd-7534-5c3d-bc3e-17afedf92e03",
+      "ticker": "ES3.SI",
+      "status": "OK",
+      "start_date": "2026-07-13",
+      "end_date": "2026-10-17",
+      "rows_written": 69,
+      "error": null,
+      "partitions_written": 1
+    }
+  ],
+  "packs": null,
+  "complete": false,
+  "publication_status": "incomplete"
+}
