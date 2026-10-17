@@ -48,7 +48,12 @@ from sg_investing.data.ingestion import (
     SecurityUpdateResult,
     update_fx_rates,
 )
-from sg_investing.data.providers.base import MarketDataProvider
+from sg_investing.data.packs import METHODOLOGY_VERSION, PACK_SCHEMA_VERSION, load_catalog_snapshot
+from sg_investing.data.providers.base import (
+    MarketDataProvider,
+    UnavailableObservation,
+    provider_error_message,
+)
 from sg_investing.data.providers.guarded import GuardedProvider
 from sg_investing.data.providers.yahoo import YahooFinanceProvider
 from sg_investing.data.storage import ParquetStore
@@ -478,7 +483,7 @@ def _fetch_price_rows(
                             provider.get_prices(plan.security, plan.price_start, end_date)
                         )
                     except Exception as error:  # noqa: BLE001 - retain per-security failure
-                        errors[str(plan.security.security_id)] = str(error)
+                        errors[str(plan.security.security_id)] = provider_error_message(error)
             for plan in batch:
                 security_id = str(plan.security.security_id)
                 rows = rows_by_security.get(security_id, [])
@@ -523,7 +528,7 @@ def _fetch_action_rows(
             try:
                 rows.extend(future.result())
             except Exception as error:  # noqa: BLE001 - retain failure per security
-                errors[security_id] = str(error)
+                errors[security_id] = provider_error_message(error)
             if progress and (index % 32 == 0 or index == len(futures)):
                 progress(index, len(futures))
     return rows, errors
@@ -660,6 +665,10 @@ def _require_complete_pack_baseline(root: Path, selected_catalog: UniverseCatalo
         raise ValueError("Scoped pack rebuild requires a complete baseline. Build full packs first "
                          "or use --no-build-packs and rebuild full packs before publication.")
     manifest = json.loads(path.read_text(encoding="utf-8"))
+    if (manifest.get("schema_version") != PACK_SCHEMA_VERSION
+            or manifest.get("methodology_version") != METHODOLOGY_VERSION
+            or manifest.get("catalog_version") != load_catalog_snapshot(root).version):
+        raise ValueError("Pack baseline has incompatible catalog, schema or methodology; rebuild it.")
     scope = manifest.get("scope", {})
     if any(scope.get(key) is not None for key in ("security_ids", "markets", "years")):
         raise ValueError("Scoped/filtered pack baseline is not a complete canonical baseline.")
@@ -667,6 +676,15 @@ def _require_complete_pack_baseline(root: Path, selected_catalog: UniverseCatalo
     actual = {entry["security_id"] for entry in manifest.get("securities", [])}
     if not expected <= actual:
         raise ValueError("Pack baseline omits catalog securities; rebuild full packs first.")
+    actual_pairs = {(entry["security_id"], int(year))
+                    for entry in manifest.get("securities", []) for year in entry.get("years", {})}
+    # Unique identifiers per partition keep this proof bounded; no OHLCV rows
+    # are materialized, and priced-but-uncatalogued entries remain included.
+    for price_path in sorted((root / "data" / "prices").glob("market=*/year=*.parquet")):
+        year = int(price_path.stem.split("=")[1])
+        security_ids = pq.read_table(price_path, columns=["security_id"]).column("security_id").unique()
+        if any((security_id, year) not in actual_pairs for security_id in security_ids.to_pylist()):
+            raise ValueError("Pack baseline omits a canonical security/year; rebuild full packs first.")
     for entry in manifest.get("securities", []):
         for detail in entry.get("years", {}).values():
             pack = (pack_root / detail["pack"]).resolve()
@@ -1013,7 +1031,9 @@ def run_incremental_update(
                 SecurityUpdateResult(
                     security_id=security_id,
                     ticker=item.security.ticker,
-                    status=DataQualityStatus.FAILED,
+                    status=(DataQualityStatus.WARNING
+                            if isinstance(batch_errors[security_id], UnavailableObservation)
+                            else DataQualityStatus.FAILED),
                     start_date=item.price_start,
                     end_date=end,
                     rows_written=0,
@@ -1098,14 +1118,30 @@ def run_incremental_update(
         ],
         "packs": packs_payload,
     }
-    dividend_errors = [result for result in dividend_results if result.error]
+    unavailable_prices = {key: value for key, value in batch_errors.items()
+                          if isinstance(value, UnavailableObservation)}
+    unavailable_actions = {key: value for key, value in action_errors.items()
+                           if isinstance(value, UnavailableObservation)}
+    unavailable_dividends = {result.security_id: result.error for result in dividend_results
+                             if result.provider_unavailable}
+    summary["unavailable_windows"] = {
+        "prices": unavailable_prices, "dividends": unavailable_dividends,
+        "corporate_actions": unavailable_actions,
+    }
+    dividend_errors = [result for result in dividend_results
+                       if result.error and not result.provider_unavailable]
     summary["complete"] = not (
-        summary["failed"] or summary["warnings"] or dividend_errors or action_errors or fx_errors
+        not summary["updated"] or summary["failed"]
+        or summary["warnings"] > len(unavailable_prices)
+        or dividend_errors or len(action_errors) > len(unavailable_actions) or fx_errors
         or summary["skipped_datasets"]
         or (packs_payload and packs_payload.get("error"))
         or (isinstance(provider, GuardedProvider) and provider.circuit_reason)
     )
-    summary["publication_status"] = "ready_for_review" if summary["complete"] else "incomplete"
+    summary["publication_status"] = (
+        ("ready_for_review_with_unavailable" if any(summary["unavailable_windows"].values())
+         else "ready_for_review") if summary["complete"] else "incomplete"
+    )
     (root_path / "data" / "update_summary.json").write_text(
         json.dumps(summary, indent=2), encoding="utf-8"
     )

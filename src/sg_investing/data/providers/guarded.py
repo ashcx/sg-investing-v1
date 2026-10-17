@@ -5,6 +5,8 @@ from __future__ import annotations
 import time
 from threading import Lock
 
+from sg_investing.data.providers.base import ProviderHistoryUnavailable
+
 
 class ProviderCircuitOpen(RuntimeError):
     """No further provider traffic is allowed in this run."""
@@ -57,6 +59,8 @@ class GuardedProvider:
                 try:
                     return getattr(self.provider, method)(*args)
                 except Exception as error:
+                    if isinstance(error, ProviderHistoryUnavailable):
+                        raise
                     text = f"{type(error).__name__}: {error}".lower()
                     if any(term in text for term in ("ratelimit", "rate limit", "too many requests", "429")):
                         self.circuit_reason = "Provider rate limit detected; remaining queries were not sent."

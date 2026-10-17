@@ -301,3 +301,18 @@ def test_fx_provider_filters_vendor_rows_beyond_inclusive_requested_dates():
     assert [(row.rate_date, row.rate_to_sgd) for row in rows] == [
         (date(2024, 1, 2), Decimal("1.3"))
     ]
+
+
+def test_only_vendor_no_history_errors_are_classified_as_unavailable():
+    from sg_investing.data.providers.base import ProviderHistoryUnavailable
+
+    provider = YahooFinanceProvider(bounded_events=True)
+    vendor_error = type('YFPricesMissingError', (Exception,), {'__module__': 'yfinance.exceptions'})
+    for error, expected in [(vendor_error('may be delisted'), ProviderHistoryUnavailable),
+                            (RuntimeError('may be delisted'), RuntimeError),
+                            (TimeoutError('connection timed out'), TimeoutError)]:
+        ticker = FakeTicker()
+        with (patch.object(ticker, 'history', side_effect=error),
+              patch.object(provider, '_ticker', return_value=ticker),
+              pytest.raises(expected)):
+            provider.get_prices(security(), date(2024, 1, 1), date(2024, 1, 31))

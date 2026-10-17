@@ -719,6 +719,9 @@ class FailureReportingRecoveryTests(IncrementalUpdaterCase):
         diagnostics = next(step for step in job["steps"] if step.get("if") == "always()")
         self.assertIn("diagnostics", diagnostics["with"]["name"])
         self.assertEqual(incremental["concurrency"]["group"], full["concurrency"]["group"])
+        full_steps = full["jobs"]["update"]["steps"]
+        self.assertTrue(any(step.get("if") == "always()" for step in full_steps))
+        self.assertTrue(any("Refuse an incomplete" in step.get("name", "") for step in full_steps))
 
 
 class PackBaselineRecoveryTests(IncrementalUpdaterCase):
@@ -756,3 +759,105 @@ class ProgressCheckpointRecoveryTests(IncrementalUpdaterCase):
             completed = [event for event in events if event["stage"] == stage and "completed" in event]
             self.assertTrue(completed, stage)
             self.assertEqual(completed[-1]["completed"], completed[-1]["total"])
+
+
+class OmittedYearBaselineRecoveryTests(IncrementalUpdaterCase):
+    def test_full_scope_flag_cannot_hide_a_removed_priced_year(self):
+        from scripts.update_incremental import _require_complete_pack_baseline
+        from sg_investing.universe.catalog import load_catalog
+
+        build_data_packs(self.root, self.output)
+        manifest = self._manifest()
+        entry = next(row for row in manifest["securities"] if row["security_id"] == TEST_ID)
+        entry["years"].pop("2025")
+        (self.output / "manifest.json").write_text(json.dumps(manifest))
+        catalog = load_catalog(self.root / "data/universe/current_catalog.json")
+        with self.assertRaisesRegex(ValueError, "canonical security/year"):
+            _require_complete_pack_baseline(self.root, catalog)
+
+
+class BaselineIdentityRecoveryTests(IncrementalUpdaterCase):
+    def test_incompatible_catalog_or_methodology_is_rejected_before_provider_calls(self):
+        build_data_packs(self.root, self.output)
+        original = self._manifest()
+        for field in ["catalog_version", "methodology_version", "schema_version"]:
+            manifest = dict(original)
+            manifest[field] = "incompatible"
+            (self.output / "manifest.json").write_text(json.dumps(manifest))
+            provider = self._provider()
+            with self.assertRaisesRegex(ValueError, "incompatible"):
+                self._run(provider, build_packs=True)
+            self.assertEqual(provider.calls, [])
+
+
+class ExplicitUnavailableRecoveryTests(IncrementalUpdaterCase):
+    def _mixed_provider(self, error_class):
+        parent = self._provider()
+
+        class Mixed(RecordingProvider):
+            def get_prices(inner, security, *dates):
+                if str(security.security_id) == TEST_ID:
+                    raise error_class('No observations for requested window')
+                return parent.get_prices(security, *dates)
+
+            def get_dividends(inner, security, *dates):
+                if str(security.security_id) == TEST_ID:
+                    raise error_class('No observations for requested window')
+                return parent.get_dividends(security, *dates)
+
+            def get_corporate_actions(inner, security, *dates):
+                if str(security.security_id) == TEST_ID:
+                    raise error_class('No observations for requested window')
+                return parent.get_corporate_actions(security, *dates)
+
+            def get_fx_rates(inner, *args):
+                return parent.get_fx_rates(*args)
+
+        return Mixed()
+
+    def test_explicit_absence_retains_data_and_coverage_failure_with_review_warning(self):
+        from sg_investing.data.providers.base import ProviderHistoryUnavailable
+
+        summary = self._run(self._mixed_provider(ProviderHistoryUnavailable))
+        self.assertTrue(summary['complete'])
+        self.assertEqual(summary['publication_status'], 'ready_for_review_with_unavailable')
+        for dataset in ['prices', 'dividends', 'corporate_actions']:
+            self.assertEqual(set(summary['unavailable_windows'][dataset]), {TEST_ID})
+        self.assertTrue(any(str(row.security_id) == TEST_ID
+                            for row in self.store.read_prices(market='US', year=2026)))
+        dividend = next(row for row in summary['dividend_updates']
+                        if row['security_id'] == TEST_ID)
+        self.assertTrue(dividend['provider_unavailable'])
+        self.assertIsNotNone(dividend['error'])
+        checkpoints = json.loads((self.root / 'data/corporate_actions/query_checkpoints.json')
+                                 .read_text())
+        self.assertNotIn(TEST_ID, checkpoints)
+
+    def test_untyped_failure_cannot_be_downgraded_by_message(self):
+        summary = self._run(self._mixed_provider(RuntimeError))
+        self.assertFalse(summary['complete'])
+        self.assertFalse(any(summary['unavailable_windows'].values()))
+
+    def test_entirely_unavailable_prices_cannot_be_a_successful_refresh(self):
+        from sg_investing.data.providers.base import ProviderHistoryUnavailable
+
+        provider = self._mixed_provider(ProviderHistoryUnavailable)
+
+        def absent(*args):
+            raise ProviderHistoryUnavailable('No observations')
+
+        provider.get_prices = absent
+        summary = self._run(provider)
+        self.assertFalse(summary['complete'])
+        self.assertEqual(summary['updated'], 0)
+
+    def test_explicit_fx_absence_still_blocks_publication(self):
+        from sg_investing.data.providers.base import ProviderHistoryUnavailable
+
+        provider = self._provider()
+
+        def absent(*args):
+            raise ProviderHistoryUnavailable('No FX observations')
+
+        provider.get_fx_rates = absent
+        self.assertFalse(self._run(provider)['complete'])

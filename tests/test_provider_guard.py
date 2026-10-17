@@ -94,3 +94,20 @@ def test_permanent_listing_failure_is_not_retried():
         provider.get_prices()
     assert provider.requests == 1
     assert provider.retry_count == 0
+
+
+def test_typed_absence_is_not_retried_or_mistaken_for_a_rate_limit():
+    from sg_investing.data.providers.base import ProviderHistoryUnavailable
+
+    clock = Clock()
+
+    def absent():
+        raise ProviderHistoryUnavailable('Listing 429 has no observations')
+
+    provider = GuardedProvider(SimpleNamespace(name='fake', get_prices=absent),
+                               clock=clock.time, sleep=clock.sleep)
+    with pytest.raises(ProviderHistoryUnavailable):
+        provider.get_prices()
+    assert provider.requests == 1
+    assert provider.retry_count == 0
+    assert provider.circuit_reason is None

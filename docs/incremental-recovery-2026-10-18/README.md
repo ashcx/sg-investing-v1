@@ -14,13 +14,18 @@ prerequisite to the separate Sprint 12–15 PRs.
   and explicitly dated event history. All datasets share request pacing,
   transient-only retry/backoff, a rate-limit circuit and request/time budgets.
 - Successful empty action queries persist their coverage cursor; missing or
-  failed history remains an error. FX rows outside inclusive requested dates
+  failed history retains failed coverage. Explicit provider no-history windows
+  are reported separately for operator review, preserving old rows and unknown
+  event coverage; they never establish delisting or zero events. Broken requests,
+  missing FX and a refresh with no updated listings remain fatal.
+  FX rows outside inclusive requested dates
   are filtered at the provider boundary.
 - Journaled stages, completed counts, elapsed time and peak process memory;
   nonzero CLI status on incomplete input or pack failures; full-refresh schedule
   removed; bounded/shared-concurrency daily workflow with diagnostic uploads.
 - Scoped updater builds refuse a missing, filtered, unsafe or incomplete pack
-  baseline. CI defaults to canonical review artifacts; optional packs are a full
+  baseline, including compatible catalog/schema/methodology and every canonical
+  priced security/year. CI defaults to canonical review artifacts; optional packs are a full
   build. Operator application/publication remains an explicit separate step.
 - Test runtime constraints plus dependency inventories. The clock-dependent
   pack-byte test now controls its generation-time input, retaining exact byte
@@ -30,7 +35,7 @@ prerequisite to the separate Sprint 12–15 PRs.
 
 | Check | Result | Record |
 | --- | --- | --- |
-| Python normal suite | 248 passed, 8 opt-in smoke deselected | [pytest.txt](pytest.txt) |
+| Python normal suite | 256 passed, 8 opt-in smoke deselected | [pytest.txt](pytest.txt) |
 | Ruff, changed Python | Passed | [ruff.txt](ruff.txt) |
 | Engine | 68/68 | [engine-selftest.txt](engine-selftest.txt) |
 | Golden parity | 27/27 | [parity.txt](parity.txt) |

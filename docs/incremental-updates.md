@@ -188,8 +188,18 @@ nonempty history with zero event values is a successful empty query; absent
 history or missing columns are errors. Successful action queries persist
 `data/corporate_actions/query_checkpoints.json`; errors do not advance cursors.
 
-`complete` is false on failed/missing price observations, dividend/action/FX
-errors, an open provider circuit or pack errors. CLI exit 1 means incomplete.
+`complete` describes whether the refresh was handled, not universal market-data
+coverage. Explicit provider no-history windows are listed under
+`unavailable_windows`; their old observations remain untouched, failed dividend
+coverage remains unknown, and action checkpoints do not advance. The review
+status is `ready_for_review_with_unavailable`, never a delisting or zero-event
+claim. Only typed provider absence qualifies; matching words in an arbitrary
+error do not. A refresh with no updated listings remains incomplete.
+
+`complete` is false on unexplained empty price results, broken requests,
+malformed observations, dividend/action errors other than explicit absence,
+missing FX, skipped datasets, an open provider circuit or pack errors.
+CLI exit 1 means incomplete.
 `publication_status=ready_for_review` is an operator-review signal, not a
 deployment claim. Failure diagnostics are written atomically outside canonical
 data in `update-diagnostics/progress.json`, including stages, elapsed time and

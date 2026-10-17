@@ -7,7 +7,7 @@ from decimal import Decimal
 from typing import ClassVar
 from uuid import UUID
 
-from sg_investing.data.providers.base import MarketDataProvider
+from sg_investing.data.providers.base import MarketDataProvider, ProviderHistoryUnavailable
 from sg_investing.models import (
     CorporateAction,
     CorporateActionType,
@@ -25,17 +25,28 @@ class YahooFinanceProvider(MarketDataProvider):
     def __init__(self, *, bounded_events: bool = False):
         self.bounded_events = bounded_events
 
-    def _event_history(self, security: Security, start_date: date, end_date: date):
-        history = self._ticker(security).history(
-            start=start_date.isoformat(),
-            end=(end_date + timedelta(days=1)).isoformat(),
-            auto_adjust=False, actions=True, raise_errors=True, timeout=20,
-        )
-        if history.empty:
-            raise ValueError(
-                f"No observed history for {security.ticker}; event absence is unconfirmed."
+    def _bounded_history(self, ticker, start_date: date, end_date: date, *, actions: bool):
+        try:
+            history = ticker.history(
+                start=start_date.isoformat(),
+                end=(end_date + timedelta(days=1)).isoformat(),
+                auto_adjust=False, actions=actions, raise_errors=True, timeout=20,
             )
+        except Exception as error:
+            # Classify only the vendor's explicit no-history exceptions, never
+            # a fuzzy substring such as "delisted" in a connection/error message.
+            if (type(error).__module__.startswith("yfinance.")
+                    and type(error).__name__ in {"YFPricesMissingError", "YFTzMissingError"}):
+                raise ProviderHistoryUnavailable(
+                    f"Provider has no observations in the requested window: {error}"
+                ) from error
+            raise
+        if history.empty:
+            raise ProviderHistoryUnavailable("No observed history; event absence is unconfirmed.")
         return history
+
+    def _event_history(self, security: Security, start_date: date, end_date: date):
+        return self._bounded_history(self._ticker(security), start_date, end_date, actions=True)
 
     # Matches the canonical Parquet Decimal(32, 18) price columns.  Provider
     # glitches occasionally produce finite but nonsensical values; accepting
@@ -161,13 +172,13 @@ class YahooFinanceProvider(MarketDataProvider):
         return yfinance.Ticker(security.ticker)
 
     def get_prices(self, security: Security, start_date: date, end_date: date) -> list[PriceBar]:
-        history = self._ticker(security).history(
-            start=start_date.isoformat(),
-            end=(end_date + timedelta(days=1)).isoformat(),
-            auto_adjust=False,
-            actions=False,
-            **({"raise_errors": True, "timeout": 20} if self.bounded_events else {}),
-        )
+        ticker = self._ticker(security)
+        history = (self._bounded_history(ticker, start_date, end_date, actions=False)
+                   if self.bounded_events else ticker.history(
+                       start=start_date.isoformat(),
+                       end=(end_date + timedelta(days=1)).isoformat(),
+                       auto_adjust=False, actions=False,
+                   ))
         if history.empty:
             return []
         rows: list[PriceBar] = []
@@ -319,13 +330,13 @@ class YahooFinanceProvider(MarketDataProvider):
         currency = base_currency.upper()
         if currency == "SGD":
             return [FxRate(rate_date=start_date, base_currency="SGD", rate_to_sgd=Decimal(1), source=self.name)]
-        history = self._ticker_symbol(f"{currency}SGD=X").history(
-            start=start_date.isoformat(),
-            end=(end_date + timedelta(days=1)).isoformat(),
-            auto_adjust=False,
-            actions=False,
-            **({"raise_errors": True, "timeout": 20} if self.bounded_events else {}),
-        )
+        ticker = self._ticker_symbol(f"{currency}SGD=X")
+        history = (self._bounded_history(ticker, start_date, end_date, actions=False)
+                   if self.bounded_events else ticker.history(
+                       start=start_date.isoformat(),
+                       end=(end_date + timedelta(days=1)).isoformat(),
+                       auto_adjust=False, actions=False,
+                   ))
         rows: list[FxRate] = []
         for timestamp, row in history.iterrows():
             rate_date = timestamp.date()

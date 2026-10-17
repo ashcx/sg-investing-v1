@@ -303,3 +303,23 @@ artifact guard to the manual full-refresh workflow; its prior script can report
 failed listings while returning zero. Focused incremental/workflow tests: 30
 passed in 2.28s. No runtime code changed after the final 248-test battery.
 Full-universe local verification remains active on the disposable copy.
+
+
+### Full-universe evidence follow-up — explicit unavailable windows
+
+The live rehearsal exposed explicit Yahoo no-history responses for a small
+set of listings. This is not proof of delisting. Recovery reporting now
+separates typed provider no-history windows from broken requests. Existing
+observations remain intact; dividend coverage remains failed/unknown and action
+query checkpoints do not advance. Handled runs with these gaps are marked
+`ready_for_review_with_unavailable` with per-dataset reasons. Missing FX,
+malformed data, timeouts, rate limits, untyped errors and runs with zero updated
+listings remain incomplete. No publication happens automatically.
+This clarifies R3's incomplete-result policy within this sprint; financial result
+envelopes, coverage classifications and engine calculations are unchanged.
+Regression checks cover mixed supported/unavailable listings, untyped errors,
+all-unavailable prices, mandatory FX and retry/circuit behavior. Full-baseline
+proof also checks catalog/schema/methodology identity and every priced year,
+including priced-but-uncatalogued securities. Final full run evidence remains
+pending; the earlier live run uses the prior stricter failure classification
+and its actual outcome will be retained separately.
