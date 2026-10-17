@@ -323,3 +323,23 @@ proof also checks catalog/schema/methodology identity and every priced year,
 including priced-but-uncatalogued securities. Final full run evidence remains
 pending; the earlier live run uses the prior stricter failure classification
 and its actual outcome will be retained separately.
+
+
+### Full rehearsal finished; final candidate and roadblock
+
+Full rehearsal: 3,172 selected, 3,138 updated, 214,653 prices fetched;
+26m42s elapsed, peak RSS 2,183.34 MiB; 9,515 requests, zero retries/rate-limit
+circuit. It correctly exited incomplete under its initial stricter absence
+policy (32 price errors, two unusable-price warnings, 34 dividend errors,
+32 action errors; FX succeeded). Retained actual outcome is not rewritten.
+Final candidate 621e37a: all six GitHub checks passed; Python 256 passed,
+8 smoke deselected; Ruff passed. Live QQQ/WBD/ATAI/40F.SI canary correctly
+remained incomplete. WBD and ATAI each return a zero-open price row; these
+malformed observations are rejected. QQQ/40F.SI canary passed as
+`ready_for_review_with_unavailable`, preserving explicit coverage failures.
+Evidence: `docs/incremental-recovery-2026-10-18/README.md`.
+User decision requested under AGENTS.md material-scope rule: explicitly quarantine
+WBD/ATAI with retained history and visible warnings, or preserve the global
+failure until their source is repaired. No exclusion implemented yet. Next:
+apply the user's decision, verify the final full run, and retain actual scheduled
+and publication evidence after reviewed merge. Interface gates remain closed.

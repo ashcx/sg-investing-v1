@@ -74,12 +74,43 @@ The compact summaries omit the thousands of unselected dividend-coverage rows
 and the raw change-key list; full responses remain in the disposable canary
 folders for inspection. Selected outcomes, errors and telemetry are retained.
 
-## Remaining evidence
+## Full-universe rehearsal and final policy canaries
 
-The full-universe live run is in progress on another disposable copied snapshot.
-Its eventual outcome must be recorded, including failures and unsupported
-listings; do not infer success from the small canary or a green unit suite.
-Actual scheduled runs require the reviewed workflow on the default branch and
-successive scheduled successes. Manual runs cannot stand in for that evidence.
-Operator canonical application/publication must be verified separately. Sprint
-7.5 therefore remains In progress, and later interface gates are not bypassed.
+The first full-universe rehearsal finished in 1,601.935 seconds (26m42s), peak
+process RSS 2,183.34 MiB. It made 9,515 provider requests with no retries or
+rate-limit circuit, fetched 214,653 price observations and updated 3,138 listings.
+It exited 1/incomplete: 32 explicit no-history price errors, two empty usable-price
+results, 34 dividend errors and 32 action errors. FX completed without errors.
+This run used the stricter initial absence policy; it is retained as an actual
+failure, not relabeled using later code.
+
+The final candidate's QQQ/WBD/ATAI/40F.SI canary also exited 1 correctly.
+40F.SI is explicitly reported unavailable across all three datasets. WBD and
+ATAI remain unexplained unusable-price warnings: direct provider inspection
+found one row each, with opening price zero. No replacement price was inferred.
+A subsequent QQQ/40F.SI-only canary passed with
+`ready_for_review_with_unavailable`, proving the typed absence policy while
+retaining old observations and failed/unknown event coverage. These manual runs
+are not scheduled-run or publication evidence. All six GitHub checks for
+candidate 621e37a passed.
+
+- [Full rehearsal failed listings, reasons and telemetry](live-full-initial-summary.json)
+- [Full rehearsal stage/resource trace](live-full-initial-progress.json)
+- [Full rehearsal diagnostics](live-full-initial-diagnostics.log)
+- [Final candidate with malformed listings: incomplete](live-policy-canary-incomplete-summary.json)
+- [Supported plus explicit absence: review-ready with warnings](live-policy-supported-absent-summary.json)
+
+Compact full-rehearsal summaries retain every failed/warning listing, event-query
+error and provider telemetry, while omitting successful per-listing rows and raw
+change keys. Full responses remain in the disposable folders.
+
+## Remaining gates
+
+Product Owner decision requested: explicitly quarantine WBD/ATAI with retained
+history and visible warnings, or leave the entire refresh blocked pending source
+repair. No exclusion has been implemented without that decision. A final full
+live run follows any approved scope change. Actual scheduled runs require the
+reviewed workflow on the default branch and successive scheduled successes.
+Manual runs cannot stand in for that evidence. Operator canonical application/
+publication must be verified separately. Sprint 7.5 remains In progress, and
+later interface gates are not bypassed.

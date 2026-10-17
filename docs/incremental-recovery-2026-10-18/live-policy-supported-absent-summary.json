@@ -1,0 +1,101 @@
+{
+  "mode": "incremental",
+  "generated_at": "2026-10-17T23:34:49+00:00",
+  "since": "auto",
+  "end_date": "2026-10-17",
+  "reconciliation_days": 45,
+  "pipeline_version": "0.1.0",
+  "provider": "yahoo_finance",
+  "provider_telemetry": {
+    "requests": 7,
+    "retries": 0,
+    "circuit_reason": null,
+    "elapsed_seconds": 7.172
+  },
+  "skipped_datasets": [],
+  "securities_selected_count": 2,
+  "full_history_fetch_securities": [],
+  "base_data_snapshot_id": "incr-2a1332a1a7e0c0f22b0746a962fcad9c",
+  "data_snapshot_id": "sha256-96c237badf345914a7b367f34201fbe77b90078266ef357b6ca65b1d5cf6fd84",
+  "store_content_hash_unchanged": false,
+  "incremental_snapshot_id": "incr-2a1332a1a7e0c0f22b0746a962fcad9c",
+  "price_rows_fetched": 33,
+  "price_batch_size_limit": 32,
+  "max_price_comparison_keys": 33,
+  "price_dates_new": 0,
+  "price_dates_restated": 0,
+  "dividend_events_new_or_restated": 0,
+  "dividend_events_restated": 0,
+  "corporate_actions_new_or_restated": 0,
+  "corporate_actions_restated": 0,
+  "corporate_action_errors": {
+    "006cd935-08f2-576c-8220-137c5c83f531": "Provider has no observations in the requested window: $40F.SI: No data found, symbol may be delisted"
+  },
+  "fx_rows_new_or_restated": 0,
+  "fx_rows_restated": 0,
+  "fx_fetch_errors": {},
+  "updated": 1,
+  "warnings": 1,
+  "failed": 0,
+  "dividend_coverage_warnings": [],
+  "dividend_updates": [
+    {
+      "security_id": "006cd935-08f2-576c-8220-137c5c83f531",
+      "ticker": "40F.SI",
+      "start_date": "2000-01-01",
+      "end_date": "2026-10-17",
+      "status": "provider_error",
+      "rows_fetched": 0,
+      "error": "Provider has no observations in the requested window: $40F.SI: No data found, symbol may be delisted",
+      "provider_unavailable": true
+    },
+    {
+      "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+      "ticker": "QQQ",
+      "start_date": "2026-09-02",
+      "end_date": "2026-10-17",
+      "status": "data_available",
+      "rows_fetched": 1,
+      "error": null,
+      "provider_unavailable": false
+    }
+  ],
+  "fx_rows_written": 34,
+  "provider_warnings": {},
+  "results": [
+    {
+      "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+      "ticker": "QQQ",
+      "status": "OK",
+      "start_date": "2026-09-01",
+      "end_date": "2026-10-17",
+      "rows_written": 33,
+      "error": null,
+      "partitions_written": 1
+    },
+    {
+      "security_id": "006cd935-08f2-576c-8220-137c5c83f531",
+      "ticker": "40F.SI",
+      "status": "WARNING",
+      "start_date": "2026-06-02",
+      "end_date": "2026-10-17",
+      "rows_written": 0,
+      "error": "Provider has no observations in the requested window: $40F.SI: No data found, symbol may be delisted",
+      "partitions_written": 0
+    }
+  ],
+  "packs": null,
+  "unavailable_windows": {
+    "prices": {
+      "006cd935-08f2-576c-8220-137c5c83f531": "Provider has no observations in the requested window: $40F.SI: No data found, symbol may be delisted"
+    },
+    "dividends": {
+      "006cd935-08f2-576c-8220-137c5c83f531": "Provider has no observations in the requested window: $40F.SI: No data found, symbol may be delisted"
+    },
+    "corporate_actions": {
+      "006cd935-08f2-576c-8220-137c5c83f531": "Provider has no observations in the requested window: $40F.SI: No data found, symbol may be delisted"
+    }
+  },
+  "complete": true,
+  "publication_status": "ready_for_review_with_unavailable"
+}
