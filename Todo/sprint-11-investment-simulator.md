@@ -240,3 +240,31 @@ PR: https://github.com/ashcx/sg-investing-v1/pull/3, stacked on Sprint 10 PR #2.
 All technical/design/PR exit items are checked. Human product review remains
 open for S10 and S11. No S12 task, merge, deployment or live-data refresh was
 performed. Working branch: `codex/sprint-11-simulator`.
+
+
+### 18 October 2026 — authorized publication recovery
+
+User explicitly requested publishing the combined Sprint 10–11 redesign after
+confirming the stacked merges had not carried it into main. Release scope:
+integrate the existing implemented increment into current main, use the existing
+Tier-1 deployment, and verify the public site. No Sprint 12 work or refreshed
+market data; human product/usability acceptance remains separately pending.
+
+Release PR: https://github.com/ashcx/sg-investing-v1/pull/4
+Release branch: `codex/publish-sprint-11`, prepared in an isolated checkout to
+preserve unrelated local Sprint 7.5 investigation changes. Merge completed
+without conflicts; separate self-review verified runtime/engine/workflow/test
+files equal the implemented Sprint 11 branch.
+
+Checks on the integrated release: 227 Python tests passed, 8 opt-in smoke tests
+deselected; 68 engine self-tests; 27/27 golden parity; six initial-lump cases
+through engine/worker mapping plus invalid-input checks; 90 worker checks;
+19 properties / 1,473 cases; static-site paths/JSON passed (generated packs absent).
+Simulator browser checks passed, including 16,000 capital, prior-result export,
+comparison isolation, restored drafts and 320/390/768/1280px bounds. Re-inspected
+actual 1440px desktop and 390px mobile captures; no page overflow or new visual
+issue found. Existing retained captures remain the evidence for these flows.
+
+Next sequential action: wait for PR checks, merge into main, verify Tier-1 build
+and deployment, then inspect the live desktop/mobile workspace. Deployment is
+not yet claimed. Sprint status remains In progress pending human product review.
