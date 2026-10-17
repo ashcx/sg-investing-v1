@@ -1,0 +1,11 @@
+
+==== PARITY RESULTS ====
+  dca: 11/11 pass
+  dividend-edge: 4/4 pass
+  fx: 3/3 pass
+  incomplete-data: 1/1 pass
+  portfolio: 4/4 pass
+  sgd-security: 1/1 pass
+  usd-etf-real: 2/2 pass
+  usd-split-synthetic: 1/1 pass
+  TOTAL: 27/27 pass

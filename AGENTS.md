@@ -7,7 +7,7 @@ no-build static frontend (`frontend/`) deployed to GitHub Pages. Read
 ## Todo system (mandatory)
 
 All roadmap work is tracked in `TODO.md` (the roadmap) and the `Todo/` folder
-(one file per sprint: `sprint-0-*.md` … `sprint-8-*.md`, including `sprint-7.5-*`). Any agent asked to
+(one file per sprint: `sprint-0-*.md` … `sprint-14-*.md`, including `sprint-7.5-*`). Any agent asked to
 continue, pick up, or check project work MUST use this system:
 
 - **Roadmap**: `TODO.md` holds the sprint table with statuses and the final
@@ -25,13 +25,23 @@ continue, pick up, or check project work MUST use this system:
   3. A sprint is complete only when every exit-criteria item is ticked; then
      update the roadmap status. If blocked, leave status `In progress` and
      record the blocker in the sprint file.
-- **Order**: work the lowest-numbered eligible sprint. Only parallelism
-  allowed: Sprints 4 and 5 (after 1–3), and Sprint 7.5 alongside Sprint 8.
+- **Order**: work one sprint and one task at a time in numeric order
+  (7 → 7.5 → 8). All work runs sequentially in the main instance; do not
+  spawn child agents or delegate implementation, tests, reviews, or documentation.
   Sprint 6 requires 4 and 5; Sprint 7 requires 4, 5, 6.
-- **Sequencing detail**: `Todo/orchestration-plan.md` coordinates task-level
-  order and safe parallelism (parallel groups, freeze points, conflict-prone
-  tasks, solo vs multi-agent patterns). Sprint-file gates always win over the
-  plan.
+- **Redesign sequence**: Sprints 9–14 run sequentially after 7, 7.5, and 8.
+  `Todo/redesign-scrum-plan.md` defines single-owner work, review, evidence,
+  and Scrum events. The main instance owns all files and performs a separate
+  self-review after implementation. Human product acceptance remains separate.
+- **Sequencing detail**: `Todo/orchestration-plan.md` coordinates task order
+  and contract freeze gates. Record each task's results, checks, evidence,
+  blockers, and next action in its sprint file before moving to the next task.
+  Sprint-file gates always win over the plan.
+- **Sprint review and PR**: inspect the actual webpage design at desktop and
+  mobile widths after each sprint; retain captures and findings. Open a PR in
+  the configured GitHub repository with the sprint plan, changes, checks/results,
+  and remaining gaps. Record the PR URL in the sprint log. Check in with the
+  user when a material product, scope, or design decision is unclear.
 - **Scope changes** are made by editing the sprint file itself, never as
   undocumented drift.
 

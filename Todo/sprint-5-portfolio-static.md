@@ -14,7 +14,8 @@ exact backend parity and local-only persistence.
 - [x] Sprint 3 exit criteria are all met: parity and property suites are green;
       workers are cancellable and non-blocking.
 
-Note: this sprint may run in parallel with Sprint 4 once Sprints 1–3 are done.
+Execution order: complete Sprint 4 before this sprint. All tasks run
+sequentially in the main instance. Historical completion evidence is preserved.
 
 ## Depends on
 

@@ -689,3 +689,38 @@ For every sprint, the implementing agent should follow this sequence:
 - **Prefer thin vertical slices.** A complete, trustworthy single-security SGD
   result is more valuable than partially implemented charting, portfolio, and
   comparison screens.
+
+## Sprint 9 UI request identity contract — frozen 15 October 2026
+
+This presentation contract does not alter engine requests, worker protocol,
+result envelopes, financial calculations, warning semantics, or provenance.
+Each view (`analysis`, `dca`, `compare`, `portfolio`) owns independent draft,
+generation, phase, completed request, artifact, chart, coverage, and display
+currency. Selecting or changing display currency in one view cannot mutate
+another view's selection, completed result, chart, warnings, or export.
+
+A submitted request is copied immutably before any await. Identity includes the
+view, security ID (ordered security IDs/tickers for comparison), requested dates,
+initial capital, recurring contribution and frequency for DCA, optional initial
+lump sum (reserved default 0 for Sprint 11), scenario booleans, and full ledger
+rows/as-of date for portfolio. Completed identity also retains producer,
+methodology version and data snapshot from the actual returned envelope.
+Requested and resolved dates are distinct. Never derive export/share identity
+from an edited form or from resolved dates in place of requested dates.
+
+States: empty → loading → current; an edit immediately invalidates in-flight
+work and moves a completed result to previous (or an empty view to pending).
+Validation, unavailable coverage, and load/compute failures enter invalid or
+failed while any retained result stays explicitly previous. Submit moves to
+loading; a response can commit only if its view generation still matches.
+Editing, including an invalid edit during a pending request, advances generation
+before validation. Older success/error/progress/finally handlers cannot overwrite
+newer state. Display-only currency changes do not change financial identity.
+
+Financial edits never auto-calculate. Calculate/Update explicitly submits.
+Automatic series prefetch may not replace a completed result's attached chart.
+A completed chart must have the same security and requested window as its
+result, or be omitted. Previous output includes its original input summary;
+JSON, CSV and share controls explicitly identify that previous request.
+Coverage and warnings are attached to the completed request and survive display
+currency changes. No latest-coverage date is invented if not published.

@@ -120,3 +120,13 @@ already exists from Sprints 4–6; this sprint wires it to be automatic.
 > per docs/fx-sources.md once MAS restores access. **Open decision for the
 > coordinator/user:** wait for MAS, or pivot the primary to ECB (already
 > verified to cover the full window) with MAS as the later cross-check.
+
+## Subsequent scope amendment (15 October 2026)
+
+The Product Owner adopted explicit Calculate/Update for the redesign in
+[Sprint 9](sprint-9-user-experience-redesign.md). Financial edits will label
+retained results previous until recalculated, replacing automatic financial
+recalculation while preserving request identity and preventing stale outputs
+from appearing current. Automatic series/data loading may remain. This is
+planned Sprint 9 work; the checked Sprint 7.5 tasks and exits describe the
+historically shipped baseline and are not evidence of redesign completion.
