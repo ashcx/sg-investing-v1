@@ -5,7 +5,8 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const fixed = require('../fixtures/redesign/sprint-9.json');
-const output = path.resolve('docs/ux-redesign-evidence/sprint-9');
+const output = path.resolve(process.env.SG_EVIDENCE_DIR || 'docs/ux-redesign-evidence/sprint-9');
+fs.mkdirSync(output,{recursive:true});
 const base = process.env.SG_TEST_URL || 'http://127.0.0.1:4173';
 const es3 = fixed.fixtures[0], smh = fixed.fixtures[1];
 (async () => {
@@ -86,12 +87,14 @@ const es3 = fixed.fixtures[0], smh = fixed.fixtures[1];
  console.log('PASS F07/F09/F15: foreign/SGD FX captions, requested/resolved dates, coverage, and attached warning details.');
 
  await page.setViewportSize({width:1440,height:1000});
+ await page.evaluate(()=>{location.hash='compare';});await page.waitForSelector('body[data-workspace=compare]');
  for(const chip of await page.locator('#compare-ticker-chips button').all()) await chip.click();
  await page.locator('#compare-tickers').fill('ES3');await page.locator('#compare-ticker-options .combobox-option').first().click();
  await page.locator('#compare-tickers').fill('SMH');await page.locator('#compare-ticker-options .combobox-option').first().click();
  await page.locator('#compare-start').fill('2024-01-01');await page.locator('#compare-end').fill('2024-06-30');
  await submit('compare');assert.equal(await state('compare'),'current',await page.locator('#compare-error').textContent());
  await page.locator('#compare-amount').fill('20000');assert.equal(await state('compare'),'pending');assert.match(await page.locator('#compare-request-state').textContent(),/Previous result/);
+ await page.evaluate(()=>{location.hash='portfolio';});await page.waitForSelector('body[data-workspace=portfolio]');
  await page.locator('#portfolio-as-of').fill('2024-06-28');
  const row=page.locator('#ledger-rows tr').first();await row.locator('.ledger-type').selectOption('CASH_DEPOSIT');
  await row.locator('.ledger-security').evaluate(el=>{el.dataset.securityId='';el.value='';});

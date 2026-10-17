@@ -8,6 +8,7 @@ import { createEngineClient } from './engine/engine-client.js';
 import { createPackLoader } from './engine/pack-loader.js';
 import { rateForDate } from './engine/fx.js';
 import { dec } from './engine/money.js';
+import { initWorkspace } from './workspace.js';
 import { ledgerStore } from './ledger-store.js';
 
 const CATALOG_ARTIFACT = 'data/catalog.json';
@@ -74,6 +75,7 @@ const state = {
   analysisCoverage: {},
   warningsOpen: false,
   catalogLimit: 12,
+  discoveryManifest: null,
 };
 
 const $ = (selector) => document.querySelector(selector);
@@ -113,7 +115,7 @@ function renderSecurityCombobox(input, query = input.value) {
     return !wanted || text.includes(wanted);
   });
   const visible = matches.slice(0, COMBOBOX_RESULT_LIMIT);
-  list.innerHTML = visible.map(({ security }, index) => `<div class="combobox-option" id="${escapeHtml(input.id)}-option-${index}" role="option" aria-selected="${securityComboboxValue(input) === security.security_id}" data-security-id="${escapeHtml(security.security_id)}"><strong>${escapeHtml(security.ticker)}</strong><span>${escapeHtml(security.name)} · ${escapeHtml(security.exchange)}</span></div>`).join('')
+  list.innerHTML = visible.map(({ security }, index) => `<div class="combobox-option" id="${escapeHtml(input.id)}-option-${index}" role="option" aria-selected="${securityComboboxValue(input) === security.security_id}" data-security-id="${escapeHtml(security.security_id)}"><strong>${escapeHtml(security.ticker)}</strong><span>${escapeHtml(security.name)} · ${escapeHtml(security.exchange)} · ${escapeHtml(security.currency)}<br>${escapeHtml(discoveryCoverage(security.security_id))}</span></div>`).join('')
     || '<div class="combobox-empty" role="status">No published securities match that search.</div>';
   if (matches.length > COMBOBOX_RESULT_LIMIT) {
     list.insertAdjacentHTML('beforeend', `<div class="combobox-more" role="status">Showing ${COMBOBOX_RESULT_LIMIT} of ${matches.length}. Keep typing to narrow the list.</div>`);
@@ -139,6 +141,7 @@ function wireSecurityCombobox(input) {
   input.addEventListener('focus', () => renderSecurityCombobox(input));
   input.addEventListener('input', () => {
     delete input.dataset.securityId;
+    clearSelectionMetadata(input);
     input.removeAttribute('aria-invalid');
     renderSecurityCombobox(input, input.value);
   });
@@ -162,7 +165,7 @@ function wireSecurityCombobox(input) {
   input.addEventListener('blur', () => setTimeout(() => {
     if (!input.closest('[data-combobox]')?.contains(document.activeElement)) closeSecurityCombobox(input);
   }, 0));
-  input.closest('[data-combobox]')?.querySelector('.combobox-list')?.addEventListener('mousedown', (event) => {
+  input.closest('[data-combobox]')?.querySelector('.combobox-list')?.addEventListener('pointerdown', (event) => {
     const option = event.target.closest('.combobox-option');
     if (!option) return;
     event.preventDefault();
@@ -292,7 +295,7 @@ function renderUniverseOptions() {
   if (!has('#universe-filter')) return;
   const select = $('#universe-filter');
   const universes = [...new Set(state.catalog.map((entry) => entry.universe).filter(Boolean))].sort();
-  select.innerHTML = '<option value="all">All universes</option>' + universes.map((universe) => `<option value="${escapeHtml(universe)}">${escapeHtml(titleCase(universe))}</option>`).join('');
+  select.innerHTML = '<option value="all">All universes</option>' + universes.map((universe) => `<option value="${escapeHtml(universe)}">${escapeHtml(universeLabel(universe))}</option>`).join('');
 }
 
 function renderDimensionOptions() {
@@ -315,7 +318,7 @@ function filteredEntries() {
     const text = [security.ticker, security.name, security.isin, security.exchange, security.market].filter(Boolean).join(' ').toLowerCase();
     return (!query || text.includes(query))
       && (asset === 'all' || security.asset_type === asset)
-      && (universe === 'all' || entryUniverse === universe)
+      && (universe === 'all' || state.catalog.some(item => item.security?.security_id === security.security_id && item.universe === universe))
       && (market === 'all' || security.market === market)
       && (currency === 'all' || security.currency === currency)
       && (distribution === 'all' || security.distribution_policy === distribution)
@@ -326,13 +329,18 @@ function filteredEntries() {
 function renderCatalog() {
   const entries = filteredEntries();
   if (has('#catalog-count')) $('#catalog-count').textContent = `${entries.length} ${entries.length === 1 ? 'security' : 'securities'} · published catalog`;
+  const filters = ['asset','universe','market','currency','distribution','active'].map(name => {
+    const field = $(`#${name}-filter`); return field && !['all','active'].includes(field.value) ? field.options[field.selectedIndex].textContent : null;
+  }).filter(Boolean);
+  if (has('#active-filters')) $('#active-filters').textContent = filters.length ? `Active filters: ${filters.join(' · ')}` : 'No advanced filters selected.';
   const visible = entries.slice(0, state.catalogLimit);
   if (has('#catalog-grid')) {
     $('#catalog-grid').innerHTML = visible.map(({ security, universe }) => `<button class="security-card" type="button" data-security-id="${escapeHtml(security.security_id)}">
       <span class="security-card-top"><span>${escapeHtml(security.exchange)} · ${escapeHtml(security.market)}</span><span class="security-tag">${escapeHtml(security.asset_type)}</span></span>
       <span><strong class="security-ticker">${escapeHtml(security.ticker)}</strong><span class="security-name">${escapeHtml(security.name)}</span></span>
-      <span class="security-card-bottom"><span>${escapeHtml(security.currency)} · ${escapeHtml(security.distribution_policy || 'unknown')}</span><span>${escapeHtml(titleCase(universe))} ↗</span></span>
-    </button>`).join('') || '<div class="catalog-empty">No published securities match this lens.</div>';
+      <span class="security-card-bottom"><span>${escapeHtml(security.currency)} · ${escapeHtml(security.distribution_policy || 'unknown')}</span><span>${escapeHtml(universeLabel(universe))} ↗</span></span>
+      <span class="coverage-preview">${escapeHtml(discoveryCoverage(security.security_id))}</span>
+    </button>`).join('') || '<div class="catalog-empty">No securities match. Clear the search or filters to try again.</div>';
     $$('.security-card').forEach((card) => card.addEventListener('click', () => { selectSecurity(card.dataset.securityId, true); s7OnSecurityCardPicked(card.dataset.securityId); }));
   }
   if (has('#catalog-more')) {
@@ -778,7 +786,7 @@ function renderComparePicker(query = '') {
     return !wanted || text.includes(wanted);
   });
   const visible = matches.slice(0, COMBOBOX_RESULT_LIMIT);
-  list.innerHTML = visible.map(({ security }, index) => `<div class="combobox-option" id="compare-ticker-option-${index}" role="option" data-security-id="${escapeHtml(security.security_id)}"><strong>${escapeHtml(security.ticker)}</strong><span>${escapeHtml(security.name)} · ${escapeHtml(security.exchange)}</span></div>`).join('')
+  list.innerHTML = visible.map(({ security }, index) => `<div class="combobox-option" id="compare-ticker-option-${index}" role="option" data-security-id="${escapeHtml(security.security_id)}"><strong>${escapeHtml(security.ticker)}</strong><span>${escapeHtml(security.name)} · ${escapeHtml(security.exchange)} · ${escapeHtml(security.currency)}<br>${escapeHtml(discoveryCoverage(security.security_id))}</span></div>`).join('')
     || '<div class="combobox-empty" role="status">No additional securities match that search.</div>';
   if (matches.length > COMBOBOX_RESULT_LIMIT) list.insertAdjacentHTML('beforeend', `<div class="combobox-more" role="status">Showing ${COMBOBOX_RESULT_LIMIT} of ${matches.length}. Keep typing to narrow the list.</div>`);
   list.classList.remove('hidden');
@@ -999,7 +1007,7 @@ function renderPortfolio(payload, meta = {}) {
   const warnings = meta.warnings || [];
   const warningNote = warnings.length ? `<p class="detail-note" role="alert">Data warnings: ${escapeHtml(warnings.join(' '))}</p>` : '';
   const sourceNote = meta.source === 'local' ? '<p class="detail-note">Reconstructed locally in your browser from the published data packs.</p>' : '';
-  $('#portfolio-results').innerHTML = `<div class="analysis-output"><div class="output-kicker">AS OF ${escapeHtml(formatDate(result.as_of))}</div><h3>${formatMoney(result.total_market_value_sgd, 'SGD')}</h3><p>Mark-to-market portfolio value across ${result.holdings.length} holding${result.holdings.length === 1 ? '' : 's'}.</p><div class="holding-table-wrap"><table class="holding-table"><caption class="sr-only">Portfolio holdings as of ${escapeHtml(formatDate(result.as_of))}</caption><thead><tr><th scope="col">Ticker</th><th scope="col">Quantity</th><th scope="col">WAC</th><th scope="col">Native value</th><th scope="col">SGD value</th><th scope="col">Realised P/L</th><th scope="col">Unrealised P/L</th></tr></thead><tbody>${rows || '<tr><td colspan="7">No open holdings on this date.</td></tr>'}</tbody></table></div><p class="detail-note">Cash: ${Object.entries(result.cash_by_currency || {}).map(([currency, amount]) => `${formatMoney(amount, currency)}`).join(' · ') || 'none'} · Realised P/L: ${Object.entries(result.realized_pl_native || {}).map(([currency, amount]) => `${formatMoney(amount, currency)}`).join(' · ') || 'none'}.</p>${warningNote}${sourceNote}<p class="detail-note">Weighted-average cost is a reporting convention, not a Singapore capital-gains tax calculation.</p></div>`;
+  $('#portfolio-results').innerHTML = `<div class="analysis-output"><div class="output-kicker">AS OF ${escapeHtml(formatDate(result.as_of))}</div><h3>${formatMoney(result.total_market_value_sgd, 'SGD')}</h3><p>Mark-to-market portfolio value across ${result.holdings.length} holding${result.holdings.length === 1 ? '' : 's'}.</p><div class="holding-table-wrap"><table class="holding-table"><caption class="sr-only">Portfolio holdings as of ${escapeHtml(formatDate(result.as_of))}</caption><thead><tr><th scope="col">Ticker</th><th scope="col">Quantity</th><th scope="col">Average cost</th><th scope="col">Native value</th><th scope="col">SGD value</th><th scope="col">Realised P/L</th><th scope="col">Unrealised P/L</th></tr></thead><tbody>${rows || '<tr><td colspan="7">No open holdings on this date.</td></tr>'}</tbody></table></div><p class="detail-note">Cash: ${Object.entries(result.cash_by_currency || {}).map(([currency, amount]) => `${formatMoney(amount, currency)}`).join(' · ') || 'none'} · Realised P/L: ${Object.entries(result.realized_pl_native || {}).map(([currency, amount]) => `${formatMoney(amount, currency)}`).join(' · ') || 'none'}.</p>${warningNote}${sourceNote}<p class="detail-note">Weighted-average cost is a reporting convention, not a Singapore capital-gains tax calculation.</p></div>`;
 }
 
 function s5CollectLedgerRows() {
@@ -1077,8 +1085,8 @@ async function s7RunPortfolio({ mode = 'force' } = {}) {
 function wireEvents() {
   if (has('#mobile-nav-toggle')) $('#mobile-nav-toggle').addEventListener('click', () => { const menu = $('#mobile-nav'); const open = !menu.classList.contains('open'); menu.classList.toggle('hidden', !open); menu.classList.toggle('open', open); $('#mobile-nav-toggle').setAttribute('aria-expanded', String(open)); });
   $$('#mobile-nav a').forEach((link) => link.addEventListener('click', () => { $('#mobile-nav')?.classList.add('hidden'); $('#mobile-nav')?.classList.remove('open'); $('#mobile-nav-toggle')?.setAttribute('aria-expanded', 'false'); }));
-  ['#catalog-search', '#asset-filter', '#universe-filter', '#market-filter', '#currency-filter', '#distribution-filter', '#active-filter'].forEach((selector) => { if (has(selector)) $(selector).addEventListener('input', renderCatalog); });
-  if (has('#catalog-more')) $('#catalog-more').addEventListener('click', () => { state.catalogLimit = Math.min(state.catalogLimit + 100, 1000); renderCatalog(); });
+  ['#catalog-search', '#asset-filter', '#universe-filter', '#market-filter', '#currency-filter', '#distribution-filter', '#active-filter'].forEach((selector) => { if (has(selector)) $(selector).addEventListener('input', () => { state.catalogLimit = 12; renderCatalog(); }); });
+  if (has('#catalog-more')) $('#catalog-more').addEventListener('click', () => { state.catalogLimit = state.catalogLimit + 100; renderCatalog(); });
   if (has('#security-select')) $('#security-select').addEventListener('change', (event) => selectSecurity(securityComboboxValue(event.target)));
   if (has('#scenario-select')) $('#scenario-select').addEventListener('change', (event) => syncPreset(event.target.value));
   ['#dividends-toggle', '#tax-toggle', '#reinvest-toggle'].forEach((selector) => { if (has(selector)) $(selector).addEventListener('change', () => { if (has('#scenario-select')) $('#scenario-select').value = 'custom'; }); });
@@ -1138,12 +1146,15 @@ async function init() {
   // to be silently lost (listeners did not exist yet).
   s5RestoreLedger();
   wireEvents();
+
+  initializeDiscovery();
   initializeResultStates();
   setComputeMode(API_BASE ? 'adapter' : 'local');
   if (has('#data-date')) {
     const status = API_BASE ? await apiGet('/status').catch(() => loadJson('data/data-status.json', null)) : await loadJson('data/data-status.json', null);
-    $('#data-date').textContent = status?.backfill?.as_of ? formatDate(status.backfill.as_of) : '30 Aug 2026';
+    $('#data-date').textContent = status?.backfill?.as_of ? formatDate(status.backfill.as_of) : 'Not published';
   }
+  initWorkspace((name, legacy) => { if (name === 'methods') renderSecurityMethods(); if (legacy === 'explore') $('.discovery').open = true; });
   applyAnalysisUrl();
 }
 
@@ -1534,4 +1545,56 @@ function wireRequestEdits() {
       editView(kind);
     }));
   });
+}
+
+
+function universeLabel(value) {
+  return ({ sgx_active: 'Singapore listings', sp500_current: 'S&P 500', nasdaq100_current: 'Nasdaq 100', russell2000_current: 'Russell 2000', major_global_etfs: 'Global ETFs', ui_fixture: 'Test catalog' })[value] || titleCase(value);
+}
+
+function discoveryCoverage(id) {
+  const entry = state.discoveryManifest?.securities?.find(item => item.security_id === id);
+  if (!entry) return 'Coverage not published in the available manifest';
+  const years = Object.values(entry.years || {});
+  const first = entry.first_date || years.map(y => y.first_date).filter(Boolean).sort()[0];
+  const last = entry.last_date || years.map(y => y.last_date).filter(Boolean).sort().at(-1);
+  return `${titleCase(entry.status || 'unknown')} · ${first || entry.first_year || 'unknown'} → ${last || entry.last_year || 'unknown'}`;
+}
+
+function clearSelectionMetadata(input) {
+  if (input.id === 'security-select') {
+    $('#security-hint').textContent = 'Search text is not a selected security. Choose a result.';
+    ['#security-domicile','#security-isin','#security-expense'].forEach(sel => { $(sel).textContent = '—'; });
+  }
+  if (input.id === 'methods-security') $('#security-methods').textContent = 'Choose a search result to see security-specific data.';
+}
+
+async function renderSecurityMethods() {
+  if (!has('#security-methods')) return;
+  const id = securityComboboxValue('#methods-security');
+  const entry = entryForId(id);
+  if (!entry) { $('#security-methods').textContent = 'Choose a security to inspect its published coverage and sources.'; return; }
+  const security = entry.security;
+  const manifest = state.discoveryManifest;
+  const text = `${security.ticker} · ${security.name} · ${security.exchange} · ${security.currency}`;
+  $('#security-methods').innerHTML = `<h3>${escapeHtml(text)}</h3><p>${escapeHtml(discoveryCoverage(id))}</p><dl class="methods-facts"><dt>Distribution policy</dt><dd>${escapeHtml(titleCase(security.distribution_policy || 'unknown'))}</dd><dt>Published source</dt><dd>${escapeHtml(manifest?.source || 'Not published')}</dd><dt>Snapshot</dt><dd>${escapeHtml(manifest?.data_snapshot_id || 'Not published')}</dd><dt>Generated</dt><dd>${escapeHtml(manifest?.generated_at || 'Not published')}</dd><dt>Assumptions</dt><dd>Daily unadjusted closes; purchase resolves forward, valuation backward. FX is SGD per unit of foreign currency. Investor-level withholding and reinvestment follow your selected assumptions.</dd></dl><p>Coverage describes available observations, not a promise of complete history. Review result warnings for missing or stale data. ETF expense ratio is metadata; no extra TER is deducted.</p>`;
+}
+
+function initializeDiscovery() {
+  $$('.form-combobox input').forEach(input => {
+    if (input.closest('[data-combobox]').querySelector('[data-clear-security]')) return;
+    const clear = document.createElement('button'); clear.type = 'button'; clear.className = 'text-button clear-selection'; clear.dataset.clearSecurity = input.id; clear.textContent = 'Clear selection';
+    clear.addEventListener('click', () => { input.value = ''; delete input.dataset.securityId; clearSelectionMetadata(input); input.dispatchEvent(new Event('input',{bubbles:true})); input.focus(); });
+    input.closest('[data-combobox]').append(clear);
+  });
+  $('#methods-security')?.addEventListener('change', renderSecurityMethods);
+  $('#reset-search')?.addEventListener('click', () => {
+    $('#catalog-search').value = ''; ['asset','universe','market','currency','distribution','active'].forEach(name => { $(`#${name}-filter`).value = name === 'active' ? 'active' : 'all'; }); state.catalogLimit = 12; renderCatalog(); $('#catalog-search').focus();
+  });
+  (async () => {
+    for (const loader of [packs,packsRemote].filter(Boolean)) {
+      try { state.discoveryManifest = await loader.loadManifest(); break; } catch { /* Explicit unknown coverage if neither origin responds. */ }
+    }
+    renderCatalog(); renderSecurityMethods();
+  })();
 }

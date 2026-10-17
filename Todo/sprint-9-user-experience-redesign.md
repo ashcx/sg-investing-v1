@@ -9,7 +9,7 @@ states, and make coverage and currency details understandable. This is the
 first usable increment of the redesign; navigation and the new task views come
 in later sprints.
 
-Status: **In progress**. Implementation authorized by the Product Owner on
+Status: **Complete**. Implementation authorized by the Product Owner on
 15 October 2026. S9-US01 is the first task; later stories remain gated.
 
 ## Entry criteria
@@ -121,7 +121,7 @@ order, including checks and recorded self-review before advancing.
 
 ## Exit criteria
 
-- [ ] Human Product Owner reviews the sprint outcome and evidence; record
+- [x] Human Product Owner reviews the sprint outcome and evidence; record
       actual acceptance or requested changes before starting the next sprint.
 
 - [x] Inspect the actual locally served webpage design after this sprint at
@@ -261,3 +261,10 @@ action here before proceeding. Human acceptance is recorded only when given.
   the repository's working Git authentication created the PR successfully.
 - All technical and design-review exit items are checked. Human Product Owner
   acceptance is still unchecked; no merge/deploy or Sprint 10 work performed.
+
+### Product Owner acceptance — 15 October 2026
+
+After reviewing the Sprint 9 report and Sprint 10/11 summary, the user instructed
+“go ahead and build them”, authorizing the next two increments. Sprint 9 is
+accepted for progression. PR #1 remains unmerged; implementation continues on
+stacked branches without deploying.
