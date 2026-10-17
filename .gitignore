@@ -12,3 +12,6 @@ __pycache__/
 !/frontend_application_specification.md
 !data/.gitkeep
 frontend/data/packs/
+
+# Interrupted refresh diagnostics are uploaded separately, never canonical data.
+update-diagnostics/

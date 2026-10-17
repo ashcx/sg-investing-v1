@@ -14,7 +14,7 @@ Three update paths exist:
 
 ## Daily incremental update
 
-After the US close (the scheduled workflow runs `0 21 * * 1-5` UTC):
+After the US close (the scheduled workflow runs `0 22 * * 1-5` UTC):
 
 ```bash
 python scripts/update_incremental.py --since auto
@@ -34,7 +34,7 @@ Useful flags:
 | `--since YYYY-MM-DD` | Backfill a gap: widens every fetch window back to the date (FX pairs with no history still fetch from the catalog floor). |
 | `--dry-run` | Print windows/endpoints/rebuild command; no network, no writes. |
 | `--no-build-packs` | Update the store only; rebuild packs later. |
-| `--skip-actions` | Skip corporate-action reconciliation (yfinance `.actions` is an unbounded per-ticker fetch). |
+| `--skip-actions` | Skip corporate-action reconciliation (explicitly omits action reconciliation; normally leave it enabled). |
 | `--reconciliation-days N` | Override the default 45-day trailing window. |
 
 Preview before you commit to a run:
@@ -77,7 +77,7 @@ block), which also cleans up any accumulated scoped-merge state.
 ## Scheduled CI run and applying CI artifacts
 
 `.github/workflows/update-incremental.yml` runs the daily incremental update
-(schedule `0 21 * * 1-5` plus manual dispatch) and uploads an artifact
+(schedule `0 22 * * 1-5` plus manual dispatch) and uploads an artifact
 `incremental-update-<run_id>` (retention 1 day) containing:
 
 - `incremental-store-changes.tgz` — every changed canonical store file
@@ -135,3 +135,38 @@ key health signals are:
 
 If `failed` or the error maps stay non-empty across runs, or a gap persists
 that `--since` does not close, fall back to the manual full rebuild.
+
+
+## Recovery workflow and artifact contract — 18 October 2026
+
+This section supersedes earlier assumptions that a fresh CI checkout already
+has a full pack baseline or that an update success means automatic publication.
+
+- One daily incremental schedule remains: 22:00 UTC weekdays, 06:00 Singapore
+  Tuesday–Saturday, buffered after the US close in both DST seasons. Full
+  reconciliation is manual. Both workflows share a non-cancelling concurrency
+  group. Incremental jobs have a 55-minute cap; full jobs have 330 minutes.
+- The incremental workflow runs without packs by default. Manual dispatch may
+  select comma-separated tickers for a canary and request a **full** pack build
+  after the canonical update. No partial manifest is uploaded as a full set.
+- On a complete update plus passing normal Python suite, the review artifact
+  contains changed canonical files (including untracked checkpoints), their list
+  and summary; complete packs are included only if explicitly built. Canonical-
+  only artifacts retain seven days; large full-pack artifacts retain one day to
+  limit Actions storage use. No update auto-commits or deploys.
+- A separate diagnostics artifact is always attempted, including stage/RSS
+  checkpoints, stdout/stderr, process resource output and dependency versions.
+  An incomplete run must not create a validated-update artifact. Inspect its
+  diagnostics and rerun after correcting the cause; do not apply partial files
+  just because they are present in a failed runner workspace.
+- Review/apply canonical changes in a clean checkout first. If no full pack set
+  is included, run `python scripts/build_data_packs.py` after applying them.
+  Never copy a selected/filtered manifest over a complete publication. Run the
+  normal suite and pack integrations before committing the canonical update.
+- Tested updater dependencies are constrained by `config/update-constraints.txt`;
+  workflows also retain the exact dependency inventory for each run.
+
+A canary, one manual green run, and synthetic tests are not proof of restored
+daily operations. Retain a full-universe run's resource evidence, confirm
+artifact application/publication independently, and require successive actual
+scheduled successes before checking the Sprint 7.5 operational exit.

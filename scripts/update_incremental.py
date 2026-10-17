@@ -30,8 +30,10 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import resource
 import subprocess
 import sys
+import time
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass, field
 from datetime import UTC, date, datetime, timedelta
@@ -45,9 +47,9 @@ from sg_investing.data.dividend_quality import record_coverage_snapshot
 from sg_investing.data.ingestion import (
     SecurityUpdateResult,
     update_fx_rates,
-    update_security_prices,
 )
 from sg_investing.data.providers.base import MarketDataProvider
+from sg_investing.data.providers.guarded import GuardedProvider
 from sg_investing.data.providers.yahoo import YahooFinanceProvider
 from sg_investing.data.storage import ParquetStore
 from sg_investing.data.validation import dividend_event_key
@@ -56,6 +58,7 @@ from sg_investing.universe.catalog import UniverseCatalog, load_catalog
 
 ROOT = Path(__file__).resolve().parents[1]
 RECONCILIATION_DAYS_DEFAULT = 45
+PRICE_BATCH_SIZE = 32
 # Defensive cap so a pathological run (for example a full-history backfill
 # misused as an incremental update) still produces a bounded summary; the
 # snapshot digest uses the capped key list.
@@ -63,6 +66,35 @@ CHANGE_SET_KEY_LIMIT = 10_000
 # Mirrors sg_investing.data.packs.FX_LOOKBACK_CALENDAR_DAYS: a pack's FX
 # window starts this many calendar days before its first price date.
 FX_LOOKBACK_CALENDAR_DAYS = 10
+
+
+class UpdateJournal:
+    """Durable diagnostics outside canonical data; safe to upload on failure."""
+
+    def __init__(self, root: Path):
+        self.path = root / "update-diagnostics" / "progress.json"
+        self.started = time.monotonic()
+        self.events: list[dict] = []
+
+    def record(self, stage: str, **details) -> None:
+        rss = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
+        event = {"stage": stage, "at": datetime.now(UTC).isoformat(timespec="seconds"),
+                 "elapsed_seconds": round(time.monotonic() - self.started, 3),
+                 "peak_rss_mb": round(rss / (1048576 if sys.platform == "darwin" else 1024), 2),
+                 **details}
+        self.events.append(event)
+        self.path.parent.mkdir(parents=True, exist_ok=True)
+        temporary = self.path.with_suffix(".json.tmp")
+        temporary.write_text(json.dumps({"latest": event, "events": self.events}, indent=2),
+                             encoding="utf-8")
+        temporary.replace(self.path)
+        print(json.dumps(event), file=sys.stderr, flush=True)
+
+
+def update_succeeded(summary: dict) -> bool:
+    """Never report provider/pack failures or missing observations as publishable."""
+
+    return summary.get("mode") == "dry-run" or bool(summary.get("complete"))
 
 
 @dataclass(frozen=True)
@@ -173,24 +205,31 @@ def _scan_price_last_dates(data_root: Path) -> dict[str, date]:
 
 
 def _scan_price_values(
-    data_root: Path, market: str, years: list[int]
+    data_root: Path, market: str, years: list[int], *, keys: set[tuple[str, date]]
 ) -> dict[tuple[str, date], tuple]:
-    """``(security_id, date) -> (open, high, low, close, volume)`` for a market."""
+    """Project only incoming security/date keys, never unrelated market history."""
 
     values: dict[tuple[str, date], tuple] = {}
     for year in years:
         path = data_root / "prices" / f"market={market.upper()}" / f"year={year}.parquet"
         if not path.exists():
             continue
+        year_keys = {key for key in keys if key[1].year == year}
+        if not year_keys:
+            continue
         table = pq.read_table(
             path,
             columns=["security_id", "trading_date", "open", "high", "low", "close", "volume"],
+            filters=[("security_id", "in", sorted({key[0] for key in year_keys})),
+                     ("trading_date", "in", sorted({key[1] for key in year_keys}))],
         )
         sids = table.column("security_id").to_pylist()
         days = table.column("trading_date").to_pylist()
         columns = [table.column(name).to_pylist() for name in ("open", "high", "low", "close", "volume")]
         for index in range(table.num_rows):
-            values[(sids[index], days[index])] = tuple(column[index] for column in columns)
+            key = (sids[index], days[index])
+            if key in year_keys:
+                values[key] = tuple(column[index] for column in columns)
     return values
 
 
@@ -404,46 +443,56 @@ def _security_endpoint(security: Security, start: date, end_date: date) -> str:
 
 
 def _fetch_price_rows(
-    provider: MarketDataProvider, plans: list[SecurityPlan], end_date: date
+    provider: MarketDataProvider, plans: list[SecurityPlan], end_date: date, *, progress=None
 ) -> tuple[dict[str, list], dict[str, str], dict[str, str]]:
-    """Batch price fetch plus per-security window filtering.
+    """Fetch exact-window groups in bounded batches; stale peers cannot widen tails."""
 
-    Securities whose whole history must be fetched (no stored prices) are
-    handled by the straggler path in :func:`run_incremental_update` instead.
-    """
-
-    batch = [plan for plan in plans if not plan.full_fetch]
-    rows_by_security: dict[str, list] = {}
+    groups: dict[date, list[SecurityPlan]] = {}
+    for plan in plans:
+        if plan.price_start <= end_date:
+            groups.setdefault(plan.price_start, []).append(plan)
+    filtered: dict[str, list] = {}
     errors: dict[str, str] = {}
     warnings: dict[str, str] = {}
-    if batch:
-        start = min(plan.price_start for plan in batch)
-        if hasattr(provider, "get_prices_batch"):
-            batch_rows, batch_errors, batch_warnings = provider.get_prices_batch(
-                [plan.security for plan in batch], start, end_date
-            )
-            rows_by_security = {
-                str(security_id): list(rows) for security_id, rows in batch_rows.items()
-            }
-            errors = {str(key): value for key, value in batch_errors.items()}
-            warnings = {str(key): value for key, value in batch_warnings.items()}
-        else:
-            for plan in batch:
+    # Healthy recent tails run first, followed by isolated historical repairs.
+    completed_count = 0
+    for start in sorted(groups, reverse=True):
+        group = groups[start]
+        for offset in range(0, len(group), PRICE_BATCH_SIZE):
+            batch = group[offset:offset + PRICE_BATCH_SIZE]
+            rows_by_security: dict[str, list] = {}
+            if hasattr(provider, "get_prices_batch"):
                 try:
-                    rows_by_security[str(plan.security.security_id)] = list(
-                        provider.get_prices(plan.security, start, end_date)
+                    batch_rows, batch_errors, batch_warnings = provider.get_prices_batch(
+                        [plan.security for plan in batch], start, end_date
                     )
-                except Exception as error:  # noqa: BLE001 - retain failure per security
-                    errors[str(plan.security.security_id)] = str(error)
-    filtered: dict[str, list] = {}
-    for plan in batch:
-        rows = [
-            row
-            for row in rows_by_security.get(str(plan.security.security_id), [])
-            if plan.price_start <= row.trading_date <= end_date
-        ]
-        if rows:
-            filtered[str(plan.security.security_id)] = rows
+                    rows_by_security = {str(key): list(rows) for key, rows in batch_rows.items()}
+                    errors.update({str(key): value for key, value in batch_errors.items()})
+                    warnings.update({str(key): value for key, value in batch_warnings.items()})
+                except Exception as error:  # noqa: BLE001 - retain bounded batch failure
+                    errors.update({str(plan.security.security_id): str(error) for plan in batch})
+            else:
+                for plan in batch:
+                    try:
+                        rows_by_security[str(plan.security.security_id)] = list(
+                            provider.get_prices(plan.security, plan.price_start, end_date)
+                        )
+                    except Exception as error:  # noqa: BLE001 - retain per-security failure
+                        errors[str(plan.security.security_id)] = str(error)
+            for plan in batch:
+                security_id = str(plan.security.security_id)
+                rows = rows_by_security.get(security_id, [])
+                if any(row.security_id != plan.security.security_id
+                       or row.currency != plan.security.currency
+                       or row.exchange != plan.security.exchange for row in rows):
+                    errors[security_id] = "Provider returned prices for another listing or currency."
+                    continue
+                rows = [row for row in rows if plan.price_start <= row.trading_date <= end_date]
+                if rows and security_id not in errors:
+                    filtered[security_id] = rows
+            completed_count += len(batch)
+            if progress:
+                progress(completed_count, len(plans))
     return filtered, errors, warnings
 
 
@@ -452,6 +501,7 @@ def _fetch_action_rows(
     starts: list[tuple[Security, date]],
     end_date: date,
     workers: int,
+    *, progress=None,
 ) -> tuple[list[CorporateAction], dict[str, str]]:
     """Threaded corporate-action reconciliation; rows are upserted after collection."""
 
@@ -469,11 +519,13 @@ def _fetch_action_rows(
 
     with ThreadPoolExecutor(max_workers=max(1, workers)) as executor:
         futures = [(str(security.security_id), executor.submit(job, security, start)) for security, start in starts]
-        for security_id, future in futures:
+        for index, (security_id, future) in enumerate(futures, start=1):
             try:
                 rows.extend(future.result())
             except Exception as error:  # noqa: BLE001 - retain failure per security
                 errors[security_id] = str(error)
+            if progress and (index % 32 == 0 or index == len(futures)):
+                progress(index, len(futures))
     return rows, errors
 
 
@@ -599,6 +651,29 @@ def _pack_command(root: Path, touched: dict[str, set[int]] | None) -> list[str]:
     return command
 
 
+def _require_complete_pack_baseline(root: Path, selected_catalog: UniverseCatalog) -> None:
+    """A scoped build must never turn a clean checkout into a partial release."""
+
+    pack_root = root / "frontend" / "data" / "packs"
+    path = pack_root / "manifest.json"
+    if not path.exists():
+        raise ValueError("Scoped pack rebuild requires a complete baseline. Build full packs first "
+                         "or use --no-build-packs and rebuild full packs before publication.")
+    manifest = json.loads(path.read_text(encoding="utf-8"))
+    scope = manifest.get("scope", {})
+    if any(scope.get(key) is not None for key in ("security_ids", "markets", "years")):
+        raise ValueError("Scoped/filtered pack baseline is not a complete canonical baseline.")
+    expected = {str(entry.security.security_id) for entry in selected_catalog.securities}
+    actual = {entry["security_id"] for entry in manifest.get("securities", [])}
+    if not expected <= actual:
+        raise ValueError("Pack baseline omits catalog securities; rebuild full packs first.")
+    for entry in manifest.get("securities", []):
+        for detail in entry.get("years", {}).values():
+            pack = (pack_root / detail["pack"]).resolve()
+            if not pack.is_relative_to(pack_root.resolve()) or not pack.is_file():
+                raise ValueError("Pack baseline references missing or unsafe pack paths.")
+
+
 def _load_previous_summary(root: Path) -> dict:
     path = root / "data" / "update_summary.json"
     if not path.exists():
@@ -685,6 +760,9 @@ def run_incremental_update(
     """Run one incremental update and return the JSON-serializable summary."""
 
     root_path = Path(root)
+    journal = None if dry_run else UpdateJournal(root_path)
+    if journal:
+        journal.record("planning", status="running")
     settings = yaml.safe_load((root_path / "config" / "settings.yaml").read_text(encoding="utf-8"))
     catalog_path = root_path / "data" / "universe" / "current_catalog.json"
     if not catalog_path.exists():
@@ -737,8 +815,12 @@ def run_incremental_update(
             selected_count=len(selected),
         )
 
+    if build_packs:
+        _require_complete_pack_baseline(root_path, catalog)
     if provider is None:
-        provider = YahooFinanceProvider()
+        provider = GuardedProvider(YahooFinanceProvider(bounded_events=True))
+    if journal:
+        journal.record("prices", securities=len(selected), status="running")
 
     base_hash = _store_chain_hash(data_root)
     previous_summary = _load_previous_summary(root_path)
@@ -753,49 +835,41 @@ def run_incremental_update(
     ):
         base_id = previous_summary["incremental_snapshot_id"]
 
-    fetch_years = _years_between(
-        min(item.price_start for item in plan.securities), end
+    price_rows, batch_errors, batch_warnings = _fetch_price_rows(
+        provider, plan.securities, end,
+        progress=lambda completed, total: journal.record(
+            "prices", completed=completed, total=total, status="running"
+        ),
     )
-    markets = sorted({item.security.market for item in plan.securities})
-    before_values = {market: _scan_price_values(data_root, market, fetch_years) for market in markets}
-
-    straggler_plans = [item for item in plan.securities if item.full_fetch]
-    straggler_results: dict[str, SecurityUpdateResult] = {}
-    for item in straggler_plans:
-        straggler_results[str(item.security.security_id)] = update_security_prices(
-            store=store,
-            provider=provider,
-            security=item.security,
-            end_date=end,
-            start_floor=item.price_start,
-            reconciliation_days=reconciliation_days,
-            pipeline_version=settings["pipeline_version"],
-            include_dividends=False,
-        )
-
-    price_rows, batch_errors, batch_warnings = _fetch_price_rows(provider, plan.securities, end)
-    rows_by_market: dict[str, list] = {}
+    rows_by_partition: dict[tuple[str, int], list] = {}
     for security_id, rows in price_rows.items():
-        rows_by_market.setdefault(market_by_security[security_id], []).extend(rows)
+        for row in rows:
+            rows_by_partition.setdefault(
+                (market_by_security[security_id], row.trading_date.year), []
+            ).append(row)
     manifests_by_market: dict[str, list] = {}
-    for market, rows in sorted(rows_by_market.items()):
-        manifests_by_market[market] = store.upsert_prices(
-            market=market, rows=rows, pipeline_version=settings["pipeline_version"]
-        )
-    after_values = {market: _scan_price_values(data_root, market, fetch_years) for market in markets}
     price_keys: list[str] = []
     price_restated = 0
-    for market in markets:
-        keys, restated = _price_change_keys(before_values[market], after_values[market])
-        price_keys.extend(keys)
+    max_compared_keys = 0
+    # Release each partition's before/after projection before visiting the next.
+    # Even a historical straggler never materializes unrelated years/securities.
+    for (market, year), rows in sorted(rows_by_partition.items()):
+        keys = {(str(row.security_id), row.trading_date) for row in rows}
+        max_compared_keys = max(max_compared_keys, len(keys))
+        before = _scan_price_values(data_root, market, [year], keys=keys)
+        manifests = store.upsert_prices(
+            market=market, rows=rows, pipeline_version=settings["pipeline_version"]
+        )
+        manifests_by_market.setdefault(market, []).extend(manifests)
+        after = _scan_price_values(data_root, market, [year], keys=keys)
+        changed, restated = _price_change_keys(before, after)
+        price_keys.extend(changed)
         price_restated += restated
-    straggler_touches = [
-        (security_id, int(manifest.first_date[:4]))
-        for security_id, result in straggler_results.items()
-        for manifest in result.manifests
-        if manifest.first_date is not None
-    ]
+        del before, after
+    straggler_touches: list[tuple[str, int]] = []
 
+    journal.record("dividends", price_rows=sum(map(len, price_rows.values())),
+                   price_errors=len(batch_errors), status="running")
     before_dividends = _stored_event_signatures(store, "dividends")
     dividend_recon = reconciliation_days
     if since_date is not None:
@@ -809,9 +883,12 @@ def run_incremental_update(
         start_floor=catalog.history_start,
         reconciliation_days=dividend_recon,
         workers=settings.get("price_backfill_workers", 4),
-        retries=2,
+        retries=0 if isinstance(provider, GuardedProvider) else 2,
         include_unknown=True,
         tickers=[security.ticker for security in selected],
+        progress=lambda completed, total: journal.record(
+            "dividends", completed=completed, total=total, status="running"
+        ),
     )
     dividend_coverage_warnings = record_coverage_snapshot(
         dividend_report,
@@ -821,15 +898,23 @@ def run_incremental_update(
         "dividends", before_dividends, _stored_event_signatures(store, "dividends")
     )
 
+    journal.record("corporate_actions", status="running")
     action_keys: list[str] = []
     action_restated = 0
     action_errors: dict[str, str] = {}
     if not skip_actions:
         before_actions = _stored_event_signatures(store, "corporate_actions")
         latest_actions = _scan_last_action_dates(store)
+        action_state_path = data_root / "corporate_actions" / "query_checkpoints.json"
+        action_checkpoints = (json.loads(action_state_path.read_text(encoding="utf-8"))
+                              if action_state_path.exists() else {})
         action_starts: list[tuple[Security, date]] = []
         for item in plan.securities:
-            latest = latest_actions.get(str(item.security.security_id))
+            security_id = str(item.security.security_id)
+            latest = latest_actions.get(security_id)
+            if security_id in action_checkpoints:
+                through = date.fromisoformat(action_checkpoints[security_id])
+                latest = max(latest or through, through)
             start, _ = _resolve_window_start(
                 since=since_date,
                 last_date=latest,
@@ -842,13 +927,26 @@ def run_incremental_update(
             action_starts,
             end,
             workers=settings.get("price_backfill_workers", 4),
+            progress=lambda completed, total: journal.record(
+                "corporate_actions", completed=completed, total=total, status="running"
+            ),
         )
         if action_rows:
             store.upsert_corporate_actions(action_rows)
+        for security, _ in action_starts:
+            if str(security.security_id) not in action_errors:
+                action_checkpoints[str(security.security_id)] = end.isoformat()
+        action_state_path.parent.mkdir(parents=True, exist_ok=True)
+        action_state_temporary = action_state_path.with_suffix(".json.tmp")
+        action_state_temporary.write_text(
+            json.dumps(action_checkpoints, sort_keys=True, indent=2) + "\n", encoding="utf-8"
+        )
+        action_state_temporary.replace(action_state_path)
         action_keys, action_restated = _event_change_keys(
             "corporate_actions", before_actions, _stored_event_signatures(store, "corporate_actions")
         )
 
+    journal.record("fx", action_errors=len(action_errors), status="running")
     before_fx = _stored_fx_signatures(store)
     fx_rows_written = 0
     fx_errors: dict[str, str] = {}
@@ -862,15 +960,18 @@ def run_incremental_update(
                 start_floor=date.fromisoformat(fx_plan["start"]),
                 reconciliation_days=fx_plan["reconciliation_days"],
             )
+            if not rows:
+                raise ValueError("Provider returned no FX observations in the requested window.")
             fx_rows_written += len(rows)
         except Exception as error:  # noqa: BLE001 - retain failure per pair
             fx_errors[fx_plan["base_currency"]] = str(error)
     fx_keys, fx_restated = _fx_change_keys(before_fx, _stored_fx_signatures(store))
 
     change_keys = [*price_keys, *dividend_keys, *action_keys, *fx_keys]
-    for security_id, result in straggler_results.items():
-        if result.rows_written:
-            change_keys.append(f"security:{security_id}:backfilled:{result.rows_written}")
+    for item in plan.securities:
+        security_id = str(item.security.security_id)
+        if item.full_fetch and price_rows.get(security_id):
+            change_keys.append(f"security:{security_id}:backfilled:{len(price_rows[security_id])}")
     truncated = len(change_keys) > CHANGE_SET_KEY_LIMIT
     capped_keys = sorted(change_keys)[:CHANGE_SET_KEY_LIMIT]
     snapshot_id = incremental_snapshot_id(base_id, capped_keys)
@@ -880,6 +981,7 @@ def run_incremental_update(
     touched = _touched_pairs(
         change_keys, straggler_touches, data_root, currency_by_security, last_dates
     )
+    journal.record("packs", touched_securities=len(touched), status="running")
     if build_packs and touched:
         command = _pack_command(root_path, touched)
         completed = subprocess.run(command, capture_output=True, text=True, check=False)
@@ -905,9 +1007,6 @@ def run_incremental_update(
     results: list[SecurityUpdateResult] = []
     for item in plan.securities:
         security_id = str(item.security.security_id)
-        if item.full_fetch:
-            results.append(straggler_results[security_id])
-            continue
         rows = price_rows.get(security_id, [])
         if security_id in batch_errors:
             results.append(
@@ -952,6 +1051,8 @@ def run_incremental_update(
         "reconciliation_days": reconciliation_days,
         "pipeline_version": settings["pipeline_version"],
         "provider": provider.name,
+        "provider_telemetry": provider.telemetry() if isinstance(provider, GuardedProvider) else None,
+        "skipped_datasets": ["corporate_actions"] if skip_actions else [],
         "securities_selected_count": len(selected),
         "full_history_fetch_securities": sorted(
             item.security.ticker for item in plan.securities if item.full_fetch
@@ -968,6 +1069,8 @@ def run_incremental_update(
         "changed_securities": sorted(touched),
         "changed_years": dict(sorted(touched_years.items())),
         "price_rows_fetched": sum(len(rows) for rows in price_rows.values()),
+        "price_batch_size_limit": PRICE_BATCH_SIZE,
+        "max_price_comparison_keys": max_compared_keys,
         "price_dates_new": len(price_keys) - price_restated,
         "price_dates_restated": price_restated,
         "dividend_events_new_or_restated": len(dividend_keys),
@@ -995,9 +1098,19 @@ def run_incremental_update(
         ],
         "packs": packs_payload,
     }
+    dividend_errors = [result for result in dividend_results if result.error]
+    summary["complete"] = not (
+        summary["failed"] or summary["warnings"] or dividend_errors or action_errors or fx_errors
+        or summary["skipped_datasets"]
+        or (packs_payload and packs_payload.get("error"))
+        or (isinstance(provider, GuardedProvider) and provider.circuit_reason)
+    )
+    summary["publication_status"] = "ready_for_review" if summary["complete"] else "incomplete"
     (root_path / "data" / "update_summary.json").write_text(
         json.dumps(summary, indent=2), encoding="utf-8"
     )
+    journal.record("finished", status=summary["publication_status"],
+                   provider_telemetry=summary["provider_telemetry"])
     return summary
 
 
@@ -1029,7 +1142,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument(
         "--skip-actions",
         action="store_true",
-        help="Skip corporate-action reconciliation (yfinance .actions is an unbounded per-ticker fetch).",
+        help="Skip corporate-action reconciliation explicitly; daily runs normally include it.",
     )
     parser.add_argument(
         "--reconciliation-days",
@@ -1068,7 +1181,7 @@ def main(argv: list[str] | None = None) -> int:
         parser.error(str(error))
         return 2  # pragma: no cover - parser.error exits
     print(json.dumps(summary, indent=2))
-    return 0
+    return 0 if update_succeeded(summary) else 1
 
 
 if __name__ == "__main__":

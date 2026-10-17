@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from collections import Counter
-from collections.abc import Iterable
+from collections.abc import Callable, Iterable
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import UTC, date, datetime, timedelta
 from itertools import islice
@@ -133,6 +133,7 @@ def backfill_dividends(
     full_history: bool = False,
     retry_provider_errors: bool = False,
     refresh_existing_events: bool = False,
+    progress: Callable[[int, int], None] | None = None,
 ) -> tuple[DividendCoverageReport, list[DividendBackfillResult]]:
     """Fetch, validate, merge, and report dividend history for the catalog.
 
@@ -252,6 +253,9 @@ def backfill_dividends(
                         rows_fetched=len(rows),
                     )
                 )
+
+            if progress and (len(results) % 32 == 0 or len(results) == len(securities)):
+                progress(len(results), len(securities))
 
     if all_rows:
         store.upsert_dividends(all_rows)

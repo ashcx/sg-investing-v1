@@ -1,0 +1,5 @@
+# Tested data-update runtime, recorded during Sprint 7.5 recovery.
+yfinance==1.7.0
+polars==2.0.0
+pyarrow==26.0.0
+pydantic==2.14.1

@@ -1,0 +1,10 @@
+static-site checks over /private/tmp/sg-incremental-recovery/frontend
+index.html: 15 src/href reference(s)
+app.js: 10 path-like literal(s)
+  optional (may 404 by design): sg-invest-*-result.json
+  optional (may 404 by design): sg-invest-ledger.json
+ledger-store.js: 0 path-like literal(s)
+frontend/data: parsing 8 JSON artifact(s) (packs excluded)
+frontend/data/packs: manifest parses; checking 55574 referenced pack(s)
+
+OK: all static-site checks passed (9 file reference(s) resolved)

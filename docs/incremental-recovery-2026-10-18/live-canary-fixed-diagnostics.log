@@ -1,0 +1,7 @@
+{"stage": "planning", "at": "2026-10-17T23:04:39+00:00", "elapsed_seconds": 0.0, "peak_rss_mb": 63.89, "status": "running"}
+{"stage": "prices", "at": "2026-10-17T23:04:41+00:00", "elapsed_seconds": 1.596, "peak_rss_mb": 434.72, "securities": 3, "status": "running"}
+{"stage": "dividends", "at": "2026-10-17T23:04:46+00:00", "elapsed_seconds": 6.711, "peak_rss_mb": 1736.69, "price_rows": 141, "price_errors": 0, "status": "running"}
+{"stage": "corporate_actions", "at": "2026-10-17T23:04:48+00:00", "elapsed_seconds": 8.714, "peak_rss_mb": 1736.69, "status": "running"}
+{"stage": "fx", "at": "2026-10-17T23:04:49+00:00", "elapsed_seconds": 9.353, "peak_rss_mb": 1736.69, "action_errors": 0, "status": "running"}
+{"stage": "packs", "at": "2026-10-17T23:04:49+00:00", "elapsed_seconds": 9.569, "peak_rss_mb": 1736.69, "touched_securities": 3, "status": "running"}
+{"stage": "finished", "at": "2026-10-17T23:04:49+00:00", "elapsed_seconds": 9.603, "peak_rss_mb": 1736.69, "status": "ready_for_review", "provider_telemetry": {"requests": 9, "retries": 0, "circuit_reason": null, "elapsed_seconds": 7.973}}

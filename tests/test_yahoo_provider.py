@@ -240,3 +240,64 @@ def test_empty_batch_does_not_call_provider():
     with patch.dict(sys.modules, {"yfinance": SimpleNamespace(Ticker=fake.Ticker, download=fake.download)}):
         result = YahooFinanceProvider().get_prices_batch([], date(2024, 1, 1), date(2024, 1, 2))
     assert result == ({}, {}, {})
+
+
+def test_incremental_events_use_bounded_history_without_full_history_properties():
+    sec = security()
+
+    class BoundedTicker:
+        def __init__(self):
+            self.calls = []
+
+        @property
+        def dividends(self):
+            raise AssertionError("full-history dividends must not be accessed")
+
+        @property
+        def actions(self):
+            raise AssertionError("full-history actions must not be accessed")
+
+        def history(self, **kwargs):
+            self.calls.append(kwargs)
+            return pd.DataFrame({"Close": [100, 101], "Dividends": [0, 1.5],
+                                 "Stock Splits": [0, 2]},
+                                index=pd.to_datetime(["2024-01-02", "2024-01-03"]))
+
+    ticker = BoundedTicker()
+    provider = YahooFinanceProvider(bounded_events=True)
+    with patch.object(provider, "_ticker", return_value=ticker):
+        dividends = provider.get_dividends(sec, date(2024, 1, 1), date(2024, 1, 31))
+        actions = provider.get_corporate_actions(sec, date(2024, 1, 1), date(2024, 1, 31))
+    assert [row.amount for row in dividends] == [Decimal("1.5")]
+    assert [row.ratio for row in actions] == [Decimal(2)]
+    assert all(call["start"] == "2024-01-01" and call["end"] == "2024-02-01"
+               and call["raise_errors"] and call["actions"] for call in ticker.calls)
+
+
+def test_incremental_empty_history_is_not_confirmed_zero_events():
+    provider = YahooFinanceProvider(bounded_events=True)
+    with patch.object(provider, "_ticker", return_value=FakeTicker()):
+        with pytest.raises(ValueError, match="event absence is unconfirmed"):
+            provider.get_dividends(security(), date(2024, 1, 1), date(2024, 1, 31))
+        with pytest.raises(ValueError, match="event absence is unconfirmed"):
+            provider.get_corporate_actions(security(), date(2024, 1, 1), date(2024, 1, 31))
+
+
+def test_incremental_successful_history_with_zero_events_is_empty():
+    provider = YahooFinanceProvider(bounded_events=True)
+    history = pd.DataFrame({"Close": [100], "Dividends": [0], "Stock Splits": [0]},
+                           index=pd.to_datetime(["2024-01-02"]))
+    with patch.object(provider, "_ticker", return_value=FakeTicker(history=history)):
+        assert provider.get_dividends(security(), date(2024, 1, 1), date(2024, 1, 31)) == []
+        assert provider.get_corporate_actions(security(), date(2024, 1, 1), date(2024, 1, 31)) == []
+
+
+def test_fx_provider_filters_vendor_rows_beyond_inclusive_requested_dates():
+    history = pd.DataFrame({"Close": [1.2, 1.3, 1.4]},
+                           index=pd.to_datetime(["2023-12-31", "2024-01-02", "2024-02-01"]))
+    provider = YahooFinanceProvider(bounded_events=True)
+    with patch.object(provider, "_ticker_symbol", return_value=FakeTicker(history=history)):
+        rows = provider.get_fx_rates("USD", date(2024, 1, 1), date(2024, 1, 31))
+    assert [(row.rate_date, row.rate_to_sgd) for row in rows] == [
+        (date(2024, 1, 2), Decimal("1.3"))
+    ]
