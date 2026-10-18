@@ -1,11 +1,12 @@
 from __future__ import annotations
 
 import json
-from datetime import date
+from datetime import UTC, date, datetime
 from decimal import Decimal
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from unittest import TestCase
+from unittest.mock import patch
 
 from sg_investing.data.packs import (
     METHODOLOGY_VERSION,
@@ -378,6 +379,13 @@ class SupportClassificationTests(DataPacksTestCase):
 class MergeAndVersioningTests(DataPacksTestCase):
     def test_rebuild_from_unchanged_store_reproduces_snapshot_id(self) -> None:
         self._write_usd_prices()
+        # Build provenance contains the generation time. Control that input so
+        # byte-level determinism does not depend on two builds sharing a second.
+        with patch("sg_investing.data.packs.datetime") as clock:
+            clock.now.return_value = datetime(2026, 9, 1, tzinfo=UTC)
+            self._assert_repeatable_build()
+
+    def _assert_repeatable_build(self):
         first = self._build()
         manifest = self._manifest()
         pack_bytes = (self.output / pack_path(str(self.usd.security_id), 2023)).read_bytes()

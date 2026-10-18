@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from collections import Counter
-from collections.abc import Iterable
+from collections.abc import Callable, Iterable
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import UTC, date, datetime, timedelta
 from itertools import islice
@@ -18,7 +18,12 @@ from sg_investing.data.dividend_quality import (
     coverage_record_map,
     write_coverage_report,
 )
-from sg_investing.data.providers.base import MarketDataProvider
+from sg_investing.data.providers.base import (
+    MarketDataProvider,
+    ProviderHistoryUnavailable,
+    UnavailableObservation,
+    provider_error_message,
+)
 from sg_investing.data.storage import ParquetStore
 from sg_investing.data.validation import validate_dividends
 from sg_investing.models import DistributionPolicy, DividendEvent, Security
@@ -35,6 +40,7 @@ class DividendBackfillResult(BaseModel):
     status: str
     rows_fetched: int = Field(ge=0)
     error: str | None = None
+    provider_unavailable: bool = False
 
 
 def _unique_securities(catalog: UniverseCatalog) -> dict[str, tuple[Security, date]]:
@@ -69,9 +75,11 @@ def _fetch_dividends(
             return rows, None
         except Exception as error:  # noqa: BLE001 - retain failure per security
             last_error = error
+            if isinstance(error, ProviderHistoryUnavailable):
+                break
             if attempt < retries:
                 continue
-    return [], str(last_error or "Unknown provider error")
+    return [], provider_error_message(last_error or RuntimeError("Unknown provider error"))
 
 
 def _query_start(
@@ -113,6 +121,7 @@ def _result(
         status=status,
         rows_fetched=rows_fetched,
         error=error,
+        provider_unavailable=isinstance(error, UnavailableObservation),
     )
 
 
@@ -133,6 +142,7 @@ def backfill_dividends(
     full_history: bool = False,
     retry_provider_errors: bool = False,
     refresh_existing_events: bool = False,
+    progress: Callable[[int, int], None] | None = None,
 ) -> tuple[DividendCoverageReport, list[DividendBackfillResult]]:
     """Fetch, validate, merge, and report dividend history for the catalog.
 
@@ -252,6 +262,9 @@ def backfill_dividends(
                         rows_fetched=len(rows),
                     )
                 )
+
+            if progress and (len(results) % 32 == 0 or len(results) == len(securities)):
+                progress(len(results), len(securities))
 
     if all_rows:
         store.upsert_dividends(all_rows)

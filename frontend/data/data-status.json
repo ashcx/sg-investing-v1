@@ -3,7 +3,7 @@
     "as_of": "2026-08-31",
     "by_status": {
       "incomplete": 59,
-      "stored": 3109,
+      "stored": 3107,
       "unavailable": 4
     },
     "run": {
@@ -14,23 +14,27 @@
       "succeeded": 0
     },
     "state_file": "price_backfill_state.json",
-    "total_securities": 3172,
+    "total_securities": 3170,
     "updated_at": "2026-08-30T16:30:37.619484+00:00"
   },
   "catalog_version": "current_catalog",
   "coverage_note": "Incomplete and unavailable rows remain visible; the API resolves only canonical parquet data.",
-  "generated_at": "2026-08-30",
+  "generated_at": "2026-10-18",
   "history_start": "2000-01-01",
   "universe": {
     "as_of": "2026-08-30",
-    "membership_rows": 3256,
+    "excluded_security_ids": [
+      "0ef6cc6b-7c95-5c01-a172-d81d7fbf36f4",
+      "88d0748e-e47b-58ee-8419-68e7137b2637"
+    ],
+    "membership_rows": 3257,
     "source_counts": {
       "nasdaq100_current": 101,
       "russell2000_current": 1946,
       "sgx_active": 708,
       "sp500_current": 489
     },
-    "unique_securities": 3172
+    "unique_securities": 3170
   },
   "update": {
     "failed": 0,

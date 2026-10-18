@@ -1,0 +1,21 @@
+{
+  "catalog_as_of": "2026-08-30",
+  "catalog_version": "sha256-2906ffe5baab38d6",
+  "data_snapshot_id": "sha256-8121f966801bd011f59892f8a71cf3d872b6358ad5557aa5032f2ce46e769d67",
+  "manifest_bytes": 18483658,
+  "output_dir": "/private/tmp/sg-incremental-recovery/frontend/data/packs",
+  "pack_count": 55574,
+  "price_rows": 13422888,
+  "securities": 3188,
+  "support_counts": {
+    "fully_supported": 2514,
+    "incomplete": 670,
+    "unavailable": 4
+  },
+  "total_bytes": 1855763530,
+  "warnings": [
+    "4 catalog securities have no price data in this snapshot.",
+    "16 priced securities are not present in the current catalog snapshot.",
+    "No FX history is available for required pairs: CNY, EUR, GBP."
+  ]
+}

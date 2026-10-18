@@ -85,6 +85,7 @@ class CatalogSnapshot:
     version: str
     as_of: str | None
     history_start: str | None
+    excluded_security_ids: frozenset[str] = frozenset()
 
 
 def load_catalog_snapshot(root: str | Path) -> CatalogSnapshot:
@@ -118,6 +119,7 @@ def load_catalog_snapshot(root: str | Path) -> CatalogSnapshot:
         version=version,
         as_of=as_of,
         history_start=catalog.history_start.isoformat(),
+        excluded_security_ids=frozenset(map(str, catalog.excluded_security_ids)),
     )
 
 
@@ -738,6 +740,8 @@ def build_data_packs(
             indices.setdefault(security_id, []).append(index)
         calendar = set(table.column("trading_date").to_pylist())
         for security_id in sorted(indices):
+            if security_id in catalog.excluded_security_ids:
+                continue
             if wanted_ids is not None and security_id not in wanted_ids:
                 continue
             rows = sorted(

@@ -141,8 +141,16 @@ redesign sprint is started by this investigation. Main-instance ownership only.
 
 - [x] Inspect scheduled runs and logs, compare against pre-redesign code,
       reproduce fetch-plan behavior offline, and record findings and checks.
-- [ ] Repair bounded fetching, memory usage, provider retry behavior, workflow
+- [x] Repair bounded fetching, memory usage, provider retry behavior, workflow
       scheduling/diagnostics, and incomplete-result reporting sequentially.
+  - [x] R1: group price calls by exact window in bounded batches; compare only
+        incoming security/date rows, preserving restatement and gap detection.
+  - [x] R2: bound provider event queries, pace requests, back off retries and
+        stop new provider traffic on rate limits; retain missing/empty semantics.
+  - [x] R3: make full refresh manual, cap daily runtime, preserve diagnostics
+        on failure and prevent incomplete data from being labeled publishable.
+  - [x] R4: require a complete pack baseline or an explicit full pack build;
+        document artifact application and run full offline regression checks.
 - [ ] Verify the canonical application/pack-baseline/publication process and
       retain live canary/full-run resource evidence and successive green daily runs
       before restoring the Track B operational exit.
@@ -161,30 +169,308 @@ Full evidence, run URLs, limitations, and next sequential repair actions:
 [investigation report](../docs/incremental-update-investigation-2026-10-18.md).
 No operational fix or successful daily update is claimed by this amendment.
 
-### 18 October 2026 — isolated recovery implementation and user direction
 
-User confirms the early Sprint 14 designs are acceptable and requests technical
-work first. Recovery continues before any interface implementation.
-Draft recovery PR: https://github.com/ashcx/sg-investing-v1/pull/5
-(branch `codex/recover-incremental-updates`; isolated checkout
-`/private/tmp/sg-incremental-recovery`). Detailed task logs and retained check
-reports are in that PR. Recovery implements exact-window bounded fetches,
-provider pacing/backoff/circuit limits, durable diagnostics, workflow concurrency,
-and complete pack-baseline checks. Current offline battery: 256 passed,
-8 opt-in smoke deselected; changed-file Ruff passed. A three-listing disposable
-live canary passed after an out-of-window FX fix. Full-universe live verification
-is still active; no production data, schedule recovery or deployment is claimed.
-Explicit provider no-history windows remain visible with failed/unknown event
-coverage and retained old observations; broken requests and missing FX still
-block publication. Actual successive scheduled successes and operator publication
-verification remain required before the reopened operational exit can be ticked.
+### 18 October 2026 — recovery execution entry
 
-Full live rehearsal finished in 26m42s, peak RSS 2,183.34 MiB, 9,515 requests
-with zero retries/rate-limit circuit; 3,138 listings updated. It remained
-incomplete, with explicit unavailable listings and two malformed Yahoo prices
-(WBD/ATAI zero opening prices). Final candidate's mixed supported/absent canary
-passed; the canary including those malformed prices correctly failed. All six
-GitHub checks for 621e37a passed. User decision is pending on quarantining only
-WBD/ATAI with visible warnings versus retaining the global failure until source
-repair. No exclusion, canonical application, merge or deployment performed.
-Detailed retained evidence is in recovery PR #5.
+User explicitly chose to resolve this recovery before Sprints 12–15. Verified
+original Sprint 7 entry checklist and historical evidence; the reopened operation
+exit remains unchecked. Branch `codex/recover-incremental-updates` is isolated
+from pending redesign plans on current main 32a25f7. No canonical data or deployed
+interface is changed by code tests. Execute R1 → R2 → R3 → R4 sequentially, then
+live canary/full-universe evidence and actual scheduled-run verification. Runtime
+and financial result-envelope/decimal semantics remain unchanged.
+Current action: R1 exact-window batching and bounded change detection.
+
+
+### R1 complete — bounded price work, 18 October 2026
+
+Grouped exact start windows, capped batches at 32 listings, and included missing-
+history listings in isolated window groups rather than the old per-security
+full-store scan. Healthy recent tails execute before historical repairs. Before/
+after comparisons project only incoming security/date keys, one market/year at
+a time; currency/listing identity is checked before canonical upsert. Existing
+storage validation/atomicity remains intact.
+Checks: incremental suite 22 passed in 2.40s, including four new regressions for
+stale-peer batching, nonbatch windows, projected keys, new rows/restatements.
+Changed-file Ruff passed. Read-only whole-catalog recording probe: 3,172 listings,
+106 calls, maximum 32 per batch; QQQ starts 2026-07-13 while M12.SI remains alone
+at 2013-01-21. Zero network calls and canonical writes. Separate self-review
+removed the former straggler action fetch to avoid duplicate event retrieval;
+events remain in their dedicated reconciliations. No operational recovery claim.
+Next sequential action: R2 bounded event queries and request resilience.
+
+
+### R2 complete — bounded live queries and request containment
+
+Incremental Yahoo mode now uses explicitly dated, actions-enabled history for
+dividends/splits (with errors raised and 20-second request timeout), preserving
+the ordinary provider path for existing full-refresh callers. Missing history
+or omitted event columns are errors, not confirmed zero events. Successful empty
+action queries record a durable cursor, preventing repeated inception-to-present
+requests; failures never advance it.
+A run-scoped provider guard serializes/paces calls, retries transient failures
+with exponential delays, bounds total requests/time, and opens a shared circuit
+on rate limits. It uses individual listing calls so batch-downloader exception
+suppression cannot conceal throttling. Backfill's immediate retries are disabled
+for the guarded live provider; deterministic fake-provider behavior is retained.
+Checks: 51 focused tests passed in 2.81s (incremental/provider/backfill suites),
+including bounded queries, missing-vs-zero events, successful/failed action
+cursors, shared circuit, request budget and retry pacing. Separate self-review
+checked error states, no fake-provider network, and preservation of dividend
+currency/classification and split/bonus semantics. Market-data extra installed
+in the existing isolated test environment: yfinance 1.7.0 API inspected locally.
+No live data query or canonical production write yet. Next: R3 diagnostics,
+scheduling and explicit incomplete-result status.
+
+
+### R3 complete — observable, bounded, non-publishing refresh workflow
+
+Added a durable stage/resource journal outside canonical data. Final summary
+records complete/incomplete and review readiness; provider errors, absent price
+observations, event/FX errors, circuit exhaustion and pack errors cannot return
+a successful CLI status. Diagnostics survive ordinary process failure through
+checkpoint files; hard runner termination may still prevent artifact upload.
+Incremental workflow now has a 55-minute limit, shared canonical-update
+concurrency, 22:00 UTC daily schedule, manual canary selectors and optional full
+pack build. Full refresh is manual with a 330-minute limit. Diagnostics upload
+is always attempted; publication artifacts are collected only after complete
+summary and full Python verification. Refresh does not auto-commit or deploy.
+Checks: 45 focused tests passed in 2.68s; changed-file Ruff passed. Added CLI
+incomplete-exit, failed-FX/journal and workflow schedule/diagnostic/concurrency
+regressions. Separate self-review kept canary inputs in environment variables
+and avoided successful-publication claims from a green fetch alone.
+Next sequential action: R4 full-baseline gate, documentation and full battery.
+
+
+### R4 complete — baseline/publication safety and offline battery
+
+Scoped updater pack builds now require a complete unfiltered catalog baseline
+and existing safe pack paths before provider calls or canonical writes. CI uses
+no-build mode by default and only creates full pack sets when requested; the
+operator runbook distinguishes canonical review artifacts, failed diagnostics,
+complete packs and actual publication. Runtime constraints and dependency
+inventory added for repeatability. Structural baseline validation does not
+certify an externally restored snapshot's content freshness; restore matching
+reviewed canonical data and packs or perform a full build.
+
+Full committed-store pack build: 3,188 securities, 55,574 packs, 13,422,888 price
+rows, 1,855,763,530 bytes. Existing support gaps remain explicit: 4 catalog
+securities lack prices; CNY/EUR/GBP FX history is absent in this snapshot.
+Battery: Python 245 passed, 8 smoke deselected in 6.72s; engine 68/68; parity
+27/27; worker 90/90; properties 19 / 1,473 cases; initial-lump cases passed; DCA
+packs 29 checks passed; portfolio packs 14/14; static-site passed with full packs;
+changed-file Ruff passed. Reports: `docs/incremental-recovery-2026-10-18/`.
+A repeated suite initially exposed the preexisting wall-clock-dependent pack
+byte-comparison test; it now controls the generation-time input, preserving
+its full-byte assertion while removing second-boundary flakiness. No runtime
+pack generation-time semantics changed.
+
+Separate self-review checked fail-closed provider/pack status, safe artifact
+collection (including new checkpoint files), no automatic commits/deployment,
+no UI/engine changes, and no ignored baseline failures. Added missing-FX and
+skipped-action incomplete flags plus a post-pacing deadline check.
+Next: small live canary on a disposable copied snapshot; no canonical production
+data or public site changes. Operational gate remains open.
+
+
+### Live canary and final self-review follow-up
+
+Initial canary correctly exited incomplete after ingestion rejected a Yahoo FX
+observation dated 2026-10-18 outside requested end 2026-10-17. Bounded provider
+normalization now filters FX dates inclusively; a new regression covers both
+boundaries. Fresh copied-snapshot rerun passed: QQQ/ES3.SI/VALL.SW all updated,
+141 price rows and 67 FX rows, nine provider calls, zero retries/circuit errors.
+Approximately ten seconds elapsed, peak process RSS approximately 1.8 GiB, from
+existing year-partition storage validation. Original canonical snapshot hash is
+verified unchanged. Initial failure and corrected result are both retained.
+Further self-review restricted retries to transient failures and added completed
+counts to long-running price/event journals. Final Python battery: 248 passed,
+8 opt-in smoke deselected in 6.60s; changed-file Ruff passed. Prior browser-engine
+and generated-pack checks remain valid: neither engine nor committed snapshot
+changed. Next: full-universe live run on another disposable copied snapshot.
+
+
+Recovery draft PR published: https://github.com/ashcx/sg-investing-v1/pull/5
+Branch `codex/recover-incremental-updates`, initial head e217145. Local full-
+universe run remains active on its disposable copy; no success or restored
+schedule is claimed. Separate Sprint 12–15 PRs remain pending the required
+prerequisite and human review gates.
+
+
+PR #5 initial head e217145: all six GitHub checks passed. Subsequent self-review
+also added always-attempted diagnostic retention and an explicit incomplete-
+artifact guard to the manual full-refresh workflow; its prior script can report
+failed listings while returning zero. Focused incremental/workflow tests: 30
+passed in 2.28s. No runtime code changed after the final 248-test battery.
+Full-universe local verification remains active on the disposable copy.
+
+
+### Full-universe evidence follow-up — explicit unavailable windows
+
+The live rehearsal exposed explicit Yahoo no-history responses for a small
+set of listings. This is not proof of delisting. Recovery reporting now
+separates typed provider no-history windows from broken requests. Existing
+observations remain intact; dividend coverage remains failed/unknown and action
+query checkpoints do not advance. Handled runs with these gaps are marked
+`ready_for_review_with_unavailable` with per-dataset reasons. Missing FX,
+malformed data, timeouts, rate limits, untyped errors and runs with zero updated
+listings remain incomplete. No publication happens automatically.
+This clarifies R3's incomplete-result policy within this sprint; financial result
+envelopes, coverage classifications and engine calculations are unchanged.
+Regression checks cover mixed supported/unavailable listings, untyped errors,
+all-unavailable prices, mandatory FX and retry/circuit behavior. Full-baseline
+proof also checks catalog/schema/methodology identity and every priced year,
+including priced-but-uncatalogued securities. Final full run evidence remains
+pending; the earlier live run uses the prior stricter failure classification
+and its actual outcome will be retained separately.
+
+
+### Full rehearsal finished; final candidate and roadblock
+
+Full rehearsal: 3,172 selected, 3,138 updated, 214,653 prices fetched;
+26m42s elapsed, peak RSS 2,183.34 MiB; 9,515 requests, zero retries/rate-limit
+circuit. It correctly exited incomplete under its initial stricter absence
+policy (32 price errors, two unusable-price warnings, 34 dividend errors,
+32 action errors; FX succeeded). Retained actual outcome is not rewritten.
+Final candidate 621e37a: all six GitHub checks passed; Python 256 passed,
+8 smoke deselected; Ruff passed. Live QQQ/WBD/ATAI/40F.SI canary correctly
+remained incomplete. WBD and ATAI each return a zero-open price row; these
+malformed observations are rejected. QQQ/40F.SI canary passed as
+`ready_for_review_with_unavailable`, preserving explicit coverage failures.
+Evidence: `docs/incremental-recovery-2026-10-18/README.md`.
+User decision requested under AGENTS.md material-scope rule: explicitly quarantine
+WBD/ATAI with retained history and visible warnings, or preserve the global
+failure until their source is repaired. No exclusion implemented yet. Next:
+apply the user's decision, verify the final full run, and retain actual scheduled
+and publication evidence after reviewed merge. Interface gates remain closed.
+
+### 18 October 2026 — authorized removal of WBD and ATAI
+
+Product Owner explicitly requests removing both listings entirely, superseding
+the quarantine proposal. Scope amendment: remove their catalog memberships,
+canonical price/dividend/action rows, active backfill/coverage records and
+published catalog/packs. Persist their listing IDs as exclusions so later
+universe refreshes cannot silently restore them. Historical audit records and
+Git history remain evidence; no replacement prices or alias substitutions.
+- [x] R5: implement persistent exclusions and a reproducible removal migration;
+      verify unrelated rows remain identical and both listings cannot reappear.
+- [x] R6: rebuild publishable artifacts and rerun the full live recovery rehearsal
+      without these two listings; retain results before operational acceptance.
+Research is now explicitly selected in the proposal carousel. Sprint 14 remains
+subject to its earlier sprint gates and integrated implementation review.
+
+
+R5 complete: config/catalog exclusions stop source merges restoring either ID;
+pack generation also rejects excluded IDs from an old restored price store.
+Removal migration deleted 6,622 observations across 22 US year partitions and
+removed three membership rows, leaving 3,170 catalog securities / 3,257 memberships.
+Every rewritten partition was read back and compared against the exact filtered
+original Arrow table, preserving all peer values and schemas. Active state,
+coverage and public catalog were regenerated; no historical audit evidence was
+erased. Normal suite: 259 passed, 8 smoke deselected; focused removal/universe/
+pack suite: 21 passed; changed-file Ruff passed. Separate self-review confirmed
+explicit scope authorization, no alias/replacement prices and no calculation
+changes. R6 full pack rebuild is active; live rehearsal follows it.
+
+R6 artifact verification: full rebuilt set 3,186 securities / 55,546 packs /
+13,416,266 prices; both IDs absent from canonical/public catalog, manifest and
+pack directories. DCA 29 checks, portfolio 14/14, static site (55,546 paths)
+passed. Browser search at 1440px and 390px: WBD/ATAI absent, QQQ discoverable,
+zero page errors; captures visually inspected and retained. Existing presentation
+is baseline evidence, not Sprint 14 implementation. Added scoped-merge regression
+so even an old pack manifest cannot retain a removed entry or directory.
+Final verification command uses explicit PYTHONPATH=src for subprocesses; the
+shared test environment's editable installation points to the original checkout.
+An initial subprocess-path failure is retained; the final full suite passes
+260 tests with 8 smoke deselected, including all five committed Yahoo regressions.
+Changed-file Ruff passes. Full live rehearsal session is active on disposable
+`/private/tmp/sg-recovery-full-after-removal`; no production publication claimed.
+
+
+R6 publication preparation: copied the full pack set to an isolated Pages
+candidate, pruned the Russell 2000 tier and reran manifest/disk consistency.
+PASS: 1,241 securities / 24,015 packs; 766,875,156 bytes including manifest,
+within the 950 MB budget. Neither removed ID or pack directory remains in
+Tier 1; full Tier 2 absence was already verified. Report retained in
+`docs/incremental-recovery-2026-10-18/pages-prune-after-removal.txt`.
+This is local publication preparation, not a deployed-origin check. All six
+GitHub checks passed for runtime/removal head 7c6b4e3, and all six passed for
+roadmap head 1497d91. Existing live rehearsal remains active; do not restart it.
+
+Local operator application rehearsal PASS: created the changed-store archive
+from the recovery branch against origin/main, applied it to an unchanged
+baseline copy, and obtained exactly the validated data snapshot
+`sha256-04cb723d8f46447a0749e02f522034aa5b068ea61842aa1ef27eaef8a5ecdfb1`.
+Full pack baseline verification then passed (catalog/schema/methodology,
+canonical security/year coverage and existing safe paths). Archive 159,965,722
+bytes; checksum and exact file list retained in
+`docs/incremental-recovery-2026-10-18/operator-application-check.json`.
+This verifies the local application procedure for the reviewed removal data;
+it is not scheduled-run evidence or a remote-publication claim. Final live
+rehearsal is still active; its outcome and actual operational gates remain open.
+
+R6 self-review follow-up: scoped rebuild selection currently follows observation
+changes, so a changed dividend provider failure with no changed observations may
+leave old successful coverage metadata in stored year packs. Verify with a
+fixed fixture, then repair coverage-state invalidation within R6. This preserves
+the existing warning contract; it adds no financial feature or interface scope.
+The live no-build fetch rehearsal remains active and unchanged. Its later pack
+verification must include the coverage-state invalidation check.
+
+
+R6 coverage-state regression PASS after reproducing failure: pure provider
+failure/recovery now refreshes all stored year packs even with no observation
+changes. Stable states do not trigger metadata-only rebuilds. Unique-ID scans
+stay Arrow-projected and deduplicated before conversion to Python. Full suite:
+262 passed, 8 smoke deselected in 7.18s; changed-file Ruff passes. Scheduled
+pre-fetch regressions now include coverage-invalidation and listing-removal
+cases. The active no-build fetch began before this pack-selection-only repair;
+its provider/fetch path is unchanged. The corrected selection and scoped build
+will be verified against its final output separately. Do not call this a second
+live fetch run or erase earlier evidence.
+
+Final live fetch after removal PASS: complete=true,
+`ready_for_review_with_unavailable`, 3,170 selected / 3,138 updated / 32 explicit
+unavailable price windows / zero failed updates. 214,653 prices fetched;
+26m47s elapsed; peak RSS 2,241.19 MiB; 9,509 requests, zero retries or rate-limit
+circuit; no FX errors. Unavailable event windows remain explicit (34 dividend,
+32 action), with failed/unknown coverage. Compact outcome, full progress trace
+and diagnostics retained as `live-full-after-removal-*` evidence.
+All six GitHub checks passed for coverage-fix runtime head f05023d.
+
+The corrected scoped pack build is now active separately on that same
+post-fetch disposable store (process session 79612; harness
+`/private/tmp/sg-live-scoped-verification.py`). It adds coverage-state touches to
+the original no-build run's observation touches, verifies unchanged pack bytes,
+checks current failure metadata across all affected years, and then runs real
+DCA/portfolio pack integrations. Baseline gate is verified against the original
+pre-update store before rebuilding and against the updated store afterwards;
+an initially misplaced post-fetch/pre-build check correctly detected newly
+added canonical years and is documented in `live-scoped-harness-baseline-note.txt`.
+No product baseline check was weakened. Do not restart the active pack build.
+R6 and the operational exit remain unchecked pending final pack results and
+actual reviewed scheduled/publication evidence. No UI sprint has started.
+
+
+R6 local technical verification COMPLETE: corrected scoped rebuild passed on the
+actual fetched store. It rebuilt 55,161 packs across 3,167 touched listings,
+verified updated coverage metadata in 85 year packs across 39 changed coverage
+states, and preserved all 387 untouched packs byte-for-byte. Rebuilt manifest:
+3,186 securities / 55,548 packs / 13,525,569 price rows; two catalog listings
+remain without prices. Both removed IDs remain absent. Complete post-update
+baseline and full manifest/disk consistency checks pass. Pack build 168.842s;
+separate live fetch 1,607.129s. Real DCA 29/29 and portfolio 14/14 checks pass
+against these rebuilt live packs. The initial integration harness omitted the
+unchanged Decimal vendor asset; the missing-module result is retained, the
+asset copied, and integrations rerun successfully. No engine code changed.
+Evidence: `live-scoped-pack-verification.json`, `dca-live-scoped-packs.txt`,
+`portfolio-live-scoped-packs.txt`, `live-scoped-consistency.txt` under the recovery
+evidence directory. Live rehearsal and subsequent corrected scoped build are
+separate phases; neither is represented as an actual scheduled run.
+
+All recovery implementation/locally executable tasks are complete. Overall
+Sprint 7.5 stays In progress: reviewed merge, actual successive scheduled runs,
+and remote Pages/R2 publication verification are still required. No later sprint
+entry gate has been ticked, and no human acceptance is invented. Recovery PR #5
+is ready for Product Owner review; its merge triggers the existing deployment
+workflow and subsequent R2 synchronization.

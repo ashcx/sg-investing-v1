@@ -593,3 +593,271 @@ class IncrementalEndToEndPackTests(IncrementalUpdaterCase):
         entry = self._entry(manifest, TEST_ID)
         self.assertEqual(entry["last_date"], "2026-09-01")
         self.assertEqual((self.root / "data" / "update_summary.json").exists(), True)
+
+
+class BoundedPriceRecoveryTests(IncrementalUpdaterCase):
+    def test_stale_peer_does_not_widen_healthy_batch_and_batch_size_is_bounded(self):
+        from scripts.update_incremental import PRICE_BATCH_SIZE, SecurityPlan, _fetch_price_rows
+
+        securities = [
+            _security(str(uuid_module.UUID(int=100 + i)), f"P{i}", "USD", "US")
+            for i in range(PRICE_BATCH_SIZE + 3)
+        ]
+        stale = _security(str(uuid_module.UUID(int=999)), "STALE", "USD", "US")
+        plans = [SecurityPlan(sec, date(2026, 8, 31), AUTO_WINDOW_START, False)
+                 for sec in securities]
+        plans.append(SecurityPlan(stale, date(2013, 3, 7), date(2013, 1, 21), False))
+
+        class BatchProvider:
+            def __init__(self):
+                self.calls = []
+
+            def get_prices_batch(self, batch, start, end):
+                self.calls.append(([sec.ticker for sec in batch], start, end))
+                return {sec.security_id: [_price(sec, end)] for sec in batch}, {}, {}
+
+        provider = BatchProvider()
+        rows, errors, _ = _fetch_price_rows(provider, plans, END)
+        self.assertFalse(errors)
+        self.assertEqual(len(rows), len(plans))
+        self.assertEqual(len(provider.calls), 3)
+        self.assertTrue(all(len(call[0]) <= PRICE_BATCH_SIZE for call in provider.calls))
+        self.assertEqual(provider.calls[-1][0], ["STALE"])
+        self.assertEqual(provider.calls[-1][1], date(2013, 1, 21))
+        self.assertTrue(all(call[1] == AUTO_WINDOW_START for call in provider.calls[:-1]))
+
+    def test_nonbatch_provider_receives_its_own_window(self):
+        from scripts.update_incremental import SecurityPlan, _fetch_price_rows
+
+        provider = self._provider()
+        _fetch_price_rows(provider, [
+            SecurityPlan(self.usd, None, date(2020, 1, 1), True),
+            SecurityPlan(self.sgd, date(2026, 8, 31), AUTO_WINDOW_START, False),
+        ], END)
+        self.assertIn(f"prices:TEST:2020-01-01:{END}", provider.calls)
+        self.assertIn(f"prices:SGDFUND:{AUTO_WINDOW_START}:{END}", provider.calls)
+
+    def test_projection_only_materializes_exact_incoming_keys(self):
+        from scripts.update_incremental import _scan_price_values
+
+        keys = {(TEST_ID, AUGUST_DATES[0])}
+        values = _scan_price_values(self.root / "data", "US", [2025, 2026], keys=keys)
+        self.assertEqual(set(values), keys)
+        self.assertEqual(values[(TEST_ID, AUGUST_DATES[0])][3], Decimal(100))
+
+    def test_price_restatement_and_new_date_survive_bounded_detection(self):
+        provider = self._provider(prices=[
+            _price(self.usd, AUGUST_DATES[0]),
+            _price(self.usd, AUGUST_DATES[1], "99"),
+            _price(self.usd, SEPTEMBER_DATES[0], "101"),
+            _price(self.sgd, AUGUST_DATES[1]),
+        ])
+        summary = self._run(provider)
+        self.assertEqual(summary["price_dates_restated"], 1)
+        self.assertEqual(summary["price_dates_new"], 1)
+        self.assertEqual(summary["max_price_comparison_keys"], 3)
+        self.assertEqual(summary["changed_securities"], [TEST_ID])
+
+
+class ActionCheckpointRecoveryTests(IncrementalUpdaterCase):
+    def test_successful_empty_action_query_advances_cursor_without_inventing_events(self):
+        first = self._provider()
+        self._run(first)
+        second = self._provider()
+        self._run(second)
+        self.assertIn(f"actions:TEST:2026-07-18:{END}", second.calls)
+        self.assertIn(f"actions:SGDFUND:2026-07-18:{END}", second.calls)
+        self.assertEqual(self.store.read_corporate_actions(year=2026), [])
+
+    def test_failed_action_query_does_not_advance_checkpoint(self):
+        class FailedActions(RecordingProvider):
+            def get_corporate_actions(self, *args):
+                raise RuntimeError("provider unavailable")
+
+        self._run(FailedActions())
+        path = self.root / "data/corporate_actions/query_checkpoints.json"
+        self.assertEqual(json.loads(path.read_text()), {})
+
+
+class FailureReportingRecoveryTests(IncrementalUpdaterCase):
+    def test_provider_failure_is_incomplete_and_journal_survives(self):
+        class FailedFx(RecordingProvider):
+            def get_fx_rates(self, *args):
+                raise RuntimeError("network unavailable")
+
+        summary = self._run(FailedFx())
+        self.assertFalse(summary["complete"])
+        self.assertEqual(summary["publication_status"], "incomplete")
+        journal = json.loads((self.root / "update-diagnostics/progress.json").read_text())
+        self.assertEqual(journal["latest"]["status"], "incomplete")
+        self.assertIn("peak_rss_mb", journal["latest"])
+        self.assertEqual(journal["events"][0]["stage"], "planning")
+
+    def test_command_exit_status_cannot_hide_incomplete_summary(self):
+        from unittest.mock import patch
+
+        from scripts.update_incremental import main
+
+        with patch("scripts.update_incremental.run_incremental_update",
+                   return_value={"mode": "incremental", "complete": False}):
+            self.assertEqual(main(["--root", str(self.root)]), 1)
+        with patch("scripts.update_incremental.run_incremental_update",
+                   return_value={"mode": "incremental", "complete": True}):
+            self.assertEqual(main(["--root", str(self.root)]), 0)
+
+    def test_only_daily_refresh_is_scheduled_and_diagnostics_are_always_attempted(self):
+        import yaml
+
+        workflow_root = _REPO / ".github/workflows"
+        incremental = yaml.load((workflow_root / "update-incremental.yml").read_text(),
+                                Loader=yaml.BaseLoader)
+        full = yaml.load((workflow_root / "update-data.yml").read_text(), Loader=yaml.BaseLoader)
+        self.assertNotIn("schedule", full["on"])
+        self.assertEqual(incremental["on"]["schedule"], [{"cron": "0 22 * * 1-5"}])
+        job = incremental["jobs"]["update-incremental"]
+        self.assertEqual(job["timeout-minutes"], "55")
+        diagnostics = next(step for step in job["steps"] if step.get("if") == "always()")
+        self.assertIn("diagnostics", diagnostics["with"]["name"])
+        self.assertEqual(incremental["concurrency"]["group"], full["concurrency"]["group"])
+        full_steps = full["jobs"]["update"]["steps"]
+        self.assertTrue(any(step.get("if") == "always()" for step in full_steps))
+        self.assertTrue(any("Refuse an incomplete" in step.get("name", "") for step in full_steps))
+
+
+class PackBaselineRecoveryTests(IncrementalUpdaterCase):
+    def test_missing_baseline_refuses_before_any_provider_or_canonical_write(self):
+        provider = self._provider()
+        before = self._store_hash()
+        with self.assertRaisesRegex(ValueError, "complete baseline"):
+            self._run(provider, build_packs=True)
+        self.assertEqual(provider.calls, [])
+        self.assertEqual(before, self._store_hash())
+
+    def test_filtered_or_missing_pack_baseline_is_not_a_complete_release(self):
+        from scripts.update_incremental import _require_complete_pack_baseline
+        from sg_investing.universe.catalog import load_catalog
+
+        catalog = load_catalog(self.root / "data/universe/current_catalog.json")
+        build_data_packs(self.root, self.output)
+        manifest = self._manifest()
+        manifest["scope"]["security_ids"] = [TEST_ID]
+        (self.output / "manifest.json").write_text(json.dumps(manifest))
+        with self.assertRaisesRegex(ValueError, "filtered"):
+            _require_complete_pack_baseline(self.root, catalog)
+        manifest["scope"]["security_ids"] = None
+        (self.output / "manifest.json").write_text(json.dumps(manifest))
+        next(self.output.glob("security=*/year=*.json")).unlink()
+        with self.assertRaisesRegex(ValueError, "missing or unsafe"):
+            _require_complete_pack_baseline(self.root, catalog)
+
+
+class ProgressCheckpointRecoveryTests(IncrementalUpdaterCase):
+    def test_live_stage_journal_records_completed_work_not_only_stage_names(self):
+        self._run(self._provider())
+        events = json.loads((self.root / "update-diagnostics/progress.json").read_text())["events"]
+        for stage in ["prices", "dividends", "corporate_actions"]:
+            completed = [event for event in events if event["stage"] == stage and "completed" in event]
+            self.assertTrue(completed, stage)
+            self.assertEqual(completed[-1]["completed"], completed[-1]["total"])
+
+
+class OmittedYearBaselineRecoveryTests(IncrementalUpdaterCase):
+    def test_full_scope_flag_cannot_hide_a_removed_priced_year(self):
+        from scripts.update_incremental import _require_complete_pack_baseline
+        from sg_investing.universe.catalog import load_catalog
+
+        build_data_packs(self.root, self.output)
+        manifest = self._manifest()
+        entry = next(row for row in manifest["securities"] if row["security_id"] == TEST_ID)
+        entry["years"].pop("2025")
+        (self.output / "manifest.json").write_text(json.dumps(manifest))
+        catalog = load_catalog(self.root / "data/universe/current_catalog.json")
+        with self.assertRaisesRegex(ValueError, "canonical security/year"):
+            _require_complete_pack_baseline(self.root, catalog)
+
+
+class BaselineIdentityRecoveryTests(IncrementalUpdaterCase):
+    def test_incompatible_catalog_or_methodology_is_rejected_before_provider_calls(self):
+        build_data_packs(self.root, self.output)
+        original = self._manifest()
+        for field in ["catalog_version", "methodology_version", "schema_version"]:
+            manifest = dict(original)
+            manifest[field] = "incompatible"
+            (self.output / "manifest.json").write_text(json.dumps(manifest))
+            provider = self._provider()
+            with self.assertRaisesRegex(ValueError, "incompatible"):
+                self._run(provider, build_packs=True)
+            self.assertEqual(provider.calls, [])
+
+
+class ExplicitUnavailableRecoveryTests(IncrementalUpdaterCase):
+    def _mixed_provider(self, error_class):
+        parent = self._provider()
+
+        class Mixed(RecordingProvider):
+            def get_prices(inner, security, *dates):
+                if str(security.security_id) == TEST_ID:
+                    raise error_class('No observations for requested window')
+                return parent.get_prices(security, *dates)
+
+            def get_dividends(inner, security, *dates):
+                if str(security.security_id) == TEST_ID:
+                    raise error_class('No observations for requested window')
+                return parent.get_dividends(security, *dates)
+
+            def get_corporate_actions(inner, security, *dates):
+                if str(security.security_id) == TEST_ID:
+                    raise error_class('No observations for requested window')
+                return parent.get_corporate_actions(security, *dates)
+
+            def get_fx_rates(inner, *args):
+                return parent.get_fx_rates(*args)
+
+        return Mixed()
+
+    def test_explicit_absence_retains_data_and_coverage_failure_with_review_warning(self):
+        from sg_investing.data.providers.base import ProviderHistoryUnavailable
+
+        summary = self._run(self._mixed_provider(ProviderHistoryUnavailable))
+        self.assertTrue(summary['complete'])
+        self.assertEqual(summary['publication_status'], 'ready_for_review_with_unavailable')
+        for dataset in ['prices', 'dividends', 'corporate_actions']:
+            self.assertEqual(set(summary['unavailable_windows'][dataset]), {TEST_ID})
+        self.assertTrue(any(str(row.security_id) == TEST_ID
+                            for row in self.store.read_prices(market='US', year=2026)))
+        dividend = next(row for row in summary['dividend_updates']
+                        if row['security_id'] == TEST_ID)
+        self.assertTrue(dividend['provider_unavailable'])
+        self.assertIsNotNone(dividend['error'])
+        checkpoints = json.loads((self.root / 'data/corporate_actions/query_checkpoints.json')
+                                 .read_text())
+        self.assertNotIn(TEST_ID, checkpoints)
+
+    def test_untyped_failure_cannot_be_downgraded_by_message(self):
+        summary = self._run(self._mixed_provider(RuntimeError))
+        self.assertFalse(summary['complete'])
+        self.assertFalse(any(summary['unavailable_windows'].values()))
+
+    def test_entirely_unavailable_prices_cannot_be_a_successful_refresh(self):
+        from sg_investing.data.providers.base import ProviderHistoryUnavailable
+
+        provider = self._mixed_provider(ProviderHistoryUnavailable)
+
+        def absent(*args):
+            raise ProviderHistoryUnavailable('No observations')
+
+        provider.get_prices = absent
+        summary = self._run(provider)
+        self.assertFalse(summary['complete'])
+        self.assertEqual(summary['updated'], 0)
+
+    def test_explicit_fx_absence_still_blocks_publication(self):
+        from sg_investing.data.providers.base import ProviderHistoryUnavailable
+
+        provider = self._provider()
+
+        def absent(*args):
+            raise ProviderHistoryUnavailable('No FX observations')
+
+        provider.get_fx_rates = absent
+        self.assertFalse(self._run(provider)['complete'])
