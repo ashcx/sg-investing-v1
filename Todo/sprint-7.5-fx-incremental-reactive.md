@@ -520,3 +520,8 @@ provider request or delay. A slower minimum interval applies to actual uncached
 calls; existing 40-minute provider / 55-minute workflow limits remain unless
 verified evidence requires an explicitly documented amendment. Full-refresh
 provider behavior and financial calculation contracts remain unchanged.
+
+
+R7 diagnostic substep complete: exact exception type/message/symbol/request index are retained, with URL credential values redacted. Numeric values or IDs containing 429 cannot open the circuit; real HTTP status/vendor type/explicit rate-limit responses still stop traffic. Full suite 265 passed / 8 smoke deselected; guard suite nine cases; Ruff passed. No new full run has been started before the request-reuse repair.
+
+Next implementation: compute each live listing's required union of existing price, dividend-coverage and action-checkpoint windows. Query once with actions, then filter each dataset to its original individual window. Cache only deep-copied event columns/index and any explicit event currency, under a 512 MiB cap, releasing entries after actions. Cache only typed absence, never transient errors; an unobserved window is not confirmed zero events. Cache hits consume neither provider traffic count nor pacing delay. Use a conservative 0.3s minimum for uncached calls without increasing existing deadlines. Preserve default full-refresh callers and fake-provider contracts. Add deterministic date-window equivalence, empty/missing/malformed/cache-budget tests, then branch canary and full GitHub checks. R7 remains open and all work is sequential in the main instance.

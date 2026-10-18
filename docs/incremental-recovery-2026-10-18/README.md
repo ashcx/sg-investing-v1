@@ -1,5 +1,7 @@
 # Incremental-update recovery — 18 October 2026
 
+**Current status: draft; full GitHub-runner recovery is reopened.** The local full run and GitHub canary passed, but the actual full GitHub run failed safely after its circuit classified a response as rate limiting. Only diagnostics uploaded. R7 must repair and reverify the full workflow before merge.
+
 Implementation and subsequent self-review performed sequentially in the main
 instance. No UI changes, engine formula changes, canonical production refresh,
 automatic commit or deployment are included. This work is the user-required
@@ -35,7 +37,7 @@ prerequisite to the separate Sprint 12–15 PRs.
 
 | Check | Result | Record |
 | --- | --- | --- |
-| Python normal suite | 262 passed, 8 opt-in smoke deselected | [pytest.txt](pytest.txt) |
+| Python normal suite | 265 passed, 8 opt-in smoke deselected | [pytest.txt](pytest.txt) |
 | Ruff, changed Python | Passed | [ruff.txt](ruff.txt) |
 | Engine | 68/68 | [engine-selftest.txt](engine-selftest.txt) |
 | Golden parity | 27/27 | [parity.txt](parity.txt) |
@@ -164,3 +166,10 @@ retained; full suite now passes 262 tests with 8 opt-in smoke deselected.
 The live fetch run started before this pack-selection-only fix; provider and
 fetch behavior are unchanged. Its output was tested through the corrected
 scoped selection/build separately, without claiming a new live fetch run.
+
+
+## Runner-specific follow-up (R7)
+
+The [GitHub canary](https://github.com/ashcx/sg-investing-v1/actions/runs/39094143813) passed every stage; both uploaded artifact digests were verified, and applying its actual update archive reproduced the producer's canonical chain hash. The [full GitHub run](https://github.com/ashcx/sg-investing-v1/actions/runs/39094315718) then failed after 414.375s, peak RSS 2,254.27 MiB and 2,384 guarded calls. The first circuit outcome was GRPN. The original exception was not retained; no exact provider quota or false classification is established. A local isolated GRPN query succeeds. No validated full-run artifact or deployment was produced.
+
+The guard now retains exact exception/call context and rejects arbitrary numeric 429 substring matches. Actual HTTP status, vendor type and explicit rate-limit messages still stop traffic. Full suite: 265 passed, 8 smoke deselected. This diagnostic repair alone does not solve cloud throughput. Next: bounded response reuse across each listing's own price/dividend/action windows, preserving individual windows and unknown-data semantics, then actual full-run verification. The [documented yfinance cache](https://ranaroussi.github.io/yfinance/advanced/caching.html) covers timezones and cookies; it is not evidence that these history calls are reused. No quota, new source or provider-identity rotation is assumed.
