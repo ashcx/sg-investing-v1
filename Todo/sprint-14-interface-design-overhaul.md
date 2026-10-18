@@ -226,3 +226,9 @@ This publishes the planning amendment and retained early proposal source;
 it does not satisfy the Sprint 14 implementation PR or completion criteria.
 Recovery PR #5 remains the prerequisite. Implementation PRs for Sprints 12–15
 are still outstanding.
+
+
+18 October 2026 — Product Owner explicitly selected **Research** in the design
+proposal carousel. This confirms the working visual direction; slightly muted
+colour remains a refinement. Technical Sprint 7.5 recovery still precedes
+interface work, and this selection does not accept an unseen implementation.
