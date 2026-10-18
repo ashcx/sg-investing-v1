@@ -343,3 +343,45 @@ WBD/ATAI with retained history and visible warnings, or preserve the global
 failure until their source is repaired. No exclusion implemented yet. Next:
 apply the user's decision, verify the final full run, and retain actual scheduled
 and publication evidence after reviewed merge. Interface gates remain closed.
+
+### 18 October 2026 — authorized removal of WBD and ATAI
+
+Product Owner explicitly requests removing both listings entirely, superseding
+the quarantine proposal. Scope amendment: remove their catalog memberships,
+canonical price/dividend/action rows, active backfill/coverage records and
+published catalog/packs. Persist their listing IDs as exclusions so later
+universe refreshes cannot silently restore them. Historical audit records and
+Git history remain evidence; no replacement prices or alias substitutions.
+- [x] R5: implement persistent exclusions and a reproducible removal migration;
+      verify unrelated rows remain identical and both listings cannot reappear.
+- [ ] R6: rebuild publishable artifacts and rerun the full live recovery rehearsal
+      without these two listings; retain results before operational acceptance.
+Research is now explicitly selected in the proposal carousel. Sprint 14 remains
+subject to its earlier sprint gates and integrated implementation review.
+
+
+R5 complete: config/catalog exclusions stop source merges restoring either ID;
+pack generation also rejects excluded IDs from an old restored price store.
+Removal migration deleted 6,622 observations across 22 US year partitions and
+removed three membership rows, leaving 3,170 catalog securities / 3,257 memberships.
+Every rewritten partition was read back and compared against the exact filtered
+original Arrow table, preserving all peer values and schemas. Active state,
+coverage and public catalog were regenerated; no historical audit evidence was
+erased. Normal suite: 259 passed, 8 smoke deselected; focused removal/universe/
+pack suite: 21 passed; changed-file Ruff passed. Separate self-review confirmed
+explicit scope authorization, no alias/replacement prices and no calculation
+changes. R6 full pack rebuild is active; live rehearsal follows it.
+
+R6 artifact verification: full rebuilt set 3,186 securities / 55,546 packs /
+13,416,266 prices; both IDs absent from canonical/public catalog, manifest and
+pack directories. DCA 29 checks, portfolio 14/14, static site (55,546 paths)
+passed. Browser search at 1440px and 390px: WBD/ATAI absent, QQQ discoverable,
+zero page errors; captures visually inspected and retained. Existing presentation
+is baseline evidence, not Sprint 14 implementation. Added scoped-merge regression
+so even an old pack manifest cannot retain a removed entry or directory.
+Final verification command uses explicit PYTHONPATH=src for subprocesses; the
+shared test environment's editable installation points to the original checkout.
+An initial subprocess-path failure is retained; the final full suite passes
+260 tests with 8 smoke deselected, including all five committed Yahoo regressions.
+Changed-file Ruff passes. Full live rehearsal session is active on disposable
+`/private/tmp/sg-recovery-full-after-removal`; no production publication claimed.

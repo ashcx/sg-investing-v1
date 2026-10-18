@@ -1,0 +1,32 @@
+[
+  {
+    "width": 1440,
+    "ticker": "WBD",
+    "options": []
+  },
+  {
+    "width": 1440,
+    "ticker": "ATAI",
+    "options": []
+  },
+  {
+    "width": 1440,
+    "qqqDiscoverable": true,
+    "errors": []
+  },
+  {
+    "width": 390,
+    "ticker": "WBD",
+    "options": []
+  },
+  {
+    "width": 390,
+    "ticker": "ATAI",
+    "options": []
+  },
+  {
+    "width": 390,
+    "qqqDiscoverable": true,
+    "errors": []
+  }
+]

@@ -1,0 +1,401 @@
+........................................................................ [ 28%]
+....................................................................FFFF [ 56%]
+F....................................................................... [ 84%]
+.......................................                                  [100%]
+=================================== FAILURES ===================================
+_ ScopedPackMergeTests.test_full_rebuild_after_merge_resets_directory_and_manifest _
+
+self = <tests.test_incremental_update.ScopedPackMergeTests testMethod=test_full_rebuild_after_merge_resets_directory_and_manifest>
+
+    def test_full_rebuild_after_merge_resets_directory_and_manifest(self) -> None:
+        self._build_full()
+        self._mutate_store()
+>       self._run_builder("--security", TEST_ID, "--years", "2026")
+
+tests/test_incremental_update.py:557: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_incremental_update.py:455: in _run_builder
+    completed = subprocess.run(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+input = None, capture_output = True, timeout = 180, check = True
+popenargs = (['/private/tmp/sg-invest-s9-venv/bin/python', '/private/tmp/sg-incremental-recovery/scripts/build_data_packs.py', '--.../folders/lt/td38pv195hz2z3rgb9j0qllr0000gn/T/tmpdg01i40l', '--security', '11111111-1111-1111-1111-111111111111', ...],)
+kwargs = {'text': True, 'stdout': -1, 'stderr': -1}
+
+    def run(*popenargs,
+            input=None, capture_output=False, timeout=None, check=False, **kwargs):
+        """Run command with arguments and return a CompletedProcess instance.
+    
+        The returned instance will have attributes args, returncode, stdout and
+        stderr. By default, stdout and stderr are not captured, and those attributes
+        will be None. Pass stdout=PIPE and/or stderr=PIPE in order to capture them,
+        or pass capture_output=True to capture both.
+    
+        If check is True and the exit code was non-zero, it raises a
+        CalledProcessError. The CalledProcessError object will have the return code
+        in the returncode attribute, and output & stderr attributes if those streams
+        were captured.
+    
+        If timeout (seconds) is given and the process takes too long,
+         a TimeoutExpired exception will be raised.
+    
+        There is an optional argument "input", allowing you to
+        pass bytes or a string to the subprocess's stdin.  If you use this argument
+        you may not also use the Popen constructor's "stdin" argument, as
+        it will be used internally.
+    
+        By default, all communication is in bytes, and therefore any "input" should
+        be bytes, and the stdout and stderr will be bytes. If in text mode, any
+        "input" should be a string, and stdout and stderr will be strings decoded
+        according to locale encoding, or by "encoding" if set. Text mode is
+        triggered by setting any of text, encoding, errors or universal_newlines.
+    
+        The other arguments are the same as for the Popen constructor.
+        """
+        if input is not None:
+            if kwargs.get('stdin') is not None:
+                raise ValueError('stdin and input arguments may not both be used.')
+            kwargs['stdin'] = PIPE
+    
+        if capture_output:
+            if kwargs.get('stdout') is not None or kwargs.get('stderr') is not None:
+                raise ValueError('stdout and stderr arguments may not be used '
+                                 'with capture_output.')
+            kwargs['stdout'] = PIPE
+            kwargs['stderr'] = PIPE
+    
+        with Popen(*popenargs, **kwargs) as process:
+            try:
+                stdout, stderr = process.communicate(input, timeout=timeout)
+            except TimeoutExpired as exc:
+                process.kill()
+                if _mswindows:
+                    # Windows accumulates the output in a single blocking
+                    # read() call run on child threads, with the timeout
+                    # being done in a join() on those threads.  communicate()
+                    # _after_ kill() is required to collect that and add it
+                    # to the exception.
+                    exc.stdout, exc.stderr = process.communicate()
+                else:
+                    # POSIX _communicate already populated the output so
+                    # far into the TimeoutExpired exception.
+                    process.wait()
+                raise
+            except:  # Including KeyboardInterrupt, communicate handled that.
+                process.kill()
+                # We don't call process.wait() as .__exit__ does that for us.
+                raise
+            retcode = process.poll()
+            if check and retcode:
+>               raise CalledProcessError(retcode, process.args,
+                                         output=stdout, stderr=stderr)
+E               subprocess.CalledProcessError: Command '['/private/tmp/sg-invest-s9-venv/bin/python', '/private/tmp/sg-incremental-recovery/scripts/build_data_packs.py', '--root', '/var/folders/lt/td38pv195hz2z3rgb9j0qllr0000gn/T/tmpdg01i40l', '--security', '11111111-1111-1111-1111-111111111111', '--years', '2026']' returned non-zero exit status 1.
+
+/Users/macbook/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/subprocess.py:571: CalledProcessError
+_ ScopedPackMergeTests.test_scoped_build_without_previous_manifest_is_filtered _
+
+self = <tests.test_incremental_update.ScopedPackMergeTests testMethod=test_scoped_build_without_previous_manifest_is_filtered>
+
+    def test_scoped_build_without_previous_manifest_is_filtered(self) -> None:
+>       summary = self._run_builder("--security", TEST_ID, "--years", "2026")
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_incremental_update.py:543: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_incremental_update.py:455: in _run_builder
+    completed = subprocess.run(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+input = None, capture_output = True, timeout = 180, check = True
+popenargs = (['/private/tmp/sg-invest-s9-venv/bin/python', '/private/tmp/sg-incremental-recovery/scripts/build_data_packs.py', '--.../folders/lt/td38pv195hz2z3rgb9j0qllr0000gn/T/tmp8boucavp', '--security', '11111111-1111-1111-1111-111111111111', ...],)
+kwargs = {'text': True, 'stdout': -1, 'stderr': -1}
+
+    def run(*popenargs,
+            input=None, capture_output=False, timeout=None, check=False, **kwargs):
+        """Run command with arguments and return a CompletedProcess instance.
+    
+        The returned instance will have attributes args, returncode, stdout and
+        stderr. By default, stdout and stderr are not captured, and those attributes
+        will be None. Pass stdout=PIPE and/or stderr=PIPE in order to capture them,
+        or pass capture_output=True to capture both.
+    
+        If check is True and the exit code was non-zero, it raises a
+        CalledProcessError. The CalledProcessError object will have the return code
+        in the returncode attribute, and output & stderr attributes if those streams
+        were captured.
+    
+        If timeout (seconds) is given and the process takes too long,
+         a TimeoutExpired exception will be raised.
+    
+        There is an optional argument "input", allowing you to
+        pass bytes or a string to the subprocess's stdin.  If you use this argument
+        you may not also use the Popen constructor's "stdin" argument, as
+        it will be used internally.
+    
+        By default, all communication is in bytes, and therefore any "input" should
+        be bytes, and the stdout and stderr will be bytes. If in text mode, any
+        "input" should be a string, and stdout and stderr will be strings decoded
+        according to locale encoding, or by "encoding" if set. Text mode is
+        triggered by setting any of text, encoding, errors or universal_newlines.
+    
+        The other arguments are the same as for the Popen constructor.
+        """
+        if input is not None:
+            if kwargs.get('stdin') is not None:
+                raise ValueError('stdin and input arguments may not both be used.')
+            kwargs['stdin'] = PIPE
+    
+        if capture_output:
+            if kwargs.get('stdout') is not None or kwargs.get('stderr') is not None:
+                raise ValueError('stdout and stderr arguments may not be used '
+                                 'with capture_output.')
+            kwargs['stdout'] = PIPE
+            kwargs['stderr'] = PIPE
+    
+        with Popen(*popenargs, **kwargs) as process:
+            try:
+                stdout, stderr = process.communicate(input, timeout=timeout)
+            except TimeoutExpired as exc:
+                process.kill()
+                if _mswindows:
+                    # Windows accumulates the output in a single blocking
+                    # read() call run on child threads, with the timeout
+                    # being done in a join() on those threads.  communicate()
+                    # _after_ kill() is required to collect that and add it
+                    # to the exception.
+                    exc.stdout, exc.stderr = process.communicate()
+                else:
+                    # POSIX _communicate already populated the output so
+                    # far into the TimeoutExpired exception.
+                    process.wait()
+                raise
+            except:  # Including KeyboardInterrupt, communicate handled that.
+                process.kill()
+                # We don't call process.wait() as .__exit__ does that for us.
+                raise
+            retcode = process.poll()
+            if check and retcode:
+>               raise CalledProcessError(retcode, process.args,
+                                         output=stdout, stderr=stderr)
+E               subprocess.CalledProcessError: Command '['/private/tmp/sg-invest-s9-venv/bin/python', '/private/tmp/sg-incremental-recovery/scripts/build_data_packs.py', '--root', '/var/folders/lt/td38pv195hz2z3rgb9j0qllr0000gn/T/tmp8boucavp', '--security', '11111111-1111-1111-1111-111111111111', '--years', '2026']' returned non-zero exit status 1.
+
+/Users/macbook/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/subprocess.py:571: CalledProcessError
+_ ScopedPackMergeTests.test_scoped_merge_replaces_touched_and_preserves_others _
+
+self = <tests.test_incremental_update.ScopedPackMergeTests testMethod=test_scoped_merge_replaces_touched_and_preserves_others>
+
+    def test_scoped_merge_replaces_touched_and_preserves_others(self) -> None:
+        full = self._build_full()
+        full_manifest = self._manifest()
+        fund_pack = self._pack_bytes(FUND_ID, 2026)
+        usd_2025_pack = self._pack_bytes(TEST_ID, 2025)
+        self._mutate_store()
+        new_hash = self._store_hash()
+    
+>       summary = self._run_builder("--security", TEST_ID, "--years", "2026")
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_incremental_update.py:491: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_incremental_update.py:455: in _run_builder
+    completed = subprocess.run(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+input = None, capture_output = True, timeout = 180, check = True
+popenargs = (['/private/tmp/sg-invest-s9-venv/bin/python', '/private/tmp/sg-incremental-recovery/scripts/build_data_packs.py', '--.../folders/lt/td38pv195hz2z3rgb9j0qllr0000gn/T/tmp6c41pb1s', '--security', '11111111-1111-1111-1111-111111111111', ...],)
+kwargs = {'text': True, 'stdout': -1, 'stderr': -1}
+
+    def run(*popenargs,
+            input=None, capture_output=False, timeout=None, check=False, **kwargs):
+        """Run command with arguments and return a CompletedProcess instance.
+    
+        The returned instance will have attributes args, returncode, stdout and
+        stderr. By default, stdout and stderr are not captured, and those attributes
+        will be None. Pass stdout=PIPE and/or stderr=PIPE in order to capture them,
+        or pass capture_output=True to capture both.
+    
+        If check is True and the exit code was non-zero, it raises a
+        CalledProcessError. The CalledProcessError object will have the return code
+        in the returncode attribute, and output & stderr attributes if those streams
+        were captured.
+    
+        If timeout (seconds) is given and the process takes too long,
+         a TimeoutExpired exception will be raised.
+    
+        There is an optional argument "input", allowing you to
+        pass bytes or a string to the subprocess's stdin.  If you use this argument
+        you may not also use the Popen constructor's "stdin" argument, as
+        it will be used internally.
+    
+        By default, all communication is in bytes, and therefore any "input" should
+        be bytes, and the stdout and stderr will be bytes. If in text mode, any
+        "input" should be a string, and stdout and stderr will be strings decoded
+        according to locale encoding, or by "encoding" if set. Text mode is
+        triggered by setting any of text, encoding, errors or universal_newlines.
+    
+        The other arguments are the same as for the Popen constructor.
+        """
+        if input is not None:
+            if kwargs.get('stdin') is not None:
+                raise ValueError('stdin and input arguments may not both be used.')
+            kwargs['stdin'] = PIPE
+    
+        if capture_output:
+            if kwargs.get('stdout') is not None or kwargs.get('stderr') is not None:
+                raise ValueError('stdout and stderr arguments may not be used '
+                                 'with capture_output.')
+            kwargs['stdout'] = PIPE
+            kwargs['stderr'] = PIPE
+    
+        with Popen(*popenargs, **kwargs) as process:
+            try:
+                stdout, stderr = process.communicate(input, timeout=timeout)
+            except TimeoutExpired as exc:
+                process.kill()
+                if _mswindows:
+                    # Windows accumulates the output in a single blocking
+                    # read() call run on child threads, with the timeout
+                    # being done in a join() on those threads.  communicate()
+                    # _after_ kill() is required to collect that and add it
+                    # to the exception.
+                    exc.stdout, exc.stderr = process.communicate()
+                else:
+                    # POSIX _communicate already populated the output so
+                    # far into the TimeoutExpired exception.
+                    process.wait()
+                raise
+            except:  # Including KeyboardInterrupt, communicate handled that.
+                process.kill()
+                # We don't call process.wait() as .__exit__ does that for us.
+                raise
+            retcode = process.poll()
+            if check and retcode:
+>               raise CalledProcessError(retcode, process.args,
+                                         output=stdout, stderr=stderr)
+E               subprocess.CalledProcessError: Command '['/private/tmp/sg-invest-s9-venv/bin/python', '/private/tmp/sg-incremental-recovery/scripts/build_data_packs.py', '--root', '/var/folders/lt/td38pv195hz2z3rgb9j0qllr0000gn/T/tmp6c41pb1s', '--security', '11111111-1111-1111-1111-111111111111', '--years', '2026']' returned non-zero exit status 1.
+
+/Users/macbook/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/subprocess.py:571: CalledProcessError
+____ ScopedPackMergeTests.test_second_scoped_merge_preserves_previous_merge ____
+
+self = <tests.test_incremental_update.ScopedPackMergeTests testMethod=test_second_scoped_merge_preserves_previous_merge>
+
+    def test_second_scoped_merge_preserves_previous_merge(self) -> None:
+        self._build_full()
+        self._mutate_store()
+>       self._run_builder("--security", TEST_ID, "--years", "2026")
+
+tests/test_incremental_update.py:531: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_incremental_update.py:455: in _run_builder
+    completed = subprocess.run(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+input = None, capture_output = True, timeout = 180, check = True
+popenargs = (['/private/tmp/sg-invest-s9-venv/bin/python', '/private/tmp/sg-incremental-recovery/scripts/build_data_packs.py', '--.../folders/lt/td38pv195hz2z3rgb9j0qllr0000gn/T/tmpoj8ih_ck', '--security', '11111111-1111-1111-1111-111111111111', ...],)
+kwargs = {'text': True, 'stdout': -1, 'stderr': -1}
+
+    def run(*popenargs,
+            input=None, capture_output=False, timeout=None, check=False, **kwargs):
+        """Run command with arguments and return a CompletedProcess instance.
+    
+        The returned instance will have attributes args, returncode, stdout and
+        stderr. By default, stdout and stderr are not captured, and those attributes
+        will be None. Pass stdout=PIPE and/or stderr=PIPE in order to capture them,
+        or pass capture_output=True to capture both.
+    
+        If check is True and the exit code was non-zero, it raises a
+        CalledProcessError. The CalledProcessError object will have the return code
+        in the returncode attribute, and output & stderr attributes if those streams
+        were captured.
+    
+        If timeout (seconds) is given and the process takes too long,
+         a TimeoutExpired exception will be raised.
+    
+        There is an optional argument "input", allowing you to
+        pass bytes or a string to the subprocess's stdin.  If you use this argument
+        you may not also use the Popen constructor's "stdin" argument, as
+        it will be used internally.
+    
+        By default, all communication is in bytes, and therefore any "input" should
+        be bytes, and the stdout and stderr will be bytes. If in text mode, any
+        "input" should be a string, and stdout and stderr will be strings decoded
+        according to locale encoding, or by "encoding" if set. Text mode is
+        triggered by setting any of text, encoding, errors or universal_newlines.
+    
+        The other arguments are the same as for the Popen constructor.
+        """
+        if input is not None:
+            if kwargs.get('stdin') is not None:
+                raise ValueError('stdin and input arguments may not both be used.')
+            kwargs['stdin'] = PIPE
+    
+        if capture_output:
+            if kwargs.get('stdout') is not None or kwargs.get('stderr') is not None:
+                raise ValueError('stdout and stderr arguments may not be used '
+                                 'with capture_output.')
+            kwargs['stdout'] = PIPE
+            kwargs['stderr'] = PIPE
+    
+        with Popen(*popenargs, **kwargs) as process:
+            try:
+                stdout, stderr = process.communicate(input, timeout=timeout)
+            except TimeoutExpired as exc:
+                process.kill()
+                if _mswindows:
+                    # Windows accumulates the output in a single blocking
+                    # read() call run on child threads, with the timeout
+                    # being done in a join() on those threads.  communicate()
+                    # _after_ kill() is required to collect that and add it
+                    # to the exception.
+                    exc.stdout, exc.stderr = process.communicate()
+                else:
+                    # POSIX _communicate already populated the output so
+                    # far into the TimeoutExpired exception.
+                    process.wait()
+                raise
+            except:  # Including KeyboardInterrupt, communicate handled that.
+                process.kill()
+                # We don't call process.wait() as .__exit__ does that for us.
+                raise
+            retcode = process.poll()
+            if check and retcode:
+>               raise CalledProcessError(retcode, process.args,
+                                         output=stdout, stderr=stderr)
+E               subprocess.CalledProcessError: Command '['/private/tmp/sg-invest-s9-venv/bin/python', '/private/tmp/sg-incremental-recovery/scripts/build_data_packs.py', '--root', '/var/folders/lt/td38pv195hz2z3rgb9j0qllr0000gn/T/tmpoj8ih_ck', '--security', '11111111-1111-1111-1111-111111111111', '--years', '2026']' returned non-zero exit status 1.
+
+/Users/macbook/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/subprocess.py:571: CalledProcessError
+_ IncrementalEndToEndPackTests.test_incremental_run_rebuilds_only_touched_packs _
+
+self = <tests.test_incremental_update.IncrementalEndToEndPackTests testMethod=test_incremental_run_rebuilds_only_touched_packs>
+
+    def test_incremental_run_rebuilds_only_touched_packs(self) -> None:
+        build_data_packs(self.root, self.output)
+        manifest_before = self._manifest()
+        fund_pack = self._pack_bytes(FUND_ID, 2026)
+        provider = self._provider()
+    
+        summary = self._run(provider, since="auto", build_packs=True)
+    
+        self.assertIsInstance(summary["packs"], dict)
+>       self.assertNotIn("error", summary["packs"])
+E       AssertionError: 'error' unexpectedly found in {'command': ['/private/tmp/sg-invest-s9-venv/bin/python', '/var/folders/lt/td38pv195hz2z3rgb9j0qllr0000gn/T/tmp7jabvzt1/scripts/build_data_packs.py', '--root', '/var/folders/lt/td38pv195hz2z3rgb9j0qllr0000gn/T/tmp7jabvzt1', '--security', '11111111-1111-1111-1111-111111111111', '--years', '2026'], 'error': 'Traceback (most recent call last):\n  File "/var/folders/lt/td38pv195hz2z3rgb9j0qllr0000gn/T/tmp7jabvzt1/scripts/build_data_packs.py", line 302, in <module>\n    main()\n  File "/var/folders/lt/td38pv195hz2z3rgb9j0qllr0000gn/T/tmp7jabvzt1/scripts/build_data_packs.py", line 282, in main\n    summary = _scoped_merge_build(\n              ^^^^^^^^^^^^^^^^^^^^\n  File "/var/folders/lt/td38pv195hz2z3rgb9j0qllr0000gn/T/tmp7jabvzt1/scripts/build_data_packs.py", line 120, in _scoped_merge_build\n    if entry["security_id"] not in catalog.excluded_security_ids}\n                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAttributeError: \'CatalogSnapshot\' object has no attribute \'excluded_security_ids\''}
+
+tests/test_incremental_update.py:582: AssertionError
+----------------------------- Captured stderr call -----------------------------
+{"stage": "planning", "at": "2026-10-18T02:56:00+00:00", "elapsed_seconds": 0.0, "peak_rss_mb": 776.52, "status": "running"}
+{"stage": "prices", "at": "2026-10-18T02:56:00+00:00", "elapsed_seconds": 0.005, "peak_rss_mb": 776.52, "securities": 2, "status": "running"}
+{"stage": "prices", "at": "2026-10-18T02:56:00+00:00", "elapsed_seconds": 0.005, "peak_rss_mb": 776.52, "completed": 2, "total": 2, "status": "running"}
+{"stage": "dividends", "at": "2026-10-18T02:56:00+00:00", "elapsed_seconds": 0.009, "peak_rss_mb": 776.52, "price_rows": 4, "price_errors": 0, "status": "running"}
+{"stage": "dividends", "at": "2026-10-18T02:56:00+00:00", "elapsed_seconds": 0.01, "peak_rss_mb": 776.52, "completed": 2, "total": 2, "status": "running"}
+{"stage": "corporate_actions", "at": "2026-10-18T02:56:00+00:00", "elapsed_seconds": 0.012, "peak_rss_mb": 776.52, "status": "running"}
+{"stage": "corporate_actions", "at": "2026-10-18T02:56:00+00:00", "elapsed_seconds": 0.013, "peak_rss_mb": 776.52, "completed": 2, "total": 2, "status": "running"}
+{"stage": "fx", "at": "2026-10-18T02:56:00+00:00", "elapsed_seconds": 0.013, "peak_rss_mb": 776.52, "action_errors": 0, "status": "running"}
+{"stage": "packs", "at": "2026-10-18T02:56:00+00:00", "elapsed_seconds": 0.017, "peak_rss_mb": 776.52, "touched_securities": 1, "status": "running"}
+{"stage": "finished", "at": "2026-10-18T02:56:00+00:00", "elapsed_seconds": 0.289, "peak_rss_mb": 776.52, "status": "incomplete", "provider_telemetry": null}
+=========================== short test summary info ============================
+FAILED tests/test_incremental_update.py::ScopedPackMergeTests::test_full_rebuild_after_merge_resets_directory_and_manifest
+FAILED tests/test_incremental_update.py::ScopedPackMergeTests::test_scoped_build_without_previous_manifest_is_filtered
+FAILED tests/test_incremental_update.py::ScopedPackMergeTests::test_scoped_merge_replaces_touched_and_preserves_others
+FAILED tests/test_incremental_update.py::ScopedPackMergeTests::test_second_scoped_merge_preserves_previous_merge
+FAILED tests/test_incremental_update.py::IncrementalEndToEndPackTests::test_incremental_run_rebuilds_only_touched_packs
+5 failed, 250 passed, 8 deselected in 6.56s

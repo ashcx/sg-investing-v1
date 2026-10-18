@@ -1,4 +1,9 @@
 history_start: 2000-01-01
+# Removed by Product Owner on 2026-10-18 after invalid provider observations.
+# These IDs are not quarantined and must not return on source refresh.
+excluded_security_ids:
+  - 88d0748e-e47b-58ee-8419-68e7137b2637  # US: WBD
+  - 0ef6cc6b-7c95-5c01-a172-d81d7fbf36f4  # US: ATAI
 securities:
   # This seed list is intentionally small. A listing-source adapter augments it
   # with all active SGX equities, REITs, business trusts, and SGX-listed ETFs.

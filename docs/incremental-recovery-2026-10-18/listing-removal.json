@@ -1,0 +1,31 @@
+{
+  "excluded_security_ids": [
+    "0ef6cc6b-7c95-5c01-a172-d81d7fbf36f4",
+    "88d0748e-e47b-58ee-8419-68e7137b2637"
+  ],
+  "removed_rows": {
+    "data/prices/market=US/year=2005.parquet": 123,
+    "data/prices/market=US/year=2006.parquet": 251,
+    "data/prices/market=US/year=2007.parquet": 251,
+    "data/prices/market=US/year=2008.parquet": 253,
+    "data/prices/market=US/year=2009.parquet": 252,
+    "data/prices/market=US/year=2010.parquet": 252,
+    "data/prices/market=US/year=2011.parquet": 252,
+    "data/prices/market=US/year=2012.parquet": 250,
+    "data/prices/market=US/year=2013.parquet": 252,
+    "data/prices/market=US/year=2014.parquet": 252,
+    "data/prices/market=US/year=2015.parquet": 252,
+    "data/prices/market=US/year=2016.parquet": 252,
+    "data/prices/market=US/year=2017.parquet": 251,
+    "data/prices/market=US/year=2018.parquet": 251,
+    "data/prices/market=US/year=2019.parquet": 252,
+    "data/prices/market=US/year=2020.parquet": 253,
+    "data/prices/market=US/year=2021.parquet": 389,
+    "data/prices/market=US/year=2022.parquet": 502,
+    "data/prices/market=US/year=2023.parquet": 500,
+    "data/prices/market=US/year=2024.parquet": 504,
+    "data/prices/market=US/year=2025.parquet": 500,
+    "data/prices/market=US/year=2026.parquet": 328
+  },
+  "remaining_securities": 3170
+}

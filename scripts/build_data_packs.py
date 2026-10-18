@@ -116,11 +116,16 @@ def _scoped_merge_build(
         if manifest_path.exists():
             old_manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
         old_entries = (
-            {entry["security_id"]: entry for entry in old_manifest["securities"]}
+            {entry["security_id"]: entry for entry in old_manifest["securities"]
+             if entry["security_id"] not in catalog.excluded_security_ids}
             if old_manifest is not None
             else {}
         )
 
+        for excluded_id in catalog.excluded_security_ids:
+            removed_pack_dir = target / f"security={excluded_id}"
+            if removed_pack_dir.exists():
+                shutil.rmtree(removed_pack_dir)
         entries = dict(old_entries)
         replaced_packs = 0
         updated_entries = 0

@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-08-30",
+  "generated_at": "2026-10-18",
   "results": [
     {
       "catalog_version": "current_catalog",
       "data_snapshot_id": "local-canonical-parquet",
-      "generated_at": "2026-08-30",
+      "generated_at": "2026-10-18",
       "methodology_version": "1.0",
       "request": {
         "dividends": "true",
@@ -131,7 +131,7 @@
     {
       "catalog_version": "current_catalog",
       "data_snapshot_id": "local-canonical-parquet",
-      "generated_at": "2026-08-30",
+      "generated_at": "2026-10-18",
       "methodology_version": "1.0",
       "request": {
         "dividends": "true",
@@ -252,7 +252,7 @@
     {
       "catalog_version": "current_catalog",
       "data_snapshot_id": "local-canonical-parquet",
-      "generated_at": "2026-08-30",
+      "generated_at": "2026-10-18",
       "methodology_version": "1.0",
       "request": {
         "dividends": "true",

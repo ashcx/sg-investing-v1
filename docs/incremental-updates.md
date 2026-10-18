@@ -213,3 +213,24 @@ canonical checkout, not a different snapshot. Without that baseline use
 `--no-build-packs`, then a full build from the resulting validated canonical store.
 The scoped builder alone can still produce filtered research packs; that output
 is not a complete publication artifact.
+
+
+### Explicit listing removal
+
+WBD and ATAI were removed entirely by Product Owner decision on 18 October
+2026. `config/universe.yaml` records their excluded security IDs. Catalog loads
+and subsequent source merges preserve that exclusion; full and scoped pack
+builds cannot republish either ID even from an older restored price store.
+`python scripts/remove_excluded_listings.py --root <checkout>` applies configured
+removals to canonical observations, catalog, manifests and active coverage/state
+records. Regenerate frontend data and full packs afterwards. The migration
+verifies every rewritten partition against its filtered original values.
+Historical audit evidence and Git history remain available. Existing private
+browser ledgers are not rewritten; removed holdings cannot be silently replaced.
+
+The removal in this PR is not a claim that the public origins have changed.
+After reviewed publication, verify Pages and R2 manifests omit both IDs and
+that their old year-pack URLs no longer resolve (accounting for CDN caches).
+The existing R2 `rclone sync` mirrors the rebuilt full set and deletes absent
+objects; do not replace it with a copy-only upload. Canonical application,
+publication and actual scheduled-success evidence remain separate gates.

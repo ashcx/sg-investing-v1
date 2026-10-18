@@ -35,7 +35,7 @@ prerequisite to the separate Sprint 12–15 PRs.
 
 | Check | Result | Record |
 | --- | --- | --- |
-| Python normal suite | 256 passed, 8 opt-in smoke deselected | [pytest.txt](pytest.txt) |
+| Python normal suite | 260 passed, 8 opt-in smoke deselected | [pytest.txt](pytest.txt) |
 | Ruff, changed Python | Passed | [ruff.txt](ruff.txt) |
 | Engine | 68/68 | [engine-selftest.txt](engine-selftest.txt) |
 | Golden parity | 27/27 | [parity.txt](parity.txt) |
@@ -106,11 +106,23 @@ change keys. Full responses remain in the disposable folders.
 
 ## Remaining gates
 
-Product Owner decision requested: explicitly quarantine WBD/ATAI with retained
-history and visible warnings, or leave the entire refresh blocked pending source
-repair. No exclusion has been implemented without that decision. A final full
-live run follows any approved scope change. Actual scheduled runs require the
-reviewed workflow on the default branch and successive scheduled successes.
-Manual runs cannot stand in for that evidence. Operator canonical application/
-publication must be verified separately. Sprint 7.5 remains In progress, and
-later interface gates are not bypassed.
+Product Owner explicitly chose to remove WBD and ATAI entirely. Migration
+removed 6,622 observations from 22 US year partitions and three memberships.
+All remaining row values/schema were verified unchanged. Active catalog,
+coverage/backfill records and public catalog are rebuilt; 3,170 catalog entries
+remain. Permanent exclusions prevent restoration through catalog refreshes or
+full/scoped pack builds. Rebuilt full packs: 3,186 securities, 55,546 packs,
+13,416,266 price rows. Static checks and DCA (29)/portfolio (14) integrations pass. Desktop/mobile
+search checks at 1440/390px confirm both tickers absent and QQQ discoverable,
+with no page errors; retained captures were visually inspected. Final suite:
+260 passed, 8 smoke deselected using explicit PYTHONPATH=src so subprocesses
+load this checkout. The initial shared-editable-path failure is retained.
+[Removal record](listing-removal.json), [pack build](pack-build-after-removal.json).
+The final full live rehearsal is active on a new disposable copy. Prior failed
+runs remain retained; no new success or production change is claimed yet.
+
+Actual scheduled runs require the reviewed workflow on the default branch and
+successive scheduled successes. Manual runs cannot stand in for that evidence.
+Operator canonical application/publication, including removal of old R2 objects,
+must be verified separately. Sprint 7.5 remains In progress, and later interface
+gates are not bypassed.
