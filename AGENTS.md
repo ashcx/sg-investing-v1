@@ -7,7 +7,7 @@ no-build static frontend (`frontend/`) deployed to GitHub Pages. Read
 ## Todo system (mandatory)
 
 All roadmap work is tracked in `TODO.md` (the roadmap) and the `Todo/` folder
-(one file per sprint: `sprint-0-*.md` … `sprint-14-*.md`, including `sprint-7.5-*`). Any agent asked to
+(one file per sprint: `sprint-0-*.md` … `sprint-15-*.md`, including `sprint-7.5-*`). Any agent asked to
 continue, pick up, or check project work MUST use this system:
 
 - **Roadmap**: `TODO.md` holds the sprint table with statuses and the final
@@ -29,7 +29,7 @@ continue, pick up, or check project work MUST use this system:
   (7 → 7.5 → 8). All work runs sequentially in the main instance; do not
   spawn child agents or delegate implementation, tests, reviews, or documentation.
   Sprint 6 requires 4 and 5; Sprint 7 requires 4, 5, 6.
-- **Redesign sequence**: Sprints 9–14 run sequentially after 7, 7.5, and 8.
+- **Redesign sequence**: Sprints 9–15 run sequentially after 7, 7.5, and 8.
   `Todo/redesign-scrum-plan.md` defines single-owner work, review, evidence,
   and Scrum events. The main instance owns all files and performs a separate
   self-review after implementation. Human product acceptance remains separate.

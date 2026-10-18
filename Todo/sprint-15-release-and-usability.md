@@ -1,32 +1,32 @@
-# Sprint 14 — Release validation and usability
+# Sprint 15 — Release validation and usability
 
 ## Goal
 
 Verify the complete redesign against the audit, existing deterministic
-calculation contracts, real viewport/accessibility checks, and observed tasks
-with unfamiliar people. Record what the evidence supports before making any
+calculation contracts, real viewport/accessibility checks, and task-based technical and design review. Record what the evidence supports before making any
 release claim.
 
 Status: **Not started**.
 
 ## Entry criteria
 
-- [ ] Every Sprint 13 exit criterion is checked, including ledger preservation,
-      accessible transaction entry, mobile readability, and import/export
-      evidence.
+- [ ] Every Sprint 14 exit criterion is checked, including the accepted visual
+      direction, implemented desktop/mobile overhaul, preserved financial
+      context and behavior, design evidence, and sprint PR.
 
 ## Depends on
 
-Sprint 13 only. This is the final sequential sprint in the redesign plan. Do not
+Sprint 14 only, following the completed Sprint 13 portfolio workflow. This is
+the final sequential sprint in the redesign plan. Do not
 begin release acceptance while any earlier sprint remains incomplete.
 
 ## Tasks
 
-Timebox commitment: **S14-US01 + S14-US02 (6 SP)**. **S14-US03 (3 SP) is
+Timebox commitment: **S15-US01 + S15-US02 (6 SP)**. **S15-US03 (3 SP) is
 stretch**, still required for sprint exit. Execute stories and their tasks in
 order, including checks and recorded self-review before advancing.
 
-- [ ] **S14-US01 — Verify financial and static-site behavior end to end** (P1,
+- [ ] **S15-US01 — Verify financial and static-site behavior end to end** (P1,
       3 SP; owner: main instance; review: subsequent main-instance self-review).
   - **Given** a locally served integrated candidate, fixed test data, and the
     published pack artifacts, **when** the verification matrix runs, **then**
@@ -56,7 +56,7 @@ order, including checks and recorded self-review before advancing.
   - **Evidence:** dated test reports, fixture manifests, read-only smoke
     captures/logs, and a finding-by-finding evidence map.
 
-- [ ] **S14-US02 — Inspect responsive, keyboard, and zoom behavior** (P1, 3 SP;
+- [ ] **S15-US02 — Inspect responsive, keyboard, and zoom behavior** (P1, 3 SP;
       owner: main instance; review: subsequent main-instance self-review).
   - **Given** the integrated candidate, **when** it is inspected at the audit's
     viewport widths and with keyboard, zoom, reduced-motion, and accessible-name
@@ -73,30 +73,30 @@ order, including checks and recorded self-review before advancing.
   - **Evidence:** viewport matrix, contrast/accessibility findings, keyboard
     paths, captures, and a list of remaining limitations.
 
-- [ ] **S14-US03 — Evaluate real human usability tasks** (P1, 3 SP; owner: main instance; review: subsequent main-instance self-review).
-  - **Human involvement:** the Product Owner recruits/accepts participants;
-    actual people perform the sessions. The main instance prepares materials,
-    records available observations, and evaluates evidence.
-  - **Given** five people unfamiliar with the product and a stable candidate,
-    **when** each performs the four audit tasks without coaching, **then** their
-    task completion, mistakes, comprehension, and time to first valid result
-    are recorded directly, and release readiness reflects the observed results.
+- [ ] **S15-US03 — Verify task clarity and design coherence** (P1, 3 SP;
+      owner: main instance; review: subsequent main-instance self-review).
+  - **Given** the integrated candidate and the Sprint 14 design direction,
+    **when** the main instance performs a separate task-based design review,
+    **then** each core journey exposes the required actions and financial
+    context, and all findings are tied to actual rendered evidence.
   - Tasks:
-    - [ ] Prepare a neutral task script for: QQQ one-time investment and actual
-          dates; monthly contributions and result meaning; QQQ/VALL history
-          difference; and adding/correcting a portfolio transaction and finding
-          its save location.
-    - [ ] Recruit and run sessions with five unfamiliar participants; record
-          completion, assistance, mistakes, time, and whether each person can
-          identify currency, amount, actual period, and current vs previous
-          result. Use anonymized notes and do not invent or infer observations.
-    - [ ] Evaluate the proposed audit targets: at least 4 of 5 complete each
-          core task unaided, median time to first valid result under one minute,
-          and all participants identify the key result attributes. If a target
-          is missed, record the product issue, keep the release gate open, and
-          replan remediation and a real retest in the backlog.
-  - **Evidence:** dated protocol, anonymized participant-level observation
-    sheet, calculation of target outcomes, and any follow-up backlog items.
+    - [ ] Prepare and execute a repeatable task script for: QQQ one-time
+          investment and actual dates; monthly contributions and result meaning;
+          QQQ/VALL history difference; adding/correcting a portfolio transaction
+          and finding its browser-local save location.
+    - [ ] Verify every task with deterministic browser evidence and a separate
+          visual walkthrough at mobile and desktop widths. Check visible metric
+          labels, currencies, amounts, actual periods, current/previous state,
+          input recovery, saving status and context-help discoverability.
+    - [ ] Review the final result against Sprint 14's selected design and copy
+          inventory; correct inconsistencies and redundant ornament/text through
+          the owning sprint file. Record each finding, resolution and retest.
+    - [ ] Report what technical/design evidence establishes and its limits;
+          make no claims about unfamiliar-user success, human comprehension,
+          participant timings or task-completion rates without observations.
+  - **Evidence:** dated task protocol, browser traces, annotated captures,
+    separate self-review findings and repair/retest log. Real-person sessions
+    are no longer a completion requirement under the 18 October user amendment.
 
 ## Exit criteria
 
@@ -105,7 +105,7 @@ order, including checks and recorded self-review before advancing.
 
 - [ ] Inspect the actual locally served webpage design after this sprint at
       desktop and mobile widths; record captures, changed-state checks, and
-      findings under `docs/ux-redesign-evidence/sprint-14/`.
+      findings under `docs/ux-redesign-evidence/sprint-15/`.
 - [ ] Open the sprint PR in `ashcx/sg-investing-v1` with the sprint plan,
       implementation changes, checks/results, and remaining gaps; record its URL.
 
@@ -122,13 +122,12 @@ order, including checks and recorded self-review before advancing.
       financial value loses its label or period on mobile.
 - [ ] Existing ledger compatibility and recovery are verified without exposing
       private user ledger contents in the evidence set.
-- [ ] Five real unfamiliar participants complete the planned sessions; actual
-      outcomes are recorded, and proposed usability targets are met. If targets
-      are missed or sessions cannot be run, leave this sprint In progress and
-      record the blocker/retest plan.
+- [ ] The four core task scripts pass technical/design review with evidence
+      across desktop/mobile; all identified release-blocking issues are repaired
+      and retested. No participant or comprehension claims are inferred.
 - [ ] Product Owner reviews the evidence and accepts the release candidate;
       technical agent sign-off is not represented as user acceptance.
-- [ ] Sprint evidence is recorded under `docs/ux-redesign-evidence/sprint-14/`
+- [ ] Sprint evidence is recorded under `docs/ux-redesign-evidence/sprint-15/`
       and roadmap status changes only after every exit gate is checked.
 
 ## Scrum details
@@ -143,11 +142,10 @@ order, including checks and recorded self-review before advancing.
   documentation, and subsequent self-review sequentially. No child agents or
   delegated review. Finish and record each task before starting the next.
 - **Acceptance owner:** the human user is Product Owner and owns product and
-  release acceptance. Real participant observations are required for the
-  usability gate. A prototype, simulated response, or agent-generated summary
-  cannot substitute for sessions.
+  release acceptance. Technical/design review is performed in the main instance;
+  it must not be represented as independent review or human usability research.
 - **Completion evidence:** retain dated reports and anonymized records in
-  `docs/ux-redesign-evidence/sprint-14/`. A publish/deploy action is outside
+  `docs/ux-redesign-evidence/sprint-15/`. A publish/deploy action is outside
   this plan and requires separate authorization; baseline checks are
   read-only, and redesign candidate checks use a local served build.
 
@@ -155,6 +153,7 @@ order, including checks and recorded self-review before advancing.
 
 - [13 October 2026 UX audit and proposed usability targets](../docs/ux-audit-2026-10-13/README.md)
 - [Sprint 13 — Portfolio workflow](sprint-13-portfolio-workflow.md)
+- [Sprint 14 — Interface design overhaul](sprint-14-interface-design-overhaul.md)
 - [Sprint 7 release hardening baseline](sprint-7-release-hardening.md)
 - [Scrum redesign plan](redesign-scrum-plan.md)
 
@@ -167,3 +166,17 @@ no implementation evidence or completed task is claimed by this amendment.
 For each task, record date/ID, status, changed files, checks and exact results,
 evidence paths, separate self-review findings, blockers, and next sequential
 action here before proceeding. Human acceptance is recorded only when given.
+
+
+Planning amendment, 18 October 2026: moved the former Sprint 14 validation and
+usability backlog here as Sprint 15. At the initial move, all stories, tests, five-person sessions,
+targets, exit requirements, and limitations are retained; only numbering,
+evidence paths, cross-references, and the new Sprint 14 dependency changed.
+Implementation remains Not started; this amendment does not satisfy entry gates.
+
+
+18 October 2026 — user preflight decision: remove the five-person usability gate
+and replace it with full technical/design verification. US03 and the matching
+exit criterion above now reflect this explicit scope change. Earlier notes
+describing an unchanged move from Sprint 14 are historical and superseded only
+for the participant requirement. Product Owner acceptance remains separate.

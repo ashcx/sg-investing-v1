@@ -169,7 +169,7 @@ order, including checks and recorded self-review before advancing.
 ## Out of scope
 
 Navigation, the unified simulator, comparison redesign, portfolio editing, and
-release usability sessions are assigned to Sprints 10–14. Calculation
+release usability sessions are assigned to Sprints 10–15. Calculation
 methodology, engine changes, new result-envelope fields, and production deploys
 are outside this sprint.
 

@@ -103,7 +103,7 @@ already exists from Sprints 4–6; this sprint wires it to be automatic.
 - [x] Track A: manifest shows `fully_supported` back to 2000 for covered
       currencies; source decision recorded (ADR 0002); parity battery green
       with deliberately regenerated fixtures.
-- [x] Track B: a typical daily incremental update completes in minutes with
+- [ ] Track B: a typical daily incremental update completes in minutes with
       scoped pack rebuilds; scheduled workflow green.
 - [x] Track C: all three stages browser-verified; no stale results possible.
 - [x] Full verification battery green (pytest 172+/8, selftest 68/68, parity,
@@ -130,3 +130,61 @@ recalculation while preserving request identity and preventing stale outputs
 from appearing current. Automatic series/data loading may remain. This is
 planned Sprint 9 work; the checked Sprint 7.5 tasks and exits describe the
 historically shipped baseline and are not evidence of redesign completion.
+
+## Operational recovery amendment — 18 October 2026
+
+Status: **In progress** for Track B operational recovery. Historical completed
+implementation tasks remain recorded above; the daily-operation exit is reopened
+because current production evidence contradicts it. User requested careful
+troubleshooting of daily failure emails, separately from the redesign. No next
+redesign sprint is started by this investigation. Main-instance ownership only.
+
+- [x] Inspect scheduled runs and logs, compare against pre-redesign code,
+      reproduce fetch-plan behavior offline, and record findings and checks.
+- [ ] Repair bounded fetching, memory usage, provider retry behavior, workflow
+      scheduling/diagnostics, and incomplete-result reporting sequentially.
+- [ ] Verify the canonical application/pack-baseline/publication process and
+      retain live canary/full-run resource evidence and successive green daily runs
+      before restoring the Track B operational exit.
+
+Investigation result: ten sampled incremental failures and ten full-refresh
+cancellations on pre-redesign commit 6ab5ac2. Offline probe confirms a stale
+2013 listing widens all 3,168 batch securities to 2013; price change detection
+would retain before/after dictionaries covering 13,422,888 rows. Logs explicitly
+show Yahoo throttling and runner termination; the termination cause is not
+proven. Focused offline suite: 40 passed in 2.36 seconds. No canonical data,
+workflow, provider behavior, or deployment changed. Separate self-review checked
+that resource-pressure inferences are not presented as confirmed OOM and that
+local-store dates are not represented as live deployment freshness.
+
+Full evidence, run URLs, limitations, and next sequential repair actions:
+[investigation report](../docs/incremental-update-investigation-2026-10-18.md).
+No operational fix or successful daily update is claimed by this amendment.
+
+### 18 October 2026 — isolated recovery implementation and user direction
+
+User confirms the early Sprint 14 designs are acceptable and requests technical
+work first. Recovery continues before any interface implementation.
+Draft recovery PR: https://github.com/ashcx/sg-investing-v1/pull/5
+(branch `codex/recover-incremental-updates`; isolated checkout
+`/private/tmp/sg-incremental-recovery`). Detailed task logs and retained check
+reports are in that PR. Recovery implements exact-window bounded fetches,
+provider pacing/backoff/circuit limits, durable diagnostics, workflow concurrency,
+and complete pack-baseline checks. Current offline battery: 256 passed,
+8 opt-in smoke deselected; changed-file Ruff passed. A three-listing disposable
+live canary passed after an out-of-window FX fix. Full-universe live verification
+is still active; no production data, schedule recovery or deployment is claimed.
+Explicit provider no-history windows remain visible with failed/unknown event
+coverage and retained old observations; broken requests and missing FX still
+block publication. Actual successive scheduled successes and operator publication
+verification remain required before the reopened operational exit can be ticked.
+
+Full live rehearsal finished in 26m42s, peak RSS 2,183.34 MiB, 9,515 requests
+with zero retries/rate-limit circuit; 3,138 listings updated. It remained
+incomplete, with explicit unavailable listings and two malformed Yahoo prices
+(WBD/ATAI zero opening prices). Final candidate's mixed supported/absent canary
+passed; the canary including those malformed prices correctly failed. All six
+GitHub checks for 621e37a passed. User decision is pending on quarantining only
+WBD/ATAI with visible warnings versus retaining the global failure until source
+repair. No exclusion, canonical application, merge or deployment performed.
+Detailed retained evidence is in recovery PR #5.

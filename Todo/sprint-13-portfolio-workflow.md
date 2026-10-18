@@ -17,8 +17,9 @@ Status: **Not started**.
 
 ## Depends on
 
-Sprint 12 only. This ordering is deliberate; Sprint 14 release validation waits
-for the portfolio increment. No sprint may run alongside this one.
+Sprint 12 only. Sprint 14 interface design follows this complete portfolio
+increment; Sprint 15 then validates the integrated redesign. No sprint may run
+alongside this one.
 
 ## Tasks
 
@@ -129,7 +130,8 @@ order, including checks and recorded self-review before advancing.
 - [UX audit: findings F11 and F16](../docs/ux-audit-2026-10-13/README.md)
 - [Portfolio static workflow](../docs/portfolio-static.md)
 - [Sprint 12 — Fair comparisons](sprint-12-fair-comparisons.md)
-- [Sprint 14 — Release and usability](sprint-14-release-and-usability.md)
+- [Sprint 14 — Interface design overhaul](sprint-14-interface-design-overhaul.md)
+- [Sprint 15 — Release and usability](sprint-15-release-and-usability.md)
 
 ## Execution log
 
