@@ -141,7 +141,7 @@ redesign sprint is started by this investigation. Main-instance ownership only.
 
 - [x] Inspect scheduled runs and logs, compare against pre-redesign code,
       reproduce fetch-plan behavior offline, and record findings and checks.
-- [ ] Repair bounded fetching, memory usage, provider retry behavior, workflow
+- [x] Repair bounded fetching, memory usage, provider retry behavior, workflow
       scheduling/diagnostics, and incomplete-result reporting sequentially.
   - [x] R1: group price calls by exact window in bounded batches; compare only
         incoming security/date rows, preserving restatement and gap detection.
@@ -505,7 +505,7 @@ so do not claim a documented Yahoo quota or infer OOM. Direct isolated GRPN
 query on the local network succeeds. Canary success does not prove full-run
 recovery. PR #5 returned to draft; merge approval is on hold pending repair.
 
-- [ ] R7: preserve exact circuit cause, eliminate false numeric rate-limit
+- [x] R7: preserve exact circuit cause, eliminate false numeric rate-limit
       matches, reduce redundant per-listing history requests with bounded reuse,
       and reverify the complete workflow on GitHub's runner. Reuse must keep each
       dataset's requested date window, unknown/empty semantics and event currency,
@@ -532,3 +532,66 @@ R7 implementation/self-review complete locally; hosted verification pending. Add
 Checks: 277 passed / 8 smoke deselected in 7.16s; Ruff passed. Deterministic cases cover independent-window equivalence, cold/warm planning, dry-run purity, missing columns, zero versus unobserved windows, historical events with no recent prices, negative reuse, transient retry, memory budget, fallback windows and listing isolation. Live four-listing canary passed in 9.487s: five uncached calls including FX / eight cache hits / no retries/circuit, event payload peak 364,488 bytes and final zero. Twelve live model comparisons equal independent queries except creation timestamps. Evidence under `shared-history-live-*`.
 
 Separate self-review checked that request grouping never widens a peer's window, financial values/source IDs/event currency/split classification are unchanged, price columns cannot be retained by pandas cache blocks, all cache misses still pass circuit/deadline/request budgets, and no full-refresh or engine contract changed. Next: publish the candidate, run a non-publishing branch canary, inspect artifact/call counts, then re-run the whole catalog on GitHub. R7 remains unchecked until that evidence succeeds; no merge or sprint-gate waiver is claimed.
+
+
+R7 hosted canary PASS on exact candidate 75ffcf9:
+https://github.com/ashcx/sg-investing-v1/actions/runs/39096967279
+All stages passed, including the 277-test suite and artifact uploads. Downloaded
+diagnostics verified against GitHub SHA-256 digest: five uncached calls,
+eight cached responses, zero retries/circuit, event cache peak 364,488 bytes
+and final zero; updater 29.558s / peak RSS 1,804.19 MiB. This is the QQQ/GRPN/
+ES3.SI/40F.SI canary, not a full-catalog or scheduled-success claim. All six
+standard CI checks also pass on 75ffcf9.
+
+Full-catalog hosted verification is now active on that same exact candidate:
+https://github.com/ashcx/sg-investing-v1/actions/runs/39097179279
+Run id 39097179279, workflow_dispatch, 3,170 listings, no pack publication.
+Poll this specific run/jobs until terminal; do not restart on an observation
+timeout. Inspect diagnostics/validated artifacts and the exact cause if it
+fails. No other live full run remains active. PR #5 remains draft; R7 stays
+unchecked until full hosted proof is obtained. Merge approval and human-review
+progression decisions remain pending/on hold; no later sprint has started.
+
+
+### R7 complete — full GitHub workflow and uploaded-snapshot verification
+
+Actual full-catalog GitHub run PASSED on exact runtime head 75ffcf9:
+https://github.com/ashcx/sg-investing-v1/actions/runs/39097179279
+This is workflow_dispatch, not a scheduled success. All 3,170 listings were
+selected: 3,137 updated, 33 explicit unavailable-price warnings, zero failed
+updates and zero FX errors. There were 34 unavailable dividend windows and 33
+unavailable action windows; old observations and unknown coverage remain honest.
+SO7.SI was unavailable on the hosted runner although it returned data locally;
+no delisting or replacement values are inferred. Updater 1,621.891s (27m02s),
+peak RSS 2,754.5 MiB; 3,176 uncached calls / 6,333 cached responses, no retries
+or rate-limit circuit. Event cache peak 320,586,048 bytes, below its 536,870,912-
+byte cap, and final zero. Hosted post-fetch suite: 277 passed / 8 deselected.
+
+Both downloaded artifact ZIPs match GitHub SHA-256 digests. Applied the actual
+uploaded archive to a fresh disposable canonical baseline; its resulting chain
+hash exactly matches the producer: sha256-b1e58fd77ef1bb84e2de649fc480f155b29d9765e73e89fed8b6e4d6740bd452.
+A separate scoped build on that exact uploaded snapshot passed in 160.452s:
+3,167 touched listings, 77 coverage year-pack records checked across 39 changed
+coverage states, and all 387 untouched packs byte-identical. Complete-baseline
+and manifest/disk equality checks pass: 3,186 manifest securities / 55,548 packs /
+13,525,534 price rows. WBD/ATAI remain absent. DCA 29/29 and portfolio 14/14 pass
+against these rebuilt packs. An initial disposable setup assumed an optional
+frontend/package.json existed; it does not, and copying only existing assets
+completed setup. No product code or test assertions were changed for this check.
+
+Evidence: `shared-history-github-full-{verification,application,scoped-packs,pack-consistency}.json`,
+progress/resource trace, exact dependency inventory, job excerpt, and integration
+reports under `docs/incremental-recovery-2026-10-18/`. Separate self-review confirms
+manual hosted verification is not labeled cron evidence, the optional hosted
+full-pack step was skipped as requested, and the subsequent local scoped build
+is reported as a separate operation. Earlier failed runs stay retained.
+
+R7 and the repair implementation task are complete. PR #5 can return to ready
+for review, but no merge/publication approval or human acceptance is inferred.
+Overall Sprint 7.5 remains In progress: reviewed merge, successive actual
+scheduled successes, and remote Pages/R2 publication verification remain open.
+No live update snapshot was applied to the source repository or published.
+Sprints 12–15 remain Not started under their entry/review gates. Roadmap PR #6
+is planning only and remains stacked on recovery; after PR #5 merges, retarget
+#6 to main before considering its merge. Await the pending Product Owner
+merge/deployment and between-sprint acceptance decisions before dependent work.

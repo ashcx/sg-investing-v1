@@ -1,0 +1,14 @@
+
+== pack resolution (manifest → support → inputs)
+
+== QQQ 2024 monthly vs Python golden
+
+== QQQ 2024 quarterly vs Python golden
+
+== QQQ 2024 yearly vs Python golden
+
+== schedule shape (first-available-trading-day rule)
+
+== support gate
+
+==== DCA PACKS INTEGRATION: PASS 29 / FAIL 0 ==== all checks green

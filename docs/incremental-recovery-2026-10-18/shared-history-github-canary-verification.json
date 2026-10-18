@@ -1,0 +1,46 @@
+{
+  "complete": true,
+  "publication_status": "ready_for_review_with_unavailable",
+  "updated": 3,
+  "warnings": 1,
+  "failed": 0,
+  "provider_telemetry": {
+    "requests": 5,
+    "retries": 0,
+    "cached_responses": 8,
+    "event_cache": {
+      "bytes": 0,
+      "peak_bytes": 364488,
+      "limit_bytes": 536870912
+    },
+    "circuit_reason": null,
+    "rate_limit_cause": null,
+    "elapsed_seconds": 24.276
+  },
+  "run_id": 39096967279,
+  "head": "75ffcf97bc90194d4c263e65ff48b7abfc129158",
+  "latest": {
+    "stage": "finished",
+    "at": "2026-10-18T04:25:23+00:00",
+    "elapsed_seconds": 29.558,
+    "peak_rss_mb": 1804.19,
+    "status": "ready_for_review_with_unavailable",
+    "provider_telemetry": {
+      "requests": 5,
+      "retries": 0,
+      "cached_responses": 8,
+      "event_cache": {
+        "bytes": 0,
+        "peak_bytes": 364488,
+        "limit_bytes": 536870912
+      },
+      "circuit_reason": null,
+      "rate_limit_cause": null,
+      "elapsed_seconds": 24.276
+    }
+  },
+  "artifact_digest_verified": true,
+  "event": "workflow_dispatch",
+  "counts_as_scheduled_success": false,
+  "published": false
+}

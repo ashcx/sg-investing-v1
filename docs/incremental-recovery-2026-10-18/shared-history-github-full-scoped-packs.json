@@ -1,0 +1,31 @@
+{
+  "type": "scoped_pack_verification_after_live_fetch",
+  "live_fetch_complete": true,
+  "live_fetch_publication_status": "ready_for_review_with_unavailable",
+  "coverage_state_changed_listings": 39,
+  "coverage_metadata_year_packs_checked": 77,
+  "touched_listings": 3167,
+  "untouched_pack_count_with_identical_bytes": 387,
+  "pack_elapsed_seconds": 160.452,
+  "pack_summary": {
+    "catalog_as_of": "2026-08-30",
+    "catalog_version": "sha256-6d0301f1f3b0aff7",
+    "data_snapshot_id": "sha256-d8f58da3028c2de43ddd5aa9c8fc3380a7f22a3b58c7aa567d4a356b2f560ee2",
+    "manifest_bytes": 18593617,
+    "pack_count": 55548,
+    "price_rows": 13525534,
+    "securities": 3186,
+    "support_counts": {
+      "fully_supported": 2507,
+      "incomplete": 677,
+      "unavailable": 2
+    },
+    "total_bytes": 1877868412,
+    "warnings": [
+      "2 catalog securities have no price data in this snapshot.",
+      "16 priced securities are not present in the current catalog snapshot."
+    ]
+  },
+  "remaining_removed_ids": [],
+  "limitations": "Separate live no-build fetch and corrected scoped pack build; not a second live fetch, scheduled run, or production publication."
+}

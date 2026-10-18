@@ -1,0 +1,18 @@
+== Portfolio packs integration (pack-loader + engine vs Python goldens) ==
+  ok   portfolio-pack-qqq-buy-hold
+  ok   portfolio-pack-qqq-partial-sell
+  ok   portfolio-synthetic-mixed-currency
+  ok   portfolio-synthetic-dividends
+  ok   portfolio-synthetic-cash-only
+  ok   portfolio-synthetic-zero-holding
+  ok   portfolio-synthetic-missing-as-of-price
+== Ledger store round-trip (memory driver) ==
+  ok   ledger-store save+load round-trip
+  ok   ledger-store load returns saved rows
+  ok   ledger-store exportJson envelope
+  ok   ledger-store clear empties the ledger
+  ok   ledger-store importJson restores rows
+  ok   ledger-store import rejects invalid JSON
+  ok   ledger-store save rejects unknown transaction type
+
+==== PORTFOLIO PACKS INTEGRATION: 14/14 PASS ====

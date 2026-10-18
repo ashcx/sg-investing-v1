@@ -1,6 +1,6 @@
 # Incremental-update recovery — 18 October 2026
 
-**Current status: draft; full GitHub-runner recovery is reopened.** The local full run and GitHub canary passed, but the actual full GitHub run failed safely after its circuit classified a response as rate limiting. Only diagnostics uploaded. R7 must repair and reverify the full workflow before merge.
+**Current status: full GitHub recovery verification passed; ready for review.** The exact uploaded snapshot also passes application, scoped-pack and integration checks. Sprint 7.5 remains In progress pending reviewed merge, actual scheduled runs and remote publication verification. Earlier failed evidence is retained below.
 
 Implementation and subsequent self-review performed sequentially in the main
 instance. No UI changes, engine formula changes, canonical production refresh,
@@ -180,3 +180,45 @@ The guard now retains exact exception/call context and rejects arbitrary numeric
 Implemented per-listing union-window planning using the existing dividend cursor and action checkpoints. Price, dividend and action results still use their original independent date filters. Only deep-copied event columns/index and explicit event currency are retained, under a 512 MiB event-payload cap; cache entries are released after action consumption. Typed absence is reused without turning missing observations into zero events. Transient failures are not cached. Uncovered windows make a fresh bounded call. Cache reads consume neither an uncached-call count nor pacing delay; uncached calls are paced at 0.3 seconds. Existing 40-minute provider and 55-minute workflow limits remain.
 
 Candidate verification: 277 normal tests passed, 8 smoke deselected; Ruff passed. The live QQQ/GRPN/ES3.SI/40F.SI canary passed: five uncached calls including FX, eight cache hits, zero retries/circuit, 364,488-byte event-cache peak and zero retained bytes afterwards. Twelve separate live dataset comparisons matched independent requests across all non-creation-timestamp model fields. [Canary](shared-history-live-canary-summary.json), [equivalence](shared-history-live-equivalence.json). This does not claim a successful full cloud run; branch canary/full verification is next. PR #5 stays draft.
+
+
+## R7 current verified outcome
+
+The full GitHub workflow now passes on runtime head `75ffcf9`: [run 39097179279](https://github.com/ashcx/sg-investing-v1/actions/runs/39097179279).
+All 3,170 listings were selected: 3,137 updated, 33 explicit unavailable-price
+warnings, zero failed updates and zero FX errors. The full post-fetch suite
+passed 277 tests with eight opt-in smoke tests deselected. Fetch time was
+1,621.891s, peak process RSS 2,754.5 MiB. Shared bounded history reduced uncached
+application calls to 3,176, with 6,333 cached responses; no retry or rate-limit
+circuit occurred. Event payload cache peaked at 320,586,048 bytes under the
+512 MiB cap and released to zero. These counters are adapter calls, not a claim
+about every internal Yahoo HTTP request.
+
+Both artifact ZIP digests were verified. The actual uploaded update applied to
+a fresh disposable baseline reproduces the producer's canonical chain hash
+exactly. A separate local scoped build of that exact uploaded data passed:
+55,548 packs, 3,186 manifest securities, 13,525,534 price rows. All 387 untouched
+packs retained identical bytes; 77 year-pack coverage records across 39 changed
+coverage states were checked. WBD and ATAI are absent. Manifest/disk equality,
+complete-baseline checks, DCA 29/29 and portfolio 14/14 all pass.
+
+SO7.SI returned a typed no-history response on GitHub while the earlier local
+run returned data. Existing history is retained and unavailable coverage remains
+visible. No delisting, zero events, or replacement values are inferred.
+
+- [Hosted full-run outcome and artifact metadata](shared-history-github-full-verification.json)
+- [Actual uploaded archive application](shared-history-github-full-application.json)
+- [Scoped build on the uploaded snapshot](shared-history-github-full-scoped-packs.json)
+- [Manifest/disk equality](shared-history-github-full-pack-consistency.json)
+- [Stage and memory trace](shared-history-github-full-progress.json)
+- [Hosted dependency inventory](shared-history-github-full-dependencies.txt)
+- [Hosted test/upload excerpt](shared-history-github-full-job-excerpt.txt)
+- [DCA integration](dca-shared-history-github-full-packs.txt)
+- [Portfolio integration](portfolio-shared-history-github-full-packs.txt)
+
+This was a manual branch verification with no publication. The optional hosted
+full-pack step was skipped; the subsequent local scoped build is a separate
+operation. The actual successive scheduled-run requirement, human review, and
+live Pages/R2 publication verification remain open. The newer live data remains
+in disposable verification storage; PR canonical changes remain the requested
+listing removals. Sprint 7.5 stays In progress and Sprints 12–15 remain gated.
