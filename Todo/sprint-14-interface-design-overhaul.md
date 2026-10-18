@@ -219,3 +219,10 @@ unchanged inline-visualization fragment, not a production page or a newly tested
 standalone preview. Main-instance self-review confirms this PR changes planning
 and retained concept artifacts only. Recovery implementation/evidence belongs
 to PR #5. No interface sprint has started.
+
+
+Roadmap-only draft PR: https://github.com/ashcx/sg-investing-v1/pull/6
+This publishes the planning amendment and retained early proposal source;
+it does not satisfy the Sprint 14 implementation PR or completion criteria.
+Recovery PR #5 remains the prerequisite. Implementation PRs for Sprints 12–15
+are still outstanding.
