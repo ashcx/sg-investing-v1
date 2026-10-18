@@ -35,7 +35,7 @@ prerequisite to the separate Sprint 12–15 PRs.
 
 | Check | Result | Record |
 | --- | --- | --- |
-| Python normal suite | 260 passed, 8 opt-in smoke deselected | [pytest.txt](pytest.txt) |
+| Python normal suite | 262 passed, 8 opt-in smoke deselected | [pytest.txt](pytest.txt) |
 | Ruff, changed Python | Passed | [ruff.txt](ruff.txt) |
 | Engine | 68/68 | [engine-selftest.txt](engine-selftest.txt) |
 | Golden parity | 27/27 | [parity.txt](parity.txt) |
@@ -115,7 +115,7 @@ full/scoped pack builds. Rebuilt full packs: 3,186 securities, 55,546 packs,
 13,416,266 price rows. Static checks and DCA (29)/portfolio (14) integrations pass. Desktop/mobile
 search checks at 1440/390px confirm both tickers absent and QQQ discoverable,
 with no page errors; retained captures were visually inspected. Final suite:
-260 passed, 8 smoke deselected using explicit PYTHONPATH=src so subprocesses
+262 passed, 8 smoke deselected using explicit PYTHONPATH=src so subprocesses
 load this checkout. The initial shared-editable-path failure is retained.
 [Removal record](listing-removal.json), [pack build](pack-build-after-removal.json).
 The final full live rehearsal is active on a new disposable copy. Prior failed
@@ -126,3 +126,22 @@ successive scheduled successes. Manual runs cannot stand in for that evidence.
 Operator canonical application/publication, including removal of old R2 objects,
 must be verified separately. Sprint 7.5 remains In progress, and later interface
 gates are not bypassed.
+
+
+Local Pages preparation after removal also passed: 1,241 securities / 24,015
+packs, 766,875,156 bytes including manifest (950 MB limit). Both removed IDs
+and directories are absent. [Prune and consistency report](pages-prune-after-removal.txt).
+Full Tier-2 source remains intact and excludes both listings; no remote sync
+or deployed-origin deletion is claimed. All six GitHub checks passed for runtime
+head 7c6b4e3; all six passed for roadmap head 1497d91.
+
+
+Scoped support-state invalidation regression reproduced and fixed: a failed
+query with no changed observations previously left old successful dividend
+coverage in stored packs. Changed success/error states now invalidate all
+stored years for that listing, including recovery after a failure. Unchanged
+states and query timestamps alone do not invalidate packs. Initial failure is
+retained; full suite now passes 262 tests with 8 opt-in smoke deselected.
+The live fetch run started before this pack-selection-only fix; provider and
+fetch behavior are unchanged. Its output will be tested through the corrected
+scoped selection/build separately, without claiming a new live fetch run.

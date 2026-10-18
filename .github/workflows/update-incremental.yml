@@ -42,7 +42,7 @@ jobs:
           mkdir -p update-diagnostics
           python -m pip freeze > update-diagnostics/dependencies.txt
       - name: Verify deterministic updater regressions
-        run: python -m pytest tests/test_incremental_update.py tests/test_provider_guard.py tests/test_yahoo_provider.py -q
+        run: python -m pytest tests/test_incremental_update.py tests/test_incremental_coverage.py tests/test_listing_removal.py tests/test_provider_guard.py tests/test_yahoo_provider.py -q
       - name: Refresh bounded reconciliation windows
         env:
           UPDATE_SECURITIES: ${{ inputs.securities }}

@@ -317,7 +317,7 @@ def _security_ids_priced_in(data_root: Path, year: int) -> set[str]:
         if not path.exists():
             continue
         table = pq.read_table(path, columns=["security_id"])
-        ids.update(table.column("security_id").to_pylist())
+        ids.update(table.column("security_id").unique().to_pylist())
     return ids
 
 
@@ -620,6 +620,24 @@ def _fx_touches(
     return touches
 
 
+def _coverage_states(data_root: Path) -> dict[str, tuple]:
+    path = data_root / "dividends" / "coverage_report.json"
+    if not path.exists():
+        return {}
+    return {record["security_id"]: (record.get("coverage_status"),
+                                    record.get("provider_query_succeeded"), record.get("error"))
+            for record in json.loads(path.read_text())["securities"]}
+
+
+def _coverage_change_keys(before: dict[str, tuple], after: dict[str, tuple]) -> list[str]:
+    # A missing old report contains no successful coverage claim to invalidate.
+    # Always invalidate newly observed failures; also propagate recovery from an
+    # existing failure. Query timestamps alone do not change support semantics.
+    return [f"coverage:{sid}:{hashlib.sha256(json.dumps(state).encode()).hexdigest()[:16]}"
+            for sid, state in sorted(after.items())
+            if before.get(sid) != state and (sid in before or state[0] == "provider_error")]
+
+
 def _touched_pairs(
     change_keys: list[str],
     straggler_touches: list[tuple[str, int]],
@@ -636,6 +654,13 @@ def _touched_pairs(
         parts = key.split(":")
         if parts[0] == "price" or parts[0] in {"dividends", "corporate_actions"}:
             add(parts[1], int(parts[2][:4]))
+    coverage_ids = {key.split(":")[1] for key in change_keys if key.startswith("coverage:")}
+    if coverage_ids:
+        years = {int(path.stem.split("=")[1])
+                 for path in (data_root / "prices").glob("market=*/year=*.parquet")}
+        for year in sorted(years):
+            for security_id in coverage_ids & _security_ids_priced_in(data_root, year):
+                add(security_id, year)
     for security_id, year in straggler_touches:
         add(security_id, year)
     for security_id, year in sorted(
@@ -889,6 +914,7 @@ def run_incremental_update(
     journal.record("dividends", price_rows=sum(map(len, price_rows.values())),
                    price_errors=len(batch_errors), status="running")
     before_dividends = _stored_event_signatures(store, "dividends")
+    before_coverage = _coverage_states(data_root)
     dividend_recon = reconciliation_days
     if since_date is not None:
         dividend_recon = max(dividend_recon, (end - since_date).days)
@@ -985,7 +1011,8 @@ def run_incremental_update(
             fx_errors[fx_plan["base_currency"]] = str(error)
     fx_keys, fx_restated = _fx_change_keys(before_fx, _stored_fx_signatures(store))
 
-    change_keys = [*price_keys, *dividend_keys, *action_keys, *fx_keys]
+    coverage_keys = _coverage_change_keys(before_coverage, _coverage_states(data_root))
+    change_keys = [*price_keys, *dividend_keys, *action_keys, *fx_keys, *coverage_keys]
     for item in plan.securities:
         security_id = str(item.security.security_id)
         if item.full_fetch and price_rows.get(security_id):

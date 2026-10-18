@@ -1,0 +1,9 @@
+tier plan: keep 1241 securities / 24015 packs (758.5 MB), prune 1945 securities / 31531 packs (1077.8 MB) of universe(s) russell2000_current
+pruned 1945 security pack directories; rewrote /private/tmp/sg-removal-pages-candidate/packs/manifest.json
+consistency: 24015 pack files on disk match the manifest exactly (1241 securities)
+published tier size: 758540810 pack bytes + 8334346 manifest bytes = 766875156 bytes (766.9 MB)
+budget check: within 950 MB deployment budget
+tier plan: keep 1241 securities / 24015 packs (758.5 MB), prune 0 securities / 0 packs (0.0 MB) of universe(s) russell2000_current
+consistency: 24015 pack files on disk match the manifest exactly (1241 securities)
+published tier size: 758540810 pack bytes + 8334346 manifest bytes = 766875156 bytes (766.9 MB)
+budget check: within 950 MB deployment budget

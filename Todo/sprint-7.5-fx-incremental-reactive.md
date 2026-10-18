@@ -385,3 +385,46 @@ An initial subprocess-path failure is retained; the final full suite passes
 260 tests with 8 smoke deselected, including all five committed Yahoo regressions.
 Changed-file Ruff passes. Full live rehearsal session is active on disposable
 `/private/tmp/sg-recovery-full-after-removal`; no production publication claimed.
+
+
+R6 publication preparation: copied the full pack set to an isolated Pages
+candidate, pruned the Russell 2000 tier and reran manifest/disk consistency.
+PASS: 1,241 securities / 24,015 packs; 766,875,156 bytes including manifest,
+within the 950 MB budget. Neither removed ID or pack directory remains in
+Tier 1; full Tier 2 absence was already verified. Report retained in
+`docs/incremental-recovery-2026-10-18/pages-prune-after-removal.txt`.
+This is local publication preparation, not a deployed-origin check. All six
+GitHub checks passed for runtime/removal head 7c6b4e3, and all six passed for
+roadmap head 1497d91. Existing live rehearsal remains active; do not restart it.
+
+Local operator application rehearsal PASS: created the changed-store archive
+from the recovery branch against origin/main, applied it to an unchanged
+baseline copy, and obtained exactly the validated data snapshot
+`sha256-04cb723d8f46447a0749e02f522034aa5b068ea61842aa1ef27eaef8a5ecdfb1`.
+Full pack baseline verification then passed (catalog/schema/methodology,
+canonical security/year coverage and existing safe paths). Archive 159,965,722
+bytes; checksum and exact file list retained in
+`docs/incremental-recovery-2026-10-18/operator-application-check.json`.
+This verifies the local application procedure for the reviewed removal data;
+it is not scheduled-run evidence or a remote-publication claim. Final live
+rehearsal is still active; its outcome and actual operational gates remain open.
+
+R6 self-review follow-up: scoped rebuild selection currently follows observation
+changes, so a changed dividend provider failure with no changed observations may
+leave old successful coverage metadata in stored year packs. Verify with a
+fixed fixture, then repair coverage-state invalidation within R6. This preserves
+the existing warning contract; it adds no financial feature or interface scope.
+The live no-build fetch rehearsal remains active and unchanged. Its later pack
+verification must include the coverage-state invalidation check.
+
+
+R6 coverage-state regression PASS after reproducing failure: pure provider
+failure/recovery now refreshes all stored year packs even with no observation
+changes. Stable states do not trigger metadata-only rebuilds. Unique-ID scans
+stay Arrow-projected and deduplicated before conversion to Python. Full suite:
+262 passed, 8 smoke deselected in 7.18s; changed-file Ruff passes. Scheduled
+pre-fetch regressions now include coverage-invalidation and listing-removal
+cases. The active no-build fetch began before this pack-selection-only repair;
+its provider/fetch path is unchanged. The corrected selection and scoped build
+will be verified against its final output separately. Do not call this a second
+live fetch run or erase earlier evidence.
