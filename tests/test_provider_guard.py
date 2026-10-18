@@ -111,3 +111,47 @@ def test_typed_absence_is_not_retried_or_mistaken_for_a_rate_limit():
     assert provider.requests == 1
     assert provider.retry_count == 0
     assert provider.circuit_reason is None
+
+
+def test_numeric_price_or_identifier_cannot_open_rate_limit_circuit():
+    clock = Clock()
+
+    def invalid(*args):
+        raise ValueError('Invalid value 429.15 for listing 4290')
+
+    provider = GuardedProvider(SimpleNamespace(name='fake', get_prices=invalid),
+                               clock=clock.time, sleep=clock.sleep)
+    with pytest.raises(ValueError):
+        provider.get_prices('GRPN')
+    assert provider.circuit_reason is None
+    assert provider.rate_limit_cause is None
+
+
+def test_http_rate_limit_retains_exact_cause_without_query_credentials():
+    clock = Clock()
+    error = RuntimeError('HTTP 429 https://example.test/?crumb=private&key=private')
+    provider = GuardedProvider(SimpleNamespace(name='fake', get_prices=lambda *args: (_ for _ in ()).throw(error)),
+                               clock=clock.time, sleep=clock.sleep)
+    with pytest.raises(ProviderCircuitOpen):
+        provider.get_prices(SimpleNamespace(ticker='GRPN'))
+    cause = provider.telemetry()['rate_limit_cause']
+    assert cause['exception_type'] == 'builtins.RuntimeError'
+    assert cause['security'] == 'GRPN'
+    assert cause['request_index'] == 1
+    assert 'private' not in cause['message']
+
+
+def test_vendor_type_or_http_status_identifies_rate_limit_without_message_matching():
+    vendor_error = type('YFRateLimitError', (Exception,), {})
+    http_error = RuntimeError('Request rejected')
+    http_error.response = SimpleNamespace(status_code=429)
+    for error in [vendor_error('Try later'), http_error]:
+        def fetch(*args, failure=error):
+            raise failure
+
+        clock = Clock()
+        provider = GuardedProvider(SimpleNamespace(name='fake', get_prices=fetch),
+                                   clock=clock.time, sleep=clock.sleep)
+        with pytest.raises(ProviderCircuitOpen):
+            provider.get_prices('GRPN')
+        assert provider.rate_limit_cause['exception_type'].endswith(type(error).__name__)

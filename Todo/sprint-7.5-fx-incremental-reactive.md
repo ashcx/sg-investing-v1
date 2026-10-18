@@ -141,7 +141,7 @@ redesign sprint is started by this investigation. Main-instance ownership only.
 
 - [x] Inspect scheduled runs and logs, compare against pre-redesign code,
       reproduce fetch-plan behavior offline, and record findings and checks.
-- [x] Repair bounded fetching, memory usage, provider retry behavior, workflow
+- [ ] Repair bounded fetching, memory usage, provider retry behavior, workflow
       scheduling/diagnostics, and incomplete-result reporting sequentially.
   - [x] R1: group price calls by exact window in bounded batches; compare only
         incoming security/date rows, preserving restatement and gap detection.
@@ -474,3 +474,49 @@ and remote Pages/R2 publication verification are still required. No later sprint
 entry gate has been ticked, and no human acceptance is invented. Recovery PR #5
 is ready for Product Owner review; its merge triggers the existing deployment
 workflow and subsequent R2 synchronization.
+
+Additional runner-specific operational preparation: actual GitHub branch canary
+PASSED, run https://github.com/ashcx/sg-investing-v1/actions/runs/39094143813
+(manual workflow_dispatch, head 2120273). Ubuntu/Python 3.11 constrained install,
+pre-fetch regressions, QQQ/40F.SI live refresh, 262-test post-fetch validation,
+changed-store archive collection and both artifact uploads all succeeded.
+Downloaded artifacts verified against GitHub SHA-256 digests; applying the actual
+uploaded update archive to a disposable baseline reproduced the producer's
+canonical chain hash exactly. Updater 20.972s / peak RSS 1,792.65 MiB;
+seven provider calls, zero retries/circuit. Retained token-free summaries,
+dependency inventory and application proof under `github-canary-*` evidence.
+
+The full-catalog workflow is now active on the same PR branch/runner platform:
+https://github.com/ashcx/sg-investing-v1/actions/runs/39094315718
+(run id 39094315718; event workflow_dispatch; exact source head 2120273;
+no packs/artifacts are published automatically). This checks the original full-
+job failure environment rather than substituting a small canary. Inspect that
+specific run/jobs until terminal; do not restart it on an observation timeout.
+Neither manual run counts toward actual successive scheduled successes.
+Merge/publication and future human-review progression decisions remain pending.
+
+### R7 — runner-specific request pressure, reopened 18 October 2026
+
+Actual full GitHub runner test FAILED safely after 2,384 guarded calls in
+414.375s, peak RSS 2,254.27 MiB. Guard classified the GRPN price call as a rate
+limit; remaining network traffic stopped, validation/publication were skipped,
+and diagnostics uploaded successfully. The original exception was not retained,
+so do not claim a documented Yahoo quota or infer OOM. Direct isolated GRPN
+query on the local network succeeds. Canary success does not prove full-run
+recovery. PR #5 returned to draft; merge approval is on hold pending repair.
+
+- [ ] R7: preserve exact circuit cause, eliminate false numeric rate-limit
+      matches, reduce redundant per-listing history requests with bounded reuse,
+      and reverify the complete workflow on GitHub's runner. Reuse must keep each
+      dataset's requested date window, unknown/empty semantics and event currency,
+      bound memory, and retain circuit/time/request limits. Do not replace the
+      full-catalog check with a canary or count manual runs as scheduled success.
+
+Implementation direction: a single actions-enabled history for each listing's
+own required union window can serve its separately filtered price, dividend and
+split queries. Retain only compact event columns/index, with a strict cache
+budget and no cross-listing window widening. Cache hits must not consume a
+provider request or delay. A slower minimum interval applies to actual uncached
+calls; existing 40-minute provider / 55-minute workflow limits remain unless
+verified evidence requires an explicitly documented amendment. Full-refresh
+provider behavior and financial calculation contracts remain unchanged.

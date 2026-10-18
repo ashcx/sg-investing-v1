@@ -1,0 +1,36 @@
+{
+  "run_id": 39094143813,
+  "run_url": "https://github.com/ashcx/sg-investing-v1/actions/runs/39094143813",
+  "event": "workflow_dispatch",
+  "head": "2120273f35a7ca4cf12830518acd0ae62f28fbe9",
+  "job_conclusion": "success",
+  "archive_digests_verified": true,
+  "changed_store_files": [
+    "data/corporate_actions/query_checkpoints.json",
+    "data/corporate_actions/year=2000.parquet",
+    "data/dividends/coverage_history.json",
+    "data/dividends/coverage_report.json",
+    "data/dividends/year=2026.parquet",
+    "data/fx/pair=USD_SGD/year=2026.parquet",
+    "data/manifests/prices/market=US/year=2026.json",
+    "data/prices/market=US/year=2026.parquet",
+    "data/update_summary.json"
+  ],
+  "applied_snapshot_matches_producer": true,
+  "applied_chain_hash": "sha256-af25e1442e139c972de45f1398df89cf2a93b4da753590ea1454fef6aae50640",
+  "latest": {
+    "stage": "finished",
+    "at": "2026-10-18T03:36:19+00:00",
+    "elapsed_seconds": 20.972,
+    "peak_rss_mb": 1792.65,
+    "status": "ready_for_review_with_unavailable",
+    "provider_telemetry": {
+      "requests": 7,
+      "retries": 0,
+      "circuit_reason": null,
+      "elapsed_seconds": 17.219
+    }
+  },
+  "counts_as_scheduled_success": false,
+  "published": false
+}

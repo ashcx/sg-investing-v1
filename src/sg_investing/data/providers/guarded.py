@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import re
 import time
 from threading import Lock
 
@@ -36,6 +37,7 @@ class GuardedProvider:
         self.requests = 0
         self.retry_count = 0
         self.circuit_reason = None
+        self.rate_limit_cause = None
         self.lock = Lock()
 
     def _call(self, method, *args):
@@ -62,7 +64,23 @@ class GuardedProvider:
                     if isinstance(error, ProviderHistoryUnavailable):
                         raise
                     text = f"{type(error).__name__}: {error}".lower()
-                    if any(term in text for term in ("ratelimit", "rate limit", "too many requests", "429")):
+                    status = getattr(getattr(error, "response", None), "status_code", None)
+                    rate_limited = (
+                        status == 429 or getattr(error, "code", None) == 429
+                        or "ratelimit" in type(error).__name__.lower()
+                        or any(term in text for term in
+                               ("too many requests", "rate limited", "rate limit exceeded"))
+                        or re.search(r"\bhttp(?:error)?\s*[:=]?\s*429\b", text)
+                    )
+                    if rate_limited:
+                        message = re.sub(r"([?&](?:crumb|token|api_key|key)=)[^&\s]+",
+                                         r"\1[redacted]", str(error), flags=re.IGNORECASE)
+                        self.rate_limit_cause = {
+                            "exception_type": f"{type(error).__module__}.{type(error).__name__}",
+                            "message": message[:1200], "method": method,
+                            "security": getattr(args[0], "ticker", str(args[0])) if args else None,
+                            "request_index": self.requests,
+                        }
                         self.circuit_reason = "Provider rate limit detected; remaining queries were not sent."
                         raise ProviderCircuitOpen(self.circuit_reason) from error
                     transient = isinstance(error, (OSError, TimeoutError)) or any(
@@ -89,5 +107,5 @@ class GuardedProvider:
 
     def telemetry(self):
         return {"requests": self.requests, "retries": self.retry_count,
-                "circuit_reason": self.circuit_reason,
+                "circuit_reason": self.circuit_reason, "rate_limit_cause": self.rate_limit_cause,
                 "elapsed_seconds": round(self.clock() - self.started, 3)}
