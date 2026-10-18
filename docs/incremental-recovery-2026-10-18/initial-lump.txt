@@ -1,0 +1,7 @@
+PASS: pure-dca-zero-initial direct engine + worker request adapter
+PASS: initial-plus-twelve-contributions direct engine + worker request adapter
+PASS: fx-initial-and-recurring direct engine + worker request adapter
+PASS: dividend-cash direct engine + worker request adapter
+PASS: dividend-reinvest direct engine + worker request adapter
+PASS: accumulating-no-invented-dividend direct engine + worker request adapter
+PASS: invalid initial amounts and numeric worker payload rejected.

@@ -1,0 +1,2831 @@
+{
+  "latest": {
+    "stage": "finished",
+    "at": "2026-10-18T03:21:44+00:00",
+    "elapsed_seconds": 1607.129,
+    "peak_rss_mb": 2241.19,
+    "status": "ready_for_review_with_unavailable",
+    "provider_telemetry": {
+      "requests": 9509,
+      "retries": 0,
+      "circuit_reason": null,
+      "elapsed_seconds": 1605.401
+    }
+  },
+  "events": [
+    {
+      "stage": "planning",
+      "at": "2026-10-18T02:54:57+00:00",
+      "elapsed_seconds": 0.0,
+      "peak_rss_mb": 65.2,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T02:54:59+00:00",
+      "elapsed_seconds": 1.666,
+      "peak_rss_mb": 460.19,
+      "securities": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T02:55:04+00:00",
+      "elapsed_seconds": 6.706,
+      "peak_rss_mb": 478.34,
+      "completed": 32,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T02:55:09+00:00",
+      "elapsed_seconds": 11.64,
+      "peak_rss_mb": 478.34,
+      "completed": 64,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T02:55:14+00:00",
+      "elapsed_seconds": 16.568,
+      "peak_rss_mb": 478.34,
+      "completed": 96,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T02:55:19+00:00",
+      "elapsed_seconds": 21.449,
+      "peak_rss_mb": 478.34,
+      "completed": 128,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T02:55:23+00:00",
+      "elapsed_seconds": 26.388,
+      "peak_rss_mb": 478.34,
+      "completed": 160,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T02:55:28+00:00",
+      "elapsed_seconds": 31.289,
+      "peak_rss_mb": 478.34,
+      "completed": 192,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T02:55:33+00:00",
+      "elapsed_seconds": 36.245,
+      "peak_rss_mb": 478.34,
+      "completed": 224,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T02:55:38+00:00",
+      "elapsed_seconds": 41.117,
+      "peak_rss_mb": 478.34,
+      "completed": 256,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T02:55:43+00:00",
+      "elapsed_seconds": 46.039,
+      "peak_rss_mb": 478.34,
+      "completed": 288,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T02:55:48+00:00",
+      "elapsed_seconds": 50.955,
+      "peak_rss_mb": 478.34,
+      "completed": 320,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T02:55:53+00:00",
+      "elapsed_seconds": 55.859,
+      "peak_rss_mb": 478.34,
+      "completed": 352,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T02:55:58+00:00",
+      "elapsed_seconds": 60.768,
+      "peak_rss_mb": 478.34,
+      "completed": 384,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T02:56:03+00:00",
+      "elapsed_seconds": 65.762,
+      "peak_rss_mb": 478.34,
+      "completed": 416,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T02:56:08+00:00",
+      "elapsed_seconds": 70.714,
+      "peak_rss_mb": 478.34,
+      "completed": 448,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T02:56:13+00:00",
+      "elapsed_seconds": 75.643,
+      "peak_rss_mb": 478.34,
+      "completed": 480,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T02:56:18+00:00",
+      "elapsed_seconds": 80.549,
+      "peak_rss_mb": 478.34,
+      "completed": 512,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T02:56:23+00:00",
+      "elapsed_seconds": 85.522,
+      "peak_rss_mb": 478.34,
+      "completed": 544,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T02:56:27+00:00",
+      "elapsed_seconds": 90.369,
+      "peak_rss_mb": 478.34,
+      "completed": 576,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T02:56:29+00:00",
+      "elapsed_seconds": 91.608,
+      "peak_rss_mb": 478.34,
+      "completed": 584,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T02:56:34+00:00",
+      "elapsed_seconds": 96.547,
+      "peak_rss_mb": 478.34,
+      "completed": 616,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T02:56:39+00:00",
+      "elapsed_seconds": 101.481,
+      "peak_rss_mb": 478.34,
+      "completed": 648,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T02:56:44+00:00",
+      "elapsed_seconds": 106.518,
+      "peak_rss_mb": 478.34,
+      "completed": 680,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T02:56:48+00:00",
+      "elapsed_seconds": 111.404,
+      "peak_rss_mb": 478.34,
+      "completed": 712,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T02:56:54+00:00",
+      "elapsed_seconds": 116.437,
+      "peak_rss_mb": 478.34,
+      "completed": 744,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T02:56:59+00:00",
+      "elapsed_seconds": 121.46,
+      "peak_rss_mb": 478.34,
+      "completed": 776,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T02:57:04+00:00",
+      "elapsed_seconds": 126.436,
+      "peak_rss_mb": 478.34,
+      "completed": 808,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T02:57:08+00:00",
+      "elapsed_seconds": 131.288,
+      "peak_rss_mb": 478.34,
+      "completed": 840,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T02:57:13+00:00",
+      "elapsed_seconds": 136.223,
+      "peak_rss_mb": 478.34,
+      "completed": 872,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T02:57:18+00:00",
+      "elapsed_seconds": 141.143,
+      "peak_rss_mb": 478.34,
+      "completed": 904,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T02:57:23+00:00",
+      "elapsed_seconds": 146.105,
+      "peak_rss_mb": 478.34,
+      "completed": 936,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T02:57:28+00:00",
+      "elapsed_seconds": 151.076,
+      "peak_rss_mb": 478.34,
+      "completed": 968,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T02:57:33+00:00",
+      "elapsed_seconds": 155.947,
+      "peak_rss_mb": 478.34,
+      "completed": 1000,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T02:57:38+00:00",
+      "elapsed_seconds": 160.845,
+      "peak_rss_mb": 478.34,
+      "completed": 1032,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T02:57:43+00:00",
+      "elapsed_seconds": 165.855,
+      "peak_rss_mb": 488.19,
+      "completed": 1064,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T02:57:48+00:00",
+      "elapsed_seconds": 170.951,
+      "peak_rss_mb": 489.09,
+      "completed": 1096,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T02:57:53+00:00",
+      "elapsed_seconds": 175.899,
+      "peak_rss_mb": 489.09,
+      "completed": 1128,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T02:57:58+00:00",
+      "elapsed_seconds": 180.97,
+      "peak_rss_mb": 489.09,
+      "completed": 1160,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T02:58:03+00:00",
+      "elapsed_seconds": 186.038,
+      "peak_rss_mb": 489.09,
+      "completed": 1192,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T02:58:08+00:00",
+      "elapsed_seconds": 191.087,
+      "peak_rss_mb": 489.09,
+      "completed": 1224,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T02:58:13+00:00",
+      "elapsed_seconds": 196.213,
+      "peak_rss_mb": 489.09,
+      "completed": 1256,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T02:58:18+00:00",
+      "elapsed_seconds": 201.124,
+      "peak_rss_mb": 489.09,
+      "completed": 1288,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T02:58:23+00:00",
+      "elapsed_seconds": 206.154,
+      "peak_rss_mb": 489.09,
+      "completed": 1320,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T02:58:28+00:00",
+      "elapsed_seconds": 211.135,
+      "peak_rss_mb": 489.09,
+      "completed": 1352,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T02:58:33+00:00",
+      "elapsed_seconds": 216.155,
+      "peak_rss_mb": 489.09,
+      "completed": 1384,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T02:58:38+00:00",
+      "elapsed_seconds": 221.169,
+      "peak_rss_mb": 489.09,
+      "completed": 1416,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T02:58:43+00:00",
+      "elapsed_seconds": 226.173,
+      "peak_rss_mb": 489.09,
+      "completed": 1448,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T02:58:48+00:00",
+      "elapsed_seconds": 231.261,
+      "peak_rss_mb": 489.09,
+      "completed": 1480,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T02:58:53+00:00",
+      "elapsed_seconds": 236.26,
+      "peak_rss_mb": 489.09,
+      "completed": 1512,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T02:58:58+00:00",
+      "elapsed_seconds": 241.368,
+      "peak_rss_mb": 489.09,
+      "completed": 1544,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T02:59:03+00:00",
+      "elapsed_seconds": 246.303,
+      "peak_rss_mb": 489.09,
+      "completed": 1576,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T02:59:08+00:00",
+      "elapsed_seconds": 251.38,
+      "peak_rss_mb": 489.09,
+      "completed": 1608,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T02:59:14+00:00",
+      "elapsed_seconds": 256.425,
+      "peak_rss_mb": 489.09,
+      "completed": 1640,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T02:59:18+00:00",
+      "elapsed_seconds": 261.405,
+      "peak_rss_mb": 489.09,
+      "completed": 1672,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T02:59:24+00:00",
+      "elapsed_seconds": 266.442,
+      "peak_rss_mb": 489.09,
+      "completed": 1704,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T02:59:29+00:00",
+      "elapsed_seconds": 271.453,
+      "peak_rss_mb": 489.09,
+      "completed": 1736,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T02:59:34+00:00",
+      "elapsed_seconds": 276.453,
+      "peak_rss_mb": 489.09,
+      "completed": 1768,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T02:59:39+00:00",
+      "elapsed_seconds": 281.483,
+      "peak_rss_mb": 489.09,
+      "completed": 1800,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T02:59:44+00:00",
+      "elapsed_seconds": 286.526,
+      "peak_rss_mb": 489.09,
+      "completed": 1832,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T02:59:49+00:00",
+      "elapsed_seconds": 291.562,
+      "peak_rss_mb": 489.09,
+      "completed": 1864,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T02:59:54+00:00",
+      "elapsed_seconds": 296.565,
+      "peak_rss_mb": 489.09,
+      "completed": 1896,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T02:59:59+00:00",
+      "elapsed_seconds": 301.596,
+      "peak_rss_mb": 489.09,
+      "completed": 1928,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T03:00:04+00:00",
+      "elapsed_seconds": 306.649,
+      "peak_rss_mb": 489.09,
+      "completed": 1960,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T03:00:09+00:00",
+      "elapsed_seconds": 311.823,
+      "peak_rss_mb": 489.09,
+      "completed": 1992,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T03:00:14+00:00",
+      "elapsed_seconds": 316.817,
+      "peak_rss_mb": 489.09,
+      "completed": 2024,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T03:00:19+00:00",
+      "elapsed_seconds": 321.963,
+      "peak_rss_mb": 489.09,
+      "completed": 2056,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T03:00:24+00:00",
+      "elapsed_seconds": 326.957,
+      "peak_rss_mb": 489.09,
+      "completed": 2088,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T03:00:29+00:00",
+      "elapsed_seconds": 331.988,
+      "peak_rss_mb": 489.09,
+      "completed": 2120,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T03:00:34+00:00",
+      "elapsed_seconds": 336.977,
+      "peak_rss_mb": 489.09,
+      "completed": 2152,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T03:00:39+00:00",
+      "elapsed_seconds": 341.975,
+      "peak_rss_mb": 489.09,
+      "completed": 2184,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T03:00:44+00:00",
+      "elapsed_seconds": 347.013,
+      "peak_rss_mb": 489.09,
+      "completed": 2216,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T03:00:49+00:00",
+      "elapsed_seconds": 351.988,
+      "peak_rss_mb": 489.09,
+      "completed": 2248,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T03:00:54+00:00",
+      "elapsed_seconds": 357.1,
+      "peak_rss_mb": 489.09,
+      "completed": 2280,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T03:00:59+00:00",
+      "elapsed_seconds": 362.105,
+      "peak_rss_mb": 489.09,
+      "completed": 2312,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T03:01:04+00:00",
+      "elapsed_seconds": 367.123,
+      "peak_rss_mb": 489.09,
+      "completed": 2344,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T03:01:09+00:00",
+      "elapsed_seconds": 372.2,
+      "peak_rss_mb": 489.09,
+      "completed": 2376,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T03:01:14+00:00",
+      "elapsed_seconds": 377.245,
+      "peak_rss_mb": 489.09,
+      "completed": 2408,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T03:01:19+00:00",
+      "elapsed_seconds": 382.276,
+      "peak_rss_mb": 489.09,
+      "completed": 2440,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T03:01:24+00:00",
+      "elapsed_seconds": 387.295,
+      "peak_rss_mb": 489.09,
+      "completed": 2472,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T03:01:29+00:00",
+      "elapsed_seconds": 392.302,
+      "peak_rss_mb": 489.09,
+      "completed": 2504,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T03:01:34+00:00",
+      "elapsed_seconds": 397.339,
+      "peak_rss_mb": 489.09,
+      "completed": 2536,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T03:01:39+00:00",
+      "elapsed_seconds": 402.335,
+      "peak_rss_mb": 489.09,
+      "completed": 2568,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T03:01:45+00:00",
+      "elapsed_seconds": 407.469,
+      "peak_rss_mb": 489.09,
+      "completed": 2600,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T03:01:50+00:00",
+      "elapsed_seconds": 412.5,
+      "peak_rss_mb": 489.09,
+      "completed": 2632,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T03:01:55+00:00",
+      "elapsed_seconds": 417.474,
+      "peak_rss_mb": 489.09,
+      "completed": 2664,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T03:02:00+00:00",
+      "elapsed_seconds": 422.517,
+      "peak_rss_mb": 489.09,
+      "completed": 2696,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T03:02:05+00:00",
+      "elapsed_seconds": 427.529,
+      "peak_rss_mb": 489.09,
+      "completed": 2728,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T03:02:10+00:00",
+      "elapsed_seconds": 432.579,
+      "peak_rss_mb": 489.09,
+      "completed": 2760,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T03:02:15+00:00",
+      "elapsed_seconds": 437.633,
+      "peak_rss_mb": 489.09,
+      "completed": 2792,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T03:02:20+00:00",
+      "elapsed_seconds": 442.754,
+      "peak_rss_mb": 489.09,
+      "completed": 2824,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T03:02:25+00:00",
+      "elapsed_seconds": 447.777,
+      "peak_rss_mb": 489.09,
+      "completed": 2856,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T03:02:30+00:00",
+      "elapsed_seconds": 452.751,
+      "peak_rss_mb": 489.09,
+      "completed": 2888,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T03:02:35+00:00",
+      "elapsed_seconds": 457.881,
+      "peak_rss_mb": 489.09,
+      "completed": 2920,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T03:02:40+00:00",
+      "elapsed_seconds": 463.004,
+      "peak_rss_mb": 489.09,
+      "completed": 2952,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T03:02:45+00:00",
+      "elapsed_seconds": 467.978,
+      "peak_rss_mb": 489.09,
+      "completed": 2984,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T03:02:50+00:00",
+      "elapsed_seconds": 473.054,
+      "peak_rss_mb": 489.09,
+      "completed": 3016,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T03:02:55+00:00",
+      "elapsed_seconds": 478.04,
+      "peak_rss_mb": 489.09,
+      "completed": 3048,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T03:03:00+00:00",
+      "elapsed_seconds": 483.079,
+      "peak_rss_mb": 489.09,
+      "completed": 3080,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T03:03:05+00:00",
+      "elapsed_seconds": 488.159,
+      "peak_rss_mb": 489.09,
+      "completed": 3112,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T03:03:08+00:00",
+      "elapsed_seconds": 491.304,
+      "peak_rss_mb": 489.09,
+      "completed": 3132,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T03:03:09+00:00",
+      "elapsed_seconds": 491.43,
+      "peak_rss_mb": 489.09,
+      "completed": 3133,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T03:03:09+00:00",
+      "elapsed_seconds": 491.59,
+      "peak_rss_mb": 489.09,
+      "completed": 3134,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T03:03:13+00:00",
+      "elapsed_seconds": 496.147,
+      "peak_rss_mb": 489.09,
+      "completed": 3163,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T03:03:13+00:00",
+      "elapsed_seconds": 496.312,
+      "peak_rss_mb": 489.09,
+      "completed": 3164,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T03:03:14+00:00",
+      "elapsed_seconds": 496.563,
+      "peak_rss_mb": 489.09,
+      "completed": 3165,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T03:03:14+00:00",
+      "elapsed_seconds": 496.633,
+      "peak_rss_mb": 489.09,
+      "completed": 3166,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T03:03:14+00:00",
+      "elapsed_seconds": 497.251,
+      "peak_rss_mb": 489.09,
+      "completed": 3170,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:03:24+00:00",
+      "elapsed_seconds": 506.765,
+      "peak_rss_mb": 2241.19,
+      "price_rows": 214653,
+      "price_errors": 32,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:03:28+00:00",
+      "elapsed_seconds": 511.313,
+      "peak_rss_mb": 2241.19,
+      "completed": 32,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:03:33+00:00",
+      "elapsed_seconds": 516.36,
+      "peak_rss_mb": 2241.19,
+      "completed": 64,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:03:38+00:00",
+      "elapsed_seconds": 521.366,
+      "peak_rss_mb": 2241.19,
+      "completed": 96,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:03:44+00:00",
+      "elapsed_seconds": 526.415,
+      "peak_rss_mb": 2241.19,
+      "completed": 128,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:03:48+00:00",
+      "elapsed_seconds": 531.379,
+      "peak_rss_mb": 2241.19,
+      "completed": 160,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:03:54+00:00",
+      "elapsed_seconds": 536.846,
+      "peak_rss_mb": 2241.19,
+      "completed": 192,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:03:59+00:00",
+      "elapsed_seconds": 542.157,
+      "peak_rss_mb": 2241.19,
+      "completed": 224,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:04:05+00:00",
+      "elapsed_seconds": 548.272,
+      "peak_rss_mb": 2241.19,
+      "completed": 256,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:04:10+00:00",
+      "elapsed_seconds": 553.251,
+      "peak_rss_mb": 2241.19,
+      "completed": 288,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:04:15+00:00",
+      "elapsed_seconds": 558.25,
+      "peak_rss_mb": 2241.19,
+      "completed": 320,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:04:20+00:00",
+      "elapsed_seconds": 563.275,
+      "peak_rss_mb": 2241.19,
+      "completed": 352,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:04:25+00:00",
+      "elapsed_seconds": 568.354,
+      "peak_rss_mb": 2241.19,
+      "completed": 384,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:04:30+00:00",
+      "elapsed_seconds": 573.296,
+      "peak_rss_mb": 2241.19,
+      "completed": 416,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:04:35+00:00",
+      "elapsed_seconds": 578.349,
+      "peak_rss_mb": 2241.19,
+      "completed": 448,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:04:40+00:00",
+      "elapsed_seconds": 583.334,
+      "peak_rss_mb": 2241.19,
+      "completed": 480,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:04:45+00:00",
+      "elapsed_seconds": 588.321,
+      "peak_rss_mb": 2241.19,
+      "completed": 512,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:04:50+00:00",
+      "elapsed_seconds": 593.375,
+      "peak_rss_mb": 2241.19,
+      "completed": 544,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:04:55+00:00",
+      "elapsed_seconds": 598.368,
+      "peak_rss_mb": 2241.19,
+      "completed": 576,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:05:00+00:00",
+      "elapsed_seconds": 603.39,
+      "peak_rss_mb": 2241.19,
+      "completed": 608,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:05:05+00:00",
+      "elapsed_seconds": 608.327,
+      "peak_rss_mb": 2241.19,
+      "completed": 640,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:05:10+00:00",
+      "elapsed_seconds": 613.35,
+      "peak_rss_mb": 2241.19,
+      "completed": 672,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:05:15+00:00",
+      "elapsed_seconds": 618.38,
+      "peak_rss_mb": 2241.19,
+      "completed": 704,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:05:20+00:00",
+      "elapsed_seconds": 623.354,
+      "peak_rss_mb": 2241.19,
+      "completed": 736,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:05:25+00:00",
+      "elapsed_seconds": 628.363,
+      "peak_rss_mb": 2241.19,
+      "completed": 768,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:05:30+00:00",
+      "elapsed_seconds": 633.395,
+      "peak_rss_mb": 2241.19,
+      "completed": 800,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:05:35+00:00",
+      "elapsed_seconds": 638.389,
+      "peak_rss_mb": 2241.19,
+      "completed": 832,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:05:41+00:00",
+      "elapsed_seconds": 643.414,
+      "peak_rss_mb": 2241.19,
+      "completed": 864,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:05:46+00:00",
+      "elapsed_seconds": 648.467,
+      "peak_rss_mb": 2241.19,
+      "completed": 896,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:05:51+00:00",
+      "elapsed_seconds": 653.526,
+      "peak_rss_mb": 2241.19,
+      "completed": 928,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:05:56+00:00",
+      "elapsed_seconds": 658.603,
+      "peak_rss_mb": 2241.19,
+      "completed": 960,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:06:01+00:00",
+      "elapsed_seconds": 663.687,
+      "peak_rss_mb": 2241.19,
+      "completed": 992,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:06:06+00:00",
+      "elapsed_seconds": 668.768,
+      "peak_rss_mb": 2241.19,
+      "completed": 1024,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:06:11+00:00",
+      "elapsed_seconds": 673.808,
+      "peak_rss_mb": 2241.19,
+      "completed": 1056,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:06:16+00:00",
+      "elapsed_seconds": 678.827,
+      "peak_rss_mb": 2241.19,
+      "completed": 1088,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:06:21+00:00",
+      "elapsed_seconds": 683.823,
+      "peak_rss_mb": 2241.19,
+      "completed": 1120,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:06:26+00:00",
+      "elapsed_seconds": 688.871,
+      "peak_rss_mb": 2241.19,
+      "completed": 1152,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:06:31+00:00",
+      "elapsed_seconds": 693.861,
+      "peak_rss_mb": 2241.19,
+      "completed": 1184,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:06:36+00:00",
+      "elapsed_seconds": 698.872,
+      "peak_rss_mb": 2241.19,
+      "completed": 1216,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:06:41+00:00",
+      "elapsed_seconds": 703.903,
+      "peak_rss_mb": 2241.19,
+      "completed": 1248,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:06:46+00:00",
+      "elapsed_seconds": 708.891,
+      "peak_rss_mb": 2241.19,
+      "completed": 1280,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:06:51+00:00",
+      "elapsed_seconds": 713.926,
+      "peak_rss_mb": 2241.19,
+      "completed": 1312,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:06:56+00:00",
+      "elapsed_seconds": 718.905,
+      "peak_rss_mb": 2241.19,
+      "completed": 1344,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:07:01+00:00",
+      "elapsed_seconds": 723.927,
+      "peak_rss_mb": 2241.19,
+      "completed": 1376,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:07:06+00:00",
+      "elapsed_seconds": 728.897,
+      "peak_rss_mb": 2241.19,
+      "completed": 1408,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:07:11+00:00",
+      "elapsed_seconds": 733.901,
+      "peak_rss_mb": 2241.19,
+      "completed": 1440,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:07:16+00:00",
+      "elapsed_seconds": 738.906,
+      "peak_rss_mb": 2241.19,
+      "completed": 1472,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:07:21+00:00",
+      "elapsed_seconds": 743.918,
+      "peak_rss_mb": 2241.19,
+      "completed": 1504,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:07:26+00:00",
+      "elapsed_seconds": 748.898,
+      "peak_rss_mb": 2241.19,
+      "completed": 1536,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:07:31+00:00",
+      "elapsed_seconds": 753.878,
+      "peak_rss_mb": 2241.19,
+      "completed": 1568,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:07:36+00:00",
+      "elapsed_seconds": 758.938,
+      "peak_rss_mb": 2241.19,
+      "completed": 1600,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:07:41+00:00",
+      "elapsed_seconds": 763.969,
+      "peak_rss_mb": 2241.19,
+      "completed": 1632,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:07:46+00:00",
+      "elapsed_seconds": 768.976,
+      "peak_rss_mb": 2241.19,
+      "completed": 1664,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:07:51+00:00",
+      "elapsed_seconds": 773.994,
+      "peak_rss_mb": 2241.19,
+      "completed": 1696,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:07:56+00:00",
+      "elapsed_seconds": 779.006,
+      "peak_rss_mb": 2241.19,
+      "completed": 1728,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:08:01+00:00",
+      "elapsed_seconds": 784.106,
+      "peak_rss_mb": 2241.19,
+      "completed": 1760,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:08:06+00:00",
+      "elapsed_seconds": 789.109,
+      "peak_rss_mb": 2241.19,
+      "completed": 1792,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:08:11+00:00",
+      "elapsed_seconds": 794.125,
+      "peak_rss_mb": 2241.19,
+      "completed": 1824,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:08:16+00:00",
+      "elapsed_seconds": 799.141,
+      "peak_rss_mb": 2241.19,
+      "completed": 1856,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:08:21+00:00",
+      "elapsed_seconds": 804.144,
+      "peak_rss_mb": 2241.19,
+      "completed": 1888,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:08:26+00:00",
+      "elapsed_seconds": 809.124,
+      "peak_rss_mb": 2241.19,
+      "completed": 1920,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:08:31+00:00",
+      "elapsed_seconds": 814.131,
+      "peak_rss_mb": 2241.19,
+      "completed": 1952,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:08:36+00:00",
+      "elapsed_seconds": 819.105,
+      "peak_rss_mb": 2241.19,
+      "completed": 1984,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:08:41+00:00",
+      "elapsed_seconds": 824.135,
+      "peak_rss_mb": 2241.19,
+      "completed": 2016,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:08:46+00:00",
+      "elapsed_seconds": 829.163,
+      "peak_rss_mb": 2241.19,
+      "completed": 2048,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:08:51+00:00",
+      "elapsed_seconds": 834.169,
+      "peak_rss_mb": 2241.19,
+      "completed": 2080,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:08:56+00:00",
+      "elapsed_seconds": 839.145,
+      "peak_rss_mb": 2241.19,
+      "completed": 2112,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:09:01+00:00",
+      "elapsed_seconds": 844.166,
+      "peak_rss_mb": 2241.19,
+      "completed": 2144,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:09:06+00:00",
+      "elapsed_seconds": 849.142,
+      "peak_rss_mb": 2241.19,
+      "completed": 2176,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:09:11+00:00",
+      "elapsed_seconds": 854.183,
+      "peak_rss_mb": 2241.19,
+      "completed": 2208,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:09:16+00:00",
+      "elapsed_seconds": 859.23,
+      "peak_rss_mb": 2241.19,
+      "completed": 2240,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:09:21+00:00",
+      "elapsed_seconds": 864.222,
+      "peak_rss_mb": 2241.19,
+      "completed": 2272,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:09:26+00:00",
+      "elapsed_seconds": 869.235,
+      "peak_rss_mb": 2241.19,
+      "completed": 2304,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:09:31+00:00",
+      "elapsed_seconds": 874.194,
+      "peak_rss_mb": 2241.19,
+      "completed": 2336,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:09:36+00:00",
+      "elapsed_seconds": 879.226,
+      "peak_rss_mb": 2241.19,
+      "completed": 2368,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:09:41+00:00",
+      "elapsed_seconds": 884.241,
+      "peak_rss_mb": 2241.19,
+      "completed": 2400,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:09:46+00:00",
+      "elapsed_seconds": 889.268,
+      "peak_rss_mb": 2241.19,
+      "completed": 2432,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:09:51+00:00",
+      "elapsed_seconds": 894.304,
+      "peak_rss_mb": 2241.19,
+      "completed": 2464,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:09:56+00:00",
+      "elapsed_seconds": 899.365,
+      "peak_rss_mb": 2241.19,
+      "completed": 2496,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:10:01+00:00",
+      "elapsed_seconds": 904.376,
+      "peak_rss_mb": 2241.19,
+      "completed": 2528,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:10:07+00:00",
+      "elapsed_seconds": 909.422,
+      "peak_rss_mb": 2241.19,
+      "completed": 2560,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:10:11+00:00",
+      "elapsed_seconds": 914.397,
+      "peak_rss_mb": 2241.19,
+      "completed": 2592,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:10:17+00:00",
+      "elapsed_seconds": 919.413,
+      "peak_rss_mb": 2241.19,
+      "completed": 2624,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:10:21+00:00",
+      "elapsed_seconds": 924.384,
+      "peak_rss_mb": 2241.19,
+      "completed": 2656,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:10:27+00:00",
+      "elapsed_seconds": 929.404,
+      "peak_rss_mb": 2241.19,
+      "completed": 2688,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:10:32+00:00",
+      "elapsed_seconds": 934.398,
+      "peak_rss_mb": 2241.19,
+      "completed": 2720,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:10:36+00:00",
+      "elapsed_seconds": 939.384,
+      "peak_rss_mb": 2241.19,
+      "completed": 2752,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:10:41+00:00",
+      "elapsed_seconds": 944.369,
+      "peak_rss_mb": 2241.19,
+      "completed": 2784,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:10:46+00:00",
+      "elapsed_seconds": 949.384,
+      "peak_rss_mb": 2241.19,
+      "completed": 2816,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:10:51+00:00",
+      "elapsed_seconds": 954.362,
+      "peak_rss_mb": 2241.19,
+      "completed": 2848,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:10:56+00:00",
+      "elapsed_seconds": 959.369,
+      "peak_rss_mb": 2241.19,
+      "completed": 2880,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:11:01+00:00",
+      "elapsed_seconds": 964.389,
+      "peak_rss_mb": 2241.19,
+      "completed": 2912,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:11:07+00:00",
+      "elapsed_seconds": 969.415,
+      "peak_rss_mb": 2241.19,
+      "completed": 2944,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:11:12+00:00",
+      "elapsed_seconds": 974.442,
+      "peak_rss_mb": 2241.19,
+      "completed": 2976,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:11:17+00:00",
+      "elapsed_seconds": 979.491,
+      "peak_rss_mb": 2241.19,
+      "completed": 3008,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:11:22+00:00",
+      "elapsed_seconds": 984.475,
+      "peak_rss_mb": 2241.19,
+      "completed": 3040,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:11:27+00:00",
+      "elapsed_seconds": 989.46,
+      "peak_rss_mb": 2241.19,
+      "completed": 3072,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:11:32+00:00",
+      "elapsed_seconds": 994.446,
+      "peak_rss_mb": 2241.19,
+      "completed": 3104,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:11:37+00:00",
+      "elapsed_seconds": 999.445,
+      "peak_rss_mb": 2241.19,
+      "completed": 3136,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:11:42+00:00",
+      "elapsed_seconds": 1004.409,
+      "peak_rss_mb": 2241.19,
+      "completed": 3168,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T03:11:42+00:00",
+      "elapsed_seconds": 1004.745,
+      "peak_rss_mb": 2241.19,
+      "completed": 3170,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:11:44+00:00",
+      "elapsed_seconds": 1006.735,
+      "peak_rss_mb": 2241.19,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:11:50+00:00",
+      "elapsed_seconds": 1012.942,
+      "peak_rss_mb": 2241.19,
+      "completed": 32,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:11:58+00:00",
+      "elapsed_seconds": 1020.613,
+      "peak_rss_mb": 2241.19,
+      "completed": 64,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:12:06+00:00",
+      "elapsed_seconds": 1028.406,
+      "peak_rss_mb": 2241.19,
+      "completed": 96,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:12:13+00:00",
+      "elapsed_seconds": 1035.741,
+      "peak_rss_mb": 2241.19,
+      "completed": 128,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:12:20+00:00",
+      "elapsed_seconds": 1043.019,
+      "peak_rss_mb": 2241.19,
+      "completed": 160,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:12:28+00:00",
+      "elapsed_seconds": 1050.629,
+      "peak_rss_mb": 2241.19,
+      "completed": 192,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:12:35+00:00",
+      "elapsed_seconds": 1057.936,
+      "peak_rss_mb": 2241.19,
+      "completed": 224,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:12:42+00:00",
+      "elapsed_seconds": 1064.535,
+      "peak_rss_mb": 2241.19,
+      "completed": 256,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:12:49+00:00",
+      "elapsed_seconds": 1071.694,
+      "peak_rss_mb": 2241.19,
+      "completed": 288,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:12:56+00:00",
+      "elapsed_seconds": 1078.546,
+      "peak_rss_mb": 2241.19,
+      "completed": 320,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:13:03+00:00",
+      "elapsed_seconds": 1085.974,
+      "peak_rss_mb": 2241.19,
+      "completed": 352,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:13:10+00:00",
+      "elapsed_seconds": 1093.011,
+      "peak_rss_mb": 2241.19,
+      "completed": 384,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:13:17+00:00",
+      "elapsed_seconds": 1100.332,
+      "peak_rss_mb": 2241.19,
+      "completed": 416,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:13:25+00:00",
+      "elapsed_seconds": 1107.776,
+      "peak_rss_mb": 2241.19,
+      "completed": 448,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:13:32+00:00",
+      "elapsed_seconds": 1114.605,
+      "peak_rss_mb": 2241.19,
+      "completed": 480,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:13:38+00:00",
+      "elapsed_seconds": 1120.872,
+      "peak_rss_mb": 2241.19,
+      "completed": 512,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:13:44+00:00",
+      "elapsed_seconds": 1126.838,
+      "peak_rss_mb": 2241.19,
+      "completed": 544,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:13:50+00:00",
+      "elapsed_seconds": 1133.037,
+      "peak_rss_mb": 2241.19,
+      "completed": 576,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:13:56+00:00",
+      "elapsed_seconds": 1139.309,
+      "peak_rss_mb": 2241.19,
+      "completed": 608,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:14:03+00:00",
+      "elapsed_seconds": 1145.566,
+      "peak_rss_mb": 2241.19,
+      "completed": 640,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:14:09+00:00",
+      "elapsed_seconds": 1151.948,
+      "peak_rss_mb": 2241.19,
+      "completed": 672,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:14:15+00:00",
+      "elapsed_seconds": 1157.778,
+      "peak_rss_mb": 2241.19,
+      "completed": 704,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:14:21+00:00",
+      "elapsed_seconds": 1163.984,
+      "peak_rss_mb": 2241.19,
+      "completed": 736,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:14:27+00:00",
+      "elapsed_seconds": 1169.937,
+      "peak_rss_mb": 2241.19,
+      "completed": 768,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:14:34+00:00",
+      "elapsed_seconds": 1176.429,
+      "peak_rss_mb": 2241.19,
+      "completed": 800,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:14:40+00:00",
+      "elapsed_seconds": 1182.657,
+      "peak_rss_mb": 2241.19,
+      "completed": 832,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:14:46+00:00",
+      "elapsed_seconds": 1188.725,
+      "peak_rss_mb": 2241.19,
+      "completed": 864,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:14:52+00:00",
+      "elapsed_seconds": 1194.777,
+      "peak_rss_mb": 2241.19,
+      "completed": 896,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:14:58+00:00",
+      "elapsed_seconds": 1200.714,
+      "peak_rss_mb": 2241.19,
+      "completed": 928,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:15:04+00:00",
+      "elapsed_seconds": 1206.876,
+      "peak_rss_mb": 2241.19,
+      "completed": 960,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:15:10+00:00",
+      "elapsed_seconds": 1212.985,
+      "peak_rss_mb": 2241.19,
+      "completed": 992,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:15:16+00:00",
+      "elapsed_seconds": 1219.331,
+      "peak_rss_mb": 2241.19,
+      "completed": 1024,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:15:23+00:00",
+      "elapsed_seconds": 1225.639,
+      "peak_rss_mb": 2241.19,
+      "completed": 1056,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:15:29+00:00",
+      "elapsed_seconds": 1231.747,
+      "peak_rss_mb": 2241.19,
+      "completed": 1088,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:15:35+00:00",
+      "elapsed_seconds": 1237.953,
+      "peak_rss_mb": 2241.19,
+      "completed": 1120,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:15:41+00:00",
+      "elapsed_seconds": 1243.688,
+      "peak_rss_mb": 2241.19,
+      "completed": 1152,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:15:47+00:00",
+      "elapsed_seconds": 1249.729,
+      "peak_rss_mb": 2241.19,
+      "completed": 1184,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:15:53+00:00",
+      "elapsed_seconds": 1255.598,
+      "peak_rss_mb": 2241.19,
+      "completed": 1216,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:15:58+00:00",
+      "elapsed_seconds": 1261.278,
+      "peak_rss_mb": 2241.19,
+      "completed": 1248,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:16:04+00:00",
+      "elapsed_seconds": 1267.239,
+      "peak_rss_mb": 2241.19,
+      "completed": 1280,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:16:10+00:00",
+      "elapsed_seconds": 1273.223,
+      "peak_rss_mb": 2241.19,
+      "completed": 1312,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:16:16+00:00",
+      "elapsed_seconds": 1278.731,
+      "peak_rss_mb": 2241.19,
+      "completed": 1344,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:16:22+00:00",
+      "elapsed_seconds": 1284.437,
+      "peak_rss_mb": 2241.19,
+      "completed": 1376,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:16:28+00:00",
+      "elapsed_seconds": 1290.462,
+      "peak_rss_mb": 2241.19,
+      "completed": 1408,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:16:33+00:00",
+      "elapsed_seconds": 1296.296,
+      "peak_rss_mb": 2241.19,
+      "completed": 1440,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:16:40+00:00",
+      "elapsed_seconds": 1302.59,
+      "peak_rss_mb": 2241.19,
+      "completed": 1472,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:16:45+00:00",
+      "elapsed_seconds": 1308.167,
+      "peak_rss_mb": 2241.19,
+      "completed": 1504,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:16:52+00:00",
+      "elapsed_seconds": 1314.497,
+      "peak_rss_mb": 2241.19,
+      "completed": 1536,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:16:57+00:00",
+      "elapsed_seconds": 1320.001,
+      "peak_rss_mb": 2241.19,
+      "completed": 1568,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:17:03+00:00",
+      "elapsed_seconds": 1325.664,
+      "peak_rss_mb": 2241.19,
+      "completed": 1600,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:17:09+00:00",
+      "elapsed_seconds": 1331.749,
+      "peak_rss_mb": 2241.19,
+      "completed": 1632,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:17:15+00:00",
+      "elapsed_seconds": 1337.562,
+      "peak_rss_mb": 2241.19,
+      "completed": 1664,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:17:21+00:00",
+      "elapsed_seconds": 1343.653,
+      "peak_rss_mb": 2241.19,
+      "completed": 1696,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:17:26+00:00",
+      "elapsed_seconds": 1349.385,
+      "peak_rss_mb": 2241.19,
+      "completed": 1728,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:17:33+00:00",
+      "elapsed_seconds": 1355.878,
+      "peak_rss_mb": 2241.19,
+      "completed": 1760,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:17:38+00:00",
+      "elapsed_seconds": 1361.302,
+      "peak_rss_mb": 2241.19,
+      "completed": 1792,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:17:44+00:00",
+      "elapsed_seconds": 1367.152,
+      "peak_rss_mb": 2241.19,
+      "completed": 1824,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:17:50+00:00",
+      "elapsed_seconds": 1372.927,
+      "peak_rss_mb": 2241.19,
+      "completed": 1856,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:17:56+00:00",
+      "elapsed_seconds": 1378.823,
+      "peak_rss_mb": 2241.19,
+      "completed": 1888,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:18:02+00:00",
+      "elapsed_seconds": 1384.475,
+      "peak_rss_mb": 2241.19,
+      "completed": 1920,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:18:07+00:00",
+      "elapsed_seconds": 1389.737,
+      "peak_rss_mb": 2241.19,
+      "completed": 1952,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:18:12+00:00",
+      "elapsed_seconds": 1395.215,
+      "peak_rss_mb": 2241.19,
+      "completed": 1984,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:18:18+00:00",
+      "elapsed_seconds": 1401.237,
+      "peak_rss_mb": 2241.19,
+      "completed": 2016,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:18:24+00:00",
+      "elapsed_seconds": 1406.478,
+      "peak_rss_mb": 2241.19,
+      "completed": 2048,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:18:29+00:00",
+      "elapsed_seconds": 1412.266,
+      "peak_rss_mb": 2241.19,
+      "completed": 2080,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:18:35+00:00",
+      "elapsed_seconds": 1417.965,
+      "peak_rss_mb": 2241.19,
+      "completed": 2112,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:18:41+00:00",
+      "elapsed_seconds": 1423.459,
+      "peak_rss_mb": 2241.19,
+      "completed": 2144,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:18:46+00:00",
+      "elapsed_seconds": 1428.97,
+      "peak_rss_mb": 2241.19,
+      "completed": 2176,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:18:51+00:00",
+      "elapsed_seconds": 1434.37,
+      "peak_rss_mb": 2241.19,
+      "completed": 2208,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:18:57+00:00",
+      "elapsed_seconds": 1440.31,
+      "peak_rss_mb": 2241.19,
+      "completed": 2240,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:19:03+00:00",
+      "elapsed_seconds": 1445.971,
+      "peak_rss_mb": 2241.19,
+      "completed": 2272,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:19:09+00:00",
+      "elapsed_seconds": 1451.688,
+      "peak_rss_mb": 2241.19,
+      "completed": 2304,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:19:15+00:00",
+      "elapsed_seconds": 1457.608,
+      "peak_rss_mb": 2241.19,
+      "completed": 2336,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:19:20+00:00",
+      "elapsed_seconds": 1462.588,
+      "peak_rss_mb": 2241.19,
+      "completed": 2368,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:19:25+00:00",
+      "elapsed_seconds": 1468.077,
+      "peak_rss_mb": 2241.19,
+      "completed": 2400,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:19:31+00:00",
+      "elapsed_seconds": 1473.479,
+      "peak_rss_mb": 2241.19,
+      "completed": 2432,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:19:36+00:00",
+      "elapsed_seconds": 1479.078,
+      "peak_rss_mb": 2241.19,
+      "completed": 2464,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:19:42+00:00",
+      "elapsed_seconds": 1484.527,
+      "peak_rss_mb": 2241.19,
+      "completed": 2496,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:19:47+00:00",
+      "elapsed_seconds": 1489.735,
+      "peak_rss_mb": 2241.19,
+      "completed": 2528,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:19:52+00:00",
+      "elapsed_seconds": 1495.296,
+      "peak_rss_mb": 2241.19,
+      "completed": 2560,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:19:59+00:00",
+      "elapsed_seconds": 1501.448,
+      "peak_rss_mb": 2241.19,
+      "completed": 2592,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:20:04+00:00",
+      "elapsed_seconds": 1506.885,
+      "peak_rss_mb": 2241.19,
+      "completed": 2624,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:20:09+00:00",
+      "elapsed_seconds": 1512.223,
+      "peak_rss_mb": 2241.19,
+      "completed": 2656,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:20:15+00:00",
+      "elapsed_seconds": 1517.715,
+      "peak_rss_mb": 2241.19,
+      "completed": 2688,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:20:21+00:00",
+      "elapsed_seconds": 1523.745,
+      "peak_rss_mb": 2241.19,
+      "completed": 2720,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:20:27+00:00",
+      "elapsed_seconds": 1529.659,
+      "peak_rss_mb": 2241.19,
+      "completed": 2752,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:20:32+00:00",
+      "elapsed_seconds": 1534.994,
+      "peak_rss_mb": 2241.19,
+      "completed": 2784,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:20:38+00:00",
+      "elapsed_seconds": 1540.665,
+      "peak_rss_mb": 2241.19,
+      "completed": 2816,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:20:44+00:00",
+      "elapsed_seconds": 1546.889,
+      "peak_rss_mb": 2241.19,
+      "completed": 2848,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:20:49+00:00",
+      "elapsed_seconds": 1551.587,
+      "peak_rss_mb": 2241.19,
+      "completed": 2880,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:20:54+00:00",
+      "elapsed_seconds": 1557.169,
+      "peak_rss_mb": 2241.19,
+      "completed": 2912,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:21:00+00:00",
+      "elapsed_seconds": 1562.783,
+      "peak_rss_mb": 2241.19,
+      "completed": 2944,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:21:06+00:00",
+      "elapsed_seconds": 1568.466,
+      "peak_rss_mb": 2241.19,
+      "completed": 2976,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:21:11+00:00",
+      "elapsed_seconds": 1574.232,
+      "peak_rss_mb": 2241.19,
+      "completed": 3008,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:21:17+00:00",
+      "elapsed_seconds": 1579.822,
+      "peak_rss_mb": 2241.19,
+      "completed": 3040,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:21:23+00:00",
+      "elapsed_seconds": 1585.572,
+      "peak_rss_mb": 2241.19,
+      "completed": 3072,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:21:28+00:00",
+      "elapsed_seconds": 1591.287,
+      "peak_rss_mb": 2241.19,
+      "completed": 3104,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:21:35+00:00",
+      "elapsed_seconds": 1598.282,
+      "peak_rss_mb": 2241.19,
+      "completed": 3136,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:21:41+00:00",
+      "elapsed_seconds": 1603.802,
+      "peak_rss_mb": 2241.19,
+      "completed": 3168,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T03:21:41+00:00",
+      "elapsed_seconds": 1604.106,
+      "peak_rss_mb": 2241.19,
+      "completed": 3170,
+      "total": 3170,
+      "status": "running"
+    },
+    {
+      "stage": "fx",
+      "at": "2026-10-18T03:21:41+00:00",
+      "elapsed_seconds": 1604.176,
+      "peak_rss_mb": 2241.19,
+      "action_errors": 32,
+      "status": "running"
+    },
+    {
+      "stage": "packs",
+      "at": "2026-10-18T03:21:44+00:00",
+      "elapsed_seconds": 1607.035,
+      "peak_rss_mb": 2241.19,
+      "touched_securities": 3135,
+      "status": "running"
+    },
+    {
+      "stage": "finished",
+      "at": "2026-10-18T03:21:44+00:00",
+      "elapsed_seconds": 1607.129,
+      "peak_rss_mb": 2241.19,
+      "status": "ready_for_review_with_unavailable",
+      "provider_telemetry": {
+        "requests": 9509,
+        "retries": 0,
+        "circuit_reason": null,
+        "elapsed_seconds": 1605.401
+      }
+    }
+  ]
+}

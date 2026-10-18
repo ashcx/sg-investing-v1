@@ -49,22 +49,24 @@ different result.
 
 ## Data coverage and hosting
 
-The checked-in catalog snapshot is dated 2026-08-30 and contains 3,172 unique
-securities represented by 3,260 universe-membership rows. The catalog includes:
+The checked-in catalog was sourced on 2026-08-30. After the Product Owner
+removed WBD and ATAI on 2026-10-18, it contains 3,170 unique securities
+represented by 3,257 universe-membership rows. Explicit listing exclusions
+prevent subsequent source refreshes from restoring those two entries. The catalog includes:
 
-- 1,946 Russell 2000 constituents
+- 1,945 Russell 2000 constituents
 - 708 active SGX equities, REITs, business trusts, and ETFs
-- 489 S&P 500 entries
-- 101 Nasdaq-100 entries
+- 488 S&P 500 entries
+- 100 Nasdaq-100 entries
 - Russell 2000 benchmark data
 - Major global ETFs including QQQ, SMH, SOXX, IWM, VALL.SW, and selected
   Irish-domiciled UCITS ETFs
 - Auditable manual additions and source-labelled universe memberships
 
-The complete browser pack build contains 3,188 securities, including 16
+The complete browser pack build contains 3,186 securities, including 16
 priced-but-uncatalogued entries. It is too large for GitHub Pages on its own:
 
-- **Tier 1 — GitHub Pages:** 1,242 securities, excluding the Russell 2000
+- **Tier 1 — GitHub Pages:** the prior deployed baseline contains 1,242 securities, excluding the Russell 2000
   constituent universe. The measured deployment is approximately 747 MB.
 - **Tier 2 — Cloudflare R2:** the full pack set, including Russell 2000
   constituents. The frontend consults Tier 1 first and uses the configured R2
@@ -72,8 +74,8 @@ priced-but-uncatalogued entries. It is too large for GitHub Pages on its own:
 - **Tier 3 — canonical data:** validated Parquet data and generated packs used
   by CI and local development.
 
-The generated data-status artifact currently reports 3,109 stored securities,
-59 incomplete records, and 4 unavailable records in the 3,172-security
+The generated data-status artifact currently reports 3,107 stored securities,
+59 incomplete records, and 4 unavailable records in the 3,170-security
 catalog snapshot. These counts describe data coverage, not catalog membership:
 an entry can exist in the catalog while its price history is incomplete or
 unavailable.

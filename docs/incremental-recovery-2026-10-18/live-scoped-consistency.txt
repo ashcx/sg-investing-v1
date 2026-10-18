@@ -1,0 +1,1 @@
+PASS: 3186 securities; 55548 manifest packs match disk exactly.

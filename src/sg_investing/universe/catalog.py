@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from datetime import date
 from pathlib import Path
+from uuid import UUID
 
 import yaml
 from pydantic import BaseModel, ConfigDict, Field
@@ -27,6 +28,7 @@ class UniverseCatalog(BaseModel):
 
     history_start: date
     securities: list[ConfiguredSecurity] = Field(default_factory=list)
+    excluded_security_ids: list[UUID] = Field(default_factory=list)
 
     def security_by_ticker(self, ticker: str) -> Security:
         matches = {entry.security.security_id: entry.security for entry in self.securities if entry.security.ticker == ticker.upper()}
@@ -62,6 +64,8 @@ class UniverseCatalog(BaseModel):
         existing_memberships = {(entry.universe, entry.security.security_id) for entry in self.securities}
         additions: list[ConfiguredSecurity] = []
         for listing in listings:
+            if listing.security_id in self.excluded_security_ids:
+                continue
             key = (listing.isin, listing.exchange, listing.ticker)
             security = existing_by_key.get(key, listing)
             if (universe, security.security_id) not in existing_memberships:
@@ -80,7 +84,11 @@ class UniverseCatalog(BaseModel):
 
 def load_catalog(path: str | Path) -> UniverseCatalog:
     payload = yaml.safe_load(Path(path).read_text(encoding="utf-8"))
-    return UniverseCatalog.model_validate(payload)
+    catalog = UniverseCatalog.model_validate(payload)
+    return catalog.model_copy(update={"securities": [
+        entry for entry in catalog.securities
+        if entry.security.security_id not in catalog.excluded_security_ids
+    ]})
 
 
 def save_catalog(catalog: UniverseCatalog, path: str | Path) -> None:

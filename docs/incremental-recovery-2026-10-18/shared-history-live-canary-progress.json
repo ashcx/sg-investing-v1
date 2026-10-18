@@ -1,0 +1,127 @@
+{
+  "latest": {
+    "stage": "finished",
+    "at": "2026-10-18T04:13:14+00:00",
+    "elapsed_seconds": 9.487,
+    "peak_rss_mb": 1836.59,
+    "status": "ready_for_review_with_unavailable",
+    "provider_telemetry": {
+      "requests": 5,
+      "retries": 0,
+      "cached_responses": 8,
+      "event_cache": {
+        "bytes": 0,
+        "peak_bytes": 364488,
+        "limit_bytes": 536870912
+      },
+      "circuit_reason": null,
+      "rate_limit_cause": null,
+      "elapsed_seconds": 7.73
+    }
+  },
+  "events": [
+    {
+      "stage": "planning",
+      "at": "2026-10-18T04:13:05+00:00",
+      "elapsed_seconds": 0.0,
+      "peak_rss_mb": 65.48,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T04:13:07+00:00",
+      "elapsed_seconds": 1.705,
+      "peak_rss_mb": 450.72,
+      "securities": 4,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T04:13:08+00:00",
+      "elapsed_seconds": 2.678,
+      "peak_rss_mb": 470.38,
+      "completed": 3,
+      "total": 4,
+      "status": "running"
+    },
+    {
+      "stage": "prices",
+      "at": "2026-10-18T04:13:08+00:00",
+      "elapsed_seconds": 2.919,
+      "peak_rss_mb": 470.38,
+      "completed": 4,
+      "total": 4,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T04:13:12+00:00",
+      "elapsed_seconds": 7.369,
+      "peak_rss_mb": 1836.59,
+      "price_rows": 207,
+      "price_errors": 1,
+      "status": "running"
+    },
+    {
+      "stage": "dividends",
+      "at": "2026-10-18T04:13:13+00:00",
+      "elapsed_seconds": 8.112,
+      "peak_rss_mb": 1836.59,
+      "completed": 4,
+      "total": 4,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T04:13:14+00:00",
+      "elapsed_seconds": 9.032,
+      "peak_rss_mb": 1836.59,
+      "status": "running"
+    },
+    {
+      "stage": "corporate_actions",
+      "at": "2026-10-18T04:13:14+00:00",
+      "elapsed_seconds": 9.036,
+      "peak_rss_mb": 1836.59,
+      "completed": 4,
+      "total": 4,
+      "status": "running"
+    },
+    {
+      "stage": "fx",
+      "at": "2026-10-18T04:13:14+00:00",
+      "elapsed_seconds": 9.039,
+      "peak_rss_mb": 1836.59,
+      "action_errors": 1,
+      "status": "running"
+    },
+    {
+      "stage": "packs",
+      "at": "2026-10-18T04:13:14+00:00",
+      "elapsed_seconds": 9.434,
+      "peak_rss_mb": 1836.59,
+      "touched_securities": 4,
+      "status": "running"
+    },
+    {
+      "stage": "finished",
+      "at": "2026-10-18T04:13:14+00:00",
+      "elapsed_seconds": 9.487,
+      "peak_rss_mb": 1836.59,
+      "status": "ready_for_review_with_unavailable",
+      "provider_telemetry": {
+        "requests": 5,
+        "retries": 0,
+        "cached_responses": 8,
+        "event_cache": {
+          "bytes": 0,
+          "peak_bytes": 364488,
+          "limit_bytes": 536870912
+        },
+        "circuit_reason": null,
+        "rate_limit_cause": null,
+        "elapsed_seconds": 7.73
+      }
+    }
+  ]
+}

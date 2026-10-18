@@ -1,0 +1,122 @@
+"""Run-scoped request pacing and failure containment for live data refreshes."""
+
+from __future__ import annotations
+
+import re
+import time
+from threading import Lock
+
+from sg_investing.data.providers.base import ProviderHistoryUnavailable
+
+
+class ProviderCircuitOpen(RuntimeError):
+    """No further provider traffic is allowed in this run."""
+
+
+class GuardedProvider:
+    """Pace listing calls, retry transient failures, and stop on provider throttling.
+
+    Deliberately expose the individual price API rather than a batch downloader:
+    an underlying downloader can swallow per-listing rate-limit exceptions.
+    Tests can inject clock/sleep functions without real delays or network access.
+    """
+
+    def __init__(self, provider, *, interval=0.3, retries=2, backoff=1.0,
+                 max_requests=20000, max_seconds=2400, clock=time.monotonic, sleep=time.sleep):
+        self.provider = provider
+        self.name = provider.name
+        self.interval = interval
+        self.retries = retries
+        self.backoff = backoff
+        self.max_requests = max_requests
+        self.max_seconds = max_seconds
+        self.clock = clock
+        self.sleep = sleep
+        self.started = clock()
+        self.last_started = self.started - interval
+        self.requests = 0
+        self.retry_count = 0
+        self.cached_responses = 0
+        self.circuit_reason = None
+        self.rate_limit_cause = None
+        self.lock = Lock()
+
+    def _call(self, method, *args):
+        for attempt in range(self.retries + 1):
+            # Serialize calls as well as starts: hidden provider retries must not
+            # amplify concurrent requests. This lock is shared by all datasets.
+            with self.lock:
+                if self.circuit_reason:
+                    raise ProviderCircuitOpen(self.circuit_reason)
+                cache_check = getattr(self.provider, "can_serve_cached", None)
+                if cache_check is not None and cache_check(method, *args):
+                    self.cached_responses += 1
+                    return getattr(self.provider, method)(*args)
+                if self.requests >= self.max_requests or self.clock() - self.started >= self.max_seconds:
+                    self.circuit_reason = "Provider request/time budget exhausted; run is incomplete."
+                    raise ProviderCircuitOpen(self.circuit_reason)
+                delay = self.interval - (self.clock() - self.last_started)
+                if delay > 0:
+                    self.sleep(delay)
+                if self.clock() - self.started >= self.max_seconds:
+                    self.circuit_reason = "Provider request/time budget exhausted; run is incomplete."
+                    raise ProviderCircuitOpen(self.circuit_reason)
+                self.last_started = self.clock()
+                self.requests += 1
+                try:
+                    return getattr(self.provider, method)(*args)
+                except Exception as error:
+                    if isinstance(error, ProviderHistoryUnavailable):
+                        raise
+                    if isinstance(error, MemoryError):
+                        self.circuit_reason = "Provider memory budget exhausted; remaining queries were not sent."
+                        raise ProviderCircuitOpen(self.circuit_reason) from error
+                    text = f"{type(error).__name__}: {error}".lower()
+                    status = getattr(getattr(error, "response", None), "status_code", None)
+                    rate_limited = (
+                        status == 429 or getattr(error, "code", None) == 429
+                        or "ratelimit" in type(error).__name__.lower()
+                        or any(term in text for term in
+                               ("too many requests", "rate limited", "rate limit exceeded"))
+                        or re.search(r"\bhttp(?:error)?\s*[:=]?\s*429\b", text)
+                    )
+                    if rate_limited:
+                        message = re.sub(r"([?&](?:crumb|token|api_key|key)=)[^&\s]+",
+                                         r"\1[redacted]", str(error), flags=re.IGNORECASE)
+                        self.rate_limit_cause = {
+                            "exception_type": f"{type(error).__module__}.{type(error).__name__}",
+                            "message": message[:1200], "method": method,
+                            "security": getattr(args[0], "ticker", str(args[0])) if args else None,
+                            "request_index": self.requests,
+                        }
+                        self.circuit_reason = "Provider rate limit detected; remaining queries were not sent."
+                        raise ProviderCircuitOpen(self.circuit_reason) from error
+                    transient = isinstance(error, (OSError, TimeoutError)) or any(
+                        term in text for term in
+                        ("timeout", "connection", "temporary", "500", "502", "503", "504")
+                    )
+                    if not transient or isinstance(error, (ValueError, TypeError)) or attempt == self.retries:
+                        raise
+            self.retry_count += 1
+            self.sleep(self.backoff * (2 ** attempt))
+        raise AssertionError("unreachable")
+
+    def get_prices(self, *args):
+        return self._call("get_prices", *args)
+
+    def get_dividends(self, *args):
+        return self._call("get_dividends", *args)
+
+    def get_corporate_actions(self, *args):
+        return self._call("get_corporate_actions", *args)
+
+    def get_fx_rates(self, *args):
+        return self._call("get_fx_rates", *args)
+
+    def telemetry(self):
+        cache_metrics = getattr(self.provider, "cache_metrics", None)
+        return {"requests": self.requests, "retries": self.retry_count,
+                "cached_responses": self.cached_responses,
+                "event_cache": cache_metrics() if cache_metrics is not None else None,
+                "circuit_reason": self.circuit_reason, "rate_limit_cause": self.rate_limit_cause,
+                "elapsed_seconds": round(self.clock() - self.started, 3)}

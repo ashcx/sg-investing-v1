@@ -1,0 +1,119 @@
+{
+  "comparisons": [
+    {
+      "ticker": "QQQ",
+      "dataset": "get_prices",
+      "start": "2026-07-13",
+      "end": "2026-10-18",
+      "status": "observed",
+      "rows": 69,
+      "identical": true
+    },
+    {
+      "ticker": "QQQ",
+      "dataset": "get_dividends",
+      "start": "2026-07-17",
+      "end": "2026-10-18",
+      "status": "observed",
+      "rows": 1,
+      "identical": true
+    },
+    {
+      "ticker": "QQQ",
+      "dataset": "get_corporate_actions",
+      "start": "2000-02-04",
+      "end": "2026-10-18",
+      "status": "observed",
+      "rows": 1,
+      "identical": true
+    },
+    {
+      "ticker": "GRPN",
+      "dataset": "get_prices",
+      "start": "2026-07-13",
+      "end": "2026-10-18",
+      "status": "observed",
+      "rows": 69,
+      "identical": true
+    },
+    {
+      "ticker": "GRPN",
+      "dataset": "get_dividends",
+      "start": "2026-07-17",
+      "end": "2026-10-18",
+      "status": "observed",
+      "rows": 0,
+      "identical": true
+    },
+    {
+      "ticker": "GRPN",
+      "dataset": "get_corporate_actions",
+      "start": "2000-01-01",
+      "end": "2026-10-18",
+      "status": "observed",
+      "rows": 1,
+      "identical": true
+    },
+    {
+      "ticker": "40F.SI",
+      "dataset": "get_prices",
+      "start": "2026-06-02",
+      "end": "2026-10-18",
+      "status": "unavailable",
+      "rows": null,
+      "identical": true
+    },
+    {
+      "ticker": "40F.SI",
+      "dataset": "get_dividends",
+      "start": "2026-07-17",
+      "end": "2026-10-18",
+      "status": "unavailable",
+      "rows": null,
+      "identical": true
+    },
+    {
+      "ticker": "40F.SI",
+      "dataset": "get_corporate_actions",
+      "start": "2000-01-01",
+      "end": "2026-10-18",
+      "status": "unavailable",
+      "rows": null,
+      "identical": true
+    },
+    {
+      "ticker": "ES3.SI",
+      "dataset": "get_prices",
+      "start": "2026-07-13",
+      "end": "2026-10-18",
+      "status": "observed",
+      "rows": 69,
+      "identical": true
+    },
+    {
+      "ticker": "ES3.SI",
+      "dataset": "get_dividends",
+      "start": "2026-07-17",
+      "end": "2026-10-18",
+      "status": "observed",
+      "rows": 1,
+      "identical": true
+    },
+    {
+      "ticker": "ES3.SI",
+      "dataset": "get_corporate_actions",
+      "start": "2000-01-01",
+      "end": "2026-10-18",
+      "status": "observed",
+      "rows": 0,
+      "identical": true
+    }
+  ],
+  "ignored_creation_timestamps": [
+    "retrieved_at",
+    "ingested_at"
+  ],
+  "all_other_model_fields_equal": true,
+  "shared_history_requests": 4,
+  "independent_history_requests": 12
+}

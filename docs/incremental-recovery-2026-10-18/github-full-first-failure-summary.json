@@ -1,0 +1,87 @@
+{
+  "mode": "incremental",
+  "generated_at": "2026-10-18T03:45:43+00:00",
+  "since": "auto",
+  "end_date": "2026-10-18",
+  "reconciliation_days": 45,
+  "pipeline_version": "0.1.0",
+  "provider": "yahoo_finance",
+  "provider_telemetry": {
+    "requests": 2384,
+    "retries": 0,
+    "circuit_reason": "Provider rate limit detected; remaining queries were not sent.",
+    "elapsed_seconds": 409.084
+  },
+  "skipped_datasets": [],
+  "securities_selected_count": 3170,
+  "full_history_fetch_securities": [
+    "Q50.SI",
+    "V8VU.SI",
+    "WYO.SI",
+    "XYFR.SI"
+  ],
+  "base_data_snapshot_id": "sha256-4f82eff4c05d97596e06fd9734051f4ff3b88bf08eec1a7828c6c94cee8a0856",
+  "data_snapshot_id": "sha256-8433c3b576f4168844d21788192fcca097d2f1f88267de94663d05f7aff7e751",
+  "store_content_hash_unchanged": false,
+  "incremental_snapshot_id": "incr-d56d29a7039db109693391799fc8cd43",
+  "price_rows_fetched": 162989,
+  "price_batch_size_limit": 32,
+  "max_price_comparison_keys": 123317,
+  "price_dates_new": 83008,
+  "price_dates_restated": 263,
+  "dividend_events_new_or_restated": 0,
+  "dividend_events_restated": 0,
+  "corporate_actions_new_or_restated": 0,
+  "corporate_actions_restated": 0,
+  "fx_rows_new_or_restated": 0,
+  "fx_rows_restated": 0,
+  "fx_fetch_errors": {
+    "CNY": "Provider rate limit detected; remaining queries were not sent.",
+    "EUR": "Provider rate limit detected; remaining queries were not sent.",
+    "GBP": "Provider rate limit detected; remaining queries were not sent.",
+    "HKD": "Provider rate limit detected; remaining queries were not sent.",
+    "JPY": "Provider rate limit detected; remaining queries were not sent.",
+    "USD": "Provider rate limit detected; remaining queries were not sent."
+  },
+  "updated": 2382,
+  "warnings": 1,
+  "failed": 787,
+  "dividend_coverage_warnings": [
+    "Dividend coverage fell from 100.00% to 0.00% (threshold 5.00%).",
+    "Dividend provider errors increased from 4 to 3163."
+  ],
+  "fx_rows_written": 0,
+  "provider_warnings": {},
+  "packs": null,
+  "unavailable_windows": {
+    "prices": {
+      "a50a45be-17a3-5ba0-91ed-8557adbdb8b0": "Provider has no observations in the requested window: $SO7.SI: possibly delisted; no timezone found"
+    },
+    "dividends": {},
+    "corporate_actions": {}
+  },
+  "complete": false,
+  "publication_status": "incomplete",
+  "run_id": 39094315718,
+  "run_url": "https://github.com/ashcx/sg-investing-v1/actions/runs/39094315718",
+  "event": "workflow_dispatch",
+  "error_groups": [
+    {
+      "dataset": "prices",
+      "reason": "Provider rate limit detected; remaining queries were not sent.",
+      "count": 787
+    },
+    {
+      "dataset": "prices",
+      "reason": "Provider has no observations in the requested window: $SO7.SI: possibly delisted; no timezone found",
+      "count": 1
+    },
+    {
+      "dataset": "dividends",
+      "reason": "Provider rate limit detected; remaining queries were not sent.",
+      "count": 3163
+    }
+  ],
+  "counts_as_scheduled_success": false,
+  "published": false
+}

@@ -17,7 +17,7 @@ One run = one pass over the selected securities. For every selected security:
 | --- | --- | --- |
 | Prices | `max(catalog history_start, last stored price date − reconciliation window)`; an explicit `--since` older than that widens the window back (gap backfill). No stored prices → full fetch from the floor ("straggler" path). | `end_date` (default: today, UTC) |
 | Dividends | Provider sweep start from the dividend coverage report: `queried_through − max(reconciliation window, --since span)`; no prior coverage → catalog floor. Accumulating/non-distributing securities are skipped. | `end_date` |
-| Corporate actions | `max(catalog history_start, last stored action − reconciliation window)`; no stored actions → catalog floor. Yahoo's `.actions` is an unbounded per-ticker fetch, so this step can be skipped with `--skip-actions`. | `end_date` |
+| Corporate actions | `max(catalog history_start, last stored action − reconciliation window)`; no stored actions → catalog floor. Successful action-query checkpoints advance the tail even when no events exist; bounded actions-enabled history is queried, with missing data retained as an error. | `end_date` |
 | FX | `max(catalog history_start, last stored rate − reconciliation window)` per required pair (native currency ≠ SGD, derived from the selection). A pair with no stored history is fetched from the floor regardless of `--since` — packs need FX at every price date. | `end_date` |
 
 The default trailing reconciliation window is **45 days**
@@ -162,6 +162,84 @@ run anywhere and is deterministic for a given store state.
   counts as "new" (different event id) rather than "restated"; both cases
   are captured by `dividend_events_new_or_restated` and produce the same
   change keys and pack touches.
-- Corporate-action reconciliation is unbounded per ticker on the provider
-  side (yfinance `.actions`); scheduled runs may use `--skip-actions` and
-  reconcile actions in the weekly sweep instead (see `docs/data-updates.md`).
+- The 18 October recovery removes unbounded event access from the incremental
+  live path. Ordinary full-refresh provider callers retain their existing API.
+
+
+## Operational recovery — 18 October 2026
+
+Price requests are grouped by their exact per-security start date and capped at
+32 listings per batch-capable provider call. The live Yahoo guard intentionally
+uses individual queries with raised errors instead of the downloader that can
+suppress per-ticker exceptions. Healthy tails run before stale-history repairs.
+Before/after price comparisons project only incoming security/date keys, one
+market/year at a time. Unrelated history is not materialized into Python maps.
+Existing canonical atomic validation/upsert semantics remain authoritative.
+
+The live guard serializes and paces all datasets (0.3 seconds minimum between
+starts), retries transient failures at most twice with 1/2-second backoff, and
+stops new traffic after a rate-limit response or a 20,000-query/40-minute budget.
+The per-query history timeout is 20 seconds. The budgets bound application calls;
+yfinance may issue additional HTTP requests internally. A provider circuit
+prevents retry storms; it does not turn unqueried data into successful coverage.
+
+Incremental event queries use bounded actions-enabled history. An observed
+nonempty history with zero event values is a successful empty query; absent
+history or missing columns are errors. Successful action queries persist
+`data/corporate_actions/query_checkpoints.json`; errors do not advance cursors.
+
+`complete` describes whether the refresh was handled, not universal market-data
+coverage. Explicit provider no-history windows are listed under
+`unavailable_windows`; their old observations remain untouched, failed dividend
+coverage remains unknown, and action checkpoints do not advance. The review
+status is `ready_for_review_with_unavailable`, never a delisting or zero-event
+claim. Only typed provider absence qualifies; matching words in an arbitrary
+error do not. A refresh with no updated listings remains incomplete.
+
+`complete` is false on unexplained empty price results, broken requests,
+malformed observations, dividend/action errors other than explicit absence,
+missing FX, skipped datasets, an open provider circuit or pack errors.
+CLI exit 1 means incomplete.
+`publication_status=ready_for_review` is an operator-review signal, not a
+deployment claim. Failure diagnostics are written atomically outside canonical
+data in `update-diagnostics/progress.json`, including stages, elapsed time and
+peak process RSS. A hard runner termination may still prevent artifact upload.
+
+Scoped incremental builds require a full canonical manifest, all catalog entries
+and all referenced pack files before any provider traffic. A clean checkout or
+filtered/Tier-1 baseline is rejected. Structural baseline checks do not certify
+external content freshness: restore the full pack set from the same reviewed
+canonical checkout, not a different snapshot. Without that baseline use
+`--no-build-packs`, then a full build from the resulting validated canonical store.
+The scoped builder alone can still produce filtered research packs; that output
+is not a complete publication artifact.
+
+
+### Explicit listing removal
+
+WBD and ATAI were removed entirely by Product Owner decision on 18 October
+2026. `config/universe.yaml` records their excluded security IDs. Catalog loads
+and subsequent source merges preserve that exclusion; full and scoped pack
+builds cannot republish either ID even from an older restored price store.
+`python scripts/remove_excluded_listings.py --root <checkout>` applies configured
+removals to canonical observations, catalog, manifests and active coverage/state
+records. Regenerate frontend data and full packs afterwards. The migration
+verifies every rewritten partition against its filtered original values.
+Historical audit evidence and Git history remain available. Existing private
+browser ledgers are not rewritten; removed holdings cannot be silently replaced.
+
+The removal in this PR is not a claim that the public origins have changed.
+After reviewed publication, verify Pages and R2 manifests omit both IDs and
+that their old year-pack URLs no longer resolve (accounting for CDN caches).
+The existing R2 `rclone sync` mirrors the rebuilt full set and deletes absent
+objects; do not replace it with a copy-only upload. Canonical application,
+publication and actual scheduled-success evidence remain separate gates.
+
+
+### Shared live history responses (R7 candidate)
+
+The incremental live provider plans each listing's own minimum required price/dividend/action start, using the same dividend coverage and action-checkpoint rules as the individual queries. It fetches one explicitly bounded actions-enabled history and filters each dataset to its original window. This replaces repeated history calls, not financial calculations. The run-scoped cache contains only event columns and observed dates (plus explicit event currency), is capped at 512 MiB, and is released after action consumption. Empty requested windows remain unavailable; absent event columns remain errors. No stale or unobserved data is fabricated.
+
+`provider_telemetry.requests` counts uncached provider calls; `cached_responses` counts reused responses. yfinance can make additional HTTP calls internally. `event_cache` reports current/peak/limit payload bytes. Cache hits do not consume the traffic budget or pacing delay. Uncached calls have a 0.3-second minimum interval. Existing request, 40-minute provider and 55-minute workflow bounds remain. Full-refresh callers are unchanged.
+
+Dry-run `provider_history_fetch_start` shows the actual shared request start. Existing `price_fetch_start` and full-history price-backfill counts continue to describe the price filter, which can be narrower because historical event evidence is required. No listing inherits another listing's date window.

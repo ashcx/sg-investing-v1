@@ -7,7 +7,7 @@ from decimal import Decimal
 from typing import ClassVar
 from uuid import UUID
 
-from sg_investing.data.providers.base import MarketDataProvider
+from sg_investing.data.providers.base import MarketDataProvider, ProviderHistoryUnavailable
 from sg_investing.models import (
     CorporateAction,
     CorporateActionType,
@@ -21,6 +21,94 @@ from sg_investing.models import (
 
 class YahooFinanceProvider(MarketDataProvider):
     name = "yahoo_finance"
+
+    def __init__(self, *, bounded_events: bool = False,
+                 shared_history_starts: dict[str, date] | None = None,
+                 max_event_cache_bytes: int = 512 * 1024 * 1024):
+        self.bounded_events = bounded_events
+        self.shared_history_starts = shared_history_starts or {}
+        self.max_event_cache_bytes = max_event_cache_bytes
+        self._event_cache: dict[str, tuple] = {}
+        self._absence_cache: dict[str, tuple] = {}
+        self._event_cache_bytes = 0
+        self._event_cache_peak = 0
+
+    def can_serve_cached(self, method: str, security: Security,
+                         start_date: date, end_date: date) -> bool:
+        if method not in {"get_dividends", "get_corporate_actions"}:
+            return False
+        sid = str(security.security_id)
+        cached = self._event_cache.get(sid) or self._absence_cache.get(sid)
+        return bool(cached and cached[0] <= start_date and end_date <= cached[1])
+
+    def cache_metrics(self) -> dict:
+        return {"bytes": self._event_cache_bytes, "peak_bytes": self._event_cache_peak,
+                "limit_bytes": self.max_event_cache_bytes}
+
+    def _discard_cached_history(self, sid: str) -> None:
+        cached = self._event_cache.pop(sid, None)
+        if cached:
+            self._event_cache_bytes -= cached[3]
+        self._absence_cache.pop(sid, None)
+
+    @staticmethod
+    def _history_window(history, start_date: date, end_date: date):
+        dates = history.index.date
+        window = history.loc[(dates >= start_date) & (dates <= end_date)]
+        if not len(window.index):
+            raise ProviderHistoryUnavailable("No observations in the requested window; event absence is unconfirmed.")
+        return window
+
+    def _shared_price_history(self, security: Security, start_date: date, end_date: date):
+        sid = str(security.security_id)
+        fetch_start = min(start_date, self.shared_history_starts[sid])
+        try:
+            history = self._bounded_history(self._ticker(security), fetch_start, end_date,
+                                            actions=True)
+        except ProviderHistoryUnavailable as error:
+            self._absence_cache[sid] = (fetch_start, end_date, ProviderHistoryUnavailable(str(error)))
+            raise
+        # Retain observed dates and event fields, never the complete OHLCV frame.
+        # Deep copies prevent pandas blocks from retaining unrelated price columns.
+        columns = [name for name in ("Dividends", "Stock Splits", "currency") if name in history]
+        events = history.loc[:, columns].copy(deep=True)
+        size = int(events.memory_usage(index=True, deep=True).sum())
+        self._discard_cached_history(sid)
+        if self._event_cache_bytes + size > self.max_event_cache_bytes:
+            raise MemoryError("Provider event cache budget exhausted; run is incomplete.")
+        self._event_cache[sid] = (fetch_start, end_date, events, size)
+        self._event_cache_bytes += size
+        self._event_cache_peak = max(self._event_cache_peak, self._event_cache_bytes)
+        return self._history_window(history, start_date, end_date)
+
+    def _bounded_history(self, ticker, start_date: date, end_date: date, *, actions: bool):
+        try:
+            history = ticker.history(
+                start=start_date.isoformat(),
+                end=(end_date + timedelta(days=1)).isoformat(),
+                auto_adjust=False, actions=actions, raise_errors=True, timeout=20,
+            )
+        except Exception as error:
+            # Classify only the vendor's explicit no-history exceptions, never
+            # a fuzzy substring such as "delisted" in a connection/error message.
+            if (type(error).__module__.startswith("yfinance.")
+                    and type(error).__name__ in {"YFPricesMissingError", "YFTzMissingError"}):
+                raise ProviderHistoryUnavailable(
+                    f"Provider has no observations in the requested window: {error}"
+                ) from error
+            raise
+        if history.empty:
+            raise ProviderHistoryUnavailable("No observed history; event absence is unconfirmed.")
+        return history
+
+    def _event_history(self, security: Security, start_date: date, end_date: date):
+        sid = str(security.security_id)
+        if self.can_serve_cached("get_dividends", security, start_date, end_date):
+            if sid in self._absence_cache:
+                raise self._absence_cache[sid][2]
+            return self._history_window(self._event_cache[sid][2], start_date, end_date)
+        return self._bounded_history(self._ticker(security), start_date, end_date, actions=True)
+
     # Matches the canonical Parquet Decimal(32, 18) price columns.  Provider
     # glitches occasionally produce finite but nonsensical values; accepting
     # one would otherwise abort the entire atomic batch at storage time.
@@ -145,12 +233,16 @@ class YahooFinanceProvider(MarketDataProvider):
         return yfinance.Ticker(security.ticker)
 
     def get_prices(self, security: Security, start_date: date, end_date: date) -> list[PriceBar]:
-        history = self._ticker(security).history(
-            start=start_date.isoformat(),
-            end=(end_date + timedelta(days=1)).isoformat(),
-            auto_adjust=False,
-            actions=False,
-        )
+        if self.bounded_events and str(security.security_id) in self.shared_history_starts:
+            history = self._shared_price_history(security, start_date, end_date)
+        else:
+            ticker = self._ticker(security)
+            history = (self._bounded_history(ticker, start_date, end_date, actions=False)
+                       if self.bounded_events else ticker.history(
+                           start=start_date.isoformat(),
+                           end=(end_date + timedelta(days=1)).isoformat(),
+                           auto_adjust=False, actions=False,
+                       ))
         if history.empty:
             return []
         rows: list[PriceBar] = []
@@ -186,24 +278,32 @@ class YahooFinanceProvider(MarketDataProvider):
     def get_dividends(
         self, security: Security, start_date: date, end_date: date
     ) -> list[DividendEvent]:
-        ticker = self._ticker(security)
-        try:
-            dividends = ticker.dividends
-        except AttributeError:
-            # yfinance 1.3.0 can fail its ``period=max`` dividends cache for
-            # a small set of malformed listings.  A bounded actions-enabled
-            # history is a safe fallback when price history exists; preserve
-            # the original error for delisted symbols with no history so an
-            # empty response is not mistaken for confirmed zero dividends.
-            history = ticker.history(
-                start=start_date.isoformat(),
-                end=(end_date + timedelta(days=1)).isoformat(),
-                auto_adjust=False,
-                actions=True,
-            )
-            if history.empty or "Dividends" not in history:
-                raise
-            dividends = history[["Dividends"]]
+        if self.bounded_events:
+            history = self._event_history(security, start_date, end_date)
+            if "Dividends" not in history:
+                raise ValueError("Provider history omitted the Dividends field.")
+            # A successful priced history with zero events is a completed query;
+            # missing/error history above must never be treated as the same state.
+            dividends = history.loc[history["Dividends"] != 0]
+        else:
+            ticker = self._ticker(security)
+            try:
+                dividends = ticker.dividends
+            except AttributeError:
+                # yfinance 1.3.0 can fail its ``period=max`` dividends cache for
+                # a small set of malformed listings.  A bounded actions-enabled
+                # history is a safe fallback when price history exists; preserve
+                # the original error for delisted symbols with no history so an
+                # empty response is not mistaken for confirmed zero dividends.
+                history = ticker.history(
+                    start=start_date.isoformat(),
+                    end=(end_date + timedelta(days=1)).isoformat(),
+                    auto_adjust=False,
+                    actions=True,
+                )
+                if history.empty or "Dividends" not in history:
+                    raise
+                dividends = history[["Dividends"]]
         if dividends.empty:
             return []
         rows: list[DividendEvent] = []
@@ -264,7 +364,18 @@ class YahooFinanceProvider(MarketDataProvider):
     def get_corporate_actions(
         self, security: Security, start_date: date, end_date: date
     ) -> list[CorporateAction]:
-        actions = self._ticker(security).actions
+        try:
+            return self._corporate_action_rows(security, start_date, end_date)
+        finally:
+            self._discard_cached_history(str(security.security_id))
+
+    def _corporate_action_rows(
+        self, security: Security, start_date: date, end_date: date
+    ) -> list[CorporateAction]:
+        actions = (self._event_history(security, start_date, end_date)
+                   if self.bounded_events else self._ticker(security).actions)
+        if self.bounded_events and "Stock Splits" not in actions:
+            raise ValueError("Provider history omitted the Stock Splits field.")
         if actions.empty or "Stock Splits" not in actions:
             return []
         rows: list[CorporateAction] = []
@@ -291,17 +402,21 @@ class YahooFinanceProvider(MarketDataProvider):
         currency = base_currency.upper()
         if currency == "SGD":
             return [FxRate(rate_date=start_date, base_currency="SGD", rate_to_sgd=Decimal(1), source=self.name)]
-        history = self._ticker_symbol(f"{currency}SGD=X").history(
-            start=start_date.isoformat(),
-            end=(end_date + timedelta(days=1)).isoformat(),
-            auto_adjust=False,
-            actions=False,
-        )
+        ticker = self._ticker_symbol(f"{currency}SGD=X")
+        history = (self._bounded_history(ticker, start_date, end_date, actions=False)
+                   if self.bounded_events else ticker.history(
+                       start=start_date.isoformat(),
+                       end=(end_date + timedelta(days=1)).isoformat(),
+                       auto_adjust=False, actions=False,
+                   ))
         rows: list[FxRate] = []
         for timestamp, row in history.iterrows():
+            rate_date = timestamp.date()
+            if not start_date <= rate_date <= end_date:
+                continue
             rate = Decimal(str(row["Close"]))
             if rate.is_finite() and rate > 0:
-                rows.append(FxRate(rate_date=timestamp.date(), base_currency=currency, rate_to_sgd=rate, source=self.name))
+                rows.append(FxRate(rate_date=rate_date, base_currency=currency, rate_to_sgd=rate, source=self.name))
         return rows
 
     @staticmethod

@@ -1,0 +1,64 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_ CoverageInvalidationTests.test_failed_dividend_query_refreshes_all_stored_years_without_new_observations _
+
+self = <tests.test_incremental_coverage.CoverageInvalidationTests testMethod=test_failed_dividend_query_refreshes_all_stored_years_without_new_observations>
+
+    def test_failed_dividend_query_refreshes_all_stored_years_without_new_observations(self):
+        self._run(self._provider())
+        build_data_packs(self.root, self.output)
+        provider = self._provider()
+        prices = provider.get_prices
+    
+        def failed_dividends(security, *dates):
+            if str(security.security_id) == TEST_ID:
+                raise ProviderHistoryUnavailable('No current observations')
+            return []
+    
+        def missing_prices(security, *dates):
+            if str(security.security_id) == TEST_ID:
+                raise ProviderHistoryUnavailable('No current observations')
+            return prices(security, *dates)
+    
+        provider.get_dividends = failed_dividends
+        provider.get_prices = missing_prices
+        summary = self._run(provider, build_packs=True)
+        self.assertEqual(summary['price_dates_new'], 0)
+        self.assertEqual(summary['dividend_events_new_or_restated'], 0)
+        for year in [2025, 2026]:
+            pack = json.loads(self._pack_bytes(TEST_ID, year))
+            coverage = pack['security']['dividend_coverage']
+>           self.assertEqual(coverage['coverage_status'], 'provider_error')
+E           AssertionError: 'data_available' != 'provider_error'
+E           - data_available
+E           + provider_error
+
+tests/test_incremental_coverage.py:35: AssertionError
+----------------------------- Captured stderr call -----------------------------
+{"stage": "planning", "at": "2026-10-18T03:17:45+00:00", "elapsed_seconds": 0.0, "peak_rss_mb": 118.81, "status": "running"}
+/Users/runner/work/crossbow/crossbow/arrow/cpp/src/arrow/util/cpu_info.cc:181: IOError: sysctlbyname failed for 'hw.l1dcachesize'. Detail: [errno 1] Operation not permitted
+/Users/runner/work/crossbow/crossbow/arrow/cpp/src/arrow/util/cpu_info.cc:181: IOError: sysctlbyname failed for 'hw.l2cachesize'. Detail: [errno 1] Operation not permitted
+/Users/runner/work/crossbow/crossbow/arrow/cpp/src/arrow/util/cpu_info.cc:181: IOError: sysctlbyname failed for 'hw.l3cachesize'. Detail: [errno 1] Operation not permitted
+{"stage": "prices", "at": "2026-10-18T03:17:45+00:00", "elapsed_seconds": 0.017, "peak_rss_mb": 125.11, "securities": 2, "status": "running"}
+{"stage": "prices", "at": "2026-10-18T03:17:45+00:00", "elapsed_seconds": 0.018, "peak_rss_mb": 125.17, "completed": 2, "total": 2, "status": "running"}
+{"stage": "dividends", "at": "2026-10-18T03:17:45+00:00", "elapsed_seconds": 0.023, "peak_rss_mb": 126.55, "price_rows": 4, "price_errors": 0, "status": "running"}
+{"stage": "dividends", "at": "2026-10-18T03:17:45+00:00", "elapsed_seconds": 0.024, "peak_rss_mb": 126.72, "completed": 2, "total": 2, "status": "running"}
+{"stage": "corporate_actions", "at": "2026-10-18T03:17:45+00:00", "elapsed_seconds": 0.026, "peak_rss_mb": 126.75, "status": "running"}
+{"stage": "corporate_actions", "at": "2026-10-18T03:17:45+00:00", "elapsed_seconds": 0.027, "peak_rss_mb": 126.78, "completed": 2, "total": 2, "status": "running"}
+{"stage": "fx", "at": "2026-10-18T03:17:45+00:00", "elapsed_seconds": 0.027, "peak_rss_mb": 126.78, "action_errors": 0, "status": "running"}
+{"stage": "packs", "at": "2026-10-18T03:17:45+00:00", "elapsed_seconds": 0.03, "peak_rss_mb": 126.78, "touched_securities": 1, "status": "running"}
+{"stage": "finished", "at": "2026-10-18T03:17:45+00:00", "elapsed_seconds": 0.031, "peak_rss_mb": 126.8, "status": "ready_for_review", "provider_telemetry": null}
+{"stage": "planning", "at": "2026-10-18T03:17:45+00:00", "elapsed_seconds": 0.0, "peak_rss_mb": 127.0, "status": "running"}
+{"stage": "prices", "at": "2026-10-18T03:17:45+00:00", "elapsed_seconds": 0.004, "peak_rss_mb": 127.25, "securities": 2, "status": "running"}
+{"stage": "prices", "at": "2026-10-18T03:17:45+00:00", "elapsed_seconds": 0.005, "peak_rss_mb": 127.25, "completed": 1, "total": 2, "status": "running"}
+{"stage": "prices", "at": "2026-10-18T03:17:45+00:00", "elapsed_seconds": 0.005, "peak_rss_mb": 127.25, "completed": 2, "total": 2, "status": "running"}
+{"stage": "dividends", "at": "2026-10-18T03:17:45+00:00", "elapsed_seconds": 0.007, "peak_rss_mb": 127.39, "price_rows": 1, "price_errors": 1, "status": "running"}
+{"stage": "dividends", "at": "2026-10-18T03:17:45+00:00", "elapsed_seconds": 0.008, "peak_rss_mb": 127.69, "completed": 2, "total": 2, "status": "running"}
+{"stage": "corporate_actions", "at": "2026-10-18T03:17:45+00:00", "elapsed_seconds": 0.01, "peak_rss_mb": 127.69, "status": "running"}
+{"stage": "corporate_actions", "at": "2026-10-18T03:17:45+00:00", "elapsed_seconds": 0.01, "peak_rss_mb": 127.69, "completed": 2, "total": 2, "status": "running"}
+{"stage": "fx", "at": "2026-10-18T03:17:45+00:00", "elapsed_seconds": 0.01, "peak_rss_mb": 127.69, "action_errors": 0, "status": "running"}
+{"stage": "packs", "at": "2026-10-18T03:17:45+00:00", "elapsed_seconds": 0.013, "peak_rss_mb": 127.72, "touched_securities": 0, "status": "running"}
+{"stage": "finished", "at": "2026-10-18T03:17:45+00:00", "elapsed_seconds": 0.014, "peak_rss_mb": 127.72, "status": "ready_for_review_with_unavailable", "provider_telemetry": null}
+=========================== short test summary info ============================
+FAILED tests/test_incremental_coverage.py::CoverageInvalidationTests::test_failed_dividend_query_refreshes_all_stored_years_without_new_observations
+1 failed in 0.39s

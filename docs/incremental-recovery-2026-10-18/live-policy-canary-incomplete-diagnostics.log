@@ -1,0 +1,12 @@
+{"stage": "planning", "at": "2026-10-17T23:33:54+00:00", "elapsed_seconds": 0.0, "peak_rss_mb": 65.17, "status": "running"}
+{"stage": "prices", "at": "2026-10-17T23:33:56+00:00", "elapsed_seconds": 1.631, "peak_rss_mb": 457.0, "securities": 4, "status": "running"}
+{"stage": "prices", "at": "2026-10-17T23:33:56+00:00", "elapsed_seconds": 2.033, "peak_rss_mb": 490.25, "completed": 1, "total": 4, "status": "running"}
+{"stage": "prices", "at": "2026-10-17T23:33:56+00:00", "elapsed_seconds": 2.228, "peak_rss_mb": 490.36, "completed": 3, "total": 4, "status": "running"}
+{"stage": "prices", "at": "2026-10-17T23:33:56+00:00", "elapsed_seconds": 2.415, "peak_rss_mb": 490.41, "completed": 4, "total": 4, "status": "running"}
+{"stage": "dividends", "at": "2026-10-17T23:34:01+00:00", "elapsed_seconds": 6.902, "peak_rss_mb": 2064.41, "price_rows": 33, "price_errors": 1, "status": "running"}
+{"stage": "dividends", "at": "2026-10-17T23:34:02+00:00", "elapsed_seconds": 8.318, "peak_rss_mb": 2064.41, "completed": 4, "total": 4, "status": "running"}
+{"stage": "corporate_actions", "at": "2026-10-17T23:34:03+00:00", "elapsed_seconds": 9.317, "peak_rss_mb": 2064.41, "status": "running"}
+{"stage": "corporate_actions", "at": "2026-10-17T23:34:04+00:00", "elapsed_seconds": 9.823, "peak_rss_mb": 2064.41, "completed": 4, "total": 4, "status": "running"}
+{"stage": "fx", "at": "2026-10-17T23:34:04+00:00", "elapsed_seconds": 9.843, "peak_rss_mb": 2064.41, "action_errors": 1, "status": "running"}
+{"stage": "packs", "at": "2026-10-17T23:34:04+00:00", "elapsed_seconds": 10.157, "peak_rss_mb": 2064.41, "touched_securities": 0, "status": "running"}
+{"stage": "finished", "at": "2026-10-17T23:34:04+00:00", "elapsed_seconds": 10.191, "peak_rss_mb": 2064.41, "status": "incomplete", "provider_telemetry": {"requests": 13, "retries": 0, "circuit_reason": null, "elapsed_seconds": 8.526}}
