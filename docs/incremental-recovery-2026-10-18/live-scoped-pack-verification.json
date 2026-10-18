@@ -1,0 +1,34 @@
+{
+  "type": "scoped_pack_verification_after_live_fetch",
+  "live_fetch_complete": true,
+  "live_fetch_publication_status": "ready_for_review_with_unavailable",
+  "coverage_state_changed_listings": 39,
+  "coverage_metadata_year_packs_checked": 85,
+  "touched_listings": 3167,
+  "untouched_pack_count_with_identical_bytes": 387,
+  "pack_elapsed_seconds": 168.842,
+  "pack_summary": {
+    "catalog_as_of": "2026-08-30",
+    "catalog_version": "sha256-6d0301f1f3b0aff7",
+    "data_snapshot_id": "sha256-0c71f283e65edad73689fa15904e7e839ed70654bb4a69f37f8090dee2a43f7f",
+    "manifest_bytes": 18593617,
+    "pack_count": 55548,
+    "price_rows": 13525569,
+    "securities": 3186,
+    "support_counts": {
+      "fully_supported": 2507,
+      "incomplete": 677,
+      "unavailable": 2
+    },
+    "total_bytes": 1877873645,
+    "warnings": [
+      "2 catalog securities have no price data in this snapshot.",
+      "16 priced securities are not present in the current catalog snapshot."
+    ]
+  },
+  "remaining_removed_ids": [],
+  "limitations": "Separate live no-build fetch and corrected scoped pack build; not a second live fetch, scheduled run, or production publication.",
+  "dca_pack_integration": "29 passed, zero failures",
+  "portfolio_pack_integration": "14/14 passed",
+  "harness_note": "Initial integration invocation omitted vendored Decimal in the disposable frontend. Its module-not-found report is retained; copying the unchanged vendor assets fixed the harness, with no product or engine modification."
+}

@@ -141,7 +141,7 @@ redesign sprint is started by this investigation. Main-instance ownership only.
 
 - [x] Inspect scheduled runs and logs, compare against pre-redesign code,
       reproduce fetch-plan behavior offline, and record findings and checks.
-- [ ] Repair bounded fetching, memory usage, provider retry behavior, workflow
+- [x] Repair bounded fetching, memory usage, provider retry behavior, workflow
       scheduling/diagnostics, and incomplete-result reporting sequentially.
   - [x] R1: group price calls by exact window in bounded batches; compare only
         incoming security/date rows, preserving restatement and gap detection.
@@ -354,7 +354,7 @@ universe refreshes cannot silently restore them. Historical audit records and
 Git history remain evidence; no replacement prices or alias substitutions.
 - [x] R5: implement persistent exclusions and a reproducible removal migration;
       verify unrelated rows remain identical and both listings cannot reappear.
-- [ ] R6: rebuild publishable artifacts and rerun the full live recovery rehearsal
+- [x] R6: rebuild publishable artifacts and rerun the full live recovery rehearsal
       without these two listings; retain results before operational acceptance.
 Research is now explicitly selected in the proposal carousel. Sprint 14 remains
 subject to its earlier sprint gates and integrated implementation review.
@@ -428,3 +428,49 @@ cases. The active no-build fetch began before this pack-selection-only repair;
 its provider/fetch path is unchanged. The corrected selection and scoped build
 will be verified against its final output separately. Do not call this a second
 live fetch run or erase earlier evidence.
+
+Final live fetch after removal PASS: complete=true,
+`ready_for_review_with_unavailable`, 3,170 selected / 3,138 updated / 32 explicit
+unavailable price windows / zero failed updates. 214,653 prices fetched;
+26m47s elapsed; peak RSS 2,241.19 MiB; 9,509 requests, zero retries or rate-limit
+circuit; no FX errors. Unavailable event windows remain explicit (34 dividend,
+32 action), with failed/unknown coverage. Compact outcome, full progress trace
+and diagnostics retained as `live-full-after-removal-*` evidence.
+All six GitHub checks passed for coverage-fix runtime head f05023d.
+
+The corrected scoped pack build is now active separately on that same
+post-fetch disposable store (process session 79612; harness
+`/private/tmp/sg-live-scoped-verification.py`). It adds coverage-state touches to
+the original no-build run's observation touches, verifies unchanged pack bytes,
+checks current failure metadata across all affected years, and then runs real
+DCA/portfolio pack integrations. Baseline gate is verified against the original
+pre-update store before rebuilding and against the updated store afterwards;
+an initially misplaced post-fetch/pre-build check correctly detected newly
+added canonical years and is documented in `live-scoped-harness-baseline-note.txt`.
+No product baseline check was weakened. Do not restart the active pack build.
+R6 and the operational exit remain unchecked pending final pack results and
+actual reviewed scheduled/publication evidence. No UI sprint has started.
+
+
+R6 local technical verification COMPLETE: corrected scoped rebuild passed on the
+actual fetched store. It rebuilt 55,161 packs across 3,167 touched listings,
+verified updated coverage metadata in 85 year packs across 39 changed coverage
+states, and preserved all 387 untouched packs byte-for-byte. Rebuilt manifest:
+3,186 securities / 55,548 packs / 13,525,569 price rows; two catalog listings
+remain without prices. Both removed IDs remain absent. Complete post-update
+baseline and full manifest/disk consistency checks pass. Pack build 168.842s;
+separate live fetch 1,607.129s. Real DCA 29/29 and portfolio 14/14 checks pass
+against these rebuilt live packs. The initial integration harness omitted the
+unchanged Decimal vendor asset; the missing-module result is retained, the
+asset copied, and integrations rerun successfully. No engine code changed.
+Evidence: `live-scoped-pack-verification.json`, `dca-live-scoped-packs.txt`,
+`portfolio-live-scoped-packs.txt`, `live-scoped-consistency.txt` under the recovery
+evidence directory. Live rehearsal and subsequent corrected scoped build are
+separate phases; neither is represented as an actual scheduled run.
+
+All recovery implementation/locally executable tasks are complete. Overall
+Sprint 7.5 stays In progress: reviewed merge, actual successive scheduled runs,
+and remote Pages/R2 publication verification are still required. No later sprint
+entry gate has been ticked, and no human acceptance is invented. Recovery PR #5
+is ready for Product Owner review; its merge triggers the existing deployment
+workflow and subsequent R2 synchronization.

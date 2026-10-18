@@ -118,8 +118,27 @@ with no page errors; retained captures were visually inspected. Final suite:
 262 passed, 8 smoke deselected using explicit PYTHONPATH=src so subprocesses
 load this checkout. The initial shared-editable-path failure is retained.
 [Removal record](listing-removal.json), [pack build](pack-build-after-removal.json).
-The final full live rehearsal is active on a new disposable copy. Prior failed
-runs remain retained; no new success or production change is claimed yet.
+The final full live fetch passed on its disposable copy: 3,138 updated listings,
+32 explicit unavailable price windows, zero failed updates or FX errors;
+9,509 provider requests, zero retries/rate-limit circuit, 1,607.129s elapsed,
+peak RSS 2,241.19 MiB. This is handled-run success with explicit coverage gaps.
+[Final live summary](live-full-after-removal-summary.json),
+[resource trace](live-full-after-removal-progress.json).
+
+Corrected scoped rebuilding then passed: 55,161 packs replaced across 3,167
+touched listings, 85 year-pack coverage records verified, 387 untouched packs
+byte-identical. Final set: 3,186 securities / 55,548 packs / 13,525,569 prices;
+168.842s build time. Complete post-update baseline and disk/manifest consistency
+pass; neither removed ID remains. DCA 29/29 and portfolio 14/14 integrations pass
+on these actual live-data packs. The initial missing-vendor-asset harness failure
+is retained separately; the unchanged asset was copied and integrations rerun.
+[Scoped verification](live-scoped-pack-verification.json),
+[DCA](dca-live-scoped-packs.txt), [portfolio](portfolio-live-scoped-packs.txt),
+[consistency](live-scoped-consistency.txt).
+
+These are a live no-build fetch and a subsequent corrected scoped build, not an
+actual scheduled workflow run. Earlier failures are retained. No production
+snapshot or deployed origin was changed by the disposable live rehearsal.
 
 Actual scheduled runs require the reviewed workflow on the default branch and
 successive scheduled successes. Manual runs cannot stand in for that evidence.
@@ -143,5 +162,5 @@ stored years for that listing, including recovery after a failure. Unchanged
 states and query timestamps alone do not invalidate packs. Initial failure is
 retained; full suite now passes 262 tests with 8 opt-in smoke deselected.
 The live fetch run started before this pack-selection-only fix; provider and
-fetch behavior are unchanged. Its output will be tested through the corrected
+fetch behavior are unchanged. Its output was tested through the corrected
 scoped selection/build separately, without claiming a new live fetch run.
