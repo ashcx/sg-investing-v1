@@ -1,0 +1,59 @@
+{
+  "checked_at": "2026-10-18T09:01:22.404565+00:00",
+  "build": {
+    "built_at": "2026-10-18T08:38:54+00:00",
+    "data_snapshot_id": "sha256-04cb723d8f46447a0749e02f522034aa5b068ea61842aa1ef27eaef8a5ecdfb1",
+    "workflow_run_id": 39111805264
+  },
+  "catalog_securities": 3170,
+  "pages_summary": {
+    "pack_bytes": {
+      "max": 43116,
+      "median": 30076,
+      "min": 1880
+    },
+    "pack_count": 24015,
+    "price_rows": 5826228,
+    "securities": 1241,
+    "total_bytes": 758540810
+  },
+  "r2_summary": {
+    "pack_bytes": {
+      "max": 43116,
+      "median": 35689,
+      "min": 1880
+    },
+    "pack_count": 55546,
+    "price_rows": 13416266,
+    "securities": 3186,
+    "total_bytes": 1836316225
+  },
+  "snapshots_match": true,
+  "removed_ids_absent": true,
+  "removed_r2_packs_http_status": {
+    "0ef6cc6b-7c95-5c01-a172-d81d7fbf36f4": 200,
+    "88d0748e-e47b-58ee-8419-68e7137b2637": 200
+  },
+  "removed_object_deletion_complete": false,
+  "qqq_page_pack_fetched": true,
+  "grpn_r2_pack_fetched": true,
+  "published_backfill": {
+    "as_of": "2026-08-31",
+    "by_status": {
+      "incomplete": 59,
+      "stored": 3107,
+      "unavailable": 4
+    },
+    "run": {
+      "attempted": 0,
+      "batches_completed": 0,
+      "failed": 0,
+      "rows_written": 0,
+      "succeeded": 0
+    },
+    "state_file": "price_backfill_state.json",
+    "total_securities": 3170,
+    "updated_at": "2026-08-30T16:30:37.619484+00:00"
+  },
+  "r2_cors": "https://ashcx.github.io"
+}

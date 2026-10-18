@@ -1,0 +1,9 @@
+{
+  "start": "2000-01-03",
+  "end": "2001-12-31",
+  "value": "S$4,571.83",
+  "fx": "1.6613 → 1.8495",
+  "period": "Resolved trading dates · 03 Jan 2000 → 31 Dec 2001",
+  "state": "Current result. QQQ · 2000-01-03 → 2001-12-31 · 10000 SGD initial · dividends true, withholding true, reinvest true",
+  "errors": []
+}

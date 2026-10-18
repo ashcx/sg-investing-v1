@@ -1,0 +1,27 @@
+{
+  "run_id": 39112000299,
+  "head": "b66bd54f93afe56b55e796bab382d0f46b3ae272",
+  "event": "workflow_dispatch",
+  "archive_digest_verified": true,
+  "baseline_chain_hash": "sha256-4f82eff4c05d97596e06fd9734051f4ff3b88bf08eec1a7828c6c94cee8a0856",
+  "applied_chain_hash": "sha256-f73b3b947c42c6ffa31e62d556dcba41a94b33feba3c1fd8eeca9152d91d63ea",
+  "applied_snapshot_matches_producer": true,
+  "changed_store_files": [
+    "data/corporate_actions/query_checkpoints.json",
+    "data/corporate_actions/year=2000.parquet",
+    "data/corporate_actions/year=2020.parquet",
+    "data/dividends/coverage_history.json",
+    "data/dividends/coverage_report.json",
+    "data/dividends/year=2026.parquet",
+    "data/fx/pair=USD_SGD/year=2026.parquet",
+    "data/manifests/prices/market=SG/year=2026.json",
+    "data/manifests/prices/market=US/year=2026.json",
+    "data/prices/market=SG/year=2026.parquet",
+    "data/prices/market=US/year=2026.parquet",
+    "data/update_summary.json"
+  ],
+  "complete": true,
+  "publication_status": "ready_for_review_with_unavailable",
+  "counts_as_scheduled_success": false,
+  "published": false
+}
