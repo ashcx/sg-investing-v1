@@ -48,15 +48,15 @@ recorded in its sprint file before implementation.
 
 ## Product and sprint backlog
 
-Work is split into six sequential sprint candidates. All tasks run one at a
+Work is split into seven sequential sprint candidates. All tasks run one at a
 time in the main instance. Each fixed one-week timebox commits US01 + US02
 (6 SP); US03 (3 SP) is stretch. The 9-SP backlog ceiling is not a commitment.
 Reserve 20–30% of actual capacity for review and rework. Re-estimate at planning;
 reduce or split the commitment through the sprint file if it would exceed 7 SP.
 Points describe relative effort and risk, not hours. All three stories remain
 required for exit. Unfinished work requires a recovery timebox in the same
-sprint before the next sprint starts. Six initial timeboxes are a minimum
-forecast, not a six-week completion promise; required stretch work and participant
+sprint before the next sprint starts. Seven initial timeboxes are a minimum
+forecast, not a seven-week completion promise; required stretch work and participant
 scheduling may need additional timeboxes.
 
 | Sprint | Sprint backlog | Main outcome | Audit findings | Depends on | Status |
@@ -64,9 +64,10 @@ scheduling may need additional timeboxes.
 | 9 | [Result trust and shared result contracts](sprint-9-user-experience-redesign.md): S9-US01–03, 6 SP committed + 3 SP stretch | Results, charts, warnings, and exports stay with the request that produced them; current, pending, previous, coverage, and currency states are clear. | F01–F03, F07–F09, F15 | 7, 7.5, 8 | Complete |
 | 10 | [Workspace and security discovery](sprint-10-workspace-and-discovery.md): S10-US01–03, 6 SP committed + 3 SP stretch | Task navigation, reusable security search, coherent visual language, and security-specific Data & methods. | F05, F12, F14, F16–F19 | 9 | In progress |
 | 11 | [Unified investment simulator](sprint-11-investment-simulator.md): S11-US01–03, 7 SP committed + 2 SP stretch | One-time and regular investing share one setup, show an honest answer/chart, and explicitly hand off to comparison. | F03, F10, F12, F13, F16 | 10 | In progress |
-| 12 | [Fair investment comparisons](sprint-12-fair-comparisons.md): S12-US01–03, 6 SP committed + 3 SP stretch | Common windows are checked against actual resolved dates; partial results and mobile values remain honest. | F04, F06, F15 | 11 | Not started |
+| 12 | [Fair investment comparisons](sprint-12-fair-comparisons.md): S12-US01–03, 6 SP committed + 3 SP stretch | Common windows are checked against actual resolved dates; partial results and mobile values remain honest. | F04, F06, F15 | 7.5 operational recovery; 11 technical exits | Not started |
 | 13 | [Guided portfolio workflow](sprint-13-portfolio-workflow.md): S13-US01–03, 6 SP committed + 3 SP stretch | Users can add, edit, undo, import, and read a local ledger without losing existing data or seeing unsupported claims. | F11, F16 | 12 | Not started |
-| 14 | [Release validation and usability](sprint-14-release-and-usability.md): S14-US01–03, 6 SP committed + 3 SP stretch | Full calculation, responsive/accessibility, pack smoke, audit, and real-human usability evidence is recorded. | F01–F19 | 13 | Not started |
+| 14 | [Interface design overhaul](sprint-14-interface-design-overhaul.md): S14-US01–03, 6 SP committed + 3 SP stretch | Review and overhaul palette, typography, components and copy across all four workspaces, preserving structure and financial context. | Visual brief, F05/F06/F10/F12/F16–F19 | 13 | Not started |
+| 15 | [Release validation and usability](sprint-15-release-and-usability.md): S15-US01–03, 6 SP committed + 3 SP stretch | Full calculation, responsive/accessibility, pack smoke, audit, and task-based design evidence is recorded. | F01–F19 | 14 | Not started |
 
 Every sprint file owns its full task and exit checklist. The sprint-file gate
 wins over this summary or a Scrum event: a dependent sprint cannot start until
@@ -88,13 +89,13 @@ keeps old references traceable and prevents undocumented scope loss.
 | A4 equal-period checks and date disclosure | S12-US01 |
 | A5 FX direction and native currency | S9-US03 |
 | A6 contrast, mobile comparison labels, and chart meaning | S10-US03, S12-US02, S11-US02 respectively |
-| A7 deterministic browser regressions | Focused fixtures in S9–S13; complete journey matrix in S14-US01 |
+| A7 deterministic browser regressions | Focused fixtures in S9–S13; complete journey matrix in S15-US01 |
 | B1 wireframes and task flows | S10-US01 plus flow acceptance in S11–S13 |
 | B2 shared picker, coverage, assumptions, result, warning, and state components | S9-US03, S10-US02/03, S11-US01/02 |
 | B3 explicit Calculate/Update behavior | S9-US02 and S11-US01 |
 | B4 result states, focus, and announcements | S9-US02 and S11-US02 |
-| B5 visual tokens, responsive behavior, labels, chart units, and copy | S10-US03; chart specifics in S11-US02; checked in S14-US02 |
-| B6 URLs, legacy links, and snapshot semantics | S10-US01 and S14-US01 |
+| B5 visual tokens, responsive behavior, labels, chart units, and copy | S10-US03; chart specifics in S11-US02; checked in S15-US02 |
+| B6 URLs, legacy links, and snapshot semantics | S10-US01 and S15-US01 |
 | C1–C2 workspace destinations, navigation, and landing view | S10-US01 |
 | C3–C5 reusable search, progressive filters, recovery, identity, and pagination | S10-US02 |
 | C6 security-specific Data & methods | S10-US03 |
@@ -107,21 +108,34 @@ keeps old references traceable and prevents undocumented scope loss.
 | F1 saved-ledger restore and honest empty state | S13-US01 |
 | F2–F4 transaction form, labels, IDs, edit/delete/undo, import recovery | S13-US01/02 |
 | F5–F6 save/export, mobile ledger, valuation date, and errors | S13-US01/03 |
-| F7 portfolio transaction and persistence verification | S13-US01/02/03; end-to-end check in S14-US01 |
-| G1 deterministic browser journeys | S14-US01 |
-| G2 viewports, keyboard, zoom, contrast, labels, and motion | S14-US02 |
-| G3 unchanged suites and pack integrations | S14-US01 |
-| G4 read-only Tier-1/Tier-2 and failure checks | S14-US01 |
-| G5 exports, shares, request identity, and snapshot behavior | S14-US01 |
-| G6 unfamiliar-user sessions and measured targets | S14-US03 |
-| G7 evidence, docs, audit reconciliation, and exit gates | S14-US01/02/03 and sprint exit criteria |
+| F7 portfolio transaction and persistence verification | S13-US01/02/03; end-to-end check in S15-US01 |
+| G1 deterministic browser journeys | S15-US01 |
+| G2 viewports, keyboard, zoom, contrast, labels, and motion | S15-US02 |
+| G3 unchanged suites and pack integrations | S15-US01 |
+| G4 read-only Tier-1/Tier-2 and failure checks | S15-US01 |
+| G5 exports, shares, request identity, and snapshot behavior | S15-US01 |
+| G6 original participant-based evaluation | S15-US03 technical/design task review; participant gate removed by user on 18 October |
+| G7 evidence, docs, audit reconciliation, and exit gates | S15-US01/02/03 and sprint exit criteria |
 
 Audit-finding ownership is also explicit: F01/F02/F03/F07/F08/F09/F15 → Sprint
 9; F04/F06 → Sprint 12; F05/F12/F14/F16/F17/F18/F19 → Sprint 10 (contextual
 terminology is completed in Sprints 11 and 13); F10/F13 → Sprint 11; F11 →
-Sprint 13. Sprint 14 verifies every F01–F19 finding against evidence. A finding
+Sprint 13. Sprint 15 verifies every F01–F19 finding against evidence. A finding
 can be referenced by multiple tests, but its implementation home is the one
 listed here.
+
+## Interface design amendment — 18 October 2026
+
+The Product Owner rejects the current palette, redundant eyebrows, excessive
+interface text, and generic generated styling, while retaining the high-level
+workspace structure. New Sprint 14 owns a frontend-design-led review, concrete
+visual proposals, and the cohesive desktop/mobile overhaul. Select and record a
+reviewed direction before implementation. Existing S10 visual tokens are the
+current baseline, not a constraint on the new palette. Necessary financial
+labels, warnings, provenance, coverage, and current/previous states remain
+inspectable. The old validation/usability scope moves to Sprint 15; the user subsequently
+replaced its five-person gate with technical/design review on 18 October.
+Planning updates do not start implementation or waive earlier sprint gates.
 
 ## Roles and sequential ownership
 
@@ -174,18 +188,19 @@ A story is ready to enter a sprint only when all of the following hold:
 
 A story is done when its Given/When/Then behavior is demonstrated, its checklist
 is complete, and its stated evidence is recorded. A sprint is done only when
-all tasks and every exit criterion in its sprint file are checked, the human
-Product Owner has reviewed product evidence, and the coordinator has updated
-the roadmap status. Green tests alone do not establish accessibility,
+all tasks and every exit criterion in its sprint file are checked and the
+coordinator has updated the roadmap status. For Sprints 12–15 under the
+18 October authorization, these are technical/design/evidence/PR gates; human
+product acceptance is tracked separately and may remain pending. Earlier
+sprints retain their recorded human-review requirements except Sprint 12 may
+enter on Sprint 11 technical/design/PR completion after Sprint 7.5 recovery. Green tests alone do not establish accessibility,
 understandability, ledger safety, pack behavior, or human usability.
 
-For Sprint 14, usability evidence must come from five actual people unfamiliar
-with the product. Record observed completion, coaching, mistakes, comprehension,
-and time; preserve participant privacy. Do not invent participants, timings,
-quotes, or successful outcomes. If participants cannot be recruited, sessions
-cannot be run, or the audit's proposed targets are missed, keep Sprint 14 in
-progress and record a recovery/retest plan. The root agent cannot accept the
-product on behalf of the human Product Owner.
+User decision, 18 October 2026: Sprint 15 no longer requires five unfamiliar
+participants or participant-based timing/completion targets. Replace that gate
+with the recorded technical/design task review, actual viewport captures and
+repair/retest evidence in S15-US03. Do not claim human comprehension or usability
+research from agent inspection. Product Owner acceptance remains separate.
 
 ## Sprint events and timeboxes
 
@@ -235,7 +250,7 @@ Contract/scope change, if any, and recorded decision:
   would depend on live network data in the normal deterministic suite.
 - Work requires a change to engine calculations, decimal behavior, methodology,
   result envelopes, or worker protocol outside this redesign scope.
-- Sprint 14 has no actual participant evidence or has unmet usability targets.
+- Sprint 15 has missing technical/design task evidence or unresolved release blockers.
 - A timebox expires with any required task or exit criterion open.
 
 When a stop condition occurs, record the specific blocker in the active sprint
@@ -265,3 +280,37 @@ tracked separately. No later sprint, merge, or deployment is authorized here.
 Sprint 11 planning re-estimate: US01 5 SP, US02 2 SP, US03 2 SP; 7 SP committed
 plus 2 SP stretch/review headroom. Both S10 and S11 technical work is complete,
 with product review pending. This does not authorize Sprint 12 or deployment.
+
+
+## Unattended preflight decisions — 18 October 2026
+
+User requires resolving Sprint 7.5 before interface implementation. Early
+Sprint 14 design proposals may be shown now, as expressly requested, without
+production changes or checked entry gates. Each Sprint 12–15 needs a separate
+reviewable PR. Do not merge/deploy these PRs without further authorization.
+Human-review deferral was unresolved at this preflight; the later technical
+progression authorization below records the Product Owner’s decision.
+
+
+18 October 2026 follow-up: Product Owner finds the early designs acceptable and
+sound; slightly muted color is not a blocker. Proceed with technical recovery
+first and use recommended Research as the working visual direction. Integrated
+product/PR acceptance remains pending; no sprint is marked complete from this.
+
+
+## Technical progression authorization — 18 October 2026
+
+Product Owner decision: **Keep PR #5 open for review.** Do not merge or deploy
+it. After Sprint 7.5 is operationally verified, **proceed with Sprints 12–15 on
+verified technical checks; keep human acceptance pending** in each separate PR.
+This supersedes the earlier unresolved human-review-deferral notes only.
+
+For Sprints 12–15, completion and progression require all implementation,
+technical/design verification, viewport evidence, separate self-review, and
+sprint-PR exit criteria. Human product/release acceptance is tracked in a
+separate section, remains pending until actually given, and does not block the
+next sprint. Sprint 12 checks Sprint 11's technical/design/PR exits rather than
+its pending human acceptance. This does not waive Sprint 7.5 operational
+verification, any technical dependency, the selected-design decision, or merge
+and deployment authorization. Research is the explicitly selected direction.
+No entry, task, exit, or acceptance checkbox is completed by this amendment.

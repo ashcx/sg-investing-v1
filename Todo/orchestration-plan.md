@@ -8,7 +8,7 @@ execution instructions. Sprint files remain authoritative for entry/exit gates.
 ## Sprint order
 
 ```text
-0 → 1 → 2 → 3 → 4 → 5 → 6 → 7 → 7.5 → 8 → 9 → 10 → 11 → 12 → 13 → 14
+0 → 1 → 2 → 3 → 4 → 5 → 6 → 7 → 7.5 → 8 → 9 → 10 → 11 → 12 → 13 → 14 → 15
 ```
 
 Select the lowest-numbered incomplete sprint. Verify its depended-on exits,
@@ -89,7 +89,7 @@ before the final suite and browser checks.
   dependent fixture/test work. Then finish S9-US01 regressions, S9-US02, and
   S9-US03 in order. A failed gate blocks downstream work.
 
-## Redesign sequence, Sprints 9–14
+## Redesign sequence, Sprints 9–15
 
 The [Scrum plan](redesign-scrum-plan.md) defines events, capacity, and acceptance.
 Within each sprint, finish US01 → US02 → US03 in order, including verification
@@ -106,6 +106,14 @@ Product Owner decision, 15 October 2026: S9-US02 adopts explicit Calculate/Updat
 and labels edited outputs previous until recalculated, superseding Sprint 7.5's
 automatic financial recalculation. Series/data loading may remain automatic.
 
+Sprint 14 uses the frontend-design skill for an interface audit, concrete visual
+direction proposals, and a separately reviewed implementation. Preserve the four
+workspaces and existing behavior. Record the Product Owner’s selected direction
+before visual implementation; do not invent acceptance. Sprint 15 retains the
+former Sprint 14 validation backlog, with its five-person gate replaced by
+technical/design verification under the explicit 18 October user decision.
+This 18 October planning amendment does not start either sprint.
+
 ## Recording and review
 
 After each task, update its checkbox only when supported by evidence. Record in
@@ -113,6 +121,16 @@ the owning sprint file: task ID, status, changed files, checks and exact results
 evidence paths, self-review findings, blockers, and next action. Supporting
 redesign artifacts belong under `docs/ux-redesign-evidence/sprint-N/`.
 The main instance reviews its own work in a separate step and identifies it as
-self-review. Human product/release acceptance and actual participant evidence
-remain required where specified. Update `TODO.md` only when sprint status changes.
+self-review. Human product/release acceptance remains required where specified; Sprint 15
+uses technical/design task evidence under the 18 October amendment. Update `TODO.md` only when sprint status changes.
 Planning amendments do not mark implementation tasks complete or start S9.
+
+
+## Technical progression authorization — 18 October 2026
+
+After Sprint 7.5 operational recovery, Sprints 12–15 may proceed sequentially
+on verified technical/design/evidence/PR exits. Track human acceptance separately
+as pending; it does not block progression. Sprint 12 may enter on Sprint 11
+technical/design/PR exits despite its pending human acceptance. All other gates
+remain. Keep PR #5 open for review; merge and deployment are not authorized.
+The sprint files and redesign Scrum plan record this explicit user amendment.

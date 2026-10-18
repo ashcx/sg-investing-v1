@@ -7,7 +7,7 @@ no-build static frontend (`frontend/`) deployed to GitHub Pages. Read
 ## Todo system (mandatory)
 
 All roadmap work is tracked in `TODO.md` (the roadmap) and the `Todo/` folder
-(one file per sprint: `sprint-0-*.md` … `sprint-14-*.md`, including `sprint-7.5-*`). Any agent asked to
+(one file per sprint: `sprint-0-*.md` … `sprint-15-*.md`, including `sprint-7.5-*`). Any agent asked to
 continue, pick up, or check project work MUST use this system:
 
 - **Roadmap**: `TODO.md` holds the sprint table with statuses and the final
@@ -29,7 +29,7 @@ continue, pick up, or check project work MUST use this system:
   (7 → 7.5 → 8). All work runs sequentially in the main instance; do not
   spawn child agents or delegate implementation, tests, reviews, or documentation.
   Sprint 6 requires 4 and 5; Sprint 7 requires 4, 5, 6.
-- **Redesign sequence**: Sprints 9–14 run sequentially after 7, 7.5, and 8.
+- **Redesign sequence**: Sprints 9–15 run sequentially after 7, 7.5, and 8.
   `Todo/redesign-scrum-plan.md` defines single-owner work, review, evidence,
   and Scrum events. The main instance owns all files and performs a separate
   self-review after implementation. Human product acceptance remains separate.
@@ -59,3 +59,13 @@ the depended-on sprint files, then work its Tasks list.
   (Todo sprints 2–3) define how.
 - Preserve result-envelope contracts and provenance/warning behavior in every
   change to `src/sg_investing/` or `frontend/`.
+
+
+## Technical progression authorization — 18 October 2026
+
+After Sprint 7.5 operational recovery, Sprints 12–15 may proceed sequentially
+on verified technical/design/evidence/PR exits. Track human acceptance separately
+as pending; it does not block progression. Sprint 12 may enter on Sprint 11
+technical/design/PR exits despite its pending human acceptance. All other gates
+remain. Keep PR #5 open for review; merge and deployment are not authorized.
+The sprint files and redesign Scrum plan record this explicit user amendment.

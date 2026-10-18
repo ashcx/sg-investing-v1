@@ -11,12 +11,17 @@ Status: **Not started**.
 
 ## Entry criteria
 
-- [ ] Every Sprint 11 exit criterion is checked, including the unified
-      simulator, accurate price chart, and isolated setup handoff.
+- [ ] Sprint 7.5 operational recovery is verified against its actual exit
+      evidence, including scheduled successes and publication checks. PR #5
+      stays open for review until the Product Owner authorizes its merge.
+- [ ] Every Sprint 11 technical/design/PR exit criterion is checked, including
+      the unified simulator, accurate price chart, and isolated setup handoff.
+      Its pending human acceptance does not block this authorized progression.
 
 ## Depends on
 
-Sprint 11 only. Portfolio work in Sprint 13 follows this complete comparison
+Sprint 7.5 operational recovery and Sprint 11 technical/design/PR completion.
+Portfolio work in Sprint 13 follows this technically complete comparison
 increment; all tasks remain sequential in the main instance.
 
 ## Tasks
@@ -82,9 +87,6 @@ order, including checks and recorded self-review before advancing.
 
 ## Exit criteria
 
-- [ ] Human Product Owner reviews the sprint outcome and evidence; record
-      actual acceptance or requested changes before starting the next sprint.
-
 - [ ] Inspect the actual locally served webpage design after this sprint at
       desktop and mobile widths; record captures, changed-state checks, and
       findings under `docs/ux-redesign-evidence/sprint-12/`.
@@ -103,6 +105,16 @@ order, including checks and recorded self-review before advancing.
       result; valid alternatives remain understandable after partial failure.
 - [ ] Sprint evidence is recorded under `docs/ux-redesign-evidence/sprint-12/`;
       every story acceptance condition and evidence item is satisfied.
+
+## Human product acceptance
+
+- [ ] Product Owner reviews the sprint evidence and records actual acceptance
+      or requested changes in this sprint log and its PR.
+
+**Pending.** Under the 18 October 2026 authorization, this remains separate from
+technical completion and does not block the next sprint after technical exits
+pass. Agent verification never establishes human acceptance or authorizes a
+merge/deployment. Final release acceptance remains with the Product Owner.
 
 ## Scrum details
 
@@ -137,3 +149,19 @@ no implementation evidence or completed task is claimed by this amendment.
 For each task, record date/ID, status, changed files, checks and exact results,
 evidence paths, separate self-review findings, blockers, and next sequential
 action here before proceeding. Human acceptance is recorded only when given.
+
+
+18 October 2026 — Product Owner authorized sequential Sprints 12–15 on verified
+technical/design/evidence/PR exits after Sprint 7.5 operational recovery, with
+human acceptance pending separately in each PR. Entry/exit and human-review
+sections above implement that scope amendment; no checkbox is completed by it.
+PR #5 must stay open for review; merge/deployment remain unauthorized. Research
+is the explicitly selected design. See the Scrum plan's matching authorization.
+
+
+Planning verification, 18 October 2026: eight amended planning files checked;
+58 local Markdown links resolve. Sprints 12–15 retain required sections,
+Not started status and unchecked implementation gates; human acceptance is
+separate and pending. Sprint 7.5 operational prerequisite and separate PRs are
+preserved. Whitespace checks pass. Separate self-review confirms planning-only
+changes; no runtime or financial code changed, so runtime tests were not repeated.

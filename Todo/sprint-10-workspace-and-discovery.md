@@ -98,7 +98,7 @@ order, including checks and recorded self-review before advancing.
           Dividend details, and CCY/WAC to Currency/Average cost; Sprints 11 and
           13 explain XIRR and average cost in context.
     - [x] Check visible focus, reduced motion, text sizing, and labels at the
-          widths in the UX audit; record any limitation for Sprint 14.
+          widths in the UX audit; record any limitation for Sprint 15.
   - **Evidence:** token/glossary specification, contrast measurements, and
     browser captures of forms and security-specific Data & methods content.
 
