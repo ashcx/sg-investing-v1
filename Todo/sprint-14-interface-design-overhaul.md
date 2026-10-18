@@ -20,7 +20,7 @@ it does not authorize skipping earlier sprint gates or claim a completed review.
 
 ## Entry criteria
 
-- [ ] Every Sprint 13 exit criterion is checked, including human review,
+- [ ] Every Sprint 13 technical exit criterion is checked, including
       ledger compatibility, transaction controls, mobile readability, evidence,
       and the sprint PR. Verify the actual file and depended-on exits.
 - [ ] The integrated Sprints 10–13 candidate and its retained desktop/mobile
@@ -122,15 +122,14 @@ task, checks, evidence, and separate self-review before advancing.
           Python, parity and worker checks. Change presentation expectations
           only where intended; preserve request/result identity, warnings,
           financial outputs and ledger data. Full release matrix stays in S15.
-    - [ ] Present the integrated desktop/mobile outcome for human product review;
-          record actual acceptance or revisions, remaining gaps and PR URL.
+    - [ ] Publish the integrated desktop/mobile evidence in the sprint PR for
+          human product review; record its pending or actual review status,
+          remaining gaps and PR URL. A human response is not a technical gate.
   - **Evidence:** viewport/state matrix, before/after images, checks and exact
-    results, critique/repair log, and actual human review outcome.
+    results, critique/repair log, and explicitly recorded human review status.
 
 ## Exit criteria
 
-- [ ] Human Product Owner reviews the outcome and evidence and accepts it or
-      requests changes; record acceptance before progressing to Sprint 15.
 - [ ] The reviewed visual direction and its palette/type/layout tokens are
       documented; the direction is implemented across all four workspaces.
 - [ ] Redundant eyebrows and decorative/repeated UI text are removed; necessary
@@ -146,6 +145,16 @@ task, checks, evidence, and separate self-review before advancing.
       `docs/ux-redesign-evidence/sprint-14/`; no review or evidence is invented.
 - [ ] Open a sprint PR in `ashcx/sg-investing-v1` with plan, changes, checks,
       evidence and remaining gaps; record its URL. A PR is not a deployment.
+
+## Human product acceptance
+
+- [ ] Product Owner reviews the sprint evidence and records actual acceptance
+      or requested changes in this sprint log and its PR.
+
+**Pending.** Under the 18 October 2026 authorization, this remains separate from
+technical completion and does not block the next sprint after technical exits
+pass. Agent verification never establishes human acceptance or authorizes a
+merge/deployment. Final release acceptance remains with the Product Owner.
 
 ## Out of scope
 
@@ -232,3 +241,11 @@ are still outstanding.
 proposal carousel. This confirms the working visual direction; slightly muted
 colour remains a refinement. Technical Sprint 7.5 recovery still precedes
 interface work, and this selection does not accept an unseen implementation.
+
+
+18 October 2026 — Product Owner authorized sequential Sprints 12–15 on verified
+technical/design/evidence/PR exits after Sprint 7.5 operational recovery, with
+human acceptance pending separately in each PR. Entry/exit and human-review
+sections above implement that scope amendment; no checkbox is completed by it.
+PR #5 must stay open for review; merge/deployment remain unauthorized. Research
+is the explicitly selected design. See the Scrum plan's matching authorization.

@@ -59,3 +59,13 @@ the depended-on sprint files, then work its Tasks list.
   (Todo sprints 2–3) define how.
 - Preserve result-envelope contracts and provenance/warning behavior in every
   change to `src/sg_investing/` or `frontend/`.
+
+
+## Technical progression authorization — 18 October 2026
+
+After Sprint 7.5 operational recovery, Sprints 12–15 may proceed sequentially
+on verified technical/design/evidence/PR exits. Track human acceptance separately
+as pending; it does not block progression. Sprint 12 may enter on Sprint 11
+technical/design/PR exits despite its pending human acceptance. All other gates
+remain. Keep PR #5 open for review; merge and deployment are not authorized.
+The sprint files and redesign Scrum plan record this explicit user amendment.

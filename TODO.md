@@ -37,7 +37,9 @@ folder. Agents and humans must follow these rules:
 7. **Final acceptance** is the "Done when" section at the bottom of this file.
    Preserve the core-roadmap checks from Sprint 7 onward. The redesign is
    accepted only after Sprint 15 and all of its predecessor exit gates are met;
-   core-engine completion alone does not complete the redesign.
+   core-engine completion alone does not complete the redesign. Under the
+   18 October authorization, Sprints 12–15 use technical exit gates with human
+   product acceptance recorded separately as pending until actually given.
 8. **Task-level sequencing** (task order, contract freezes, and recorded
    verification) is coordinated in
    [Todo/orchestration-plan.md](Todo/orchestration-plan.md). That plan never
@@ -62,7 +64,7 @@ folder. Agents and humans must follow these rules:
 | 9 — Result trust and shared contracts | [Todo/sprint-9-user-experience-redesign.md](Todo/sprint-9-user-experience-redesign.md) | Reliable request/result ownership and regression protection | 7, 7.5, 8 | Complete |
 | 10 — Workspace and discovery | [Todo/sprint-10-workspace-and-discovery.md](Todo/sprint-10-workspace-and-discovery.md) | Clear navigation, reusable search and coverage preview | 9 | In progress |
 | 11 — Investment simulator | [Todo/sprint-11-investment-simulator.md](Todo/sprint-11-investment-simulator.md) | One-time investing and optional initial lump sum + DCA in one coherent simulator | 10 | In progress |
-| 12 — Fair comparisons | [Todo/sprint-12-fair-comparisons.md](Todo/sprint-12-fair-comparisons.md) | Common-period handling and labeled responsive comparisons | 11 | Not started |
+| 12 — Fair comparisons | [Todo/sprint-12-fair-comparisons.md](Todo/sprint-12-fair-comparisons.md) | Common-period handling and labeled responsive comparisons | 7.5 operational recovery; 11 technical exits | Not started |
 | 13 — Portfolio workflow | [Todo/sprint-13-portfolio-workflow.md](Todo/sprint-13-portfolio-workflow.md) | Guided transaction editing and safe existing-ledger preservation | 12 | Not started |
 | 14 — Interface design overhaul | [Todo/sprint-14-interface-design-overhaul.md](Todo/sprint-14-interface-design-overhaul.md) | Professional visual identity, restrained copy, and cohesive desktop/mobile design using frontend-design | 13 | Not started |
 | 15 — Release and usability | [Todo/sprint-15-release-and-usability.md](Todo/sprint-15-release-and-usability.md) | Verified journeys, accessibility, usability and release evidence | 14 | Not started |
@@ -119,3 +121,21 @@ Sequencing notes:
       chart, date, warning, and export identifies the request it represents.
 - [ ] Sprint 15's technical/design task review and repair/retest evidence are
       complete; agent review is not represented as human usability research.
+
+
+## Technical progression authorization — 18 October 2026
+
+Product Owner decision: **Keep PR #5 open for review.** Do not merge or deploy
+it. After Sprint 7.5 is operationally verified, **proceed with Sprints 12–15 on
+verified technical checks; keep human acceptance pending** in each separate PR.
+This supersedes the earlier unresolved human-review-deferral notes only.
+
+For Sprints 12–15, completion and progression require all implementation,
+technical/design verification, viewport evidence, separate self-review, and
+sprint-PR exit criteria. Human product/release acceptance is tracked in a
+separate section, remains pending until actually given, and does not block the
+next sprint. Sprint 12 checks Sprint 11's technical/design/PR exits rather than
+its pending human acceptance. This does not waive Sprint 7.5 operational
+verification, any technical dependency, the selected-design decision, or merge
+and deployment authorization. Research is the explicitly selected direction.
+No entry, task, exit, or acceptance checkbox is completed by this amendment.

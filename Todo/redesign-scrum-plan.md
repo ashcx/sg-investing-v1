@@ -64,7 +64,7 @@ scheduling may need additional timeboxes.
 | 9 | [Result trust and shared result contracts](sprint-9-user-experience-redesign.md): S9-US01–03, 6 SP committed + 3 SP stretch | Results, charts, warnings, and exports stay with the request that produced them; current, pending, previous, coverage, and currency states are clear. | F01–F03, F07–F09, F15 | 7, 7.5, 8 | Complete |
 | 10 | [Workspace and security discovery](sprint-10-workspace-and-discovery.md): S10-US01–03, 6 SP committed + 3 SP stretch | Task navigation, reusable security search, coherent visual language, and security-specific Data & methods. | F05, F12, F14, F16–F19 | 9 | In progress |
 | 11 | [Unified investment simulator](sprint-11-investment-simulator.md): S11-US01–03, 7 SP committed + 2 SP stretch | One-time and regular investing share one setup, show an honest answer/chart, and explicitly hand off to comparison. | F03, F10, F12, F13, F16 | 10 | In progress |
-| 12 | [Fair investment comparisons](sprint-12-fair-comparisons.md): S12-US01–03, 6 SP committed + 3 SP stretch | Common windows are checked against actual resolved dates; partial results and mobile values remain honest. | F04, F06, F15 | 11 | Not started |
+| 12 | [Fair investment comparisons](sprint-12-fair-comparisons.md): S12-US01–03, 6 SP committed + 3 SP stretch | Common windows are checked against actual resolved dates; partial results and mobile values remain honest. | F04, F06, F15 | 7.5 operational recovery; 11 technical exits | Not started |
 | 13 | [Guided portfolio workflow](sprint-13-portfolio-workflow.md): S13-US01–03, 6 SP committed + 3 SP stretch | Users can add, edit, undo, import, and read a local ledger without losing existing data or seeing unsupported claims. | F11, F16 | 12 | Not started |
 | 14 | [Interface design overhaul](sprint-14-interface-design-overhaul.md): S14-US01–03, 6 SP committed + 3 SP stretch | Review and overhaul palette, typography, components and copy across all four workspaces, preserving structure and financial context. | Visual brief, F05/F06/F10/F12/F16–F19 | 13 | Not started |
 | 15 | [Release validation and usability](sprint-15-release-and-usability.md): S15-US01–03, 6 SP committed + 3 SP stretch | Full calculation, responsive/accessibility, pack smoke, audit, and task-based design evidence is recorded. | F01–F19 | 14 | Not started |
@@ -188,9 +188,12 @@ A story is ready to enter a sprint only when all of the following hold:
 
 A story is done when its Given/When/Then behavior is demonstrated, its checklist
 is complete, and its stated evidence is recorded. A sprint is done only when
-all tasks and every exit criterion in its sprint file are checked, the human
-Product Owner has reviewed product evidence, and the coordinator has updated
-the roadmap status. Green tests alone do not establish accessibility,
+all tasks and every exit criterion in its sprint file are checked and the
+coordinator has updated the roadmap status. For Sprints 12–15 under the
+18 October authorization, these are technical/design/evidence/PR gates; human
+product acceptance is tracked separately and may remain pending. Earlier
+sprints retain their recorded human-review requirements except Sprint 12 may
+enter on Sprint 11 technical/design/PR completion after Sprint 7.5 recovery. Green tests alone do not establish accessibility,
 understandability, ledger safety, pack behavior, or human usability.
 
 User decision, 18 October 2026: Sprint 15 no longer requires five unfamiliar
@@ -285,10 +288,29 @@ User requires resolving Sprint 7.5 before interface implementation. Early
 Sprint 14 design proposals may be shown now, as expressly requested, without
 production changes or checked entry gates. Each Sprint 12–15 needs a separate
 reviewable PR. Do not merge/deploy these PRs without further authorization.
-Human-review deferral remains unresolved. Subsequent design feedback is recorded below.
+Human-review deferral was unresolved at this preflight; the later technical
+progression authorization below records the Product Owner’s decision.
 
 
 18 October 2026 follow-up: Product Owner finds the early designs acceptable and
 sound; slightly muted color is not a blocker. Proceed with technical recovery
 first and use recommended Research as the working visual direction. Integrated
 product/PR acceptance remains pending; no sprint is marked complete from this.
+
+
+## Technical progression authorization — 18 October 2026
+
+Product Owner decision: **Keep PR #5 open for review.** Do not merge or deploy
+it. After Sprint 7.5 is operationally verified, **proceed with Sprints 12–15 on
+verified technical checks; keep human acceptance pending** in each separate PR.
+This supersedes the earlier unresolved human-review-deferral notes only.
+
+For Sprints 12–15, completion and progression require all implementation,
+technical/design verification, viewport evidence, separate self-review, and
+sprint-PR exit criteria. Human product/release acceptance is tracked in a
+separate section, remains pending until actually given, and does not block the
+next sprint. Sprint 12 checks Sprint 11's technical/design/PR exits rather than
+its pending human acceptance. This does not waive Sprint 7.5 operational
+verification, any technical dependency, the selected-design decision, or merge
+and deployment authorization. Research is the explicitly selected direction.
+No entry, task, exit, or acceptance checkbox is completed by this amendment.

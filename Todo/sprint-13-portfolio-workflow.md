@@ -11,7 +11,7 @@ Status: **Not started**.
 
 ## Entry criteria
 
-- [ ] Every Sprint 12 exit criterion is checked, including honest comparison
+- [ ] Every Sprint 12 technical exit criterion is checked, including honest comparison
       periods, labeled mobile metrics, partial-failure states, and retained
       request identity.
 
@@ -85,9 +85,6 @@ order, including checks and recorded self-review before advancing.
 
 ## Exit criteria
 
-- [ ] Human Product Owner reviews the sprint outcome and evidence; record
-      actual acceptance or requested changes before starting the next sprint.
-
 - [ ] Inspect the actual locally served webpage design after this sprint at
       desktop and mobile widths; record captures, changed-state checks, and
       findings under `docs/ux-redesign-evidence/sprint-13/`.
@@ -106,6 +103,16 @@ order, including checks and recorded self-review before advancing.
       with type, and errors identify the affected transaction.
 - [ ] Sprint evidence is recorded under `docs/ux-redesign-evidence/sprint-13/`;
       every story acceptance condition and evidence item is satisfied.
+
+## Human product acceptance
+
+- [ ] Product Owner reviews the sprint evidence and records actual acceptance
+      or requested changes in this sprint log and its PR.
+
+**Pending.** Under the 18 October 2026 authorization, this remains separate from
+technical completion and does not block the next sprint after technical exits
+pass. Agent verification never establishes human acceptance or authorizes a
+merge/deployment. Final release acceptance remains with the Product Owner.
 
 ## Scrum details
 
@@ -142,3 +149,11 @@ no implementation evidence or completed task is claimed by this amendment.
 For each task, record date/ID, status, changed files, checks and exact results,
 evidence paths, separate self-review findings, blockers, and next sequential
 action here before proceeding. Human acceptance is recorded only when given.
+
+
+18 October 2026 — Product Owner authorized sequential Sprints 12–15 on verified
+technical/design/evidence/PR exits after Sprint 7.5 operational recovery, with
+human acceptance pending separately in each PR. Entry/exit and human-review
+sections above implement that scope amendment; no checkbox is completed by it.
+PR #5 must stay open for review; merge/deployment remain unauthorized. Research
+is the explicitly selected design. See the Scrum plan's matching authorization.

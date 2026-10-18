@@ -124,3 +124,13 @@ The main instance reviews its own work in a separate step and identifies it as
 self-review. Human product/release acceptance remains required where specified; Sprint 15
 uses technical/design task evidence under the 18 October amendment. Update `TODO.md` only when sprint status changes.
 Planning amendments do not mark implementation tasks complete or start S9.
+
+
+## Technical progression authorization — 18 October 2026
+
+After Sprint 7.5 operational recovery, Sprints 12–15 may proceed sequentially
+on verified technical/design/evidence/PR exits. Track human acceptance separately
+as pending; it does not block progression. Sprint 12 may enter on Sprint 11
+technical/design/PR exits despite its pending human acceptance. All other gates
+remain. Keep PR #5 open for review; merge and deployment are not authorized.
+The sprint files and redesign Scrum plan record this explicit user amendment.
