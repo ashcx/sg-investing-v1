@@ -176,7 +176,7 @@ Before/after price comparisons project only incoming security/date keys, one
 market/year at a time. Unrelated history is not materialized into Python maps.
 Existing canonical atomic validation/upsert semantics remain authoritative.
 
-The live guard serializes and paces all datasets (0.15 seconds minimum between
+The live guard serializes and paces all datasets (0.3 seconds minimum between
 starts), retries transient failures at most twice with 1/2-second backoff, and
 stops new traffic after a rate-limit response or a 20,000-query/40-minute budget.
 The per-query history timeout is 20 seconds. The budgets bound application calls;
@@ -234,3 +234,12 @@ that their old year-pack URLs no longer resolve (accounting for CDN caches).
 The existing R2 `rclone sync` mirrors the rebuilt full set and deletes absent
 objects; do not replace it with a copy-only upload. Canonical application,
 publication and actual scheduled-success evidence remain separate gates.
+
+
+### Shared live history responses (R7 candidate)
+
+The incremental live provider plans each listing's own minimum required price/dividend/action start, using the same dividend coverage and action-checkpoint rules as the individual queries. It fetches one explicitly bounded actions-enabled history and filters each dataset to its original window. This replaces repeated history calls, not financial calculations. The run-scoped cache contains only event columns and observed dates (plus explicit event currency), is capped at 512 MiB, and is released after action consumption. Empty requested windows remain unavailable; absent event columns remain errors. No stale or unobserved data is fabricated.
+
+`provider_telemetry.requests` counts uncached provider calls; `cached_responses` counts reused responses. yfinance can make additional HTTP calls internally. `event_cache` reports current/peak/limit payload bytes. Cache hits do not consume the traffic budget or pacing delay. Uncached calls have a 0.3-second minimum interval. Existing request, 40-minute provider and 55-minute workflow bounds remain. Full-refresh callers are unchanged.
+
+Dry-run `provider_history_fetch_start` shows the actual shared request start. Existing `price_fetch_start` and full-history price-backfill counts continue to describe the price filter, which can be narrower because historical event evidence is required. No listing inherits another listing's date window.

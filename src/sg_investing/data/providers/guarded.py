@@ -21,7 +21,7 @@ class GuardedProvider:
     Tests can inject clock/sleep functions without real delays or network access.
     """
 
-    def __init__(self, provider, *, interval=0.15, retries=2, backoff=1.0,
+    def __init__(self, provider, *, interval=0.3, retries=2, backoff=1.0,
                  max_requests=20000, max_seconds=2400, clock=time.monotonic, sleep=time.sleep):
         self.provider = provider
         self.name = provider.name
@@ -36,6 +36,7 @@ class GuardedProvider:
         self.last_started = self.started - interval
         self.requests = 0
         self.retry_count = 0
+        self.cached_responses = 0
         self.circuit_reason = None
         self.rate_limit_cause = None
         self.lock = Lock()
@@ -47,6 +48,10 @@ class GuardedProvider:
             with self.lock:
                 if self.circuit_reason:
                     raise ProviderCircuitOpen(self.circuit_reason)
+                cache_check = getattr(self.provider, "can_serve_cached", None)
+                if cache_check is not None and cache_check(method, *args):
+                    self.cached_responses += 1
+                    return getattr(self.provider, method)(*args)
                 if self.requests >= self.max_requests or self.clock() - self.started >= self.max_seconds:
                     self.circuit_reason = "Provider request/time budget exhausted; run is incomplete."
                     raise ProviderCircuitOpen(self.circuit_reason)
@@ -63,6 +68,9 @@ class GuardedProvider:
                 except Exception as error:
                     if isinstance(error, ProviderHistoryUnavailable):
                         raise
+                    if isinstance(error, MemoryError):
+                        self.circuit_reason = "Provider memory budget exhausted; remaining queries were not sent."
+                        raise ProviderCircuitOpen(self.circuit_reason) from error
                     text = f"{type(error).__name__}: {error}".lower()
                     status = getattr(getattr(error, "response", None), "status_code", None)
                     rate_limited = (
@@ -106,6 +114,9 @@ class GuardedProvider:
         return self._call("get_fx_rates", *args)
 
     def telemetry(self):
+        cache_metrics = getattr(self.provider, "cache_metrics", None)
         return {"requests": self.requests, "retries": self.retry_count,
+                "cached_responses": self.cached_responses,
+                "event_cache": cache_metrics() if cache_metrics is not None else None,
                 "circuit_reason": self.circuit_reason, "rate_limit_cause": self.rate_limit_cause,
                 "elapsed_seconds": round(self.clock() - self.started, 3)}

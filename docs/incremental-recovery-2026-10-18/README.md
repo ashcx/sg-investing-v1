@@ -37,7 +37,7 @@ prerequisite to the separate Sprint 12–15 PRs.
 
 | Check | Result | Record |
 | --- | --- | --- |
-| Python normal suite | 265 passed, 8 opt-in smoke deselected | [pytest.txt](pytest.txt) |
+| Python normal suite | 277 passed, 8 opt-in smoke deselected | [pytest.txt](pytest.txt) |
 | Ruff, changed Python | Passed | [ruff.txt](ruff.txt) |
 | Engine | 68/68 | [engine-selftest.txt](engine-selftest.txt) |
 | Golden parity | 27/27 | [parity.txt](parity.txt) |
@@ -173,3 +173,10 @@ scoped selection/build separately, without claiming a new live fetch run.
 The [GitHub canary](https://github.com/ashcx/sg-investing-v1/actions/runs/39094143813) passed every stage; both uploaded artifact digests were verified, and applying its actual update archive reproduced the producer's canonical chain hash. The [full GitHub run](https://github.com/ashcx/sg-investing-v1/actions/runs/39094315718) then failed after 414.375s, peak RSS 2,254.27 MiB and 2,384 guarded calls. The first circuit outcome was GRPN. The original exception was not retained; no exact provider quota or false classification is established. A local isolated GRPN query succeeds. No validated full-run artifact or deployment was produced.
 
 The guard now retains exact exception/call context and rejects arbitrary numeric 429 substring matches. Actual HTTP status, vendor type and explicit rate-limit messages still stop traffic. Full suite: 265 passed, 8 smoke deselected. This diagnostic repair alone does not solve cloud throughput. Next: bounded response reuse across each listing's own price/dividend/action windows, preserving individual windows and unknown-data semantics, then actual full-run verification. The [documented yfinance cache](https://ranaroussi.github.io/yfinance/advanced/caching.html) covers timezones and cookies; it is not evidence that these history calls are reused. No quota, new source or provider-identity rotation is assumed.
+
+
+### R7 shared-response candidate
+
+Implemented per-listing union-window planning using the existing dividend cursor and action checkpoints. Price, dividend and action results still use their original independent date filters. Only deep-copied event columns/index and explicit event currency are retained, under a 512 MiB event-payload cap; cache entries are released after action consumption. Typed absence is reused without turning missing observations into zero events. Transient failures are not cached. Uncovered windows make a fresh bounded call. Cache reads consume neither an uncached-call count nor pacing delay; uncached calls are paced at 0.3 seconds. Existing 40-minute provider and 55-minute workflow limits remain.
+
+Candidate verification: 277 normal tests passed, 8 smoke deselected; Ruff passed. The live QQQ/GRPN/ES3.SI/40F.SI canary passed: five uncached calls including FX, eight cache hits, zero retries/circuit, 364,488-byte event-cache peak and zero retained bytes afterwards. Twelve separate live dataset comparisons matched independent requests across all non-creation-timestamp model fields. [Canary](shared-history-live-canary-summary.json), [equivalence](shared-history-live-equivalence.json). This does not claim a successful full cloud run; branch canary/full verification is next. PR #5 stays draft.

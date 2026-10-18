@@ -1,0 +1,150 @@
+{
+  "mode": "incremental",
+  "generated_at": "2026-10-18T04:13:14+00:00",
+  "since": "auto",
+  "end_date": "2026-10-18",
+  "reconciliation_days": 45,
+  "pipeline_version": "0.1.0",
+  "provider": "yahoo_finance",
+  "provider_telemetry": {
+    "requests": 5,
+    "retries": 0,
+    "cached_responses": 8,
+    "event_cache": {
+      "bytes": 0,
+      "peak_bytes": 364488,
+      "limit_bytes": 536870912
+    },
+    "circuit_reason": null,
+    "rate_limit_cause": null,
+    "elapsed_seconds": 7.73
+  },
+  "skipped_datasets": [],
+  "securities_selected_count": 4,
+  "full_history_fetch_securities": [],
+  "base_data_snapshot_id": "sha256-4f82eff4c05d97596e06fd9734051f4ff3b88bf08eec1a7828c6c94cee8a0856",
+  "data_snapshot_id": "sha256-8c71e6ff419b7787516467589a55f31759fa30c27d7690d4d15d28a80fa32f27",
+  "store_content_hash_unchanged": false,
+  "incremental_snapshot_id": "incr-60425f0cf51055c97fcff589198c6eba",
+  "price_rows_fetched": 207,
+  "price_batch_size_limit": 32,
+  "max_price_comparison_keys": 138,
+  "price_dates_new": 106,
+  "price_dates_restated": 0,
+  "dividend_events_new_or_restated": 1,
+  "dividend_events_restated": 0,
+  "corporate_actions_new_or_restated": 1,
+  "corporate_actions_restated": 0,
+  "corporate_action_errors": {
+    "006cd935-08f2-576c-8220-137c5c83f531": "Provider has no observations in the requested window: $40F.SI: No data found, symbol may be delisted"
+  },
+  "fx_rows_new_or_restated": 36,
+  "fx_rows_restated": 0,
+  "fx_fetch_errors": {},
+  "updated": 3,
+  "warnings": 1,
+  "failed": 0,
+  "dividend_coverage_warnings": [
+    "Dividend provider errors increased from 4 to 5."
+  ],
+  "dividend_updates": [
+    {
+      "security_id": "006cd935-08f2-576c-8220-137c5c83f531",
+      "ticker": "40F.SI",
+      "start_date": "2026-07-17",
+      "end_date": "2026-10-18",
+      "status": "provider_error",
+      "rows_fetched": 0,
+      "error": "Provider has no observations in the requested window: $40F.SI: No data found, symbol may be delisted",
+      "provider_unavailable": true
+    },
+    {
+      "security_id": "2a5195cd-7534-5c3d-bc3e-17afedf92e03",
+      "ticker": "ES3.SI",
+      "start_date": "2026-07-17",
+      "end_date": "2026-10-18",
+      "status": "data_available",
+      "rows_fetched": 1,
+      "error": null,
+      "provider_unavailable": false
+    },
+    {
+      "security_id": "0a39fd1e-48fe-549b-b0ae-4c0dac597d09",
+      "ticker": "GRPN",
+      "start_date": "2026-07-17",
+      "end_date": "2026-10-18",
+      "status": "query_succeeded_empty",
+      "rows_fetched": 0,
+      "error": null,
+      "provider_unavailable": false
+    },
+    {
+      "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+      "ticker": "QQQ",
+      "start_date": "2026-07-17",
+      "end_date": "2026-10-18",
+      "status": "data_available",
+      "rows_fetched": 1,
+      "error": null,
+      "provider_unavailable": false
+    }
+  ],
+  "fx_rows_written": 68,
+  "provider_warnings": {},
+  "results": [
+    {
+      "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+      "ticker": "QQQ",
+      "status": "OK",
+      "start_date": "2026-07-13",
+      "end_date": "2026-10-18",
+      "rows_written": 69,
+      "error": null,
+      "partitions_written": 1
+    },
+    {
+      "security_id": "0a39fd1e-48fe-549b-b0ae-4c0dac597d09",
+      "ticker": "GRPN",
+      "status": "OK",
+      "start_date": "2026-07-13",
+      "end_date": "2026-10-18",
+      "rows_written": 69,
+      "error": null,
+      "partitions_written": 1
+    },
+    {
+      "security_id": "006cd935-08f2-576c-8220-137c5c83f531",
+      "ticker": "40F.SI",
+      "status": "WARNING",
+      "start_date": "2026-06-02",
+      "end_date": "2026-10-18",
+      "rows_written": 0,
+      "error": "Provider has no observations in the requested window: $40F.SI: No data found, symbol may be delisted",
+      "partitions_written": 0
+    },
+    {
+      "security_id": "2a5195cd-7534-5c3d-bc3e-17afedf92e03",
+      "ticker": "ES3.SI",
+      "status": "OK",
+      "start_date": "2026-07-13",
+      "end_date": "2026-10-18",
+      "rows_written": 69,
+      "error": null,
+      "partitions_written": 1
+    }
+  ],
+  "packs": null,
+  "unavailable_windows": {
+    "prices": {
+      "006cd935-08f2-576c-8220-137c5c83f531": "Provider has no observations in the requested window: $40F.SI: No data found, symbol may be delisted"
+    },
+    "dividends": {
+      "006cd935-08f2-576c-8220-137c5c83f531": "Provider has no observations in the requested window: $40F.SI: No data found, symbol may be delisted"
+    },
+    "corporate_actions": {
+      "006cd935-08f2-576c-8220-137c5c83f531": "Provider has no observations in the requested window: $40F.SI: No data found, symbol may be delisted"
+    }
+  },
+  "complete": true,
+  "publication_status": "ready_for_review_with_unavailable"
+}

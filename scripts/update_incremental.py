@@ -42,8 +42,12 @@ from pathlib import Path
 import pyarrow.parquet as pq
 import yaml
 
-from sg_investing.data.dividend_backfill import backfill_dividends
-from sg_investing.data.dividend_quality import record_coverage_snapshot
+from sg_investing.data.dividend_backfill import _query_start, backfill_dividends
+from sg_investing.data.dividend_quality import (
+    coverage_record_map,
+    load_coverage_report,
+    record_coverage_snapshot,
+)
 from sg_investing.data.ingestion import (
     SecurityUpdateResult,
     update_fx_rates,
@@ -58,7 +62,7 @@ from sg_investing.data.providers.guarded import GuardedProvider
 from sg_investing.data.providers.yahoo import YahooFinanceProvider
 from sg_investing.data.storage import ParquetStore
 from sg_investing.data.validation import dividend_event_key
-from sg_investing.models import CorporateAction, DataQualityStatus, Security
+from sg_investing.models import CorporateAction, DataQualityStatus, DistributionPolicy, Security
 from sg_investing.universe.catalog import UniverseCatalog, load_catalog
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -734,6 +738,7 @@ def _dry_run_summary(
     since: str,
     reconciliation_days: int,
     selected_count: int,
+    shared_history_starts: dict[str, date] | None = None,
 ) -> dict:
     securities_payload = []
     partition_paths: set[str] = set()
@@ -756,6 +761,11 @@ def _dry_run_summary(
                     item.last_price_date.isoformat() if item.last_price_date else None
                 ),
                 "full_history_fetch": item.full_fetch,
+                "provider_history_fetch_start": (
+                    shared_history_starts.get(str(item.security.security_id), item.price_start)
+                    if shared_history_starts is not None else item.price_start
+                ).isoformat(),
+                "provider_history_shared_with_events": shared_history_starts is not None,
                 "price_fetch_start": item.price_start.isoformat(),
                 "price_fetch_end": plan.end_date.isoformat(),
                 "fetch_years": fetch_years,
@@ -786,6 +796,52 @@ def _dry_run_summary(
         ),
         "would_write_paths": sorted(partition_paths),
     }
+
+
+def _action_query_plan(plan: UpdatePlan, store: ParquetStore, history_start: date,
+                       since_date: date | None, reconciliation_days: int):
+    latest_actions = _scan_last_action_dates(store)
+    action_state_path = store.root / "corporate_actions" / "query_checkpoints.json"
+    action_checkpoints = (json.loads(action_state_path.read_text(encoding="utf-8"))
+                          if action_state_path.exists() else {})
+    action_starts: list[tuple[Security, date]] = []
+    for item in plan.securities:
+        security_id = str(item.security.security_id)
+        latest = latest_actions.get(security_id)
+        if security_id in action_checkpoints:
+            through = date.fromisoformat(action_checkpoints[security_id])
+            latest = max(latest or through, through)
+        start, _ = _resolve_window_start(
+            since=since_date,
+            last_date=latest,
+            reconciliation_days=reconciliation_days,
+            start_floor=history_start,
+        )
+        action_starts.append((item.security, start))
+    return action_starts, action_state_path, action_checkpoints
+
+
+def _shared_history_windows(plan: UpdatePlan, data_root: Path, history_start: date,
+                            dividend_reconciliation_days: int,
+                            action_starts: list[tuple[Security, date]]) -> dict[str, date]:
+    report = load_coverage_report(data_root / "dividends" / "coverage_report.json")
+    previous = coverage_record_map(report) if report is not None else {}
+    action_dates = {str(security.security_id): start for security, start in action_starts}
+    starts = {}
+    for item in plan.securities:
+        security = item.security
+        sid = str(security.security_id)
+        windows = [item.price_start]
+        if security.distribution_policy not in {
+            DistributionPolicy.ACCUMULATING, DistributionPolicy.NON_DISTRIBUTING,
+        }:
+            # Share the same cursor policy as backfill; membership is not listing age.
+            windows.append(_query_start(security, history_start, previous.get(sid),
+                                        history_start, dividend_reconciliation_days))
+        if sid in action_dates:
+            windows.append(action_dates[sid])
+        starts[sid] = min(windows)
+    return starts
 
 
 def run_incremental_update(
@@ -837,6 +893,20 @@ def run_incremental_update(
         str(security.security_id): security.market for security in selected
     }
 
+    dividend_recon = reconciliation_days
+    if since_date is not None:
+        dividend_recon = max(dividend_recon, (end - since_date).days)
+    action_starts = []
+    action_state_path = data_root / "corporate_actions" / "query_checkpoints.json"
+    action_checkpoints = {}
+    if not skip_actions:
+        action_starts, action_state_path, action_checkpoints = _action_query_plan(
+            plan, store, catalog.history_start, since_date, reconciliation_days
+        )
+    shared_starts = (_shared_history_windows(plan, data_root, catalog.history_start,
+                                             dividend_recon, action_starts)
+                     if provider is None else None)
+
     if dry_run:
         if build_packs:
             estimate = {
@@ -856,14 +926,22 @@ def run_incremental_update(
             since=since,
             reconciliation_days=reconciliation_days,
             selected_count=len(selected),
+            shared_history_starts=shared_starts,
         )
 
     if build_packs:
         _require_complete_pack_baseline(root_path, catalog)
     if provider is None:
-        provider = GuardedProvider(YahooFinanceProvider(bounded_events=True))
+        provider = GuardedProvider(YahooFinanceProvider(
+            bounded_events=True, shared_history_starts=shared_starts,
+        ))
     if journal:
-        journal.record("prices", securities=len(selected), status="running")
+        journal.record("prices", securities=len(selected), status="running",
+                       shared_history_listings=len(shared_starts or {}),
+                       earlier_history_for_events=sum(
+                           shared_starts[str(item.security.security_id)] < item.price_start
+                           for item in plan.securities
+                       ) if shared_starts is not None else 0)
 
     base_hash = _store_chain_hash(data_root)
     previous_summary = _load_previous_summary(root_path)
@@ -915,9 +993,6 @@ def run_incremental_update(
                    price_errors=len(batch_errors), status="running")
     before_dividends = _stored_event_signatures(store, "dividends")
     before_coverage = _coverage_states(data_root)
-    dividend_recon = reconciliation_days
-    if since_date is not None:
-        dividend_recon = max(dividend_recon, (end - since_date).days)
     dividend_report, dividend_results = backfill_dividends(
         catalog=catalog,
         store=store,
@@ -948,24 +1023,6 @@ def run_incremental_update(
     action_errors: dict[str, str] = {}
     if not skip_actions:
         before_actions = _stored_event_signatures(store, "corporate_actions")
-        latest_actions = _scan_last_action_dates(store)
-        action_state_path = data_root / "corporate_actions" / "query_checkpoints.json"
-        action_checkpoints = (json.loads(action_state_path.read_text(encoding="utf-8"))
-                              if action_state_path.exists() else {})
-        action_starts: list[tuple[Security, date]] = []
-        for item in plan.securities:
-            security_id = str(item.security.security_id)
-            latest = latest_actions.get(security_id)
-            if security_id in action_checkpoints:
-                through = date.fromisoformat(action_checkpoints[security_id])
-                latest = max(latest or through, through)
-            start, _ = _resolve_window_start(
-                since=since_date,
-                last_date=latest,
-                reconciliation_days=reconciliation_days,
-                start_floor=catalog.history_start,
-            )
-            action_starts.append((item.security, start))
         action_rows, action_errors = _fetch_action_rows(
             provider,
             action_starts,
