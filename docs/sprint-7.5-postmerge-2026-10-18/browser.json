@@ -1,0 +1,48 @@
+[
+  {
+    "width": 1440,
+    "removedListingsAbsent": true,
+    "oneTime": {
+      "title": "QQQ",
+      "value": "S$13,123.37",
+      "period": "Resolved trading dates · 02 Jan 2024 → 31 Dec 2024",
+      "state": "Current result. QQQ · 2024-01-02 → 2024-12-31 · 10000 SGD initial · dividends true, withholding true, reinvest true"
+    },
+    "editedResultMarkedPrevious": true,
+    "dca": "QQQ · MONTHLY\nUSD\nSGD\nS$2,690.04\n\nEnding value after 12 recurring contributions. Initial lump sum: S$1,000.00, invested 2024-01-02.\n\nTotal invested\nS$2,200.00\nGain / loss\nS$490.04\nXIRR · annualised, money-weighted\n+30.29%\nShares\n3.87112\n\nXIRR is an annualised return that accounts for the dates and amounts of all investments, including the initial lump sum.\n\nContribution dates (12)\n\nDividend type for 2024-03-18 is not fully classified; it is modeled as a cash distribution. Dividend type for 2024-06-24 is not fully classified; it is modeled as a cash distribution. Dividend type for 2024-09-23 is not fully classified; it is modeled as a cash distribution. Dividend type for 2024-12-23 is not fully classified; it is modeled as a cash distribution. Approximated dividend pay date for 2024-03-18 as 2024-04-17. Approximated dividend pay date for 2024-06-24 as 2024-07-24. Approximated dividend pay date for 2024-09-23 as 2024-10-23. Approximated dividend pay date for 2024-12-23 as 2025-01-22. Could not resolve a trading day for dividend dated 2024-12-23; it is excluded from end-date value.\n\nPrice history · SGD\n\nDaily closing price, not investment value or total return.\n\n526.41\n625.98\n725.54\n2024-01-02\n2024-12-31\nView price table\nDates, coverage and data notes\n\nRequested: 2024-01-02 → 2024-12-31\nResolved: 2024-01-02 → 2024-12-31\nLatest published security date: 2026-08-27\nLatest published USD/SGD FX date: 2026-08-30\nSnapshot date: 2026-10-18T08:33:00+00:00 · ID: sha256-04cb723d8f46447a0749e02f522034aa5b068ea61842aa1ef27eaef8a5ecdfb1\n\n9 material data notes attached to this result.\n\nDates and FX (5)\nDividends and tax (4)\nReview requested dates\nDownload this result JSON",
+    "tier2": {
+      "title": "GRPN",
+      "value": "S$10,269.16"
+    },
+    "overflow": {
+      "viewport": 1440,
+      "scroll": 1440
+    },
+    "pageErrors": [],
+    "apiRequests": [],
+    "httpErrors": []
+  },
+  {
+    "width": 390,
+    "removedListingsAbsent": true,
+    "oneTime": {
+      "title": "QQQ",
+      "value": "S$13,123.37",
+      "period": "Resolved trading dates · 02 Jan 2024 → 31 Dec 2024",
+      "state": "Current result. QQQ · 2024-01-02 → 2024-12-31 · 10000 SGD initial · dividends true, withholding true, reinvest true"
+    },
+    "editedResultMarkedPrevious": true,
+    "dca": "QQQ · MONTHLY\nUSD\nSGD\nS$2,690.04\n\nEnding value after 12 recurring contributions. Initial lump sum: S$1,000.00, invested 2024-01-02.\n\nTotal invested\nS$2,200.00\nGain / loss\nS$490.04\nXIRR · annualised, money-weighted\n+30.29%\nShares\n3.87112\n\nXIRR is an annualised return that accounts for the dates and amounts of all investments, including the initial lump sum.\n\nContribution dates (12)\n\nDividend type for 2024-03-18 is not fully classified; it is modeled as a cash distribution. Dividend type for 2024-06-24 is not fully classified; it is modeled as a cash distribution. Dividend type for 2024-09-23 is not fully classified; it is modeled as a cash distribution. Dividend type for 2024-12-23 is not fully classified; it is modeled as a cash distribution. Approximated dividend pay date for 2024-03-18 as 2024-04-17. Approximated dividend pay date for 2024-06-24 as 2024-07-24. Approximated dividend pay date for 2024-09-23 as 2024-10-23. Approximated dividend pay date for 2024-12-23 as 2025-01-22. Could not resolve a trading day for dividend dated 2024-12-23; it is excluded from end-date value.\n\nPrice history · SGD\n\nDaily closing price, not investment value or total return.\n\n526.41\n625.98\n725.54\n2024-01-02\n2024-12-31\nView price table\nDates, coverage and data notes\n\nRequested: 2024-01-02 → 2024-12-31\nResolved: 2024-01-02 → 2024-12-31\nLatest published security date: 2026-08-27\nLatest published USD/SGD FX date: 2026-08-30\nSnapshot date: 2026-10-18T08:33:00+00:00 · ID: sha256-04cb723d8f46447a0749e02f522034aa5b068ea61842aa1ef27eaef8a5ecdfb1\n\n9 material data notes attached to this result.\n\nDates and FX (5)\nDividends and tax (4)\nReview requested dates\nDownload this result JSON",
+    "tier2": {
+      "title": "GRPN",
+      "value": "S$10,269.16"
+    },
+    "overflow": {
+      "viewport": 390,
+      "scroll": 390
+    },
+    "pageErrors": [],
+    "apiRequests": [],
+    "httpErrors": []
+  }
+]

@@ -595,3 +595,46 @@ Sprints 12–15 remain Not started under their entry/review gates. Roadmap PR #6
 is planning only and remains stacked on recovery; after PR #5 merges, retarget
 #6 to main before considering its merge. Await the pending Product Owner
 merge/deployment and between-sprint acceptance decisions before dependent work.
+
+
+### Post-merge verification — 18 October 2026
+
+Product Owner explicitly accepted Sprint 7.5 and reported merging PR #5.
+Verified merged commit b66bd54f93afe56b55e796bab382d0f46b3ae272 on main; runtime,
+workflow, tests, frontend, configuration and canonical data are identical to
+the full-catalog-tested candidate 75ffcf9. The actual merge's backend, engine
+parity and static checks pass. Do not rerun the full provider catalog merely
+to duplicate identical-source evidence; verify the new deployment and main
+workflow instead.
+
+Fresh non-publishing main canary:
+https://github.com/ashcx/sg-investing-v1/actions/runs/39112000299
+QQQ/GRPN/ES3.SI/40F.SI, workflow_dispatch, five uncached calls / eight cache hits,
+zero retries/circuit, event cache released to zero. Updater 30.633s, peak RSS
+1,817.4 MiB. All stages pass including 277 post-fetch tests, eight opt-in smoke
+deselected, and both artifact uploads. Artifact digests verified; applying the
+actual uploaded update to a disposable baseline reproduces the producer chain
+hash. This is manual evidence, not a successful cron run or a publication of
+the fetched canary data.
+
+Post-merge Pages deployment 39111805264 is active; retain that specific job
+until terminal, then verify its build-info/manifest, live desktop/mobile
+calculations, and subsequent R2 synchronization. Current published baseline
+still reports data as of 2026-08-31. The updater uploads validated artifacts
+without automatically applying or publishing fresh canonical prices; no promise
+of automatic live-data freshness is made. Evidence is retained under
+docs/sprint-7.5-postmerge-2026-10-18/. No operational exit is ticked yet.
+
+
+Post-merge live verification update: fresh-main canary and actual artifact
+application pass; main backend/engine/static workflows pass. Pages deployment
+39111805264 succeeded. Live QQQ, recurring investing, edited/previous identity,
+and Tier-2 GRPN pass at 1440/390px, with no page/HTTP errors or calculation API
+calls. QQQ 2000–2001 USD/SGD history also calculates successfully. Captures were
+inspected; tested states have no page overflow. Public manifests match the new
+snapshot and catalog has 3,170 unique securities, excluding WBD/ATAI. Actual
+R2 synchronization 39112292001 is still active: old removed 2026 objects remain
+HTTP 200 until cleanup completes, so full public removal is not yet claimed.
+A GRPN quality-badge/unknown-dividend-disclosure inconsistency is recorded for
+the existing S14/S15 copy/warning review; this is not a new calculation change.
+No technical evidence is substituted for successive real cron successes.
