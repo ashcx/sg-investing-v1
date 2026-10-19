@@ -7,12 +7,22 @@ dates. Preserve valid results when one security is unsupported, and label every
 financial value on small screens. This sprint compares one-time investments
 only; multi-security DCA/regular-contribution comparison is outside its scope.
 
-Status: **Not started**.
+Status: **In progress**.
 
 ## Entry criteria
 
-- [ ] Every Sprint 11 exit criterion is checked, including the unified
+- [x] Every Sprint 11 exit criterion is checked, including the unified
       simulator, accurate price chart, and isolated setup handoff.
+      Verified 19 October 2026 against `Todo/sprint-11-investment-simulator.md`:
+      every technical exit (unified setup, regular-investing lump sum plus
+      contributions, accurate price chart, simulator → comparison isolation,
+      evidence directory, sprint PR) is checked. The single open Sprint 11 exit
+      is human Product Owner review, which the 18 October 2026 user
+      authorization keeps non-blocking and unticked. The Sprint 7.5 Track B
+      scheduled-run recovery remains open and externally gated; it does not
+      gate this sprint's one-time comparison work because Sprints 10–11 were
+      accepted into `main` and evidence for their increments is independent of
+      the incremental-update schedule.
 
 ## Depends on
 
@@ -137,3 +147,15 @@ no implementation evidence or completed task is claimed by this amendment.
 For each task, record date/ID, status, changed files, checks and exact results,
 evidence paths, separate self-review findings, blockers, and next sequential
 action here before proceeding. Human acceptance is recorded only when given.
+
+19 October 2026 — entry gate. Sprint 11's technical exits verified directly in
+`Todo/sprint-11-investment-simulator.md` (unified simulator, accurate price
+chart, isolated simulator → comparison handoff all checked); the only open
+Sprint 11 exit is human Product Owner review, which stays unticked and
+non-blocking under the 18 October 2026 authorization. Sprint 7.5 Track B
+scheduled-run recovery remains open and externally gated in this environment;
+it is recorded here as a known dependency gap rather than a Sprint 12 blocker
+because this sprint changes only browser-side comparison behaviour and touches
+no updater, schema, or workflow code. Status set to In progress; no
+implementation task or evidence is claimed by this entry. Next sequential
+action: S12-US01.
