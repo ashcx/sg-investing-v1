@@ -7,7 +7,7 @@ dates. Preserve valid results when one security is unsupported, and label every
 financial value on small screens. This sprint compares one-time investments
 only; multi-security DCA/regular-contribution comparison is outside its scope.
 
-Status: **In progress**.
+Status: **Complete** — original increment accepted; requested copy cleanup verified.
 
 ## Entry criteria
 
@@ -90,9 +90,22 @@ order, including checks and recorded self-review before advancing.
   - **Evidence:** partial-failure fixture traces and comparison request-identity
     assertions.
 
+### Post-review scope amendment — 20 October 2026
+
+User accepted the increment ("ok looks good") and requested site-wide copy
+cleanup using the linked frontend-design skill, preserving the existing design.
+This is an explicit follow-up to Sprint 12, not the start of Sprint 13.
+
+- [x] Download/read the requested skill and record a restrained copy/layout plan.
+- [x] Remove redundant copy across all four destinations; keep actionable
+      warnings, financial labels, actual periods and request ownership intact.
+- [x] Verify result/state contracts and inspect desktop/mobile pages in Chrome;
+      retain captures and a separate self-review.
+- [x] Update the existing sprint PR and record final scope/results.
+
 ## Exit criteria
 
-- [ ] Human Product Owner reviews the sprint outcome and evidence; record
+- [x] Human Product Owner reviews the sprint outcome and evidence; record
       actual acceptance or requested changes before starting the next sprint.
 
 - [x] Inspect the actual locally served webpage design after this sprint at
@@ -294,3 +307,42 @@ Chrome evidence and remaining gaps are in the PR description. Every task and
 technical/design/PR exit is checked; human Product Owner review remains the
 single open exit. Sprint 12 and the roadmap remain In progress. No later
 sprint, merge or deployment has started.
+
+
+### 20 October 2026 — product review and copy-cleanup planning
+
+Product Owner: "ok looks good" accepts the demonstrated Sprint 12 increment.
+Requested follow-up: simpler, cleaner wording throughout the existing site,
+without a visual overhaul. Original human acceptance is now checked; new scope
+is tracked above and remains in progress. Skill downloaded with license to
+`docs/skills/frontend-design/`; source and plan in the cleanup evidence folder.
+Next: finish skill/plan verification, then edit copy sequentially.
+
+
+Cleanup implementation complete: removed slogans/duplicate introductions,
+shortened action/empty-state copy, moved supporting coverage/methodology to
+native disclosures and removed routine "same source" reassurance. Kept every
+comparison metric's currency and period, actionable warnings and previous-result
+identity. UI controller and real pack/worker pipeline tests pass unchanged.
+Next: Chrome review at desktop/mobile and separate self-review.
+
+
+Cleanup Chrome review/self-review: actual one-time result remains S$20,320.00
+for the fixed QQQ reinvestment case; regular result renders XIRR and warnings;
+coverage opens with Enter and retains snapshot provenance. Three-security
+comparison keeps two valid results and a concise failed row with expandable
+503 details. Exact 390px comparison metrics retain all labels/periods with no
+overflow; simulator also fits exact 320px. Reviewed all four destinations on
+desktop/mobile; captures and assertions live in `copy-cleanup/`.
+Separate self-review fixed empty status fallback and kept original assumption
+flags visible for previous results after edits. Empty coverage/hint nodes take
+no space. Static checks, syntax, controller, result/window and actual worker
+pipeline regressions pass. No new financial test was necessary for copy edits.
+Next: publish cleanup to the existing PR and update the roadmap.
+
+
+Cleanup publication: same Sprint 12 PR #8 includes the requested skill/license,
+site-wide copy simplification, Chrome captures and verification notes. Original
+increment accepted by Product Owner; follow-up copy is ready for review. All
+tracked tasks/exits are checked, so Sprint 12 is Complete in the roadmap. This
+does not start Sprint 13 or authorize a merge/deployment.

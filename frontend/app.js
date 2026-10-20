@@ -364,7 +364,7 @@ function selectSecurity(securityId, moveToForm = false) {
   state.selectedSecurityId = securityId;
   if (has('#security-select')) setSecurityComboboxValue('#security-select', securityId);
   const security = entry.security;
-  if (has('#security-hint')) $('#security-hint').textContent = `${security.exchange} · ${security.currency} · ${titleCase(security.distribution_policy || 'unknown')} distribution · ${security.active === false ? 'inactive' : 'active'}`;
+  if (has('#security-hint')) $('#security-hint').textContent = `${security.exchange} · ${security.currency} · ${titleCase(security.distribution_policy || 'unknown')}${security.active === false ? ' · Inactive' : ''}`;
   if (has('#security-domicile')) $('#security-domicile').textContent = security.domicile || 'Not published';
   if (has('#security-isin')) $('#security-isin').textContent = security.isin || 'Not published';
   if (has('#security-expense')) $('#security-expense').textContent = security.expense_ratio === null || security.expense_ratio === undefined ? 'Metadata only' : `${security.expense_ratio}% · metadata only`;
@@ -402,7 +402,7 @@ function viewSummary(kind, request) {
   const security = entryForId(request.security_id)?.security;
   const name = security?.ticker || request.tickers || request.security_id;
   const amount = kind === 'dca' ? `${request.initial_sgd || '0'} SGD initial + ${request.contribution_sgd} SGD ${request.frequency}` : `${request.initial_sgd} SGD initial`;
-  return `${name} · ${request.start_date} → ${request.end_date} · ${amount} · dividends ${request.dividends}, withholding ${request.withholding}, reinvest ${request.reinvest}`;
+  return `${name} · ${request.start_date} → ${request.end_date} · ${amount}`;
 }
 
 function viewForm(kind) { return $(kind === 'dca' ? '#analysis-form' : `#${kind}-form`); }
@@ -423,17 +423,18 @@ function renderViewState(kind) {
   if (active) form.dataset.resultState = view.phase;
   notice.dataset.state = view.phase;
   const current = view.phase === 'current';
-  const labels = { empty: 'Choose your inputs, then Calculate.', pending: 'Inputs edited. Calculate to see a result.', loading: 'Calculating the submitted request…', invalid: 'Check the input error, then Calculate.', failed: 'This request could not be calculated. Check the error and try again.', current: 'Current result' };
+  const labels = { empty: '', pending: 'Calculate to update.', loading: 'Calculating the submitted request…', invalid: 'Check the inputs.', failed: 'Calculation failed. Try again.', current: 'Current result' };
   notice.textContent = view.request
-    ? `${current ? 'Current result' : 'Previous result — not current for the edited inputs'}. ${viewSummary(kind, view.request)}${current ? '' : ` · ${labels[view.phase] || 'Select Update results to recalculate.'}`}`
-    : labels[view.phase] || labels.pending;
+    ? `${current ? 'Current result' : 'Previous result — inputs changed'}. ${viewSummary(kind, view.request)}${current ? '' : ` · ${labels[view.phase] || 'Select Update results to recalculate.'}`}`
+    : labels[view.phase] ?? labels.pending;
+  if (view.request && !current && kind !== 'portfolio') notice.textContent += ` · Dividends ${view.request.dividends ? 'on' : 'off'}, withholding ${view.request.withholding ? 'on' : 'off'}, reinvestment ${view.request.reinvest ? 'on' : 'off'}`;
   const button = form.querySelector('button[type="submit"]');
   if (button && active && view.phase !== 'loading') {
     setBusy(button, false); delete form.dataset.s7Inflight;
     button.textContent = view.request ? 'Update results' : 'Calculate';
     button.dataset.originalLabel = button.innerHTML;
   }
-  notice.hidden = ['analysis','dca'].includes(kind) && !active;
+  notice.hidden = !notice.textContent || (['analysis','dca'].includes(kind) && !active);
   if (kind === 'dca' && has('[data-download-dca]')) { $('[data-download-dca]').textContent = current ? 'Download this result JSON' : 'Download JSON · previous request'; $('[data-download-dca]').title = viewSummary(kind,view.request); }
   if (kind === 'analysis') {
     [['#download-result', 'Download JSON'], ['#copy-link', 'Copy analysis link'], ['#download-series-csv', 'Download CSV']].forEach(([sel,label]) => {
@@ -601,7 +602,7 @@ function renderCoverage(kind, result, coverage = {}) {
   const groups = { 'Dates and FX': [], 'Dividends and tax': [], 'Data and other notes': [] };
   warnings.forEach(w => groups[/date|stale|fx|coverage/i.test(w) ? 'Dates and FX' : /dividend|tax|withholding/i.test(w) ? 'Dividends and tax' : 'Data and other notes'].push(w));
   const detail = Object.entries(groups).filter(([,items])=>items.length).map(([label,items]) => `<details><summary>${escapeHtml(label)} (${items.length})</summary>${items.map(item=>`<p>${escapeHtml(item)}</p>`).join('')}</details>`).join('');
-  const html = `<strong>${truncated ? 'Dates resolved within available trading history' : 'Dates, coverage and data notes'}</strong><p>Requested: ${escapeHtml(request.start_date)} → ${escapeHtml(request.end_date)}<br>Resolved: ${escapeHtml(resolved)}<br>Latest published security date: ${escapeHtml(coverage.latestSecurity || 'Not published')}<br>${result.security.currency !== 'SGD' ? `Latest published ${escapeHtml(result.security.currency)}/SGD FX date: ${escapeHtml(coverage.latestFx || 'Not published')}<br>` : ''}Snapshot date: ${escapeHtml(coverage.snapshot || 'Not published')} · ID: ${escapeHtml(coverage.snapshotId || resultViews[kind].artifact?.data_snapshot_id || 'Not published')}</p><p>${warnings.length} material data note${warnings.length === 1 ? '' : 's'} attached to this result.${truncated ? ' Requested and resolved dates differ; review the actual period before interpreting returns.' : ''}</p>${detail}<button type="button" class="text-button" data-review-dates="${kind}">Review requested dates</button>`;
+  const html = `<details><summary>${warnings.length ? `${warnings.length} data note${warnings.length === 1 ? '' : 's'}` : 'Data details'}${truncated ? ' · dates adjusted' : ''}</summary><strong>${truncated ? 'Dates resolved within available trading history' : 'Dates, coverage and data notes'}</strong><p>Requested: ${escapeHtml(request.start_date)} → ${escapeHtml(request.end_date)}<br>Resolved: ${escapeHtml(resolved)}<br>Latest published security date: ${escapeHtml(coverage.latestSecurity || 'Not published')}<br>${result.security.currency !== 'SGD' ? `Latest published ${escapeHtml(result.security.currency)}/SGD FX date: ${escapeHtml(coverage.latestFx || 'Not published')}<br>` : ''}Snapshot date: ${escapeHtml(coverage.snapshot || 'Not published')} · ID: ${escapeHtml(coverage.snapshotId || resultViews[kind].artifact?.data_snapshot_id || 'Not published')}</p><p>${warnings.length} material data note${warnings.length === 1 ? '' : 's'} attached to this result.${truncated ? ' Requested and resolved dates differ; review the actual period before interpreting returns.' : ''}</p>${detail}<button type="button" class="text-button" data-review-dates="${kind}">Review requested dates</button></details>`;
   let box = $(`#${kind}-coverage`);
   if (!box) { box = document.createElement('div'); box.id = `${kind}-coverage`; box.className = 'coverage-summary'; }
   if (kind === 'analysis') $('#result-period').after(box);
@@ -645,9 +646,9 @@ function renderSeries(series) {
   $('#series-chart').setAttribute('aria-label',`${chart.currency} closing price history`);
   $('#series-card h4').textContent=`Price history · ${chart.currency}`;
   $('#series-range').textContent=`${series.points[0].date} → ${series.points.at(-1).date}`;
-  if(has('#native-legend')) $('#native-legend').textContent=`${chart.currency} close · price history, not investment value`;
+  if(has('#native-legend')) $('#native-legend').textContent=`${chart.currency} close — not investment value`;
   if(has('.sgd-line')) $('.sgd-line').parentElement.classList.add('hidden');
-  if(has('.chart-source')) $('.chart-source').textContent='Daily closes from the result’s data snapshot';
+  if(has('.chart-source')) $('.chart-source').textContent='';
   renderSeriesTable(series);
 }
 
@@ -846,11 +847,10 @@ function renderCompareCoverage() {
   if (custom) custom.disabled = !state.compareCopiedScenario;
   if (!state.compareCopiedScenario && $('#compare-scenario')?.value === 'custom') $('#compare-scenario').value = 'investor';
   const scenario = ($('#compare-scenario')?.value === 'custom' ? state.compareCopiedScenario : PRESETS[$('#compare-scenario')?.value]) || PRESETS.investor;
-  const scenarioLabel = COMPARE_SCENARIO_LABELS[$('#compare-scenario')?.value] || COMPARE_SCENARIO_LABELS.investor;
-  if ($('#compare-assumptions')) $('#compare-assumptions').textContent = `${formatMoney($('#compare-amount')?.value, 'SGD')} one-time · ${scenarioLabel} · dividends ${scenario.dividends ? 'on' : 'off'}, withholding ${scenario.withholding ? 'on' : 'off'}, reinvestment ${scenario.reinvest ? 'on' : 'off'}`;
+  if ($('#compare-assumptions')) $('#compare-assumptions').textContent = `Dividends ${scenario.dividends ? 'on' : 'off'}, withholding ${scenario.withholding ? 'on' : 'off'}, reinvestment ${scenario.reinvest ? 'on' : 'off'}`;
   if (!container) return;
   if (!state.compareTickers.length) {
-    container.innerHTML = '<p class="detail-note">Add a security to each empty slot. All securities use one shared setup.</p>';
+    container.innerHTML = '';
     return;
   }
   state.compareTickers.forEach(id => { if (!compareCoverageCache.has(id)) void loadComparisonCoverage(id); });
@@ -858,12 +858,12 @@ function renderCompareCoverage() {
   const shared = plan.common.ok && plan.windows.length >= COMPARE_MIN;
   const proposed = plan.resolved.ok ? plan.resolved : plan.common;
   const commonLine = shared
-    ? `<p class="compare-common"><span class="summary-label">Published overlap</span><strong>${escapeHtml(plan.common.start)} → ${escapeHtml(plan.common.end)}</strong></p>`
+    ? `<p class="compare-common"><span class="summary-label">Shared history</span><strong>${escapeHtml(plan.common.start)} → ${escapeHtml(plan.common.end)}</strong></p>`
     : `<p class="compare-common">${escapeHtml(plan.windows.length < COMPARE_MIN ? 'Add a second security to preview shared dates.' : plan.common.reason || 'Shared coverage is unknown.')}</p>`;
   const action = shared && (proposed.start !== plan.requested.start || proposed.end !== plan.requested.end)
     ? `<button type="button" class="text-button" data-use-common-window>Use shared dates: ${escapeHtml(proposed.start)} → ${escapeHtml(proposed.end)}</button>` : '';
   const rows = plan.windows.map(item => `<li data-coverage-state="${escapeHtml(item.state)}"><span class="coverage-ticker">${escapeHtml(compareTickerFor(item.securityId))}</span><span class="coverage-dates">${item.state === 'ready' ? `${escapeHtml(item.start)} → ${escapeHtml(item.end)}` : item.state === 'unavailable' ? 'Unavailable' : 'Coverage unknown'}</span><span class="coverage-note">${escapeHtml(item.reason || `${item.origin} · ${item.status || 'coverage'}${item.fxLimited ? ` · ${item.currency}/SGD limits this preview` : ''}`)}</span></li>`).join('');
-  container.innerHTML = `${commonLine}<ul class="coverage-list">${rows}</ul>${action}<p class="detail-note">Dates change only when you choose shared dates. Exchange calendars and missing observations may still produce different actual periods; each result reports its own dates.</p>`;
+  container.innerHTML = `${commonLine}<ul class="coverage-list">${rows}</ul>${action}<p class="detail-note">Trading dates may differ. Actual periods appear on each result.</p>`;
 }
 
 function compareStatus(row) {
@@ -888,7 +888,7 @@ function compareCard(row, context = {}) {
   const head = `<header class="compare-card-head"><div class="compare-card-id"><p class="compare-card-ticker">${ticker}</p><p class="compare-card-name">${escapeHtml(name)}</p><p class="compare-card-name">${escapeHtml(result?.security?.exchange || entryForId(row.securityId)?.security.exchange || '')} · ${escapeHtml(result?.security?.currency || row.window?.currency || '')}</p></div><span class="status-chip ${status.tone}">${status.label}</span></header>`;
   if (row.state !== 'ready' || !result) {
     const reason = row.reason || (row.state === 'loading' ? 'Calculating the submitted dates…' : row.state === 'pending' ? 'Queued for this request.' : 'No usable result was returned.');
-    return `${open}${head}<p class="compare-card-reason">${escapeHtml(reason)}</p></article>`;
+    return `${open}${head}<p class="compare-card-reason">${escapeHtml(reason)}</p>${row.errorDetail ? `<details class="compare-card-details"><summary>Error details</summary><p>${escapeHtml(row.errorDetail)}</p></details>` : ''}</article>`;
   }
   const period = result.period;
   const quality = result.data_quality || {};
@@ -906,10 +906,10 @@ function compareCard(row, context = {}) {
       ${metric('Total return · SGD (%)', formatPercent(result.returns.total_return), true)}
       ${metric(`Native total return · ${currency} (%)`, formatPercent(result.returns.total_return_foreign_currency))}
     </dl>
-    <p class="compare-actual-period">Actual period: <strong>${escapeHtml(dates)}</strong>${changed ? ' · Resolved dates differ from requested dates.' : ''}</p>
+    <p class="compare-actual-period">Actual period: <strong>${escapeHtml(dates)}</strong>${changed ? ' · Adjusted to available trading days.' : ''}</p>
     <details class="compare-card-details"><summary>${escapeHtml(dataStatus)} · ${warnings.length} warning${warnings.length === 1 ? '' : 's'}</summary>
       ${disclosure ? `<p>${escapeHtml(disclosure)}</p>` : ''}
-      ${warnings.length ? `<ul>${warnings.map(warning => `<li>${escapeHtml(warning)}</li>`).join('')}</ul>` : '<p>No calculation warnings were reported.</p>'}
+      ${warnings.length ? `<ul>${warnings.map(warning => `<li>${escapeHtml(warning)}</li>`).join('')}</ul>` : '<p>No warnings.</p>'}
       <dl class="compare-provenance">
         <div><dt>Published coverage preview</dt><dd>${coverage?.start && coverage?.end ? `${escapeHtml(coverage.start)} → ${escapeHtml(coverage.end)}` : 'Unknown'}</dd></div>
         <div><dt>Coverage status</dt><dd>${escapeHtml(coverage?.status || coverage?.state || 'unknown')}</dd></div>
@@ -934,10 +934,10 @@ function renderCompare(payload = {}, { progress = false } = {}) {
   const periodLabel = pending ? 'Periods checked as results arrive' : equal ? 'Equal actual periods' : ready.length >= 2 ? summary.equalReadyPeriods ? 'Matching periods among completed results' : 'Unequal actual periods' : 'At least two results needed to compare';
   const note = equal
     ? `All ${states.length} securities resolved to ${actual.start_date} → ${actual.end_date}.`
-    : 'Use the actual dates on each card. Shared requested dates or published history alone do not prove equal investment periods.';
+    : 'Use the actual dates on each card. Trading calendars may differ.';
   const sourceNote = !ready.length ? '' : sameSource
-    ? 'Completed results use the same reported data snapshot and methodology version.'
-    : 'A common data snapshot and methodology version could not be verified for all completed results. Inspect each card before comparing.';
+    ? 'Same data snapshot and methodology.'
+    : 'A common snapshot and methodology could not be verified. Review data details.';
   const id = progress ? 'compare-progress-heading' : 'compare-window-heading';
   container.innerHTML = `<section class="compare-window-summary" aria-labelledby="${id}">
     <div class="compare-window-head"><h3 id="${id}">${heading}</h3><span class="status-chip ${equal && !pending ? 'ok' : ''}">${escapeHtml(periodLabel)}</span></div>
@@ -947,8 +947,8 @@ function renderCompare(payload = {}, { progress = false } = {}) {
       <div><dt>Capital per security</dt><dd>${formatMoney(payload.amount, 'SGD')}</dd></div>
       <div><dt>Scenario</dt><dd>${escapeHtml(payload.scenarioLabel || 'Custom assumptions')}</dd></div>
     </dl>
-    <p class="compare-window-note">${escapeHtml(note)}</p><p class="compare-assumptions">${escapeHtml(payload.assumptions || '')}</p>
-    ${sourceNote ? `<p class="compare-consistency ${sameSource ? 'is-ok' : 'is-warn'}">${escapeHtml(sourceNote)}</p>` : ''}
+    <details class="comparison-setup"><summary>Setup details</summary><p>${escapeHtml(note)}</p><p>${escapeHtml(payload.assumptions || '')}</p></details>
+    ${sourceNote && !sameSource ? `<p class="compare-consistency ${sameSource ? 'is-ok' : 'is-warn'}">${escapeHtml(sourceNote)}</p>` : ''}
     <p class="compare-partial" role="status">${ready.length} of ${states.length} securities calculated${pending ? ' so far' : ''}.</p>
   </section><div class="compare-cards">${states.map(row => compareCard(row, { requested, amount: payload.amount })).join('')}</div>`;
 }
@@ -1127,7 +1127,8 @@ async function submitCompare(event) {
           } catch (failure) {
             if (!s6RunCurrent('compare', runSeq)) return;
             row.state = 'failed';
-            row.reason = `${adapterError ? `Adapter unavailable: ${adapterError.message}. ` : ''}${failure.message || 'No usable local result was returned.'}`;
+            row.reason = 'Could not calculate this investment. Try again or remove it.';
+            row.errorDetail = `${adapterError ? `Adapter unavailable: ${adapterError.message}. ` : ''}${failure.message || 'No usable local result was returned.'}`;
           }
         }
       }
@@ -1165,13 +1166,12 @@ function renderDca(payload, context = {}) {
   const gainLoss = native ? result.gain_loss_foreign_currency : result.gain_loss_sgd;
   const xirr = native ? result.xirr_foreign_currency : result.xirr;
   const warnings = result.data_quality.warnings || [];
-  const noWarningsCopy = payload.request ? 'Adapter calculation completed with no warnings.' : 'Calculated locally with no warnings.';
   const support = context.support;
   const packWarnings = context.packWarnings || [];
   const supportNotice = support && support.status !== 'fully_supported'
     ? `<p class="consistency-warning" role="alert">Data pack coverage for ${escapeHtml(security.ticker)} is ${escapeHtml(support.status)}${support.reason ? `: ${escapeHtml(support.reason)}` : ''}. Results use the data actually present in the packs.${packWarnings.length ? ` Pack notes: ${escapeHtml(packWarnings.join(' '))}` : ''}</p>`
     : '';
-  $('#dca-results').innerHTML = `<div class="analysis-output"><div class="dca-output-head"><div class="output-kicker">${escapeHtml(security.ticker)} · ${escapeHtml(titleCase(request?.frequency || 'monthly'))}</div><div class="mini-switch" role="group" aria-label="DCA display currency"><button type="button" data-dca-currency="native" aria-pressed="${native}" class="${native ? 'active' : ''} ${security.currency === 'SGD' ? 'hidden' : ''}">${escapeHtml(security.currency)}</button><button type="button" data-dca-currency="sgd" aria-pressed="${!native}" class="${native ? '' : 'active'}">SGD</button></div></div><h3>${formatMoney(finalValue, currency)}</h3><p>Ending value after ${escapeHtml(String(result.contribution_dates.length))} recurring contributions. Initial lump sum: ${formatMoney(request?.initial_sgd || 0, 'SGD')}, invested ${escapeHtml(result.methodology.initial_purchase_date || result.contribution_dates[0])}.</p><div class="output-grid"><span>Total invested<strong>${formatMoney(contributed, currency)}</strong></span><span>Gain / loss<strong>${formatMoney(gainLoss, currency)}</strong></span><span>XIRR · annualised, money-weighted<strong>${formatPercent(xirr)}</strong></span><span>Shares<strong>${Number(result.shares).toFixed(5)}</strong></span></div><p class="detail-note">XIRR is an annualised return that accounts for the dates and amounts of all investments, including the initial lump sum.</p><details class="contribution-dates"><summary>Contribution dates (${result.contribution_dates.length})</summary><p>${result.contribution_dates.map((date) => `<time datetime="${escapeHtml(date)}">${escapeHtml(formatDate(date))}</time>`).join(' · ')}</p></details><p class="detail-note">${escapeHtml(warnings.join(' ') || noWarningsCopy)}</p>${supportNotice}</div>`;
+  $('#dca-results').innerHTML = `<div class="analysis-output"><div class="dca-output-head"><div class="output-kicker">${escapeHtml(security.ticker)} · ${escapeHtml(titleCase(request?.frequency || 'monthly'))}</div><div class="mini-switch" role="group" aria-label="DCA display currency"><button type="button" data-dca-currency="native" aria-pressed="${native}" class="${native ? 'active' : ''} ${security.currency === 'SGD' ? 'hidden' : ''}">${escapeHtml(security.currency)}</button><button type="button" data-dca-currency="sgd" aria-pressed="${!native}" class="${native ? '' : 'active'}">SGD</button></div></div><h3>${formatMoney(finalValue, currency)}</h3><p>Ending value after ${escapeHtml(String(result.contribution_dates.length))} recurring contributions. Initial lump sum: ${formatMoney(request?.initial_sgd || 0, 'SGD')}, invested ${escapeHtml(result.methodology.initial_purchase_date || result.contribution_dates[0])}.</p><div class="output-grid"><span>Total invested<strong>${formatMoney(contributed, currency)}</strong></span><span>Gain / loss<strong>${formatMoney(gainLoss, currency)}</strong></span><span>XIRR · annualised, money-weighted<strong>${formatPercent(xirr)}</strong></span><span>Shares<strong>${Number(result.shares).toFixed(5)}</strong></span></div><details class="inline-help"><summary>About XIRR</summary><p>Annualised return accounting for when and how much you invested.</p></details><details class="contribution-dates"><summary>Contribution dates (${result.contribution_dates.length})</summary><p>${result.contribution_dates.map((date) => `<time datetime="${escapeHtml(date)}">${escapeHtml(formatDate(date))}</time>`).join(' · ')}</p></details>${warnings.length ? `<p class="detail-note" role="alert">${escapeHtml(warnings.join(' '))}</p>` : ''}${supportNotice}</div>`;
   const chart = document.createElement('div'); chart.className = 'dca-price-chart'; chart.innerHTML = priceChartHtml(context.series, native); $('#dca-results .analysis-output').append(chart);
   renderCoverage('dca', result, context.coverage);
   const exportButton = document.createElement('button'); exportButton.type='button'; exportButton.dataset.downloadDca=''; exportButton.className='text-button'; exportButton.textContent='Download this result JSON'; exportButton.addEventListener('click',()=>downloadCompleted('dca')); $('#dca-results .analysis-output').append(exportButton);
@@ -1251,7 +1251,7 @@ function renderPortfolio(payload, meta = {}) {
   const rows = result.holdings.map((holding) => { const ccy = s5CurrencyForId(holding.security_id); return `<tr><th scope="row">${escapeHtml(holding.ticker)}</th><td>${Number(holding.quantity).toFixed(5)}</td><td>${formatMoney(holding.weighted_average_cost, ccy)}</td><td>${formatMoney(holding.market_value_native, ccy)}</td><td>${formatMoney(holding.market_value_sgd, 'SGD')}</td><td>${formatMoney(holding.realized_pl_native, ccy)}</td><td>${formatMoney(holding.unrealized_pl_native, ccy)}</td></tr>`; }).join('');
   const warnings = meta.warnings || [];
   const warningNote = warnings.length ? `<p class="detail-note" role="alert">Data warnings: ${escapeHtml(warnings.join(' '))}</p>` : '';
-  const sourceNote = meta.source === 'local' ? '<p class="detail-note">Reconstructed locally in your browser from the published data packs.</p>' : '';
+  const sourceNote = '';
   $('#portfolio-results').innerHTML = `<div class="analysis-output"><div class="output-kicker">AS OF ${escapeHtml(formatDate(result.as_of))}</div><h3>${formatMoney(result.total_market_value_sgd, 'SGD')}</h3><p>Mark-to-market portfolio value across ${result.holdings.length} holding${result.holdings.length === 1 ? '' : 's'}.</p><div class="holding-table-wrap"><table class="holding-table"><caption class="sr-only">Portfolio holdings as of ${escapeHtml(formatDate(result.as_of))}</caption><thead><tr><th scope="col">Ticker</th><th scope="col">Quantity</th><th scope="col">Average cost</th><th scope="col">Native value</th><th scope="col">SGD value</th><th scope="col">Realised P/L</th><th scope="col">Unrealised P/L</th></tr></thead><tbody>${rows || '<tr><td colspan="7">No open holdings on this date.</td></tr>'}</tbody></table></div><p class="detail-note">Cash: ${Object.entries(result.cash_by_currency || {}).map(([currency, amount]) => `${formatMoney(amount, currency)}`).join(' · ') || 'none'} · Realised P/L: ${Object.entries(result.realized_pl_native || {}).map(([currency, amount]) => `${formatMoney(amount, currency)}`).join(' · ') || 'none'}.</p>${warningNote}${sourceNote}<p class="detail-note">Weighted-average cost is a reporting convention, not a Singapore capital-gains tax calculation.</p></div>`;
 }
 
@@ -1826,11 +1826,11 @@ async function renderSecurityMethods() {
   if (!has('#security-methods')) return;
   const id = securityComboboxValue('#methods-security');
   const entry = entryForId(id);
-  if (!entry) { $('#security-methods').textContent = 'Choose a security to inspect its published coverage and sources.'; return; }
+  if (!entry) { $('#security-methods').textContent = 'Choose an investment to view its data.'; return; }
   const security = entry.security;
   const manifest = state.discoveryManifest;
   const text = `${security.ticker} · ${security.name} · ${security.exchange} · ${security.currency}`;
-  $('#security-methods').innerHTML = `<h3>${escapeHtml(text)}</h3><p>${escapeHtml(discoveryCoverage(id))}</p><dl class="methods-facts"><dt>Distribution policy</dt><dd>${escapeHtml(titleCase(security.distribution_policy || 'unknown'))}</dd><dt>Published source</dt><dd>${escapeHtml(manifest?.source || 'Not published')}</dd><dt>Snapshot</dt><dd>${escapeHtml(manifest?.data_snapshot_id || 'Not published')}</dd><dt>Generated</dt><dd>${escapeHtml(manifest?.generated_at || 'Not published')}</dd><dt>Assumptions</dt><dd>Daily unadjusted closes; purchase resolves forward, valuation backward. FX is SGD per unit of foreign currency. Investor-level withholding and reinvestment follow your selected assumptions.</dd></dl><p>Coverage describes available observations, not a promise of complete history. Review result warnings for missing or stale data. ETF expense ratio is metadata; no extra TER is deducted.</p>`;
+  $('#security-methods').innerHTML = `<h3>${escapeHtml(text)}</h3><p>${escapeHtml(discoveryCoverage(id))}</p><dl class="methods-facts"><dt>Distribution policy</dt><dd>${escapeHtml(titleCase(security.distribution_policy || 'unknown'))}</dd><dt>Published source</dt><dd>${escapeHtml(manifest?.source || 'Not published')}</dd><dt>Snapshot</dt><dd>${escapeHtml(manifest?.data_snapshot_id || 'Not published')}</dd><dt>Generated</dt><dd>${escapeHtml(manifest?.generated_at || 'Not published')}</dd><dt>Assumptions</dt><dd>Daily unadjusted closes; purchase resolves forward, valuation backward. FX is SGD per unit of foreign currency. Investor-level withholding and reinvestment follow your selected assumptions.</dd></dl><p>Coverage may contain gaps. Review result warnings. Fund fees (TER) are not deducted again.</p>`;
 }
 
 function initializeDiscovery() {
@@ -1870,7 +1870,7 @@ function updateAssumptions() {
   const values=scenarioValues();
   $('#assumptions-summary').textContent=`Dividends ${values.dividends?'on':'off'} · Withholding ${values.withholding?'on':'off'} · Reinvestment ${values.reinvest?'on':'off'} · Edit assumptions`;
   const security=entryForId(securityComboboxValue('#security-select'))?.security;
-  $('#distribution-explanation').textContent=security?.distribution_policy==='accumulating'?'Accumulating funds retain distributions internally; investor cash dividends are not invented.':security?.distribution_policy==='distributing'?'Distributing security: dividend events follow the selected assumptions.':'Distribution policy unknown; review data notes before interpreting dividends.';
+  $('#distribution-explanation').textContent=security?.distribution_policy==='accumulating'?'Accumulating fund: no cash dividends.':security?.distribution_policy==='distributing'?'':'Distribution policy unknown. Review data notes.';
 }
 const SIMULATOR_DRAFT='sg-invest-simulator-draft-v1';
 function saveSimulatorDraft() {
@@ -1879,7 +1879,7 @@ function saveSimulatorDraft() {
 function initializeSimulator() {
   try { const draft=JSON.parse(sessionStorage.getItem(SIMULATOR_DRAFT)||'null');if(draft){Object.entries(draft).forEach(([id,value])=>{const el=document.getElementById(id);if(el&&typeof value==='string')el.value=value;});if(entryForId(draft.securityId))selectSecurity(draft.securityId);if(draft.scenario){$('#dividends-toggle').checked=draft.scenario.dividends;$('#tax-toggle').checked=draft.scenario.withholding;$('#reinvest-toggle').checked=draft.scenario.reinvest;}state.simulatorMode=draft.mode==='regular'?'regular':'one-time';} } catch { /* Ignore an invalid local draft. */ }
   $$('[data-investing-mode]').forEach(button=>button.addEventListener('click',()=>setSimulatorMode(button.dataset.investingMode)));
-  $('#use-covered-dates').addEventListener('click',()=>{const id=securityComboboxValue('#security-select');const entry=state.discoveryManifest?.securities?.find(s=>s.security_id===id);const dates=Object.values(entry?.years||{});let first=entry?.first_date||dates.map(y=>y.first_date).filter(Boolean).sort()[0];let last=entry?.last_date||dates.map(y=>y.last_date).filter(Boolean).sort().at(-1);const currency=entryForId(id)?.security.currency;const fx=state.discoveryManifest?.fx?.coverage?.[currency];if(currency!=='SGD'){if(!fx?.first_date||!fx?.last_date){$('#preset-coverage-note').textContent='Usable FX coverage is not published. Enter dates and review result warnings.';return;}first=[first,fx.first_date].filter(Boolean).sort().at(-1);last=[last,fx.last_date].filter(Boolean).sort()[0];}if(!first||!last||first>last||entry.status==='unavailable'){$('#preset-coverage-note').textContent='Published usable history is unavailable. Enter dates and review result coverage.';return;}$('#start-date').value=first;$('#end-date').value=last;$('#preset-coverage-note').textContent=`Published security history ${first} → ${last}. FX availability is checked when calculating.`;editView('analysis');editView('dca');saveSimulatorDraft();});
+  $('#use-covered-dates').addEventListener('click',()=>{const id=securityComboboxValue('#security-select');const entry=state.discoveryManifest?.securities?.find(s=>s.security_id===id);const dates=Object.values(entry?.years||{});let first=entry?.first_date||dates.map(y=>y.first_date).filter(Boolean).sort()[0];let last=entry?.last_date||dates.map(y=>y.last_date).filter(Boolean).sort().at(-1);const currency=entryForId(id)?.security.currency;const fx=state.discoveryManifest?.fx?.coverage?.[currency];if(currency!=='SGD'){if(!fx?.first_date||!fx?.last_date){$('#preset-coverage-note').textContent='Usable FX coverage is not published. Enter dates and review result warnings.';return;}first=[first,fx.first_date].filter(Boolean).sort().at(-1);last=[last,fx.last_date].filter(Boolean).sort()[0];}if(!first||!last||first>last||entry.status==='unavailable'){$('#preset-coverage-note').textContent='Published usable history is unavailable. Enter dates and review result coverage.';return;}$('#start-date').value=first;$('#end-date').value=last;$('#preset-coverage-note').textContent=`History applied: ${first} → ${last}.`;editView('analysis');editView('dca');saveSimulatorDraft();});
   $('#simulator-to-compare').addEventListener('click',copySimulatorToComparison);
   try {const draft=JSON.parse(sessionStorage.getItem('sg-invest-compare-draft-v1')||'null');if(draft){state.compareTickers=[...new Set((Array.isArray(draft.ids)?draft.ids:[]).filter(id=>entryForId(id)))].slice(0,COMPARE_MAX);state.compareCopiedScenario=draft.copiedScenario&&['dividends','withholding','reinvest'].every(key=>typeof draft.copiedScenario[key]==='boolean')?{...draft.copiedScenario}:null;['amount','start','end','scenario'].forEach(name=>{$(`#compare-${name}`).value=draft[name];});renderCompareChips();}}catch{}
   updateAssumptions();setSimulatorMode(state.simulatorMode);
@@ -1892,7 +1892,7 @@ function copySimulatorToComparison(options = {}) {
     // S12: never convert silently. Regular contributions cannot be compared,
     // so the handoff explains that and offers the one-time equivalent.
     note.hidden = false;
-    note.innerHTML = 'Compare runs one-time investments only, so a recurring contribution schedule cannot be compared directly. <button type="button" class="text-button" data-compare-one-time>Compare as a one-time investment</button> — same security, same start and end dates, only the initial lump sum; recurring contributions are excluded.';
+    note.innerHTML = 'Compare supports one-time investments. <button type="button" class="text-button" data-compare-one-time>Compare as a one-time investment</button> using only your initial lump sum; recurring contributions are excluded.';
     note.querySelector('[data-compare-one-time]')?.addEventListener('click', () => copySimulatorToComparison({ asOneTime: true }), { once: true });
     return;
   }
@@ -1914,8 +1914,8 @@ function copySimulatorToComparison(options = {}) {
   renderCompareCoverage();
   note.hidden = false;
   note.textContent = regular
-    ? 'Copied the security, initial capital, simulator dates and assumptions as a one-time comparison. Add a second security in Compare; review shared history and actual resolved dates there.'
-    : 'Copied the security, capital, dates and assumptions. Add another security in Compare; review shared history and actual resolved dates there.';
+    ? 'Copied initial lump sum and assumptions. Add another investment.'
+    : 'Setup copied. Add another investment.';
   location.hash = 'compare';
   $('#compare-amount')?.focus();
 }
