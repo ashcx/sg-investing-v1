@@ -72,3 +72,5 @@ agent checks are not human acceptance or unfamiliar-user usability sessions.
 
 Story evidence is complete. Product Owner reviews this evidence and the PR
 before Sprint 13. Merge and deployment are outside this request.
+
+PR: [Sprint 12 #8](https://github.com/ashcx/sg-investing-v1/pull/8).

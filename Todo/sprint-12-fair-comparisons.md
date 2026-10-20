@@ -98,7 +98,7 @@ order, including checks and recorded self-review before advancing.
 - [x] Inspect the actual locally served webpage design after this sprint at
       desktop and mobile widths; record captures, changed-state checks, and
       findings under `docs/ux-redesign-evidence/sprint-12/`.
-- [ ] Open the sprint PR in `ashcx/sg-investing-v1` with the sprint plan,
+- [x] Open the sprint PR in `ashcx/sg-investing-v1` with the sprint plan,
       implementation changes, checks/results, and remaining gaps; record its URL.
 
 
@@ -284,3 +284,13 @@ Chrome delayed-request follow-up: `loading.txt` demonstrates ready and calculati
 rows together. Editing capital before the 1.5-second fixture failure clears
 progress; `cancelled.json` confirms the late response leaves the original
 completed result intact. No additional implementation was needed.
+
+
+### 20 October 2026 — PR published; product acceptance pending
+
+PR: https://github.com/ashcx/sg-investing-v1/pull/8, targeting main from
+`codex/sprint-12-fair-comparisons`. Plan, implementation, verification results,
+Chrome evidence and remaining gaps are in the PR description. Every task and
+technical/design/PR exit is checked; human Product Owner review remains the
+single open exit. Sprint 12 and the roadmap remain In progress. No later
+sprint, merge or deployment has started.
