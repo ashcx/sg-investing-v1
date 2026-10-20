@@ -1,0 +1,4 @@
+PASS: two empty slots; isolated one-time handoff; explicit regular initial-only choice; shared simulator dates; Tier-2 coverage
+PASS: actual renderer preserves golden financial values, actual dates per metric, five warning details, source metadata, partial/empty states and escaped errors
+PASS: actual controller handles 2–6 entries, unavailable/failed rows, invalid capital/dates/duplicates, retained prior output, edits/reordering and late-response rejection
+PASS: adapter requests use stable security IDs and per-security local fallback preserves valid alternatives

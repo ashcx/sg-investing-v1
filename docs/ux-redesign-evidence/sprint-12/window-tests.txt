@@ -1,0 +1,12 @@
+PASS: qqq-vall-common-window
+PASS: qqq-vall-requested-inside-common-window
+PASS: qqq-vall-requested-outside-common-window
+PASS: eur-security-without-fx-is-unavailable
+PASS: identical-windows-are-equal
+PASS: qqq-vall-never-compared-on-requested-window
+PASS: equal-windows-resolve-identically
+PASS: unusable-selection-never-resolves
+PASS: invalid-and-inverted-requests-rejected
+PASS: missing-published-dates-excluded
+PASS: fx-limit-is-explicit
+compare-window-selftest: all assertions passed

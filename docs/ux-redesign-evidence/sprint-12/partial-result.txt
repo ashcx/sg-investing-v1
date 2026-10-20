@@ -1,0 +1,122 @@
+Partial results
+Matching periods among completed results
+REQUESTED DATES
+2024-02-01 → 2024-05-01
+ACTUAL DATES
+See each completed card
+CAPITAL PER SECURITY
+S$1,000.00
+SCENARIO
+Price only
+
+Use the actual dates on each card. Shared requested dates or published history alone do not prove equal investment periods.
+
+Dividends off · withholding off · reinvestment off
+
+Completed results use the same reported data snapshot and methodology version.
+
+4 of 6 securities calculated.
+
+QQQ
+
+QQQ synthetic comparison fixture (not market data)
+
+SGX · USD
+
+Compared
+Ending value · SGD
+S$1,600.00
+2024-02-01 → 2024-05-01
+Total return · SGD (%)
++60.00%
+2024-02-01 → 2024-05-01
+Native total return · USD (%)
++33.33%
+2024-02-01 → 2024-05-01
+
+Actual period: 2024-02-01 → 2024-05-01
+
+Review data notes · 1 warning
+
+VALL
+
+VALL synthetic comparison fixture (not market data)
+
+SGX · USD
+
+Compared
+Ending value · SGD
+S$1,800.00
+2024-02-01 → 2024-05-01
+Total return · SGD (%)
++80.00%
+2024-02-01 → 2024-05-01
+Native total return · USD (%)
++50.00%
+2024-02-01 → 2024-05-01
+
+Actual period: 2024-02-01 → 2024-05-01
+
+Review data notes · 1 warning
+
+ES3
+
+ES3 synthetic comparison fixture (not market data)
+
+SGX · SGD
+
+Compared
+Ending value · SGD
+S$1,181.82
+2024-02-01 → 2024-05-01
+Total return · SGD (%)
++18.18%
+2024-02-01 → 2024-05-01
+Native total return · SGD (%)
++18.18%
+2024-02-01 → 2024-05-01
+
+Actual period: 2024-02-01 → 2024-05-01
+
+Review data notes · 1 warning
+
+REMOTE
+
+REMOTE synthetic comparison fixture (not market data)
+
+SGX · USD
+
+Compared
+Ending value · SGD
+S$1,600.00
+2024-02-01 → 2024-05-01
+Total return · SGD (%)
++60.00%
+2024-02-01 → 2024-05-01
+Native total return · USD (%)
++33.33%
+2024-02-01 → 2024-05-01
+
+Actual period: 2024-02-01 → 2024-05-01
+
+Review data notes · 1 warning
+
+NOFX
+
+NOFX synthetic comparison fixture (not market data)
+
+SGX · CHF
+
+Unavailable
+
+No CHF/SGD exchange-rate history is published, so this security cannot be converted to SGD.
+
+BROKEN
+
+BROKEN synthetic comparison fixture (not market data)
+
+SGX · SGD
+
+Failed
+
+Could not load data/packs/security=12000000-0000-0000-0000-000000000006/year=2024.json (503)

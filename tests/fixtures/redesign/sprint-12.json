@@ -1,0 +1,434 @@
+{
+  "description": "Independent synthetic QQQ/VALL comparison fixtures; names identify regression roles, not observed market histories. Expected final values are hand calculated.",
+  "securities": [
+    {
+      "security": {
+        "security_id": "12000000-0000-0000-0000-000000000001",
+        "ticker": "QQQ",
+        "exchange": "SGX",
+        "market": "SG",
+        "name": "QQQ synthetic comparison fixture (not market data)",
+        "currency": "USD",
+        "asset_type": "ETF",
+        "domicile": "SG",
+        "income_source_country": "US",
+        "isin": null,
+        "cusip": null,
+        "timezone": "UTC",
+        "active": true,
+        "distribution_policy": "distributing",
+        "expense_ratio": null
+      },
+      "prices": [
+        {
+          "security_id": "12000000-0000-0000-0000-000000000001",
+          "trading_date": "2024-01-02",
+          "close": "10",
+          "currency": "USD"
+        },
+        {
+          "security_id": "12000000-0000-0000-0000-000000000001",
+          "trading_date": "2024-02-01",
+          "close": "12",
+          "currency": "USD"
+        },
+        {
+          "security_id": "12000000-0000-0000-0000-000000000001",
+          "trading_date": "2024-04-01",
+          "close": "15",
+          "currency": "USD"
+        },
+        {
+          "security_id": "12000000-0000-0000-0000-000000000001",
+          "trading_date": "2024-05-01",
+          "close": "16",
+          "currency": "USD"
+        }
+      ],
+      "fx_rates": [
+        {
+          "rate_date": "2024-01-02",
+          "base_currency": "USD",
+          "rate_to_sgd": "1.25"
+        },
+        {
+          "rate_date": "2024-02-01",
+          "base_currency": "USD",
+          "rate_to_sgd": "1.25"
+        },
+        {
+          "rate_date": "2024-04-01",
+          "base_currency": "USD",
+          "rate_to_sgd": "1.5"
+        },
+        {
+          "rate_date": "2024-04-02",
+          "base_currency": "USD",
+          "rate_to_sgd": "1.5"
+        },
+        {
+          "rate_date": "2024-05-01",
+          "base_currency": "USD",
+          "rate_to_sgd": "1.5"
+        }
+      ],
+      "dividends": [
+        {
+          "security_id": "12000000-0000-0000-0000-000000000001",
+          "ex_date": "2024-02-01",
+          "pay_date": "2024-02-01",
+          "amount": "1",
+          "currency": "USD",
+          "dividend_type": "regular",
+          "source_country": "US",
+          "source": "synthetic"
+        }
+      ],
+      "corporate_actions": []
+    },
+    {
+      "security": {
+        "security_id": "12000000-0000-0000-0000-000000000002",
+        "ticker": "VALL",
+        "exchange": "SGX",
+        "market": "SG",
+        "name": "VALL synthetic comparison fixture (not market data)",
+        "currency": "USD",
+        "asset_type": "ETF",
+        "domicile": "SG",
+        "income_source_country": "US",
+        "isin": null,
+        "cusip": null,
+        "timezone": "UTC",
+        "active": true,
+        "distribution_policy": "distributing",
+        "expense_ratio": null
+      },
+      "prices": [
+        {
+          "security_id": "12000000-0000-0000-0000-000000000002",
+          "trading_date": "2024-02-01",
+          "close": "20",
+          "currency": "USD"
+        },
+        {
+          "security_id": "12000000-0000-0000-0000-000000000002",
+          "trading_date": "2024-04-02",
+          "close": "25",
+          "currency": "USD"
+        },
+        {
+          "security_id": "12000000-0000-0000-0000-000000000002",
+          "trading_date": "2024-05-01",
+          "close": "30",
+          "currency": "USD"
+        }
+      ],
+      "fx_rates": [
+        {
+          "rate_date": "2024-01-02",
+          "base_currency": "USD",
+          "rate_to_sgd": "1.25"
+        },
+        {
+          "rate_date": "2024-02-01",
+          "base_currency": "USD",
+          "rate_to_sgd": "1.25"
+        },
+        {
+          "rate_date": "2024-04-01",
+          "base_currency": "USD",
+          "rate_to_sgd": "1.5"
+        },
+        {
+          "rate_date": "2024-04-02",
+          "base_currency": "USD",
+          "rate_to_sgd": "1.5"
+        },
+        {
+          "rate_date": "2024-05-01",
+          "base_currency": "USD",
+          "rate_to_sgd": "1.5"
+        }
+      ],
+      "dividends": [],
+      "corporate_actions": []
+    },
+    {
+      "security": {
+        "security_id": "12000000-0000-0000-0000-000000000003",
+        "ticker": "ES3",
+        "exchange": "SGX",
+        "market": "SG",
+        "name": "ES3 synthetic comparison fixture (not market data)",
+        "currency": "SGD",
+        "asset_type": "ETF",
+        "domicile": "SG",
+        "income_source_country": "SG",
+        "isin": null,
+        "cusip": null,
+        "timezone": "UTC",
+        "active": true,
+        "distribution_policy": "distributing",
+        "expense_ratio": null
+      },
+      "prices": [
+        {
+          "security_id": "12000000-0000-0000-0000-000000000003",
+          "trading_date": "2024-01-02",
+          "close": "10",
+          "currency": "SGD"
+        },
+        {
+          "security_id": "12000000-0000-0000-0000-000000000003",
+          "trading_date": "2024-02-01",
+          "close": "11",
+          "currency": "SGD"
+        },
+        {
+          "security_id": "12000000-0000-0000-0000-000000000003",
+          "trading_date": "2024-04-01",
+          "close": "12",
+          "currency": "SGD"
+        },
+        {
+          "security_id": "12000000-0000-0000-0000-000000000003",
+          "trading_date": "2024-05-01",
+          "close": "13",
+          "currency": "SGD"
+        }
+      ],
+      "fx_rates": [],
+      "dividends": [],
+      "corporate_actions": []
+    },
+    {
+      "security": {
+        "security_id": "12000000-0000-0000-0000-000000000004",
+        "ticker": "REMOTE",
+        "exchange": "SGX",
+        "market": "SG",
+        "name": "REMOTE synthetic comparison fixture (not market data)",
+        "currency": "USD",
+        "asset_type": "ETF",
+        "domicile": "SG",
+        "income_source_country": "US",
+        "isin": null,
+        "cusip": null,
+        "timezone": "UTC",
+        "active": true,
+        "distribution_policy": "distributing",
+        "expense_ratio": null
+      },
+      "prices": [
+        {
+          "security_id": "12000000-0000-0000-0000-000000000004",
+          "trading_date": "2024-01-02",
+          "close": "10",
+          "currency": "USD"
+        },
+        {
+          "security_id": "12000000-0000-0000-0000-000000000004",
+          "trading_date": "2024-02-01",
+          "close": "12",
+          "currency": "USD"
+        },
+        {
+          "security_id": "12000000-0000-0000-0000-000000000004",
+          "trading_date": "2024-04-01",
+          "close": "15",
+          "currency": "USD"
+        },
+        {
+          "security_id": "12000000-0000-0000-0000-000000000004",
+          "trading_date": "2024-05-01",
+          "close": "16",
+          "currency": "USD"
+        }
+      ],
+      "fx_rates": [
+        {
+          "rate_date": "2024-01-02",
+          "base_currency": "USD",
+          "rate_to_sgd": "1.25"
+        },
+        {
+          "rate_date": "2024-02-01",
+          "base_currency": "USD",
+          "rate_to_sgd": "1.25"
+        },
+        {
+          "rate_date": "2024-04-01",
+          "base_currency": "USD",
+          "rate_to_sgd": "1.5"
+        },
+        {
+          "rate_date": "2024-04-02",
+          "base_currency": "USD",
+          "rate_to_sgd": "1.5"
+        },
+        {
+          "rate_date": "2024-05-01",
+          "base_currency": "USD",
+          "rate_to_sgd": "1.5"
+        }
+      ],
+      "dividends": [],
+      "corporate_actions": []
+    },
+    {
+      "security": {
+        "security_id": "12000000-0000-0000-0000-000000000005",
+        "ticker": "NOFX",
+        "exchange": "SGX",
+        "market": "SG",
+        "name": "NOFX synthetic comparison fixture (not market data)",
+        "currency": "CHF",
+        "asset_type": "ETF",
+        "domicile": "SG",
+        "income_source_country": "SG",
+        "isin": null,
+        "cusip": null,
+        "timezone": "UTC",
+        "active": true,
+        "distribution_policy": "distributing",
+        "expense_ratio": null
+      },
+      "prices": [
+        {
+          "security_id": "12000000-0000-0000-0000-000000000005",
+          "trading_date": "2024-01-02",
+          "close": "10",
+          "currency": "CHF"
+        },
+        {
+          "security_id": "12000000-0000-0000-0000-000000000005",
+          "trading_date": "2024-05-01",
+          "close": "12",
+          "currency": "CHF"
+        }
+      ],
+      "fx_rates": [],
+      "dividends": [],
+      "corporate_actions": []
+    },
+    {
+      "security": {
+        "security_id": "12000000-0000-0000-0000-000000000006",
+        "ticker": "BROKEN",
+        "exchange": "SGX",
+        "market": "SG",
+        "name": "BROKEN synthetic comparison fixture (not market data)",
+        "currency": "SGD",
+        "asset_type": "ETF",
+        "domicile": "SG",
+        "income_source_country": "SG",
+        "isin": null,
+        "cusip": null,
+        "timezone": "UTC",
+        "active": true,
+        "distribution_policy": "distributing",
+        "expense_ratio": null
+      },
+      "prices": [
+        {
+          "security_id": "12000000-0000-0000-0000-000000000006",
+          "trading_date": "2024-01-02",
+          "close": "10",
+          "currency": "SGD"
+        },
+        {
+          "security_id": "12000000-0000-0000-0000-000000000006",
+          "trading_date": "2024-05-01",
+          "close": "12",
+          "currency": "SGD"
+        }
+      ],
+      "fx_rates": [],
+      "dividends": [],
+      "corporate_actions": []
+    }
+  ],
+  "tax_rules": [
+    {
+      "rule_id": "fixture-us",
+      "source_country": "US",
+      "income_type": "dividend",
+      "investor_type": "singapore_individual",
+      "rate": "0.25",
+      "effective_from": "2000-01-01"
+    }
+  ],
+  "cases": [
+    {
+      "name": "price-fx",
+      "ticker": "QQQ",
+      "start": "2024-01-01",
+      "end": "2024-04-01",
+      "scenario": {
+        "dividends_enabled": false,
+        "withholding_tax_enabled": false,
+        "reinvest_dividends": false
+      },
+      "expected": {
+        "final_value_sgd": "1800",
+        "total_return": "0.8",
+        "native_return": "0.5",
+        "start": "2024-01-02",
+        "end": "2024-04-01"
+      }
+    },
+    {
+      "name": "cash-dividend-tax",
+      "ticker": "QQQ",
+      "start": "2024-01-01",
+      "end": "2024-04-01",
+      "scenario": {
+        "dividends_enabled": true,
+        "withholding_tax_enabled": true,
+        "reinvest_dividends": false
+      },
+      "expected": {
+        "final_value_sgd": "1890",
+        "total_return": "0.89",
+        "native_return": "0.575",
+        "start": "2024-01-02",
+        "end": "2024-04-01"
+      }
+    },
+    {
+      "name": "reinvest-dividend-tax",
+      "ticker": "QQQ",
+      "start": "2024-01-01",
+      "end": "2024-04-01",
+      "scenario": {
+        "dividends_enabled": true,
+        "withholding_tax_enabled": true,
+        "reinvest_dividends": true
+      },
+      "expected": {
+        "final_value_sgd": "1912.5",
+        "total_return": "0.9125",
+        "native_return": "0.59375",
+        "start": "2024-01-02",
+        "end": "2024-04-01"
+      }
+    },
+    {
+      "name": "vall-unequal-history-calendar",
+      "ticker": "VALL",
+      "start": "2024-01-01",
+      "end": "2024-04-01",
+      "scenario": {
+        "dividends_enabled": false
+      },
+      "expected": {
+        "final_value_sgd": "1000",
+        "total_return": "0",
+        "native_return": "0",
+        "start": "2024-02-01",
+        "end": "2024-02-01"
+      }
+    }
+  ]
+}

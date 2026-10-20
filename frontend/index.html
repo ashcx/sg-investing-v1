@@ -10,7 +10,7 @@
     <meta name="sg-invest-api-base" content="" />
     <meta name="sg-invest-pack-base" content="https://pub-a88a64ce6b634ab8a70623c35ff81ad7.r2.dev" />
     <title>SG / Invest — See the return in the currency that matters</title>
-    <link rel="stylesheet" href="styles.css?v=12" />
+    <link rel="stylesheet" href="styles.css?v=13" />
     <link rel="stylesheet" href="workspace.css?v=1" />
   </head>
   <body>
@@ -180,15 +180,17 @@
           </div>
         </div></section>
         <section data-workspace="compare" hidden><div class="section-frame section-block comparison-section" id="compare">
-          <div class="section-heading"><h2>Compare investments.</h2><p class="section-intro">Keep dates, capital and methodology constant while you compare securities.</p></div>
+          <div class="section-heading"><h2>Compare investments.</h2><p class="section-intro">Keep dates, capital and methodology constant while you compare securities. Preview shared history and check the actual investment period on each result.</p></div>
           <div class="compare-layout">
             <form id="compare-form" class="compare-form">
               <div class="form-field"><label for="compare-tickers">Securities <span class="field-unit">2–6</span></label><div class="multi-combobox" id="compare-ticker-picker" data-multi-combobox><div class="selected-chips" id="compare-ticker-chips"></div><input id="compare-tickers" type="text" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="compare-ticker-options" autocomplete="off" placeholder="Add a ticker…" data-initial-tickers="" /><div class="combobox-list hidden" id="compare-ticker-options" role="listbox" aria-label="Comparison securities"></div></div><p class="field-hint">Search and select 2–6 securities from the published catalog.</p></div>
-              <div class="form-grid"><div class="form-field"><label for="compare-amount">Capital <span class="field-unit">SGD</span></label><div class="input-prefix light"><span>S$</span><input id="compare-amount" type="number" min="1" step="100" value="10000" /></div></div><div class="form-field"><label for="compare-scenario">Scenario</label><select id="compare-scenario"><option value="custom">Copied custom assumptions</option><option value="investor" selected>Singapore investor</option><option value="price">Price only</option><option value="gross">Gross total return</option><option value="cash">Cash dividends</option></select></div></div>
-              <div class="form-grid"><div class="form-field"><label for="compare-start">Start date</label><input id="compare-start" type="date" value="" /></div><div class="form-field"><label for="compare-end">End date</label><input id="compare-end" type="date" value="" /></div></div>
+              <div class="compare-coverage" id="compare-coverage" aria-live="polite"></div>
+              <div class="form-grid"><div class="form-field"><label for="compare-amount">Capital <span class="field-unit">SGD</span></label><div class="input-prefix light"><span>S$</span><input id="compare-amount" type="number" min="0.01" step="any" required value="10000" /></div></div><div class="form-field"><label for="compare-scenario">Scenario</label><select id="compare-scenario"><option value="custom">Copied custom assumptions</option><option value="investor" selected>Singapore investor</option><option value="price">Price only</option><option value="gross">Gross total return</option><option value="cash">Cash dividends</option></select></div></div>
+              <div class="form-grid"><div class="form-field"><label for="compare-start">Start date</label><input id="compare-start" type="date" required value="" /></div><div class="form-field"><label for="compare-end">End date</label><input id="compare-end" type="date" required value="" /></div></div>
+              <p class="compare-assumptions" id="compare-assumptions"></p>
               <p class="form-error" id="compare-error" role="alert"></p><button class="button button-primary full-width" type="submit">Run comparison <span aria-hidden="true">→</span></button>
             </form>
-            <div class="compare-results" id="compare-results" aria-live="polite"><div class="result-empty compact-empty"><h3>Same inputs. Different paths.</h3><p>Enter two or more catalog tickers to compare locally computed results.</p></div></div>
+            <div class="compare-output"><div class="compare-results" id="compare-results" aria-live="polite"><div class="result-empty compact-empty"><h3>Same inputs. Different paths.</h3><p>Select 2–6 securities. Use one setup for every security. Shared history is previewed before calculation; actual dates and data notes accompany each result.</p></div></div><div class="compare-progress" id="compare-progress" aria-live="polite"></div></div>
           </div>
         </div></section>
         <section data-workspace="portfolio" hidden><div class="section-frame section-block secondary-section" id="portfolio">
@@ -216,6 +218,6 @@
 
       <footer class="site-footer section-frame"><span>SG / Invest · Built for careful comparisons.</span><span>Historical analysis · No execution · No advice</span></footer>
     </div>
-    <script type="module" src="app.js?v=12"></script>
+    <script type="module" src="app.js?v=13"></script>
   </body>
 </html>

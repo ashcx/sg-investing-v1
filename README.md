@@ -356,7 +356,7 @@ pack build.
 - Architecture decisions: [`docs/adr/`](docs/adr/)
 - Roadmap and sprint files: [`TODO.md`](TODO.md) and [`Todo/`](Todo/)
 
-## Redesign preview (Sprints 10–11)
+## Redesign preview (Sprints 10–12)
 
 The workspace has Simulator, Compare investments, My portfolio, and Data &
 methods destinations. Simulator shares security, dates and assumptions between
@@ -369,3 +369,18 @@ currency at a time and are explicitly not investment-value/total-return curves.
 Work is proposed in separate sprint PRs and is not deployed until merged and
 published through the existing release workflow. Browser review evidence and
 checks live under `docs/ux-redesign-evidence/`.
+
+Comparison starts with two empty slots and supports up to six securities. Its
+published price/FX overlap is a preview; **Use shared dates** changes dates only
+on request. Results verify actual engine-resolved periods and repeat currency,
+metric and period on each mobile card. Per-security warnings and provenance
+remain inspectable. Missing data or failed securities leave valid alternatives
+visible, while edits and failed replacements retain the previous request.
+Comparison supports one-time investments; recurring contributions remain in the
+Simulator, with an explicit option to copy only a positive initial lump sum.
+
+For an offline comparison browser review, run
+`node tests/browser/sprint-12-server.mjs` and open
+<http://127.0.0.1:4174/#compare>. This serves clearly labeled synthetic data,
+including unequal histories, external-origin coverage, missing FX and a failed
+pack. It does not read or update production market data.

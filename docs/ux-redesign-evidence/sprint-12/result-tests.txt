@@ -1,0 +1,6 @@
+PASS: independent price-fx amounts, FX, scenario and actual dates
+PASS: independent cash-dividend-tax amounts, FX, scenario and actual dates
+PASS: independent reinvest-dividend-tax amounts, FX, scenario and actual dates
+PASS: independent vall-unequal-history-calendar amounts, FX, scenario and actual dates
+PASS: distinct QQQ/VALL securities resolve to equal actual dates after explicit shared-window choice
+PASS: envelopes, missing/mismatched results, actual date equality, partial results and provenance

@@ -317,3 +317,74 @@ h1 em { color: var(--coral); font-style: normal; }
   .result-header > div { min-width: 0; max-width: 100%; }
   .result-security-line { flex-wrap: wrap; }
 }
+
+/* --- S12: fair comparisons (F04/F06) --------------------------------------
+   The shared window and per-security coverage are stated before the run, and
+   each result is a labelled card so an unequal period is never hidden in a
+   dense table. Labels stay >= 12px at 320px. */
+.compare-coverage { display: grid; gap: 10px; margin-top: 14px; padding: 13px 14px; border: 1px solid var(--line); background: var(--paper-warm); }
+.compare-common { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px; margin: 0; font-size: 12.5px; color: var(--ink-2); }
+.compare-common strong { font: 13px var(--mono); color: var(--ink); }
+.compare-common .summary-label { color: var(--muted); font: 11px var(--mono); text-transform: uppercase; letter-spacing: .07em; }
+.compare-common.is-blocked { color: #8a4a1f; }
+.compare-common-why { color: var(--muted); font-size: 12px; }
+.coverage-list { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.coverage-list li { display: grid; grid-template-columns: minmax(52px, auto) minmax(0, 1fr); gap: 2px 10px; align-items: baseline; padding-top: 6px; border-top: 1px solid var(--line); font-size: 12px; }
+.coverage-list li:first-child { padding-top: 0; border-top: 0; }
+.coverage-ticker { color: var(--ink); font: 12px var(--mono); }
+.coverage-dates { color: var(--ink-2); font: 12px var(--mono); overflow-wrap: anywhere; }
+.coverage-note { grid-column: 1 / -1; color: var(--muted); font-size: 12px; }
+.coverage-list li[data-coverage-state="unavailable"] .coverage-dates,
+.coverage-list li[data-coverage-state="unknown"] .coverage-dates { color: #8a4a1f; }
+.compare-assumptions { margin: 10px 0 0; color: var(--muted); font-size: 12.5px; }
+.compare-window-summary { margin-bottom: 18px; padding-bottom: 16px; border-bottom: 1px solid var(--line); }
+.compare-window-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; }
+.compare-window-head h3 { margin: 0; font-size: 19px; letter-spacing: -.01em; }
+.compare-window-dates { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin: 12px 0 0; }
+.compare-window-dates > div { min-width: 0; }
+.compare-window-dates dt { color: var(--muted); font: 11px var(--mono); text-transform: uppercase; letter-spacing: .06em; }
+.compare-window-dates dd { margin: 3px 0 0; font-size: 12.5px; overflow-wrap: anywhere; }
+.compare-window-dates dd strong { font: 13px var(--mono); }
+.compare-window-note { margin: 12px 0 0; color: var(--ink-2); font-size: 12.5px; }
+.compare-consistency { margin: 8px 0 0; font-size: 12.5px; }
+.compare-consistency.is-ok { color: #27693a; }
+.compare-consistency.is-warn { color: #8a4a1f; }
+.compare-cards { display: grid; gap: 12px; }
+.compare-card { padding: 15px; border: 1px solid var(--line); background: var(--white); }
+.compare-card[data-compare-state="loading"], .compare-card[data-compare-state="pending"] { border-style: dashed; }
+.compare-card-head { display: flex; align-items: start; justify-content: space-between; gap: 10px; }
+.compare-card-id { min-width: 0; }
+.compare-card-ticker { margin: 0; font: 14px var(--mono); letter-spacing: .02em; }
+.compare-card-name { margin: 2px 0 0; color: var(--muted); font-size: 12px; overflow-wrap: anywhere; }
+.compare-card .status-chip { justify-self: auto; font-size: 12px; }
+.compare-card-metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 14px 0 0; }
+.compare-card-metrics > div { min-width: 0; }
+.compare-card-metrics dt { color: var(--muted); font-size: 12px; }
+.compare-card-metrics dd { margin: 2px 0 0; font-size: 14px; overflow-wrap: anywhere; }
+.compare-card-metrics dd.compare-card-headline { font-size: 22px; font-weight: 600; }
+.compare-card-metrics .is-primary dd { font-size: 22px; font-weight: 600; }
+.compare-card-metrics .is-secondary { grid-column: 1 / -1; padding-top: 10px; border-top: 1px solid var(--line); }
+.metric-period { display: block; margin-top: 4px; color: var(--muted); font: 12px var(--mono); }
+.compare-actual-period { color: var(--ink-2); font-size: 12px; overflow-wrap: anywhere; }
+.compare-card-details { border-top: 1px solid var(--line); padding-top: 10px; font-size: 12.5px; }
+.compare-card-details summary { cursor: pointer; padding: 6px 0; color: var(--ink); }
+.compare-card-details li { margin: 6px 0; overflow-wrap: anywhere; }
+.compare-provenance { display: grid; gap: 10px; }
+.compare-provenance dt { color: var(--muted); }
+.compare-provenance dd { margin: 2px 0 0; overflow-wrap: anywhere; }
+.selected-chip.empty-slot { border-style: dashed; background: transparent; }
+.compare-card-metrics, .compare-results, .compare-form { min-width: 0; }
+.compare-progress:not(:empty) { margin-top: 20px; padding: 18px; border: 1px dashed var(--line); background: var(--paper-warm); }
+.compare-card-metrics dd .status-chip { display: inline-block; margin-left: 4px; font-size: 11px; }
+.compare-card-notes { display: grid; gap: 3px; margin: 12px 0 0; padding: 10px 0 0; border-top: 1px solid var(--line); list-style: none; color: var(--muted); font: 11.5px var(--mono); overflow-wrap: anywhere; }
+.compare-card-reason { margin: 10px 0 0; color: #8a4a1f; font-size: 12.5px; }
+.compare-partial { margin: 12px 0 0; color: var(--muted); font-size: 12.5px; }
+.status-chip.muted { color: var(--muted); background: var(--paper); }
+.status-chip.bad { color: #8a2f1f; background: #fde4de; }
+@media (max-width: 650px) {
+  .compare-coverage { padding: 12px; }
+  .coverage-list li { grid-template-columns: 1fr; }
+  .compare-window-dates { grid-template-columns: 1fr; }
+  .compare-card-metrics { grid-template-columns: 1fr; }
+  .compare-window-head h3 { font-size: 17px; }
+}

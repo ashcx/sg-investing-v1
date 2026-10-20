@@ -1,0 +1,6 @@
+{
+  "error": "No security could be calculated for this request. Inspect each reason below; any previous completed result is retained.",
+  "previous": "Previous result — not current for the edited inputs. VALL,ES3,REMOTE,NOFX,BROKEN,QQQ · 2024-02-01 → 2024-05-01 · 2000 SGD initial · dividends false, withholding false, reinvest false · This request could not be calculated. Check the error and try again.",
+  "progress": "No results calculated\nAt least two results needed to compare\nREQUESTED DATES\n2024-02-01 → 2024-05-01\nACTUAL DATES\nSee each completed card\nCAPITAL PER SECURITY\nS$2,000.00\nSCENARIO\nPrice only\n\nUse the actual dates on each card. Shared requested dates or published history alone do not prove equal investment periods.\n\nDividends off · withholding off · reinvestment off\n\n0 of 2 securities calculated.\n\nNOFX\n\nNOFX synthetic comparison fixture (not market data)\n\nSGX · CHF\n\nUnavailable\n\nNo CHF/SGD exchange-rate history is published, so this security cannot be converted to SGD.\n\nBROKEN\n\nBROKEN synthetic comparison fixture (not market data)\n\nSGX · SGD\n\nFailed\n\nCould not load data/packs/security=12000000-0000-0000-0000-000000000006/year=2024.json (503)",
+  "retained": true
+}

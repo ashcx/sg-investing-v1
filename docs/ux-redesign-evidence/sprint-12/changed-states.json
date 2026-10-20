@@ -1,0 +1,8 @@
+{
+  "invalidProof": {
+    "error": "Enter finite capital greater than S$0.",
+    "state": "Previous result — not current for the edited inputs. QQQ,VALL,ES3,REMOTE,NOFX,BROKEN · 2024-02-01 → 2024-05-01 · 1000 SGD initial · dividends false, withholding false, reinvest false · Check the input error, then Calculate.",
+    "retained": true
+  },
+  "changedProof": "Current result. VALL,ES3,REMOTE,NOFX,BROKEN,QQQ · 2024-02-01 → 2024-05-01 · 2000 SGD initial · dividends false, withholding false, reinvest false"
+}
