@@ -1,0 +1,26 @@
+[
+  {
+    "metrics": [
+      "Ending value · SGD\nS$1,920.00\n2024-01-02 → 2024-05-01",
+      "Total return · SGD (%)\n+92.00%\n2024-01-02 → 2024-05-01",
+      "Native total return · USD (%)\n+60.00%\n2024-01-02 → 2024-05-01",
+      "Ending value · SGD\nS$1,800.00\n2024-02-01 → 2024-05-01",
+      "Total return · SGD (%)\n+80.00%\n2024-02-01 → 2024-05-01",
+      "Native total return · USD (%)\n+50.00%\n2024-02-01 → 2024-05-01"
+    ],
+    "scroll": 320,
+    "width": 320
+  },
+  {
+    "metrics": [
+      "Ending value · SGD\nS$1,920.00\n2024-01-02 → 2024-05-01",
+      "Total return · SGD (%)\n+92.00%\n2024-01-02 → 2024-05-01",
+      "Native total return · USD (%)\n+60.00%\n2024-01-02 → 2024-05-01",
+      "Ending value · SGD\nS$1,800.00\n2024-02-01 → 2024-05-01",
+      "Total return · SGD (%)\n+80.00%\n2024-02-01 → 2024-05-01",
+      "Native total return · USD (%)\n+50.00%\n2024-02-01 → 2024-05-01"
+    ],
+    "scroll": 390,
+    "width": 390
+  }
+]

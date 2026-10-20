@@ -4,13 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#101b2d" />
-    <meta name="description" content="A calm, auditable return lens for Singapore investors." />
+    <meta name="description" content="Explore historical investment returns in SGD." />
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; worker-src 'self'; connect-src 'self' https://pub-a88a64ce6b634ab8a70623c35ff81ad7.r2.dev; font-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'" />
     <!-- Leave empty for a static Pages deployment. Set this to the origin of a separately hosted adapter when dynamic calculations are enabled. -->
     <meta name="sg-invest-api-base" content="" />
     <meta name="sg-invest-pack-base" content="https://pub-a88a64ce6b634ab8a70623c35ff81ad7.r2.dev" />
-    <title>SG / Invest — See the return in the currency that matters</title>
-    <link rel="stylesheet" href="styles.css?v=12" />
+    <title>SG / Invest</title>
+    <link rel="stylesheet" href="styles.css?v=14" />
     <link rel="stylesheet" href="workspace.css?v=1" />
   </head>
   <body>
@@ -26,13 +26,13 @@
 
       <main id="workspace-content" tabindex="-1">
         <section id="simulator" data-workspace="simulator" aria-labelledby="simulator-heading">
-          <div class="workspace-intro section-frame"><p class="eyebrow">Historical investing · in SGD</p><h1 id="simulator-heading">Make sense of an investment.</h1><p>Choose an investment and test a one-time amount or regular contributions. Dates, assumptions and data limits stay visible.</p><p class="detail-note">Shared links recalculate with currently available data. Downloaded results retain their original snapshot metadata.</p></div>
+          <div class="workspace-intro section-frame"><h1 id="simulator-heading">Investment simulator</h1><p>Explore historical returns in SGD.</p></div>
           <details class="discovery section-frame"><summary>Find or browse investments</summary><div class="section-frame section-block" id="explore">
           <div class="section-heading">
             <div>
                 <h2>Find an investment.</h2>
             </div>
-            <p class="section-intro">Search a curated global and SGX-aware universe. Search by ticker, name or ISIN.</p>
+            <p class="section-intro">Search by ticker, name or ISIN.</p>
           </div>
           <div class="catalog-controls">
             <label class="search-box" for="catalog-search">
@@ -56,12 +56,7 @@
           <div class="catalog-grid" id="catalog-grid" aria-live="polite"></div>
           <div class="catalog-foot"><button class="text-button hidden" id="catalog-more" type="button">Show more</button><a class="text-link" href="#methodology">View coverage &amp; provenance <span aria-hidden="true">↗</span></a></div>
         </div></details><div class="section-frame section-block analysis-section" id="analyse">
-          <div class="section-heading analysis-heading">
-            <div>
-                <h2>Investment simulator</h2>
-            </div>
-            <p class="section-intro">Choose a scenario — results are computed in your browser with the assumptions kept visible.</p>
-          </div>
+          <h2 class="sr-only">Investment setup</h2>
 
           <div class="analysis-layout">
             <aside class="analysis-form-panel">
@@ -73,10 +68,10 @@
                     <input id="security-select" class="combobox-input" type="text" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="security-select-options" autocomplete="off" placeholder="Search ticker or name…" required />
                     <div class="combobox-list hidden" id="security-select-options" role="listbox" aria-label="Published securities"></div>
                   </div>
-                  <p class="field-hint" id="security-hint">Choose a published security.</p>
-                  <dl class="security-metadata" aria-label="Security metadata"><div><dt>Domicile</dt><dd id="security-domicile">—</dd></div><div><dt>ISIN</dt><dd id="security-isin">Not published</dd></div><div><dt>Expense ratio</dt><dd id="security-expense">Metadata only</dd></div></dl>
+                  <p class="field-hint" id="security-hint"></p>
+                  <details class="inline-help security-details"><summary>Investment details</summary><dl class="security-metadata" aria-label="Security metadata"><div><dt>Domicile</dt><dd id="security-domicile">—</dd></div><div><dt>ISIN</dt><dd id="security-isin">Not published</dd></div><div><dt>Expense ratio</dt><dd id="security-expense">Metadata only</dd></div></dl></details>
                 </div>
-                <div id="regular-inputs" hidden><div class="form-field"><label for="dca-initial">Initial lump sum (SGD)</label><input id="dca-initial" type="number" min="0" step="100" value="0" /></div><div class="form-field"><label for="dca-contribution">Contribution per period (SGD)</label><input id="dca-contribution" type="number" min="0.01" step="50" value="500" /></div><div class="form-field"><label for="dca-frequency">Frequency</label><select id="dca-frequency"><option value="monthly">Monthly</option><option value="quarterly">Quarterly</option><option value="yearly">Yearly</option></select></div><p class="field-hint">The initial amount is invested once. The first regular contribution also occurs on the first eligible trading date.</p></div>
+                <div id="regular-inputs" hidden><div class="form-field"><label for="dca-initial">Initial lump sum (SGD)</label><input id="dca-initial" type="number" min="0" step="100" value="0" /></div><div class="form-field"><label for="dca-contribution">Contribution per period (SGD)</label><input id="dca-contribution" type="number" min="0.01" step="50" value="500" /></div><div class="form-field"><label for="dca-frequency">Frequency</label><select id="dca-frequency"><option value="monthly">Monthly</option><option value="quarterly">Quarterly</option><option value="yearly">Yearly</option></select></div><p class="field-hint">Both the initial amount and first contribution are invested at the start.</p></div>
                 <div class="form-grid scenario-grid" id="one-time-inputs">
                   <div class="form-field">
                     <label for="initial-amount">Initial amount <span class="field-unit">SGD</span></label>
@@ -97,25 +92,25 @@
                   <div class="form-field"><label for="start-date">Start date</label><input id="start-date" type="date" value="" required /></div>
                   <div class="form-field"><label for="end-date">End date</label><input id="end-date" type="date" value="" required /></div>
                 </div>
-                <p class="field-hint date-convention-note">Purchase resolves to the next trading day · valuation resolves to the previous trading day.</p>
+
                 <details class="assumptions-editor"><summary id="assumptions-summary">Dividends, withholding tax and reinvestment included · Edit assumptions</summary><div class="scenario-box">
                   <div class="scenario-box-head"><span>Scenario</span></div>
                   <label class="toggle-row"><span><strong>Include dividends</strong><small>Price return vs. total return</small></span><input id="dividends-toggle" type="checkbox" checked /><span class="toggle-ui" aria-hidden="true"></span></label>
                   <label class="toggle-row"><span><strong>Withholding tax</strong><small>Investor-level rule, when known</small></span><input id="tax-toggle" type="checkbox" checked /><span class="toggle-ui" aria-hidden="true"></span></label>
                   <label class="toggle-row"><span><strong>Reinvest dividends</strong><small>Pay-date close · fractional shares</small></span><input id="reinvest-toggle" type="checkbox" checked /><span class="toggle-ui" aria-hidden="true"></span></label>
                 </div>
-                </details><p class="field-hint" id="distribution-explanation"></p><button class="text-button" type="button" id="use-covered-dates">Use published history</button><p class="field-hint" id="preset-coverage-note">Coverage will be checked before applying dates.</p>
+                </details><p class="field-hint" id="distribution-explanation"></p><button class="text-button" type="button" id="use-covered-dates">Use published history</button><p class="field-hint" id="preset-coverage-note"></p>
                 <p class="form-error" id="form-error" role="alert"></p>
                 <button class="button button-primary full-width" type="submit">Run historical replay <span aria-hidden="true">→</span></button>
               </form><button class="text-button" type="button" id="simulator-to-compare">Compare with another investment</button><p id="comparison-handoff-note" class="field-hint" role="status"></p>
-              <div class="form-footnote"><span class="tiny-dot"></span> No brokerage, slippage or extra TER deduction in V1.</div><details class="inline-help"><summary>What is TER?</summary><p>TER means total expense ratio. It is shown as metadata only because observed fund performance generally already reflects the fee.</p></details>
+              <details class="inline-help"><summary>Calculation details</summary><p>Purchases use the next trading day; valuations use the previous one. Brokerage and slippage are excluded. Fund fees (TER) are already reflected in prices and are not deducted again.</p><p>Shared links use the latest data. Downloads retain the original snapshot.</p></details>
             </aside>
 
-            <div class="results-panel" id="results-panel" aria-live="polite"><div id="dca-results" hidden><div class="result-empty"><h3>Build a contribution plan.</h3><p>Choose your contribution amount and Calculate.</p></div></div>
+            <div class="results-panel" id="results-panel" aria-live="polite"><div id="dca-results" hidden><div class="result-empty"><h3>Your results</h3><p>Enter your contributions, then Calculate.</p></div></div>
               <div class="result-empty" id="result-empty">
                 <div class="empty-illustration" aria-hidden="true"><span></span><span></span><span></span><i></i></div>
-                <h3>Make the assumptions visible.</h3>
-                <p>Choose a security, amount and dates, then Calculate. Your result will show the request and available coverage.</p>
+                <h3>Your results</h3>
+                <p>Choose an investment, enter an amount and dates, then Calculate.</p>
               </div>
               <div class="result-content hidden" id="result-content">
                 <div class="result-header">
@@ -133,17 +128,17 @@
                 </div>
                 <div class="headline-result">
                   <div><span class="metric-label">FINAL VALUE <span id="headline-currency">USD</span></span><strong id="final-value">US$9,635.83</strong><p id="result-period">02 Jan 2024 → 02 Jan 2025</p></div>
-                  <div class="return-pill positive"><span id="total-return">+27.13%</span><small>GAIN / LOSS · TOTAL RETURN</small></div>
+                  <div class="return-pill positive"><span id="total-return">+27.13%</span><small>TOTAL RETURN</small></div>
                 </div>
                 <p class="supporting-value" id="security-value-note">Final security value · USD 9,635.83 native</p>
                 <div class="metric-grid">
                   <article class="metric-card"><span class="metric-label">INITIAL INVESTMENT</span><strong id="initial-value">US$7,579.78</strong><small id="initial-caption">Converted at start FX</small></article>
-                  <article class="metric-card"><span class="metric-label">CAGR</span><strong id="cagr-value">+27.06%</strong><small>Annualised growth rate for this one-time investment</small></article>
+                  <article class="metric-card"><span class="metric-label">CAGR</span><strong id="cagr-value">+27.06%</strong><small>Annualised growth</small></article>
                   <article class="metric-card"><span class="metric-label">PRICE RETURN</span><strong id="price-return">+26.74%</strong><small id="price-caption">Native USD close-to-close</small></article>
                   <article class="metric-card"><span class="metric-label">FX RATES</span><strong id="fx-value">1.3193 → 1.3655</strong><small>Native currency to SGD at purchase and valuation</small></article>
                 </div>
                 <article class="chart-card" id="series-card">
-                  <div class="detail-card-head"><div><span class="metric-label">DAILY PRICE SERIES</span><h4></h4></div><span class="chart-range" id="series-range">Loading series…</span></div>
+                  <div class="detail-card-head"><div><h4></h4></div><span class="chart-range" id="series-range">Loading series…</span></div>
                   <div class="chart-wrap"><svg id="series-chart" viewBox="0 0 1000 260" role="img" aria-label="Daily native and SGD closing prices"></svg></div>
                   <div class="chart-actions"><button type="button" class="text-button" id="toggle-series-table" aria-expanded="false" aria-controls="series-table-wrap">View as table</button><button type="button" class="text-button" id="download-series-csv">Download CSV</button></div>
                   <div class="series-table-wrap hidden" id="series-table-wrap"></div>
@@ -151,7 +146,7 @@
                 </article>
                 <div class="detail-grid">
                   <article class="detail-card dividend-card">
-                    <div class="detail-card-head"><div><span class="metric-label">DIVIDEND BRIDGE</span><h4>What happened to distributions?</h4></div><span class="detail-icon" aria-hidden="true">◌</span></div>
+                    <div class="detail-card-head"><div><h4>Dividends</h4></div><span class="detail-icon" aria-hidden="true">◌</span></div>
                     <div class="detail-rows">
                       <div><span>Gross dividends</span><strong id="gross-dividend">US$53.69</strong></div>
                       <div><span>Withholding tax</span><strong id="tax-value">US$16.11</strong></div>
@@ -161,9 +156,9 @@
                     <p class="detail-note" id="dividend-note">Reinvested at the resolved payment-date close.</p>
                   </article>
                   <article class="detail-card methodology-card">
-                    <div class="detail-card-head"><div><span class="metric-label">CALCULATION NOTES</span><h4>Keep the lens honest.</h4></div><span class="detail-icon" aria-hidden="true">⌁</span></div>
+                    <div class="detail-card-head"><div><h4>Calculation details</h4></div><span class="detail-icon" aria-hidden="true">⌁</span></div>
                     <div class="method-tags"><span>Daily close</span><span>Fractional shares</span><span>TER not deducted</span></div>
-                    <p>Foreign-currency values use the security's native currency. SGD values use the daily FX convention.</p>
+
                     <a class="text-link" href="#methodology">Read methodology <span aria-hidden="true">↗</span></a>
                   </article>
                 </div>
@@ -174,48 +169,50 @@
                 <div class="result-source"><span><span class="tiny-dot"></span> Published result artifact · methodology <span id="method-version">1.0</span></span><span class="result-actions"><button type="button" class="text-button" id="copy-link">Copy analysis link</button><button type="button" class="text-button" id="download-result">Download JSON <span aria-hidden="true">↓</span></button></span></div>
               </div>
               <div class="artifact-unavailable hidden" id="artifact-unavailable">
-                <span class="unavailable-icon" aria-hidden="true">⌁</span><h3>This lens is ready; this result is not.</h3><p>Try the published QQQ replay, or pick a security and range the published data packs cover.</p><button class="text-link text-button" type="button" id="return-to-demo">Load the published QQQ replay <span aria-hidden="true">↗</span></button>
+                <span class="unavailable-icon" aria-hidden="true">⌁</span><h3>Result unavailable</h3><p>Choose another investment or date range.</p><button class="text-link text-button" type="button" id="return-to-demo">Load the published QQQ replay <span aria-hidden="true">↗</span></button>
               </div>
             </div>
           </div>
         </div></section>
         <section data-workspace="compare" hidden><div class="section-frame section-block comparison-section" id="compare">
-          <div class="section-heading"><h2>Compare investments.</h2><p class="section-intro">Keep dates, capital and methodology constant while you compare securities.</p></div>
+          <div class="section-heading"><h2>Compare investments</h2><p class="section-intro">Compare 2–6 one-time investments.</p></div>
           <div class="compare-layout">
             <form id="compare-form" class="compare-form">
-              <div class="form-field"><label for="compare-tickers">Securities <span class="field-unit">2–6</span></label><div class="multi-combobox" id="compare-ticker-picker" data-multi-combobox><div class="selected-chips" id="compare-ticker-chips"></div><input id="compare-tickers" type="text" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="compare-ticker-options" autocomplete="off" placeholder="Add a ticker…" data-initial-tickers="" /><div class="combobox-list hidden" id="compare-ticker-options" role="listbox" aria-label="Comparison securities"></div></div><p class="field-hint">Search and select 2–6 securities from the published catalog.</p></div>
-              <div class="form-grid"><div class="form-field"><label for="compare-amount">Capital <span class="field-unit">SGD</span></label><div class="input-prefix light"><span>S$</span><input id="compare-amount" type="number" min="1" step="100" value="10000" /></div></div><div class="form-field"><label for="compare-scenario">Scenario</label><select id="compare-scenario"><option value="custom">Copied custom assumptions</option><option value="investor" selected>Singapore investor</option><option value="price">Price only</option><option value="gross">Gross total return</option><option value="cash">Cash dividends</option></select></div></div>
-              <div class="form-grid"><div class="form-field"><label for="compare-start">Start date</label><input id="compare-start" type="date" value="" /></div><div class="form-field"><label for="compare-end">End date</label><input id="compare-end" type="date" value="" /></div></div>
+              <div class="form-field"><label for="compare-tickers">Securities <span class="field-unit">2–6</span></label><div class="multi-combobox" id="compare-ticker-picker" data-multi-combobox><div class="selected-chips" id="compare-ticker-chips"></div><input id="compare-tickers" type="text" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="compare-ticker-options" autocomplete="off" placeholder="Add a ticker…" data-initial-tickers="" /><div class="combobox-list hidden" id="compare-ticker-options" role="listbox" aria-label="Comparison securities"></div></div></div>
+              <div class="compare-coverage" id="compare-coverage" aria-live="polite"></div>
+              <div class="form-grid"><div class="form-field"><label for="compare-amount">Capital <span class="field-unit">SGD</span></label><div class="input-prefix light"><span>S$</span><input id="compare-amount" type="number" min="0.01" step="any" required value="10000" /></div></div><div class="form-field"><label for="compare-scenario">Scenario</label><select id="compare-scenario"><option value="custom">Copied custom assumptions</option><option value="investor" selected>Singapore investor</option><option value="price">Price only</option><option value="gross">Gross total return</option><option value="cash">Cash dividends</option></select></div></div>
+              <div class="form-grid"><div class="form-field"><label for="compare-start">Start date</label><input id="compare-start" type="date" required value="" /></div><div class="form-field"><label for="compare-end">End date</label><input id="compare-end" type="date" required value="" /></div></div>
+              <p class="compare-assumptions" id="compare-assumptions"></p>
               <p class="form-error" id="compare-error" role="alert"></p><button class="button button-primary full-width" type="submit">Run comparison <span aria-hidden="true">→</span></button>
             </form>
-            <div class="compare-results" id="compare-results" aria-live="polite"><div class="result-empty compact-empty"><h3>Same inputs. Different paths.</h3><p>Enter two or more catalog tickers to compare locally computed results.</p></div></div>
+            <div class="compare-output"><div class="compare-results" id="compare-results" aria-live="polite"><div class="result-empty compact-empty"><h3>Your comparison</h3><p>Choose at least two investments, then Calculate.</p></div></div><div class="compare-progress" id="compare-progress" aria-live="polite"></div></div>
           </div>
         </div></section>
         <section data-workspace="portfolio" hidden><div class="section-frame section-block secondary-section" id="portfolio">
-          <div class="section-heading"><h2>Your holdings, reconstructed.</h2><p class="section-intro">Enter a small ledger; weighted-average cost and mark-to-market value are computed in your browser.</p></div>
+          <div class="section-heading"><h2>My portfolio</h2><p class="section-intro">Add transactions to view your holdings.</p></div>
           <div class="portfolio-layout">
             <form id="portfolio-form" class="portfolio-form light-panel">
               <div class="form-field"><label for="portfolio-as-of">As-of date</label><input id="portfolio-as-of" type="date" value="" /></div>
               <div class="ledger-table-wrap"><table class="ledger-table"><thead><tr><th>Type</th><th>Security</th><th>Date</th><th>Qty</th><th>Cash</th><th>Currency</th></tr></thead><tbody id="ledger-rows"></tbody></table></div>
               <button class="text-button ledger-add" type="button" id="add-ledger-row">+ Add transaction</button><details class="inline-help"><summary>What are Average cost and mark-to-market?</summary><p>Average cost is weighted-average cost, a reporting convention for the cost of open holdings. Mark-to-market values those holdings at the selected as-of price.</p></details><p class="form-error" id="portfolio-error" role="alert"></p><button class="button button-primary full-width" type="submit">Reconstruct portfolio <span aria-hidden="true">→</span></button>
             </form>
-            <div class="portfolio-results" id="portfolio-results" aria-live="polite"><div class="result-empty compact-empty"><h3>A portfolio is a sequence.</h3><p>Add a buy, sell, dividend or cash transaction to see the holdings snapshot.</p></div></div>
+            <div class="portfolio-results" id="portfolio-results" aria-live="polite"><div class="result-empty compact-empty"><h3>Your holdings</h3><p>Add your first transaction to get started.</p></div></div>
           </div>
         </div></section>
         <section id="methods" data-workspace="methods" hidden><div class="section-frame section-block methodology-section" id="methodology">
-          <div class="section-heading"><h2>Data &amp; methods</h2><p class="section-intro">Every result carries the assumptions, data-quality status and methodology version used for that replay.</p></div>
-          <div class="methods-context light-panel"><div class="form-field"><label for="methods-security">Security</label><div class="form-combobox" data-combobox><input id="methods-security" class="combobox-input" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="methods-security-options" autocomplete="off" placeholder="Search ticker, name or ISIN…" /><div id="methods-security-options" class="combobox-list hidden" role="listbox" aria-label="Methodology securities"></div></div></div><div id="security-methods" role="status">Choose a security to inspect its published coverage and sources.</div></div><h3>How calculations work</h3><div class="methodology-grid">
-            <article class="principle-card"><span class="principle-number">01</span><h3>Price first.</h3><p>Daily local-exchange closes are canonical. Purchase dates resolve forward to the next trading day; valuation dates resolve back to the previous one.</p></article>
-            <article class="principle-card accent-card"><span class="principle-number">02</span><h3>FX stays explicit.</h3><p>One unit of native currency equals X SGD. That lets you separate what the asset did from what the currency did.</p></article>
-            <article class="principle-card"><span class="principle-number">03</span><h3>Dividends are a choice.</h3><p>Toggle dividends, investor-level withholding tax and reinvestment independently. Accumulating funds never receive invented cash.</p></article>
-            <article class="principle-card"><span class="principle-number">04</span><h3>Warnings travel.</h3><p>Estimated pay dates, missing tax rules and incomplete history remain attached to the result and its export.</p></article>
+          <div class="section-heading"><h2>Data &amp; methods</h2><p class="section-intro">Check coverage, sources and calculation rules.</p></div>
+          <div class="methods-context light-panel"><div class="form-field"><label for="methods-security">Security</label><div class="form-combobox" data-combobox><input id="methods-security" class="combobox-input" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="methods-security-options" autocomplete="off" placeholder="Search ticker, name or ISIN…" /><div id="methods-security-options" class="combobox-list hidden" role="listbox" aria-label="Methodology securities"></div></div></div><div id="security-methods" role="status">Choose an investment to view its data.</div></div><h3>How calculations work</h3><div class="methodology-grid">
+            <article class="principle-card"><h3>Trading dates</h3><p>Daily local-exchange closes are canonical. Purchase dates resolve forward to the next trading day; valuation dates resolve back to the previous one.</p></article>
+            <article class="principle-card accent-card"><h3>Currency conversion</h3><p>FX rates show SGD per unit of foreign currency.</p></article>
+            <article class="principle-card"><h3>Dividends and tax</h3><p>Set dividends, withholding tax and reinvestment independently. Accumulating funds pay no investor cash dividends.</p></article>
+            <article class="principle-card"><h3>Data warnings</h3><p>Estimated pay dates, missing tax rules and incomplete history remain attached to the result and its export.</p></article>
           </div>
-          <div class="methodology-footer"><span>Methodology version 1.0</span><span class="footer-rule"></span><span class="detail-note">Methodology is documented in the repository README.</span></div>
+
         </div></section>
       </main>
 
-      <footer class="site-footer section-frame"><span>SG / Invest · Built for careful comparisons.</span><span>Historical analysis · No execution · No advice</span></footer>
+      <footer class="site-footer section-frame"><span>SG / Invest</span><span>Historical returns only</span></footer>
     </div>
-    <script type="module" src="app.js?v=12"></script>
+    <script type="module" src="app.js?v=14"></script>
   </body>
 </html>

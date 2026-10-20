@@ -33,4 +33,8 @@ jobs:
           node frontend/engine/selftest.mjs
           node frontend/engine/parity/parity.mjs
           node frontend/engine/initial-lump-selftest.mjs
+          node frontend/engine/compare-window-selftest.mjs
+          node frontend/engine/compare-result-selftest.mjs
+          node frontend/engine/compare-ui-selftest.mjs
+          node frontend/engine/compare-pipeline-selftest.mjs
           node frontend/engine/worker-selftest.mjs

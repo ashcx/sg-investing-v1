@@ -1,0 +1,33 @@
+{
+  "oneTime": "S$20,320.00",
+  "coverage": "1 data note · dates adjusted\nDates resolved within available trading history\n\nRequested: 2024-01-01 → 2024-05-01\nResolved: 2024-01-02 → 2024-05-01\nLatest published security date: 2024-05-01\nLatest published USD/SGD FX date: 2024-05-01\nSnapshot date: 2024-05-01T00:00:00Z · ID: s12-synthetic-2024\n\n1 material data note attached to this result. Requested and resolved dates differ; review the actual period before interpreting returns.\n\nData and other notes (1)\nReview requested dates",
+  "regular": "QQQ · MONTHLY\nUSD\nSGD\nS$2,849.33\n\nEnding value after 4 recurring contributions. Initial lump sum: S$0.00, invested 2024-01-02.\n\nTotal invested\nS$2,000.00\nGain / loss\nS$849.33\nXIRR · annualised, money-weighted\n+609.38%\nShares\n118.72222\nAbout XIRR\nContribution dates (4)\nPrice history · SGD\n\nDaily closing price, not investment value or total return.\n\n12.50\n18.25\n24.00\n2024-01-02\n2024-05-01\nView price table\nData details · dates adjusted\nDownload this result JSON",
+  "comparison": "Partial results\nUnequal actual periods\nREQUESTED DATES\n2024-01-01 → 2024-05-01\nACTUAL DATES\nSee each completed card\nCAPITAL PER SECURITY\nS$10,000.00\nSCENARIO\nSingapore investor\nSetup details\n\n2 of 3 securities calculated.\n\nQQQ\n\nQQQ synthetic comparison fixture (not market data)\n\nSGX · USD\n\nCompared\nEnding value · SGD\nS$20,320.00\n2024-01-02 → 2024-05-01\nTotal return · SGD (%)\n+103.20%\n2024-01-02 → 2024-05-01\nNative total return · USD (%)\n+69.33%\n2024-01-02 → 2024-05-01\n\nActual period: 2024-01-02 → 2024-05-01 · Adjusted to available trading days.\n\nReview data notes · 1 warning\n\nVALL\n\nVALL synthetic comparison fixture (not market data)\n\nSGX · USD\n\nCompared\nEnding value · SGD\nS$18,000.00\n2024-02-01 → 2024-05-01\nTotal return · SGD (%)\n+80.00%\n2024-02-01 → 2024-05-01\nNative total return · USD (%)\n+50.00%\n2024-02-01 → 2024-05-01\n\nActual period: 2024-02-01 → 2024-05-01 · Adjusted to available trading days.\n\nReview data notes · 1 warning\n\nBROKEN\n\nBROKEN synthetic comparison fixture (not market data)\n\nSGX · SGD\n\nFailed\n\nCould not calculate this investment. Try again or remove it.\n\nError details",
+  "mobileCompare": {
+    "metrics": [
+      "Ending value · SGD\nS$20,320.00\n2024-01-02 → 2024-05-01",
+      "Total return · SGD (%)\n+103.20%\n2024-01-02 → 2024-05-01",
+      "Native total return · USD (%)\n+69.33%\n2024-01-02 → 2024-05-01",
+      "Ending value · SGD\nS$18,000.00\n2024-02-01 → 2024-05-01",
+      "Total return · SGD (%)\n+80.00%\n2024-02-01 → 2024-05-01",
+      "Native total return · USD (%)\n+50.00%\n2024-02-01 → 2024-05-01"
+    ],
+    "scroll": 390,
+    "width": 390
+  },
+  "errorDetail": "Partial results\nUnequal actual periods\nREQUESTED DATES\n2024-01-01 → 2024-05-01\nACTUAL DATES\nSee each completed card\nCAPITAL PER SECURITY\nS$10,000.00\nSCENARIO\nSingapore investor\nSetup details\n\n2 of 3 securities calculated.\n\nQQQ\n\nQQQ synthetic comparison fixture (not market data)\n\nSGX · USD\n\nCompared\nEnding value · SGD\nS$20,320.00\n2024-01-02 → 2024-05-01\nTotal return · SGD (%)\n+103.20%\n2024-01-02 → 2024-05-01\nNative total return · USD (%)\n+69.33%\n2024-01-02 → 2024-05-01\n\nActual period: 2024-01-02 → 2024-05-01 · Adjusted to available trading days.\n\nReview data notes · 1 warning\n\nVALL\n\nVALL synthetic comparison fixture (not market data)\n\nSGX · USD\n\nCompared\nEnding value · SGD\nS$18,000.00\n2024-02-01 → 2024-05-01\nTotal return · SGD (%)\n+80.00%\n2024-02-01 → 2024-05-01\nNative total return · USD (%)\n+50.00%\n2024-02-01 → 2024-05-01\n\nActual period: 2024-02-01 → 2024-05-01 · Adjusted to available trading days.\n\nReview data notes · 1 warning\n\nBROKEN\n\nBROKEN synthetic comparison fixture (not market data)\n\nSGX · SGD\n\nFailed\n\nCould not calculate this investment. Try again or remove it.\n\nError details\n\nCould not load data/packs/security=12000000-0000-0000-0000-000000000006/year=2024.json (503)",
+  "portfolioMobile": {
+    "scroll": 390,
+    "text": "Skip to content\nSG / Invest\nMENU\nMy portfolio\n\nAdd transactions to view your holdings.\n\nAs-of date\nType\tSecurity\tDate\tQty\tCash\tCurrency\n\nBUY\nSELL\nDIVIDEND\nCASH_DEPOSIT\nCASH_WITHDRAWAL\n\t\n\t\t\t\t\nCHF\nSGD\nUSD\n+ Add transactionClear ledger Export JSON Import JSON\nWhat are Average cost and mark-to-market?\n\nCalculate\nYour holdings\n\nAdd your first transaction to get started.\n\nSG / INVEST\nHISTORICAL RETURNS ONLY",
+    "width": 390
+  },
+  "methodsMobile": {
+    "scroll": 390,
+    "text": "\n          Data & methodsCheck coverage, sources and calculation rules.\n          SecurityClear selectionChoose an investment to view its data.How calculations work\n            Trading datesDaily local-exchange closes are canonical. Purchase dates resolve forward to the next trading day; valuation dates resolve back to the previous one.\n            Currency conversionFX rates show SGD per unit of foreign currency.\n            Dividends and taxSet dividends, withholding tax and reinvestment independently. Accumulating funds pay no investor cash dividends.\n            Data warningsEstimated pay dates, missing tax rules and incomplete history remain attached to the result and its export.\n          \n          \n        ",
+    "width": 390
+  },
+  "simulator320": {
+    "scroll": 320,
+    "width": 320
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "handoff": {
+    "amount": "1234",
+    "end": "2024-05-01",
+    "scenario": "custom",
+    "selection": "QQQ\n×\nChoose security 2",
+    "start": "2024-01-01"
+  },
+  "simulatorAmountRetained": true,
+  "regularGuard": "Compare runs one-time investments only, so a recurring contribution schedule cannot be compared directly. Compare as a one-time investment — same security, same start and end dates, only the initial lump sum; recurring contributions are excluded."
+}

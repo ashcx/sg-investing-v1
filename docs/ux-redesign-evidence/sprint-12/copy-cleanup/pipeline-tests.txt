@@ -1,0 +1,5 @@
+PASS: actual pack/application/worker/card pipeline price-fx
+PASS: actual pack/application/worker/card pipeline cash-dividend-tax
+PASS: actual pack/application/worker/card pipeline reinvest-dividend-tax
+PASS: actual pack/application/worker/card pipeline vall-unequal-history-calendar
+PASS: actual origin resolver computes Tier-2 result when Tier-1 manifest fails

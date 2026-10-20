@@ -1,0 +1,49 @@
+Calculation in progress
+Periods checked as results arrive
+REQUESTED DATES
+2024-01-01 → 2024-05-01
+ACTUAL DATES
+See each completed card
+CAPITAL PER SECURITY
+S$9,999.00
+SCENARIO
+Copied custom assumptions
+
+Use the actual dates on each card. Shared requested dates or published history alone do not prove equal investment periods.
+
+Dividends on · withholding on · reinvestment on
+
+A common data snapshot and methodology version could not be verified for all completed results. Inspect each card before comparing.
+
+1 of 2 securities calculated so far.
+
+QQQ
+
+QQQ synthetic comparison fixture (not market data)
+
+SGX · USD
+
+Compared
+Ending value · SGD
+S$20,317.97
+2024-01-02 → 2024-05-01
+Total return · SGD (%)
++103.20%
+2024-01-02 → 2024-05-01
+Native total return · USD (%)
++69.33%
+2024-01-02 → 2024-05-01
+
+Actual period: 2024-01-02 → 2024-05-01 · Resolved dates differ from requested dates.
+
+Review data notes · 1 warning
+
+BROKEN
+
+BROKEN synthetic comparison fixture (not market data)
+
+SGX · SGD
+
+Calculating
+
+Calculating the submitted dates…

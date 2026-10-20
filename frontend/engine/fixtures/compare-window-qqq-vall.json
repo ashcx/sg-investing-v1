@@ -1,0 +1,79 @@
+{
+  "description": "Sprint 12 / F04 regression: QQQ (listed 1999) and VALL (listed 2018) do not share a full published history. The comparison must run on the common window and report the requested window separately. EURX has no EUR/SGD FX history and must never be compared.",
+  "fx": {
+    "USD": { "first_date": "2000-01-03", "last_date": "2026-08-30" },
+    "EUR": { "first_date": null, "last_date": null }
+  },
+  "securities": [
+    {
+      "ticker": "QQQ",
+      "currency": "USD",
+      "entry": { "security_id": "sec-qqq", "status": "fully_supported", "first_date": "1999-03-10", "last_date": "2026-08-28" }
+    },
+    {
+      "ticker": "VALL",
+      "currency": "USD",
+      "entry": { "security_id": "sec-vall", "status": "fully_supported", "first_date": "2018-02-15", "last_date": "2026-08-30" }
+    },
+    {
+      "ticker": "EURX",
+      "currency": "EUR",
+      "entry": { "security_id": "sec-eurx", "status": "fully_supported", "first_date": "2005-01-03", "last_date": "2026-08-28" }
+    }
+  ],
+  "cases": [
+    {
+      "name": "qqq-vall-common-window",
+      "securities": ["QQQ", "VALL"],
+      "requested": { "start_date": "2010-01-01", "end_date": "2026-08-28" },
+      "expected": {
+        "common": { "start": "2018-02-15", "end": "2026-08-28" },
+        "resolved": { "start": "2018-02-15", "end": "2026-08-28" },
+        "truncated": true,
+        "limitingStart": ["VALL"],
+        "limitingEnd": ["QQQ"]
+      }
+    },
+    {
+      "name": "qqq-vall-requested-inside-common-window",
+      "securities": ["QQQ", "VALL"],
+      "requested": { "start_date": "2020-06-01", "end_date": "2026-01-01" },
+      "expected": {
+        "common": { "start": "2018-02-15", "end": "2026-08-28" },
+        "resolved": { "start": "2020-06-01", "end": "2026-01-01" },
+        "truncated": false,
+        "limitingStart": ["VALL"],
+        "limitingEnd": ["QQQ"]
+      }
+    },
+    {
+      "name": "qqq-vall-requested-outside-common-window",
+      "securities": ["QQQ", "VALL"],
+      "requested": { "start_date": "2010-01-01", "end_date": "2017-12-29" },
+      "expected": {
+        "resolved": null,
+        "truncated": true
+      }
+    },
+    {
+      "name": "eur-security-without-fx-is-unavailable",
+      "securities": ["QQQ", "EURX"],
+      "requested": { "start_date": "2010-01-01", "end_date": "2026-08-28" },
+      "expected": {
+        "eurUnavailable": true,
+        "common": { "start": "2000-01-03", "end": "2026-08-28" },
+        "commonOk": false
+      }
+    },
+    {
+      "name": "identical-windows-are-equal",
+      "securities": ["QQQ", "QQQ"],
+      "requested": { "start_date": "2010-01-01", "end_date": "2026-08-28" },
+      "expected": {
+        "common": { "start": "2000-01-03", "end": "2026-08-28" },
+        "resolved": { "start": "2010-01-01", "end": "2026-08-28" },
+        "truncated": false
+      }
+    }
+  ]
+}
