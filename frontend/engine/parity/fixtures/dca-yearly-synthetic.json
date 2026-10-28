@@ -176,8 +176,10 @@
       "ter_deducted": false
     },
     "data_quality": {
-      "status": "OK",
-      "warnings": []
+      "status": "WARNING",
+      "warnings": [
+        "USD/SGD FX rate for 2024-12-02 is 336 days stale."
+      ]
     }
   }
 }
