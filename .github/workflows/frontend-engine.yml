@@ -55,6 +55,9 @@ jobs:
       - name: Golden parity (JS engine vs Python goldens)
         run: node frontend/engine/parity/parity.mjs
 
+      - name: Ledger compatibility and editor contracts
+        run: node frontend/engine/ledger-editor-selftest.mjs
+
       - name: Property tests
         run: node frontend/engine/property/property.mjs
 

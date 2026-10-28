@@ -193,7 +193,12 @@
           <div class="portfolio-layout">
             <form id="portfolio-form" class="portfolio-form light-panel">
               <div class="form-field"><label for="portfolio-as-of">As-of date</label><input id="portfolio-as-of" type="date" value="" /></div>
-              <div class="ledger-table-wrap"><table class="ledger-table"><thead><tr><th>Type</th><th>Security</th><th>Date</th><th>Qty</th><th>Cash</th><th>Currency</th></tr></thead><tbody id="ledger-rows"></tbody></table></div>
+              <p id="ledger-save-status" role="status">Reading your saved ledger…</p><p class="detail-note">Transactions are saved only in this browser, without cloud synchronization. Export a backup before switching browsers. Transaction total is the entire cash amount, not the price per share.</p><p id="portfolio-coverage" class="detail-note"></p>
+              <p id="ledger-empty">No transactions yet. Add a transaction or import your ledger.</p>
+              <div class="ledger-table-wrap"><table class="ledger-table"><caption class="sr-only">Editable portfolio transactions</caption><tbody id="ledger-rows"></tbody></table></div>
+              <div class="ledger-toolbar"><button type="button" id="import-ledger">Import ledger</button><button type="button" id="export-ledger">Export JSON</button><button type="button" id="clear-ledger">Clear ledger</button><button type="button" id="undo-ledger" hidden>Undo last removal or replacement</button></div>
+              <input type="file" id="ledger-file" accept="application/json,.json" hidden />
+              <dialog id="ledger-import-dialog" aria-labelledby="ledger-import-title"><h3 id="ledger-import-title">Preview ledger import</h3><p id="ledger-import-summary"></p><pre id="ledger-import-preview"></pre><button type="button" id="ledger-import-cancel">Cancel</button><button type="button" id="ledger-import-confirm">Replace ledger</button></dialog>
               <button class="text-button ledger-add" type="button" id="add-ledger-row">+ Add transaction</button><details class="inline-help"><summary>What are Average cost and mark-to-market?</summary><p>Average cost is weighted-average cost, a reporting convention for the cost of open holdings. Mark-to-market values those holdings at the selected as-of price.</p></details><p class="form-error" id="portfolio-error" role="alert"></p><button class="button button-primary full-width" type="submit">Reconstruct portfolio <span aria-hidden="true">→</span></button>
             </form>
             <div class="portfolio-results" id="portfolio-results" aria-live="polite"><div class="result-empty compact-empty"><h3>Your holdings</h3><p>Add your first transaction to get started.</p></div></div>

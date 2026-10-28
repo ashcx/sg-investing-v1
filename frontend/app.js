@@ -9,7 +9,8 @@ import { createPackLoader } from './engine/pack-loader.js';
 import { rateForDate } from './engine/fx.js';
 import { dec } from './engine/money.js';
 import { initWorkspace } from './workspace.js';
-import { ledgerStore } from './ledger-store.js';
+import { ledgerStore, parseLedgerPayload } from './ledger-store.js';
+import { TRANSACTION_FIELDS, ledgerError } from './ledger-editor.js';
 import { commonWindow, resolveWindow, securityWindow, isIsoDate, comparisonRow, comparisonSummary } from './engine/compare-window.js';
 
 const COMPARE_MIN = 2;
@@ -1234,21 +1235,40 @@ async function s7RunDca({ mode = 'force' } = {}) {
 }
 
 function ledgerRowTemplate(values = {}) {
-  const selectedId = values.securityId || state.selectedSecurityId || '';
-  const currencies = [...new Set(securityEntries().map(({ security }) => security.currency).filter(Boolean))].sort();
-  const currencyOptions = currencies.map((currency) => `<option ${currency === (values.currency || entryForId(selectedId)?.security.currency || 'USD') ? 'selected' : ''}>${escapeHtml(currency)}</option>`).join('');
-  const typeOptions = ['BUY', 'SELL', 'DIVIDEND', 'CASH_DEPOSIT', 'CASH_WITHDRAWAL'].map((type) => `<option ${type === (values.type || 'BUY') ? 'selected' : ''}>${type}</option>`).join('');
-  const comboId = `ledger-security-${document.querySelectorAll('.ledger-security').length + 1}`;
+  const id = values.rowId || crypto.randomUUID();
+  const selectedId = values.securityId || '';
   const selected = entryForId(selectedId)?.security;
-  const selectedLabel = selected ? securityDisplayLabel(selected) : '';
-  return `<tr><td><select class="ledger-type">${typeOptions}</select></td><td><div class="form-combobox ledger-combobox" data-combobox><input id="${comboId}" class="ledger-security combobox-input" type="text" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="${comboId}-options" autocomplete="off" placeholder="Search or choose cash…" value="${escapeHtml(selectedLabel)}" data-security-id="${escapeHtml(selectedId)}" /><div class="combobox-list hidden" id="${comboId}-options" role="listbox" aria-label="Ledger securities"></div></div></td><td><input class="ledger-date" type="date" value="${escapeHtml(values.date || '2024-01-02')}" /></td><td><input class="ledger-quantity" type="number" min="0" step="0.000001" value="${escapeHtml(values.quantity || '1')}" /></td><td><input class="ledger-cash" type="number" min="0" step="0.01" value="${escapeHtml(values.cash || '1000')}" /></td><td><select class="ledger-currency">${currencyOptions}</select></td></tr>`;
+  const currencies = [...new Set(['SGD', 'USD', values.currency, ...securityEntries().map(({ security }) => security.currency)].filter(Boolean))].sort();
+  const type = values.type || 'BUY';
+  const field = (key, label, html) => `<td data-field="${key}"><label for="ledger-${id}-${key}">${label}</label>${html}</td>`;
+  const input = (key, inputType, value, extra = '') => `<input id="ledger-${id}-${key}" class="ledger-${key}" type="${inputType}" value="${escapeHtml(value ?? '')}" ${extra} aria-describedby="ledger-${id}-error" />`;
+  return `<tr data-row-id="${escapeHtml(id)}" data-transaction-id="${escapeHtml(values.transactionId || '')}">
+    ${field('type', 'Transaction type', `<select id="ledger-${id}-type" class="ledger-type">${Object.keys(TRANSACTION_FIELDS).map(t => `<option ${t === type ? 'selected' : ''}>${t}</option>`).join('')}</select>`)}
+    ${field('date', 'Transaction date', input('date', 'date', values.date))}
+    ${field('security', 'Security', `<div class="form-combobox ledger-combobox" data-combobox>${input('security', 'text', selected ? securityDisplayLabel(selected) : selectedId, `data-security-id="${escapeHtml(selectedId)}" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="ledger-${id}-security-options" autocomplete="off"`)}<div id="ledger-${id}-security-options" class="combobox-list hidden" role="listbox" aria-label="Ledger securities"></div></div>`)}
+    ${field('quantity', 'Quantity', input('quantity', 'number', values.quantity, 'min="0" step="any"'))}
+    ${field('cash', 'Transaction total', input('cash', 'number', values.cash, 'min="0" step="any"'))}
+    ${field('currency', 'Currency', `<select id="ledger-${id}-currency" class="ledger-currency">${currencies.map(c => `<option ${c === (values.currency || 'SGD') ? 'selected' : ''}>${escapeHtml(c)}</option>`).join('')}</select>`)}
+    ${field('fees', 'Fees', input('fees', 'number', values.fees ?? '0', 'min="0" step="any"'))}
+    <td class="ledger-actions"><button type="button" data-delete-row aria-label="Delete transaction">Delete</button><p id="ledger-${id}-error" class="form-error ledger-row-error" role="alert"></p></td></tr>`;
 }
 
-function addLedgerRow(values = {}) { if (has('#ledger-rows')) { $('#ledger-rows').insertAdjacentHTML('beforeend', ledgerRowTemplate(values)); wireSecurityComboboxes(); } }
+function ledgerFieldVisibility(row) {
+  const fields = TRANSACTION_FIELDS[row.querySelector('.ledger-type').value];
+  for (const key of ['security', 'quantity', 'fees']) row.querySelector(`[data-field="${key}"]`).hidden = !fields[key];
+}
+
+function addLedgerRow(values = {}) {
+  if (!has('#ledger-rows')) return;
+  $('#ledger-rows').insertAdjacentHTML('beforeend', ledgerRowTemplate(values));
+  ledgerFieldVisibility($('#ledger-rows').lastElementChild);
+  wireSecurityComboboxes();
+  $('#ledger-empty').hidden = true;
+}
 
 function renderPortfolio(payload, meta = {}) {
   const result = payload.result || payload;
-  const rows = result.holdings.map((holding) => { const ccy = s5CurrencyForId(holding.security_id); return `<tr><th scope="row">${escapeHtml(holding.ticker)}</th><td>${Number(holding.quantity).toFixed(5)}</td><td>${formatMoney(holding.weighted_average_cost, ccy)}</td><td>${formatMoney(holding.market_value_native, ccy)}</td><td>${formatMoney(holding.market_value_sgd, 'SGD')}</td><td>${formatMoney(holding.realized_pl_native, ccy)}</td><td>${formatMoney(holding.unrealized_pl_native, ccy)}</td></tr>`; }).join('');
+  const rows = result.holdings.map((holding) => { const ccy = s5CurrencyForId(holding.security_id); return `<tr><th scope="row">${escapeHtml(holding.ticker)}</th><td data-label="Quantity">${Number(holding.quantity).toFixed(5)}</td><td data-label="Average cost">${formatMoney(holding.weighted_average_cost, ccy)}</td><td data-label="Native value">${formatMoney(holding.market_value_native, ccy)}</td><td data-label="SGD value">${formatMoney(holding.market_value_sgd, 'SGD')}</td><td data-label="Realised P/L">${formatMoney(holding.realized_pl_native, ccy)}</td><td data-label="Unrealised P/L">${formatMoney(holding.unrealized_pl_native, ccy)}</td></tr>`; }).join('');
   const warnings = meta.warnings || [];
   const warningNote = warnings.length ? `<p class="detail-note" role="alert">Data warnings: ${escapeHtml(warnings.join(' '))}</p>` : '';
   const sourceNote = '';
@@ -1256,26 +1276,34 @@ function renderPortfolio(payload, meta = {}) {
 }
 
 function s5CollectLedgerRows() {
-  return $$('#ledger-rows tr').map((row) => ({
-    transaction_type: row.querySelector('.ledger-type').value,
-    security_id: securityComboboxValue(row.querySelector('.ledger-security')) || null,
-    transaction_date: row.querySelector('.ledger-date').value,
-    quantity: row.querySelector('.ledger-quantity').value,
-    cash_amount: row.querySelector('.ledger-cash').value,
-    currency: row.querySelector('.ledger-currency').value,
-    fees: '0',
-  }));
+  return $$('#ledger-rows tr').map((row) => {
+    const type = row.querySelector('.ledger-type').value;
+    const fields = TRANSACTION_FIELDS[type];
+    return {
+      row_id: row.dataset.rowId,
+      ...(row.dataset.transactionId ? { transaction_id: row.dataset.transactionId } : {}),
+      transaction_type: type,
+      security_id: fields.security ? securityComboboxValue(row.querySelector('.ledger-security')) || null : null,
+      transaction_date: row.querySelector('.ledger-date').value,
+      quantity: row.querySelector('.ledger-quantity').value || (fields.quantity ? '' : '0'),
+      cash_amount: row.querySelector('.ledger-cash').value,
+      currency: row.querySelector('.ledger-currency').value,
+      fees: row.querySelector('.ledger-fees').value || '0',
+    };
+  });
 }
 
 function s5ValidateLedger(rows, asOf) {
+  $$('#ledger-rows [aria-invalid]').forEach(el => el.removeAttribute('aria-invalid'));
+  $$('.ledger-row-error').forEach(el => { el.textContent = ''; });
   if (!rows.length) return 'Add at least one ledger transaction.';
   if (!asOf) return 'Choose an as-of date for the reconstruction.';
-  for (let index = 0; index < rows.length; index++) {
-    if (!rows[index].transaction_date) return `Ledger row ${index + 1} needs a transaction date.`;
-    for (const field of ['quantity', 'cash_amount']) {
-      const amount = Number(rows[index][field]);
-      if (rows[index][field] === '' || !Number.isFinite(amount) || amount < 0) return `Ledger row ${index + 1} needs a non-negative ${field === 'quantity' ? 'quantity' : 'cash amount'}.`;
-    }
+  const error = ledgerError(rows);
+  if (error) {
+    const row = $$('#ledger-rows tr')[error.index];
+    row.querySelector('.ledger-row-error').textContent = error.message;
+    row.querySelector(`.ledger-${error.field}`)?.setAttribute('aria-invalid', 'true');
+    return error.message;
   }
   return null;
 }
@@ -1339,7 +1367,7 @@ function wireEvents() {
   if (has('#compare-form')) { const form = $('#compare-form'); form.addEventListener('submit', submitCompare); form.querySelector('button[type="submit"]').addEventListener('click', (event) => { event.preventDefault(); submitCompare({ preventDefault() {}, currentTarget: form }); }); }
   if (has('#dca-form')) { const form = $('#dca-form'); form.addEventListener('submit', submitDca); form.querySelector('button[type="submit"]').addEventListener('click', (event) => { event.preventDefault(); submitDca({ preventDefault() {}, currentTarget: form }); }); }
   if (has('#portfolio-form')) { const form = $('#portfolio-form'); form.addEventListener('submit', submitPortfolio); form.querySelector('button[type="submit"]').addEventListener('click', (event) => { event.preventDefault(); submitPortfolio({ preventDefault() {}, currentTarget: form }); }); }
-  if (has('#add-ledger-row')) $('#add-ledger-row').addEventListener('click', () => { addLedgerRow(); s5AutoSaveLedger(); editView('portfolio'); });
+  if (has('#add-ledger-row')) $('#add-ledger-row').addEventListener('click', () => { addLedgerRow(); $('#ledger-rows').lastElementChild.querySelector('.ledger-type').focus(); setLedgerSaveStatus('Unsaved transaction. Complete the labeled fields to save.'); editView('portfolio'); });
   if (has('#ledger-rows')) $('#ledger-rows').addEventListener('change', (event) => { if (!event.target.classList.contains('ledger-security')) return; const security = entryForId(securityComboboxValue(event.target))?.security; if (security) event.target.closest('tr').querySelector('.ledger-currency').value = security.currency; });
   if (has('#ledger-rows')) s5WireLedgerPersistence();
   $$('.currency-button').forEach((button) => button.addEventListener('click', () => { state.currencyMode = button.dataset.currency; if (state.artifact) renderResult(); }));
@@ -1390,7 +1418,7 @@ async function init() {
   // Wire events BEFORE any further awaits: users can click the moment the
   // forms render, and a submit during the data-status/build-info fetches used
   // to be silently lost (listeners did not exist yet).
-  s5RestoreLedger();
+  await s5RestoreLedger();
   wireEvents();
 
   initializeDiscovery();
@@ -1495,59 +1523,120 @@ async function s5LocalPortfolio(asOf, rows, isCurrent = () => true) {
   return { envelope, meta: { warnings, source: 'local' } };
 }
 
+let ledgerSaveQueue = Promise.resolve();
+let ledgerSaveVersion = 0;
+let ledgerUndoRows = null;
+let ledgerImportRows = null;
+let ledgerRestoreFailed = false;
+
+function setLedgerSaveStatus(message) { $('#ledger-save-status').textContent = message; }
+
 function s5RenderLedgerRows(rows) {
-  if (!has('#ledger-rows')) return;
   $('#ledger-rows').innerHTML = '';
-  rows.forEach((row) => addLedgerRow({ type: row.transaction_type, securityId: row.security_id || '', date: row.transaction_date, quantity: row.quantity, cash: row.cash_amount, currency: row.currency }));
+  rows.forEach(row => addLedgerRow({ rowId: row.row_id, transactionId: row.transaction_id, type: row.transaction_type, securityId: row.security_id || '', date: row.transaction_date, quantity: row.quantity, cash: row.cash_amount, fees: row.fees, currency: row.currency }));
+  $('#ledger-empty').hidden = rows.length > 0;
+}
+
+async function portfolioCoveredDate() {
+  if ($('#portfolio-as-of').value) return;
+  try {
+    const ids = [...new Set(s5CollectLedgerRows().map(row => row.security_id).filter(Boolean))];
+    const dates = [];
+    for (const securityId of ids) {
+      const { entry } = await s8ResolveSecurity({ securityId });
+      if (entry?.last_date) dates.push(entry.last_date);
+    }
+    if (!dates.length) {
+      const manifest = await s5PackLoader.loadManifest();
+      dates.push(...(manifest.securities || []).map(entry => entry.last_date).filter(Boolean));
+    }
+    if (dates.length) {
+      $('#portfolio-as-of').value = dates.sort()[ids.length ? 0 : dates.length - 1];
+      $('#portfolio-coverage').textContent = `Suggested valuation ${$('#portfolio-as-of').value} uses published price coverage. FX and ledger coverage are checked when you calculate.`;
+    }
+  } catch { $('#portfolio-coverage').textContent = 'Choose a valuation date. Published coverage could not be loaded.'; }
 }
 
 async function s5RestoreLedger() {
   try {
     const rows = await ledgerStore.load();
-    if (rows.length) { s5RenderLedgerRows(rows); return; }
+    s5RenderLedgerRows(rows);
+    setLedgerSaveStatus(rows.length ? 'Saved ledger restored from this browser.' : 'No saved transactions in this browser.');
   } catch (error) {
-    console.warn(`Ledger restore failed: ${error.message}`);
+    ledgerRestoreFailed = true;
+    setLedgerSaveStatus(`Could not read your saved ledger: ${error.message}. Reload before editing; stored data has not been replaced.`);
+    $('#add-ledger-row').disabled = true;
   }
-  addLedgerRow({ quantity: '10', cash: '4000' });
+  portfolioCoveredDate();
 }
 
 function s5AutoSaveLedger() {
-  ledgerStore.save(s5CollectLedgerRows()).catch((error) => console.warn(`Ledger save failed: ${error.message}`));
+  if (ledgerRestoreFailed) return;
+  const rows = s5CollectLedgerRows();
+  const version = ++ledgerSaveVersion;
+  if (ledgerError(rows)) { setLedgerSaveStatus('Unsaved edits. Complete or correct the transaction fields. Your last saved ledger is retained.'); return; }
+  setLedgerSaveStatus('Saving in this browser…');
+  ledgerSaveQueue = ledgerSaveQueue.catch(() => {}).then(() => ledgerStore.save(rows));
+  ledgerSaveQueue.then(() => { if (version === ledgerSaveVersion) setLedgerSaveStatus('Saved in this browser.'); }, error => { if (version === ledgerSaveVersion) setLedgerSaveStatus(`Save failed: ${error.message}. Keep this page open and export your ledger.`); });
+}
+
+function ledgerRememberUndo() {
+  ledgerUndoRows = s5CollectLedgerRows();
+  $('#undo-ledger').hidden = false;
 }
 
 function s5WireLedgerPersistence() {
-  $('#ledger-rows').addEventListener('change', () => s5AutoSaveLedger());
-  if (has('#add-ledger-row')) $('#add-ledger-row').insertAdjacentHTML('afterend', '<button class="text-button" type="button" id="clear-ledger">Clear ledger</button> <button class="text-button" type="button" id="export-ledger">Export JSON</button> <button class="text-button" type="button" id="import-ledger">Import JSON</button>');
-  if (has('#clear-ledger')) $('#clear-ledger').addEventListener('click', async () => {
-    try { await ledgerStore.clear(); } catch (error) { console.warn(`Ledger clear failed: ${error.message}`); }
-    $('#ledger-rows').innerHTML = '';
-    addLedgerRow();
-    s5AutoSaveLedger();
-    editView('portfolio');
-  });
-  if (has('#export-ledger')) $('#export-ledger').addEventListener('click', async () => {
-    try {
-      const blob = new Blob([await ledgerStore.exportJson()], { type: 'application/json' });
-      const link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
-      link.download = 'sg-invest-ledger.json';
-      link.click();
-      URL.revokeObjectURL(link.href);
-    } catch (error) {
-      $('#portfolio-error').textContent = `Ledger export failed: ${error.message}`;
+  $('#ledger-rows').addEventListener('change', event => {
+    const row = event.target.closest('tr');
+    if (!row) return;
+    ledgerFieldVisibility(row);
+    if (event.target.classList.contains('ledger-type')) {
+      const fields = TRANSACTION_FIELDS[event.target.value];
+      if (!fields.security) { row.querySelector('.ledger-security').value = ''; row.querySelector('.ledger-security').dataset.securityId = ''; }
+      if (!fields.quantity) row.querySelector('.ledger-quantity').value = '0';
+      if (!fields.fees) row.querySelector('.ledger-fees').value = '0';
     }
+    s5AutoSaveLedger();
   });
-  if (has('#import-ledger')) $('#import-ledger').addEventListener('click', () => {
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.accept = 'application/json,.json';
-    input.addEventListener('change', async () => {
-      const file = input.files && input.files[0];
-      if (!file) return;
-      try { s5RenderLedgerRows(await ledgerStore.importJson(await file.text())); editView('portfolio'); }
-      catch (error) { $('#portfolio-error').textContent = `Ledger import failed: ${error.message}`; }
-    });
-    input.click();
+  $('#ledger-rows').addEventListener('click', event => {
+    if (!event.target.closest('[data-delete-row]')) return;
+    ledgerRememberUndo();
+    event.target.closest('tr').remove();
+    $('#ledger-empty').hidden = $('#ledger-rows').children.length > 0;
+    s5AutoSaveLedger(); editView('portfolio');
+  });
+  $('#undo-ledger').addEventListener('click', () => {
+    if (!ledgerUndoRows) return;
+    s5RenderLedgerRows(ledgerUndoRows); ledgerUndoRows = null;
+    $('#undo-ledger').hidden = true; s5AutoSaveLedger(); editView('portfolio');
+  });
+  $('#clear-ledger').addEventListener('click', () => {
+    if (ledgerRestoreFailed) return;
+    ledgerRememberUndo(); s5RenderLedgerRows([]); s5AutoSaveLedger(); editView('portfolio');
+  });
+  $('#export-ledger').addEventListener('click', () => {
+    const rows = s5CollectLedgerRows();
+    if (ledgerError(rows)) { $('#portfolio-error').textContent = 'Correct unsaved fields before export. Your stored ledger is unchanged.'; return; }
+    const blob = new Blob([JSON.stringify({ schema: 'sg-invest-ledger', version: 1, rows }, null, 2)], { type: 'application/json' });
+    const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = 'sg-invest-ledger.json'; link.click(); URL.revokeObjectURL(link.href);
+  });
+  $('#import-ledger').addEventListener('click', () => { if (!ledgerRestoreFailed) $('#ledger-file').click(); });
+  $('#ledger-file').addEventListener('change', async event => {
+    const file = event.target.files?.[0]; if (!file) return;
+    try {
+      ledgerImportRows = parseLedgerPayload(await file.text());
+      const error = ledgerError(ledgerImportRows); if (error) throw new Error(error.message);
+      $('#ledger-import-summary').textContent = `${ledgerImportRows.length} transactions will replace ${s5CollectLedgerRows().length} current transactions. Review types, dates and amounts below. Undo remains available until this page is closed.`;
+      $('#ledger-import-preview').textContent = JSON.stringify(ledgerImportRows, null, 2);
+      $('#ledger-import-dialog').showModal();
+    } catch (error) { $('#portfolio-error').textContent = `Ledger import failed: ${error.message}`; }
+    event.target.value = '';
+  });
+  $('#ledger-import-cancel').addEventListener('click', () => { ledgerImportRows = null; $('#ledger-import-dialog').close(); });
+  $('#ledger-import-confirm').addEventListener('click', () => {
+    if (!ledgerImportRows) return;
+    ledgerRememberUndo(); s5RenderLedgerRows(ledgerImportRows); ledgerImportRows = null;
+    $('#ledger-import-dialog').close(); s5AutoSaveLedger(); editView('portfolio');
   });
 }
 
