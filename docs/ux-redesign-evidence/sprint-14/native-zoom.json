@@ -1,0 +1,26 @@
+[
+  {
+    "route": "simulator",
+    "dpr": 2,
+    "viewport": 720,
+    "document": 720
+  },
+  {
+    "route": "compare",
+    "dpr": 2,
+    "viewport": 720,
+    "document": 720
+  },
+  {
+    "route": "portfolio",
+    "dpr": 2,
+    "viewport": 720,
+    "document": 720
+  },
+  {
+    "route": "methods",
+    "dpr": 2,
+    "viewport": 720,
+    "document": 720
+  }
+]

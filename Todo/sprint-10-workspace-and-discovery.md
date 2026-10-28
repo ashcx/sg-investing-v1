@@ -220,3 +220,9 @@ human Product Owner explicitly accepted Sprints 10 and 11 in this chat:
 "yes go ahead and accept". Human acceptance is now recorded and checked.
 All exit criteria are checked; status is **Complete**. This records acceptance
 of the reviewed increments and does not start Sprint 13 or authorize deployment.
+
+Release-validation follow-up, 28 October 2026: `tests/browser/startup.cjs`
+held the optional data-status response and reproduced workspace routing never
+initializing. The initialization order now activates routes before awaiting
+that metadata. The held-response probe passes without releasing the response.
+This repair is in the Sprint 14 PR; prior product acceptance is unchanged.

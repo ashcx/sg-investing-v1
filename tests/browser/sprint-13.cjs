@@ -24,6 +24,10 @@ const buy = { transaction_type: 'BUY', security_id: security, transaction_date: 
     await page.locator('.ledger-date').fill('2024-01-02');
     await page.locator('.ledger-cash').fill('1000'); await page.locator('.ledger-cash').press('Tab');
     await page.waitForFunction(() => document.querySelector('#ledger-save-status').textContent === 'Saved in this browser.');
+    await page.locator('.ledger-cash').fill('2000');
+    assert.match(await page.locator('#ledger-save-status').textContent(), /Unsaved/);
+    await page.locator('.ledger-cash').fill('1000'); await page.locator('.ledger-cash').press('Tab');
+    await page.waitForFunction(() => document.querySelector('#ledger-save-status').textContent === 'Saved in this browser.');
     await page.reload(); await page.waitForSelector('#ledger-rows tr');
     assert.equal(await page.locator('.ledger-cash').inputValue(), '1000');
     const id = await page.locator('#ledger-rows tr').getAttribute('data-row-id');

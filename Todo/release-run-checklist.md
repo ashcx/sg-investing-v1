@@ -8,13 +8,17 @@
 - [x] Implement Sprint 13 US01, verify and record before US02.
 - [x] Implement Sprint 13 US02, verify and record before US03.
 - [x] Implement Sprint 13 US03, inspect desktop/mobile, interrogate, publish PR.
-- [ ] Validate Sprint 14 financial, data-pack and browser journeys.
-- [ ] Validate Sprint 14 accessibility and responsive behavior.
-- [ ] Prepare real participant protocol and observation template.
-- [ ] Interrogate Sprint 14 exits and publish concise PR with honest gaps.
-- [ ] Phase D: Keep the audit trail.
+- [x] Validate Sprint 14 financial, data-pack and browser journeys.
+- [x] Validate Sprint 14 accessibility and responsive behavior.
+- [x] Prepare real participant protocol and observation template.
+- [x] Interrogate Sprint 14 exits and publish concise PR with honest gaps.
+- [x] Phase D: Keep the audit trail.
 - [ ] Phase E: Verify and hand back.
 
 Throughput checkpoint: one story at a time, test and record before advancing.
 No delegates under project instructions. Sequential design and self-review.
 Final human usability and product acceptance are separate from technical checks.
+
+Human gates remain open: Sprint 13 acceptance, five actual participant sessions,
+and Sprint 14 release acceptance. Technical work is verified; final done
+condition remains unmet until those observations and decisions exist.

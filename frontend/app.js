@@ -1427,12 +1427,12 @@ async function init() {
   initializeResultStates();
   renderCompareCoverage();
   setComputeMode(API_BASE ? 'adapter' : 'local');
+  initWorkspace((name, legacy) => { if (name === 'methods') renderSecurityMethods(); if (legacy === 'explore') $('.discovery').open = true; if (legacy === 'dca') setSimulatorMode('regular'); });
+  applyAnalysisUrl();
   if (has('#data-date')) {
     const status = API_BASE ? await apiGet('/status').catch(() => loadJson('data/data-status.json', null)) : await loadJson('data/data-status.json', null);
     $('#data-date').textContent = status?.backfill?.as_of ? formatDate(status.backfill.as_of) : 'Not published';
   }
-  initWorkspace((name, legacy) => { if (name === 'methods') renderSecurityMethods(); if (legacy === 'explore') $('.discovery').open = true; if (legacy === 'dca') setSimulatorMode('regular'); });
-  applyAnalysisUrl();
 }
 
 // --- S5: local portfolio reconstruction + ledger persistence ----------------
@@ -1586,6 +1586,11 @@ function ledgerRememberUndo() {
 }
 
 function s5WireLedgerPersistence() {
+  $('#ledger-rows').addEventListener('input', () => {
+    ledgerSaveVersion += 1;
+    setLedgerSaveStatus('Unsaved edits. Leave the field to save valid transactions in this browser.');
+  });
+  $('#ledger-rows').addEventListener('focusout', () => s5AutoSaveLedger());
   $('#ledger-rows').addEventListener('change', event => {
     const row = event.target.closest('tr');
     if (!row) return;
@@ -1783,6 +1788,10 @@ async function s6AnalysisViaPacks({ securityId = null, ticker = null, label = nu
     throw new Error(s6EngineErrorMessage(engineError));
   }
   const packNotes = s6PackNotes(entry, support, inputs);
+  const dividendCoverage = inputs.security?.dividend_coverage;
+  if (dividends !== false && !['accumulating', 'non_distributing'].includes(inputs.security.distribution_policy) && ['dividend_data_missing', 'provider_error', 'unknown', 'known_distributing_with_no_events'].includes(dividendCoverage?.coverage_status)) {
+    packNotes.push(dividendCoverageNote({ security: inputs.security, dividend_coverage: dividendCoverage }));
+  }
   const result = packNotes.length
     ? { ...engineResult, data_quality: { status: 'WARNING', warnings: [...packNotes, ...(engineResult.data_quality?.warnings || [])] } }
     : engineResult;

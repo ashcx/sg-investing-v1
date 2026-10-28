@@ -1,0 +1,27 @@
+/Users/runner/work/crossbow/crossbow/arrow/cpp/src/arrow/util/cpu_info.cc:242: IOError: sysctlbyname failed for 'hw.l1dcachesize'. Detail: [errno 1] Operation not permitted
+/Users/runner/work/crossbow/crossbow/arrow/cpp/src/arrow/util/cpu_info.cc:242: IOError: sysctlbyname failed for 'hw.l2cachesize'. Detail: [errno 1] Operation not permitted
+/Users/runner/work/crossbow/crossbow/arrow/cpp/src/arrow/util/cpu_info.cc:242: IOError: sysctlbyname failed for 'hw.l3cachesize'. Detail: [errno 1] Operation not permitted
+/Users/runner/work/crossbow/crossbow/arrow/cpp/src/arrow/util/cpu_info.cc:242: IOError: sysctlbyname failed for 'hw.optional.neon'. Detail: [errno 1] Operation not permitted
+{
+  "catalog_as_of": "2026-08-30",
+  "catalog_version": "sha256-6d0301f1f3b0aff7",
+  "data_snapshot_id": "sha256-04cb723d8f46447a0749e02f522034aa5b068ea61842aa1ef27eaef8a5ecdfb1",
+  "manifest_bytes": 2595,
+  "merge": {
+    "base_data_snapshot_id": "sha256-04cb723d8f46447a0749e02f522034aa5b068ea61842aa1ef27eaef8a5ecdfb1",
+    "mode": "merge",
+    "replaced_packs": 2,
+    "updated_entries": 1
+  },
+  "output_dir": "/Users/macbook/Documents/test/sg-investing-v1/frontend/data/packs",
+  "pack_count": 2,
+  "price_rows": 502,
+  "securities": 1,
+  "support_counts": {
+    "fully_supported": 1,
+    "incomplete": 0,
+    "unavailable": 0
+  },
+  "total_bytes": 77300,
+  "warnings": []
+}

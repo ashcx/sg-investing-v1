@@ -1,0 +1,306 @@
+{
+  "apiCalls": [],
+  "remoteArtifacts": [
+    {
+      "url": "https://pub-a88a64ce6b634ab8a70623c35ff81ad7.r2.dev/data/packs/manifest.json",
+      "status": 200
+    },
+    {
+      "url": "https://pub-a88a64ce6b634ab8a70623c35ff81ad7.r2.dev/data/packs/security=0a39fd1e-48fe-549b-b0ae-4c0dac597d09/year=2024.json",
+      "status": 200
+    }
+  ],
+  "accessibility": [
+    {
+      "route": "simulator",
+      "labelContrast": [
+        {
+          "label": "Security",
+          "ratio": 9.648736401247485
+        },
+        {
+          "label": "Initial amount SGD",
+          "ratio": 9.648736401247485
+        },
+        {
+          "label": "Start date",
+          "ratio": 9.648736401247485
+        },
+        {
+          "label": "End date",
+          "ratio": 9.648736401247485
+        }
+      ],
+      "namedControls": true,
+      "widths": [
+        320,
+        390,
+        768,
+        1280,
+        1440
+      ],
+      "cssZoom200": true,
+      "keyboardSkip": true,
+      "reducedMotion": true
+    },
+    {
+      "route": "compare",
+      "labelContrast": [
+        {
+          "label": "Securities 2–6",
+          "ratio": 15.839835809722329
+        },
+        {
+          "label": "Capital SGD",
+          "ratio": 15.839835809722329
+        },
+        {
+          "label": "Scenario",
+          "ratio": 15.839835809722329
+        },
+        {
+          "label": "Start date",
+          "ratio": 15.839835809722329
+        },
+        {
+          "label": "End date",
+          "ratio": 15.839835809722329
+        }
+      ],
+      "namedControls": true,
+      "widths": [
+        320,
+        390,
+        768,
+        1280,
+        1440
+      ],
+      "cssZoom200": true,
+      "keyboardSkip": true,
+      "reducedMotion": true
+    },
+    {
+      "route": "portfolio",
+      "labelContrast": [
+        {
+          "label": "As-of date",
+          "ratio": 15.839835809722329
+        },
+        {
+          "label": "Transaction type",
+          "ratio": 15.839835809722329
+        },
+        {
+          "label": "Transaction date",
+          "ratio": 15.839835809722329
+        },
+        {
+          "label": "Security",
+          "ratio": 15.839835809722329
+        },
+        {
+          "label": "Quantity",
+          "ratio": 15.839835809722329
+        },
+        {
+          "label": "Transaction total",
+          "ratio": 15.839835809722329
+        },
+        {
+          "label": "Currency",
+          "ratio": 15.839835809722329
+        },
+        {
+          "label": "Fees",
+          "ratio": 15.839835809722329
+        }
+      ],
+      "namedControls": true,
+      "widths": [
+        320,
+        390,
+        768,
+        1280,
+        1440
+      ],
+      "cssZoom200": true,
+      "keyboardSkip": true,
+      "reducedMotion": true
+    },
+    {
+      "route": "methods",
+      "labelContrast": [
+        {
+          "label": "Security",
+          "ratio": 15.839835809722329
+        }
+      ],
+      "namedControls": true,
+      "widths": [
+        320,
+        390,
+        768,
+        1280,
+        1440
+      ],
+      "cssZoom200": true,
+      "keyboardSkip": true,
+      "reducedMotion": true
+    }
+  ],
+  "browserErrors": [],
+  "generatedPackResult": {
+    "data_snapshot_id": "sha256-04cb723d8f46447a0749e02f522034aa5b068ea61842aa1ef27eaef8a5ecdfb1",
+    "catalog_version": "sha256-6d0301f1f3b0aff7",
+    "methodology_version": "1.0",
+    "request": {
+      "start_date": "2024-01-02",
+      "end_date": "2024-12-31",
+      "initial_sgd": "10000",
+      "dividends": "true",
+      "withholding": "true",
+      "reinvest": "true"
+    },
+    "result": {
+      "security": {
+        "active": true,
+        "asset_type": "ETF",
+        "currency": "USD",
+        "cusip": null,
+        "distribution_policy": "distributing",
+        "dividend_coverage": {
+          "coverage_status": "data_available",
+          "distribution_policy": "distributing",
+          "error": null,
+          "event_count": 89,
+          "event_currencies": [
+            "USD"
+          ],
+          "first_event_date": "2003-12-24",
+          "last_event_date": "2026-06-22",
+          "provider_query_succeeded": true,
+          "queried_from": "2000-01-01",
+          "queried_through": "2026-08-31"
+        },
+        "domicile": "US",
+        "exchange": "NASDAQ",
+        "expense_ratio": null,
+        "in_current_catalog": true,
+        "income_source_country": "US",
+        "isin": null,
+        "market": "US",
+        "name": "Invesco QQQ Trust",
+        "security_id": "6cfd001d-07dc-44d9-aff8-d6c99b0ee80b",
+        "ticker": "QQQ",
+        "timezone": "America/New_York",
+        "universes": [
+          {
+            "effective_from": "1999-03-10",
+            "source": "configured_seed",
+            "universe": "major_global_etfs"
+          }
+        ]
+      },
+      "period": {
+        "start_date": "2024-01-02",
+        "end_date": "2024-12-31"
+      },
+      "initial_investment_sgd": "10000",
+      "initial_investment_foreign_currency": "7579.776835665307255883382899",
+      "price_return": {
+        "foreign_currency": "0.269852742583441628531761525",
+        "sgd": "0.308324592662770323055678975"
+      },
+      "dividends": {
+        "gross_foreign_currency": "37.92120328488458466618096628",
+        "withholding_tax_foreign_currency": "11.37636098546537539985428988",
+        "net_foreign_currency": "26.5448422994192092663266764",
+        "cash_foreign_currency": "0",
+        "gross_sgd_at_payment": "50.85830876330988211562455065",
+        "withholding_tax_sgd_at_payment": "15.25749262899296463468736519",
+        "net_sgd_at_payment": "35.60081613431691748093718545"
+      },
+      "investment": {
+        "shares": "18.88526893554505722209295349",
+        "final_security_value_foreign_currency": "9654.716245398460386286331588",
+        "final_value_foreign_currency": "9654.716245398460386286331588",
+        "final_value_sgd": "13123.36592511597109259950773"
+      },
+      "returns": {
+        "total_return": "0.312336592511597109259950773",
+        "cagr": "0.31355475690932755",
+        "total_return_foreign_currency": "0.273746767842806472214891486",
+        "cagr_foreign_currency": "0.2747992288481731"
+      },
+      "fx": {
+        "start_rate": "1.3193000555038452",
+        "end_rate": "1.3592699766159058"
+      },
+      "methodology": {
+        "price": "daily_close",
+        "price_return": "raw_unadjusted_close_to_close_not_split_adjusted",
+        "purchase_date_rule": "next_trading_day",
+        "valuation_date_rule": "previous_trading_day",
+        "dividend_reinvestment": "pay_date_close_with_30_day_ex_date_fallback",
+        "fractional_shares": true,
+        "withholding_tax": true,
+        "dividend_native_currency": "USD",
+        "dividend_sgd_translation": "payment_date_fx_rate_for_actual_dividend_currency",
+        "dividend_type_handling": "regular/special/unknown treated as cash; return_of_capital treated as cash without assumed withholding",
+        "ter_deducted": false,
+        "methodology_version": "1.0"
+      },
+      "data_quality": {
+        "status": "WARNING",
+        "warnings": [
+          "Dividend type for 2024-03-18 is not fully classified; it is modeled as a cash distribution.",
+          "Dividend type for 2024-06-24 is not fully classified; it is modeled as a cash distribution.",
+          "Dividend type for 2024-09-23 is not fully classified; it is modeled as a cash distribution.",
+          "Dividend type for 2024-12-23 is not fully classified; it is modeled as a cash distribution.",
+          "Approximated dividend pay date for 2024-03-18 as 2024-04-17.",
+          "Approximated dividend pay date for 2024-06-24 as 2024-07-24.",
+          "Approximated dividend pay date for 2024-09-23 as 2024-10-23.",
+          "Approximated dividend pay date for 2024-12-23 as 2025-01-22.",
+          "Could not resolve a trading day for dividend dated 2024-12-23; it is excluded from end-date value."
+        ]
+      },
+      "dividend_coverage": {
+        "coverage_status": "data_available",
+        "distribution_policy": "distributing",
+        "error": null,
+        "event_count": 89,
+        "event_currencies": [
+          "USD"
+        ],
+        "first_event_date": "2003-12-24",
+        "last_event_date": "2026-06-22",
+        "provider_query_succeeded": true,
+        "queried_from": "2000-01-01",
+        "queried_through": "2026-08-31"
+      }
+    }
+  },
+  "dividendDisclosure": {
+    "detail": "Dividend data is not confirmed for this security; $0 does not necessarily mean no dividend.",
+    "badge": "Review warnings"
+  },
+  "tier2Transport": "Published R2 JSON proxied through test routing with the Pages Origin header; candidate UI computes locally.",
+  "networkRecovery": true,
+  "deployedBaseline": {
+    "url": "https://ashcx.github.io/sg-investing-v1/data/packs/manifest.json",
+    "status": 200,
+    "snapshot": "sha256-04cb723d8f46447a0749e02f522034aa5b068ea61842aa1ef27eaef8a5ecdfb1",
+    "summary": {
+      "pack_bytes": {
+        "max": 43116,
+        "median": 30076,
+        "min": 1880
+      },
+      "pack_count": 24015,
+      "price_rows": 5826228,
+      "securities": 1241,
+      "total_bytes": 758540810
+    },
+    "scope": "Read-only published baseline, not candidate deployment."
+  }
+}
