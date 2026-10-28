@@ -1,3 +1,4 @@
 ts	phase	decision	why	evidence	result
 2026-10-28T08:30:00Z	frame	Recheck 12 then build 13 then validate 14 sequentially	User requested tested sprint PRs and continuation	Todo/sprint-12-fair-comparisons.md	Final human sessions remain open
 2026-10-28T09:00:00Z	sprint13	Keep canonical ledger and add optional row IDs with type-field registry	Preserve compatibility while preventing hidden defaults	frontend/ledger-editor.js	Browser and unit checks pass; human review pending
+2026-10-28T08:55:34.028633+00:00	sprint14	Complete technical validation and prepare participant materials	Real observations cannot be replaced by agent tests	docs/ux-redesign-evidence/sprint-14/README.md	Technical checks pass; human sessions and acceptance open

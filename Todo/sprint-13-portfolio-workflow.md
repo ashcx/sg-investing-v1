@@ -193,3 +193,13 @@ returns an empty portfolio; this candidate was dropped. The corrected beyond-
 coverage probe fails explicitly as intended. No remaining verified finding
 against technical exits. This is self-review, not independent review or human
 acceptance. User-authorized technical progression permits S14 next.
+
+Sprint PR: https://github.com/ashcx/sg-investing-v1/pull/11.
+
+Sprint 14 integration recheck caught a save-status defect while typing: the
+label stayed Saved until blur. `tests/browser/sprint-13.cjs` reproduced
+Expected /Unsaved/ but got Saved in this browser. Immediate input events now
+mark edits unsaved and invalidate older save-status completions. Persistence
+continues on change, retaining the last valid stored ledger. The new browser
+assertion verifies this distinction. This small repair is included in the
+release-validation PR and tracked here as the owning sprint.

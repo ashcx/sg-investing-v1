@@ -1,0 +1,264 @@
+{
+  "source": "not_collected",
+  "candidate_commit": null,
+  "session_date": null,
+  "facilitator": null,
+  "consent_recorded": false,
+  "participants": [
+    {
+      "id": "P1",
+      "unfamiliar_with_product": null,
+      "first_valid_result_seconds": null,
+      "tasks": [
+        {
+          "task": 1,
+          "unaided_completion": null,
+          "identifies_currency": null,
+          "identifies_amount": null,
+          "identifies_actual_period": null,
+          "identifies_current_or_previous": null,
+          "mistakes": null,
+          "assistance": null,
+          "observation_notes": null
+        },
+        {
+          "task": 2,
+          "unaided_completion": null,
+          "identifies_currency": null,
+          "identifies_amount": null,
+          "identifies_actual_period": null,
+          "identifies_current_or_previous": null,
+          "mistakes": null,
+          "assistance": null,
+          "observation_notes": null
+        },
+        {
+          "task": 3,
+          "unaided_completion": null,
+          "identifies_currency": null,
+          "identifies_amount": null,
+          "identifies_actual_period": null,
+          "identifies_current_or_previous": null,
+          "mistakes": null,
+          "assistance": null,
+          "observation_notes": null
+        },
+        {
+          "task": 4,
+          "unaided_completion": null,
+          "identifies_currency": null,
+          "identifies_amount": null,
+          "identifies_actual_period": null,
+          "identifies_current_or_previous": null,
+          "mistakes": null,
+          "assistance": null,
+          "observation_notes": null
+        }
+      ]
+    },
+    {
+      "id": "P2",
+      "unfamiliar_with_product": null,
+      "first_valid_result_seconds": null,
+      "tasks": [
+        {
+          "task": 1,
+          "unaided_completion": null,
+          "identifies_currency": null,
+          "identifies_amount": null,
+          "identifies_actual_period": null,
+          "identifies_current_or_previous": null,
+          "mistakes": null,
+          "assistance": null,
+          "observation_notes": null
+        },
+        {
+          "task": 2,
+          "unaided_completion": null,
+          "identifies_currency": null,
+          "identifies_amount": null,
+          "identifies_actual_period": null,
+          "identifies_current_or_previous": null,
+          "mistakes": null,
+          "assistance": null,
+          "observation_notes": null
+        },
+        {
+          "task": 3,
+          "unaided_completion": null,
+          "identifies_currency": null,
+          "identifies_amount": null,
+          "identifies_actual_period": null,
+          "identifies_current_or_previous": null,
+          "mistakes": null,
+          "assistance": null,
+          "observation_notes": null
+        },
+        {
+          "task": 4,
+          "unaided_completion": null,
+          "identifies_currency": null,
+          "identifies_amount": null,
+          "identifies_actual_period": null,
+          "identifies_current_or_previous": null,
+          "mistakes": null,
+          "assistance": null,
+          "observation_notes": null
+        }
+      ]
+    },
+    {
+      "id": "P3",
+      "unfamiliar_with_product": null,
+      "first_valid_result_seconds": null,
+      "tasks": [
+        {
+          "task": 1,
+          "unaided_completion": null,
+          "identifies_currency": null,
+          "identifies_amount": null,
+          "identifies_actual_period": null,
+          "identifies_current_or_previous": null,
+          "mistakes": null,
+          "assistance": null,
+          "observation_notes": null
+        },
+        {
+          "task": 2,
+          "unaided_completion": null,
+          "identifies_currency": null,
+          "identifies_amount": null,
+          "identifies_actual_period": null,
+          "identifies_current_or_previous": null,
+          "mistakes": null,
+          "assistance": null,
+          "observation_notes": null
+        },
+        {
+          "task": 3,
+          "unaided_completion": null,
+          "identifies_currency": null,
+          "identifies_amount": null,
+          "identifies_actual_period": null,
+          "identifies_current_or_previous": null,
+          "mistakes": null,
+          "assistance": null,
+          "observation_notes": null
+        },
+        {
+          "task": 4,
+          "unaided_completion": null,
+          "identifies_currency": null,
+          "identifies_amount": null,
+          "identifies_actual_period": null,
+          "identifies_current_or_previous": null,
+          "mistakes": null,
+          "assistance": null,
+          "observation_notes": null
+        }
+      ]
+    },
+    {
+      "id": "P4",
+      "unfamiliar_with_product": null,
+      "first_valid_result_seconds": null,
+      "tasks": [
+        {
+          "task": 1,
+          "unaided_completion": null,
+          "identifies_currency": null,
+          "identifies_amount": null,
+          "identifies_actual_period": null,
+          "identifies_current_or_previous": null,
+          "mistakes": null,
+          "assistance": null,
+          "observation_notes": null
+        },
+        {
+          "task": 2,
+          "unaided_completion": null,
+          "identifies_currency": null,
+          "identifies_amount": null,
+          "identifies_actual_period": null,
+          "identifies_current_or_previous": null,
+          "mistakes": null,
+          "assistance": null,
+          "observation_notes": null
+        },
+        {
+          "task": 3,
+          "unaided_completion": null,
+          "identifies_currency": null,
+          "identifies_amount": null,
+          "identifies_actual_period": null,
+          "identifies_current_or_previous": null,
+          "mistakes": null,
+          "assistance": null,
+          "observation_notes": null
+        },
+        {
+          "task": 4,
+          "unaided_completion": null,
+          "identifies_currency": null,
+          "identifies_amount": null,
+          "identifies_actual_period": null,
+          "identifies_current_or_previous": null,
+          "mistakes": null,
+          "assistance": null,
+          "observation_notes": null
+        }
+      ]
+    },
+    {
+      "id": "P5",
+      "unfamiliar_with_product": null,
+      "first_valid_result_seconds": null,
+      "tasks": [
+        {
+          "task": 1,
+          "unaided_completion": null,
+          "identifies_currency": null,
+          "identifies_amount": null,
+          "identifies_actual_period": null,
+          "identifies_current_or_previous": null,
+          "mistakes": null,
+          "assistance": null,
+          "observation_notes": null
+        },
+        {
+          "task": 2,
+          "unaided_completion": null,
+          "identifies_currency": null,
+          "identifies_amount": null,
+          "identifies_actual_period": null,
+          "identifies_current_or_previous": null,
+          "mistakes": null,
+          "assistance": null,
+          "observation_notes": null
+        },
+        {
+          "task": 3,
+          "unaided_completion": null,
+          "identifies_currency": null,
+          "identifies_amount": null,
+          "identifies_actual_period": null,
+          "identifies_current_or_previous": null,
+          "mistakes": null,
+          "assistance": null,
+          "observation_notes": null
+        },
+        {
+          "task": 4,
+          "unaided_completion": null,
+          "identifies_currency": null,
+          "identifies_amount": null,
+          "identifies_actual_period": null,
+          "identifies_current_or_previous": null,
+          "mistakes": null,
+          "assistance": null,
+          "observation_notes": null
+        }
+      ]
+    }
+  ]
+}

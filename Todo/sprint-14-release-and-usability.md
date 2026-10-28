@@ -7,11 +7,11 @@ calculation contracts, real viewport/accessibility checks, and observed tasks
 with unfamiliar people. Record what the evidence supports before making any
 release claim.
 
-Status: **Not started**.
+Status: **In progress**.
 
 ## Entry criteria
 
-- [ ] Every Sprint 13 exit criterion is checked, including ledger preservation,
+- [x] Every Sprint 13 technical/design/PR exit criterion is checked, including ledger preservation,
       accessible transaction entry, mobile readability, and import/export
       evidence.
 
@@ -26,7 +26,7 @@ Timebox commitment: **S14-US01 + S14-US02 (6 SP)**. **S14-US03 (3 SP) is
 stretch**, still required for sprint exit. Execute stories and their tasks in
 order, including checks and recorded self-review before advancing.
 
-- [ ] **S14-US01 — Verify financial and static-site behavior end to end** (P1,
+- [x] **S14-US01 — Verify financial and static-site behavior end to end** (P1,
       3 SP; owner: main instance; review: subsequent main-instance self-review).
   - **Given** a locally served integrated candidate, fixed test data, and the
     published pack artifacts, **when** the verification matrix runs, **then**
@@ -34,41 +34,41 @@ order, including checks and recorded self-review before advancing.
     and failure recovery are recorded with no change to engine contracts.
     (F01–F04, F07–F11, F15)
   - Tasks:
-    - [ ] Run deterministic journeys for one-time investment, regular
+    - [x] Run deterministic journeys for one-time investment, regular
           investing, comparison, portfolio, pending/error states, and routes.
           Include pure DCA and initial-lump-sum-plus-DCA, with matching Python
           and browser results and correct invested-capital/XIRR cash flows.
-    - [ ] Run the Python, golden parity, property, worker, and static-site
+    - [x] Run the Python, golden parity, property, worker, and static-site
           suites; build packs for required pack-integration checks and record
           results.
-    - [ ] Exercise the locally served integrated candidate against published
+    - [x] Exercise the locally served integrated candidate against published
           Tier-1/Tier-2 pack artifacts, including missing-pack and network
           failure recovery; confirm no runtime calculation API is required.
-    - [ ] Separately run read-only smoke checks on the currently deployed
+    - [x] Separately run read-only smoke checks on the currently deployed
           baseline to confirm the existing pack origins remain reachable. Label
           these checks as baseline evidence; they do not prove the redesigned
           candidate is deployed or validate its UI.
-    - [ ] Verify result, series, ledger, and share-link round trips preserve
+    - [x] Verify result, series, ledger, and share-link round trips preserve
           request identity, warnings, provenance, methodology, and snapshot
           semantics.
-    - [ ] Reconcile each audit finding F01–F19 against a test, inspection, or
+    - [x] Reconcile each audit finding F01–F19 against a test, inspection, or
           documented resolution; do not count absence of evidence as a pass.
   - **Evidence:** dated test reports, fixture manifests, read-only smoke
     captures/logs, and a finding-by-finding evidence map.
 
-- [ ] **S14-US02 — Inspect responsive, keyboard, and zoom behavior** (P1, 3 SP;
+- [x] **S14-US02 — Inspect responsive, keyboard, and zoom behavior** (P1, 3 SP;
       owner: main instance; review: subsequent main-instance self-review).
   - **Given** the integrated candidate, **when** it is inspected at the audit's
     viewport widths and with keyboard, zoom, reduced-motion, and accessible-name
     checks, **then** financial values retain their labels and controls remain
     reachable/readable, with limitations recorded. (F05, F06, F10–F19)
   - Tasks:
-    - [ ] Inspect 320, 390, 768, 1280, and 1440 pixel layouts; check 200% zoom,
+    - [x] Inspect 320, 390, 768, 1280, and 1440 pixel layouts; check 200% zoom,
           keyboard order/focus, reduced motion, chart table alternatives,
           accessible names, and contrast.
-    - [ ] Check all displayed mobile metric cards, warnings, form validation,
+    - [x] Check all displayed mobile metric cards, warnings, form validation,
           route navigation, and portfolio transaction controls.
-    - [ ] Save before/after captures and an issue log; fix release-blocking P1
+    - [x] Save before/after captures and an issue log; fix release-blocking P1
           defects through the owning sprint file before declaring completion.
   - **Evidence:** viewport matrix, contrast/accessibility findings, keyboard
     paths, captures, and a list of remaining limitations.
@@ -82,7 +82,7 @@ order, including checks and recorded self-review before advancing.
     task completion, mistakes, comprehension, and time to first valid result
     are recorded directly, and release readiness reflects the observed results.
   - Tasks:
-    - [ ] Prepare a neutral task script for: QQQ one-time investment and actual
+    - [x] Prepare a neutral task script for: QQQ one-time investment and actual
           dates; monthly contributions and result meaning; QQQ/VALL history
           difference; and adding/correcting a portfolio transaction and finding
           its save location.
@@ -103,24 +103,24 @@ order, including checks and recorded self-review before advancing.
 - [ ] Human Product Owner reviews the sprint outcome and evidence; record
       actual acceptance or requested changes before starting the next sprint.
 
-- [ ] Inspect the actual locally served webpage design after this sprint at
+- [x] Inspect the actual locally served webpage design after this sprint at
       desktop and mobile widths; record captures, changed-state checks, and
       findings under `docs/ux-redesign-evidence/sprint-14/`.
-- [ ] Open the sprint PR in `ashcx/sg-investing-v1` with the sprint plan,
+- [x] Open the sprint PR in `ashcx/sg-investing-v1` with the sprint plan,
       implementation changes, checks/results, and remaining gaps; record its URL.
 
 
-- [ ] Deterministic financial, parity, worker, static-site, pack integration,
+- [x] Deterministic financial, parity, worker, static-site, pack integration,
       and route/journey checks pass with reports retained.
-- [ ] The locally served integrated candidate passes pack and failure-recovery
+- [x] The locally served integrated candidate passes pack and failure-recovery
       checks using published artifacts; read-only deployed-baseline checks are
       separately labeled and are not presented as candidate UI evidence. No
       redesigned candidate is called deployed without an authorized publish.
-- [ ] Audit findings F01–F19 are each linked to evidence and are fixed or
+- [x] Audit findings F01–F19 are each linked to evidence and are fixed or
       explicitly resolved in documented scope; no reproduced P1 remains.
-- [ ] Required responsive/keyboard/zoom/contrast checks are recorded and no
+- [x] Required responsive/keyboard/zoom/contrast checks are recorded and no
       financial value loses its label or period on mobile.
-- [ ] Existing ledger compatibility and recovery are verified without exposing
+- [x] Existing ledger compatibility and recovery are verified without exposing
       private user ledger contents in the evidence set.
 - [ ] Five real unfamiliar participants complete the planned sessions; actual
       outcomes are recorded, and proposed usability targets are met. If targets
@@ -128,7 +128,7 @@ order, including checks and recorded self-review before advancing.
       record the blocker/retest plan.
 - [ ] Product Owner reviews the evidence and accepts the release candidate;
       technical agent sign-off is not represented as user acceptance.
-- [ ] Sprint evidence is recorded under `docs/ux-redesign-evidence/sprint-14/`
+- [x] Sprint evidence is recorded under `docs/ux-redesign-evidence/sprint-14/`
       and roadmap status changes only after every exit gate is checked.
 
 ## Scrum details
@@ -167,3 +167,38 @@ no implementation evidence or completed task is claimed by this amendment.
 For each task, record date/ID, status, changed files, checks and exact results,
 evidence paths, separate self-review findings, blockers, and next sequential
 action here before proceeding. Human acceptance is recorded only when given.
+
+
+### Technical entry amendment, 28 October 2026
+
+Sprint 13 technical exits were checked directly, interrogate findings repaired
+and rerun, and PR #11 published before entry. User explicitly requested
+technical progression after each tested sprint PR. Sprint 13 human acceptance
+remains unchecked and may follow this increment. Release acceptance does not
+begin until human acceptance and all required usability evidence exist.
+The user chose participant materials first. Five real sessions are not
+available yet and remain an explicit final completion blocker.
+
+
+### Technical verification and interrogate verdict, 28 October 2026
+
+Technical US01/US02 checks pass; participant materials are prepared for US03.
+Python 291 passed / 8 deselected; engine 83/83; parity 29/29; worker 90/90;
+properties 1,473 cases; DCA pack integration 29/29; portfolio 14/14. Real
+canonical QQQ packs were built for 2024 and 2025. Updated S11, new S12/S13/S14
+Chrome probes and native Chrome 200% zoom pass. Label contrast is at least
+9.65:1; no horizontal overflow at five widths, unnamed visible form controls,
+calculation API requests or page exceptions in the tested journeys.
+
+Sequential interrogate found and repaired immediate ledger save-status,
+GRPN unknown-dividend badge inconsistency, and optional-status metadata
+blocking initial workspace routing. Both failing assertions and passing
+reruns are documented. No remaining verified technical finding. Four probe/
+setup assumptions were dropped with reasons. Full scope, exact commands,
+captures, limitations and F01–F19 evidence map:
+[release verification](../docs/ux-redesign-evidence/sprint-14/README.md).
+
+NOT COMPLETE: five unfamiliar real participant sessions, evaluation of actual
+observations, and final Product Owner acceptance remain open. Blank usability
+observations produce NOT VERIFIED, not a pass. User requested materials first.
+No agent session substitutes for people, and no deployment is claimed.
