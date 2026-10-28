@@ -278,6 +278,42 @@ checkEqual('monthly schedule picks first available trading day of month', contri
 checkEqual('quarterly schedule picks first available trading day of quarter', contributionDates(schedulePrices, '2024-01-01', '2024-12-31', 'quarterly'), ['2024-01-02', '2024-04-01', '2024-07-01', '2024-10-01']);
 checkEqual('yearly schedule picks first available trading day of year', contributionDates(schedulePrices, '2024-01-01', '2024-12-31', 'yearly'), ['2024-01-02']);
 
+const regressionSecurity = { security_id: 'dca-regression', currency: 'USD' };
+const regressionPrice = (trading_date) => ({ security_id: 'dca-regression', trading_date, close: '100', currency: 'USD' });
+const regressionDca = (overrides = {}) => dcaAnalysis({
+  security: regressionSecurity,
+  prices: [regressionPrice('2024-01-02')],
+  fxRates: [{ base_currency: 'USD', rate_date: '2024-01-02', rate_to_sgd: '1' }],
+  startDate: '2024-01-02', endDate: '2024-01-02', contributionSgd: '100',
+  ...overrides,
+});
+for (const initialSgd of ['0', '1000']) {
+  const sameDay = regressionDca({ initialSgd });
+  checkEqual(`same-day DCA SGD XIRR unavailable with initial ${initialSgd}`, sameDay.xirr, null);
+  checkEqual(`same-day DCA native XIRR unavailable with initial ${initialSgd}`, sameDay.xirr_foreign_currency, null);
+  check(`same-day DCA preserves capital with initial ${initialSgd}`, sameDay.final_value_sgd.eq(dec('100').plus(initialSgd)));
+}
+checkEqual('same-day XIRR is undefined', xirr([['2024-01-02', dec('-100')], ['2024-01-02', dec('100')]]), null);
+for (const [rate_date, lag] of [['2023-12-26', 7], ['2023-12-25', 8], ['2020-01-01', 1462]]) {
+  const staleDca = regressionDca({ initialSgd: '100', fxRates: [{ base_currency: 'USD', rate_date, rate_to_sgd: '1' }] });
+  checkEqual(`DCA FX warning threshold ${lag} days`, staleDca.data_quality.warnings,
+    lag > 7 ? [`USD/SGD FX rate for 2024-01-02 is ${lag} days stale.`] : []);
+  checkEqual(`DCA FX quality at ${lag} days`, staleDca.data_quality.status, lag > 7 ? 'WARNING' : 'OK');
+}
+const valuationDca = regressionDca({ prices: [regressionPrice('2024-01-02'), regressionPrice('2024-01-31')], endDate: '2024-01-31' });
+checkEqual('DCA warns for stale valuation without contribution', valuationDca.data_quality.warnings,
+  ['USD/SGD FX rate for 2024-01-31 is 29 days stale.']);
+const dividendDca = regressionDca({
+  security: { ...regressionSecurity, currency: 'SGD' },
+  prices: ['2024-01-02', '2024-01-03', '2024-01-15'].map((day) => ({ ...regressionPrice(day), currency: 'SGD' })),
+  endDate: '2024-01-15',
+  fxRates: [{ base_currency: 'JPY', rate_date: '2024-01-02', rate_to_sgd: '0.01' }],
+  dividends: [{ security_id: 'dca-regression', ex_date: '2024-01-03', pay_date: '2024-01-15', currency: 'JPY', amount: '1', dividend_type: 'regular' }],
+  scenario: { withholding_tax_enabled: false },
+});
+checkEqual('DCA warns for stale dividend currency', dividendDca.data_quality.warnings,
+  ['JPY/SGD FX rate for 2024-01-15 is 13 days stale.']);
+
 const knownRate = xirr([
   ['2024-01-02', dec('-1000')],
   ['2025-01-02', dec('1100')],
