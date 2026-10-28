@@ -346,3 +346,21 @@ site-wide copy simplification, Chrome captures and verification notes. Original
 increment accepted by Product Owner; follow-up copy is ready for review. All
 tracked tasks/exits are checked, so Sprint 12 is Complete in the roadmap. This
 does not start Sprint 13 or authorize a merge/deployment.
+
+
+### Sequential release run, 28 October 2026
+
+User requests rechecking Sprint 12, then implementing 13 and technically
+validating 14, with interrogate review and a concise PR after each sprint.
+Product review between increments may be deferred under this explicit
+progression instruction. Final human acceptance and Sprint 14's five real
+participant sessions are not waived. User asked to prepare session materials
+first; no participant observations may be invented. Main-instance work only.
+
+Interrogate recheck: no verified findings against Sprint 12 exits. Fresh
+comparison window, independent result, UI/controller and pack/worker pipeline
+checks pass. `tests/browser/sprint-12.cjs` passes empty selection, explicit
+shared dates, QQQ/VALL local results, previous-result state and 320/390/768/1280/
+1440px overflow checks. Desktop/mobile captures retained in the sprint evidence
+folder; mobile capture inspected. Existing human acceptance remains valid.
+Sprint remains Complete. No calculation changes in this review increment.

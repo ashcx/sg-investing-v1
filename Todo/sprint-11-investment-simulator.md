@@ -8,7 +8,7 @@ in regular-investing mode, using one disclosed set of dates and assumptions. Put
 answer first, keep chart meaning honest, and carry an explicit setup into
 comparison.
 
-Status: **In progress**.
+Status: **Complete**.
 
 ## Entry criteria
 
@@ -109,7 +109,7 @@ order, including checks and recorded self-review before advancing.
 
 ## Exit criteria
 
-- [ ] Human Product Owner reviews the sprint outcome and evidence; record
+- [x] Human Product Owner reviews the sprint outcome and evidence; record
       actual acceptance or requested changes before starting the next sprint.
 
 - [x] Inspect the actual locally served webpage design after this sprint at
@@ -268,3 +268,22 @@ issue found. Existing retained captures remain the evidence for these flows.
 Next sequential action: wait for PR checks, merge into main, verify Tier-1 build
 and deployment, then inspect the live desktop/mobile workspace. Deployment is
 not yet claimed. Sprint status remains In progress pending human product review.
+
+
+### Completion review, 28 October 2026
+
+Fresh sequential Chrome checks pass for this sprint's implemented behavior.
+Implementation/design/PR exits remain satisfied; human Product Owner acceptance
+remains unrecorded and unchecked. Status remains **In progress**, with technical
+work complete. See [completion review](../docs/sprint-completion-2026-10-28/README.md)
+for exact scope, captures, published PR state and dropped test-drift finding.
+No acceptance is inferred from merge or publication authorization.
+
+
+### Product Owner acceptance, 28 October 2026
+
+Following the completion review and its reported verification results, the
+human Product Owner explicitly accepted Sprints 10 and 11 in this chat:
+"yes go ahead and accept". Human acceptance is now recorded and checked.
+All exit criteria are checked; status is **Complete**. This records acceptance
+of the reviewed increments and does not start Sprint 13 or authorize deployment.
