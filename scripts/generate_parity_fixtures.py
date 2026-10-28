@@ -807,6 +807,21 @@ def build_fixtures() -> list[dict]:
     )
     add("dca-monthly-synthetic-cash-dividends", "dca", "dca", input_rows, golden)
 
+    for name, fx_rows in [
+        ("dca-same-day", make_fx("USD", {"2024-01-02": "1.35"})),
+        ("dca-stale-fx", make_fx("USD", {"2020-01-01": "1.35"})),
+    ]:
+        input_rows, golden = dca_input(
+            security,
+            make_prices(SYNTH_USD_ID, "USD", {"2024-01-02": "100"}),
+            fx_rows,
+            start_date="2024-01-02",
+            end_date="2024-01-02",
+            contribution_sgd="100",
+            frequency="monthly",
+        )
+        add(name, "dca", "dca", input_rows, golden)
+
     # --- (e2) Sprint 4 DCA static-site fixtures ---
     # SGD security DCA: in-memory rows, no FX history at all.
     sgd_dca_security = make_security(

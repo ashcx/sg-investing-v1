@@ -187,8 +187,20 @@
       "ter_deducted": false
     },
     "data_quality": {
-      "status": "OK",
-      "warnings": []
+      "status": "WARNING",
+      "warnings": [
+        "USD/SGD FX rate for 2024-02-01 is 31 days stale.",
+        "USD/SGD FX rate for 2024-03-01 is 60 days stale.",
+        "USD/SGD FX rate for 2024-04-01 is 91 days stale.",
+        "USD/SGD FX rate for 2024-05-01 is 121 days stale.",
+        "USD/SGD FX rate for 2024-06-03 is 154 days stale.",
+        "USD/SGD FX rate for 2024-07-01 is 182 days stale.",
+        "USD/SGD FX rate for 2024-08-01 is 213 days stale.",
+        "USD/SGD FX rate for 2024-09-02 is 245 days stale.",
+        "USD/SGD FX rate for 2024-10-01 is 274 days stale.",
+        "USD/SGD FX rate for 2024-11-01 is 305 days stale.",
+        "USD/SGD FX rate for 2024-12-02 is 336 days stale."
+      ]
     }
   }
 }

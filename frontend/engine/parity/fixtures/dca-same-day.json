@@ -1,0 +1,95 @@
+{
+  "name": "dca-same-day",
+  "category": "dca",
+  "kind": "dca",
+  "input_rows": {
+    "security": {
+      "security_id": "10000000-0000-0000-0000-000000000001",
+      "ticker": "SYNUSD",
+      "exchange": "XTEST",
+      "market": "US",
+      "name": "SYNUSD parity fixture",
+      "currency": "USD",
+      "asset_type": "ETF",
+      "domicile": "US",
+      "income_source_country": "US",
+      "isin": null,
+      "cusip": null,
+      "timezone": "UTC",
+      "active": true,
+      "distribution_policy": "distributing",
+      "expense_ratio": null
+    },
+    "prices": [
+      {
+        "security_id": "10000000-0000-0000-0000-000000000001",
+        "trading_date": "2024-01-02",
+        "close": "100",
+        "currency": "USD"
+      }
+    ],
+    "fx_rates": [
+      {
+        "rate_date": "2024-01-02",
+        "base_currency": "USD",
+        "rate_to_sgd": "1.35"
+      }
+    ],
+    "dividends": [],
+    "corporate_actions": [],
+    "tax_rules": [],
+    "request": {
+      "start_date": "2024-01-02",
+      "end_date": "2024-01-02",
+      "contribution_sgd": "100",
+      "frequency": "monthly",
+      "scenario": {
+        "dividends_enabled": true,
+        "reinvest_dividends": true,
+        "withholding_tax_enabled": true
+      }
+    }
+  },
+  "golden_envelope": {
+    "security": {
+      "security_id": "10000000-0000-0000-0000-000000000001",
+      "ticker": "SYNUSD",
+      "exchange": "XTEST",
+      "market": "US",
+      "name": "SYNUSD parity fixture",
+      "currency": "USD",
+      "asset_type": "ETF",
+      "domicile": "US",
+      "income_source_country": "US",
+      "isin": null,
+      "cusip": null,
+      "timezone": "UTC",
+      "active": true,
+      "distribution_policy": "distributing",
+      "expense_ratio": null
+    },
+    "contribution_dates": [
+      "2024-01-02"
+    ],
+    "total_contributed_sgd": "100",
+    "total_contributed_foreign_currency": "74.07407407407407407407407407",
+    "final_value_sgd": "99.99999999999999999999999999",
+    "final_value_foreign_currency": "74.07407407407407407407407407",
+    "gain_loss_sgd": "-1E-26",
+    "gain_loss_foreign_currency": "0E-26",
+    "xirr": null,
+    "xirr_foreign_currency": null,
+    "shares": "0.7407407407407407407407407407",
+    "methodology": {
+      "contribution_timing": "first_available_trading_day_of_period",
+      "cost_basis": "weighted_average_not_applicable_to_dca_return",
+      "dividend_reinvestment": true,
+      "dividend_type_handling": "regular/special/unknown treated as cash; return_of_capital treated as cash without assumed withholding",
+      "ter_deducted": false
+    },
+    "data_quality": {
+      "status": "OK",
+      "warnings": []
+    }
+  }
+}

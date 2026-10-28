@@ -15,10 +15,11 @@ from sg_investing.analysis import (
     _ONE,
     _ZERO,
     AnalysisDataError,
-    _rate_for_date,
+    _rate_for_date_with_staleness,
     _resolve_price,
     _sorted_prices,
     _tax_rate_for,
+    _warn_if_fx_is_stale,
 )
 from sg_investing.data.validation import validate_dividends
 from sg_investing.models import (
@@ -82,6 +83,8 @@ def xirr(cash_flows: Iterable[tuple[date, Decimal]]) -> Decimal | None:
         amount > _ZERO for _, amount in flows
     ):
         return None
+    if flows[0][0] == flows[-1][0]:
+        return None
     origin = flows[0][0]
 
     def npv(rate: float) -> float:
@@ -143,6 +146,19 @@ def dca_analysis(
     contributions_by_date = {item: contribution for item in purchase_dates}
     contributions_by_date[purchase_dates[0]] += initial
     warnings: list[str] = []
+    fx_rows = tuple(fx_rates)
+    resolved_rates: dict[tuple[str, date], Decimal] = {}
+
+    def rate_for_date(currency: str, requested: date) -> Decimal:
+        key = (currency, requested)
+        if key not in resolved_rates:
+            rate, lag = _rate_for_date_with_staleness(currency, requested, fx_rows)
+            _warn_if_fx_is_stale(
+                warnings, currency=currency, requested=requested, lag_days=lag,
+            )
+            resolved_rates[key] = rate
+        return resolved_rates[key]
+
     supplied_dividends = [event for event in dividends if event.security_id == security.security_id]
     dividend_validation = validate_dividends(supplied_dividends)
     if not dividend_validation.is_valid:
@@ -222,8 +238,8 @@ def dca_analysis(
                 if pay_price.trading_date > valuation.trading_date:
                     warnings.append(f"Dividend dated {event.ex_date.isoformat()} becomes available after valuation.")
                     continue
-                event_fx = _rate_for_date(event.currency, pay_price.trading_date, fx_rates)
-                security_fx = _rate_for_date(security.currency, pay_price.trading_date, fx_rates)
+                event_fx = rate_for_date(event.currency, pay_price.trading_date)
+                security_fx = rate_for_date(security.currency, pay_price.trading_date)
                 net = net_event_currency * event_fx / security_fx
                 target = reinvestments_by_date if scenario.reinvest_dividends else cash_by_date
                 target.setdefault(pay_price.trading_date, []).append(net)
@@ -236,19 +252,19 @@ def dca_analysis(
             shares += sum(reinvestments_by_date[event_date], start=_ZERO) / pay_price.close
         if event_date in contributions_by_date:
             buy_price = next(row for row in price_rows if row.trading_date == event_date)
-            fx_rate = _rate_for_date(security.currency, event_date, fx_rates)
+            fx_rate = rate_for_date(security.currency, event_date)
             shares += contributions_by_date[event_date] / fx_rate / buy_price.close
         cursor += 1
 
-    end_fx = _rate_for_date(security.currency, valuation.trading_date, fx_rates)
+    end_fx = rate_for_date(security.currency, valuation.trading_date)
     final_value_foreign_currency = shares * valuation.close + cash_dividends
     final_value = final_value_foreign_currency * end_fx
     total = contribution * len(purchase_dates) + initial
     contributions_foreign_currency = [
-        contribution / _rate_for_date(security.currency, purchase_date, fx_rates)
+        contribution / rate_for_date(security.currency, purchase_date)
         for purchase_date in purchase_dates
     ]
-    initial_foreign = initial / _rate_for_date(security.currency, purchase_dates[0], fx_rates)
+    initial_foreign = initial / rate_for_date(security.currency, purchase_dates[0])
     total_foreign_currency = sum(contributions_foreign_currency, start=_ZERO) + initial_foreign
     initial_flows = [(purchase_dates[0], -initial)] if initial else []
     initial_foreign_flows = [(purchase_dates[0], -initial_foreign)] if initial else []

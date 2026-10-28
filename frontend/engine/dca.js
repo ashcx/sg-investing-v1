@@ -5,7 +5,7 @@ import {
   filterAccumulatingDividends,
   taxRateFor,
 } from './dividends.js';
-import { rateForDate } from './fx.js';
+import { rateForDateWithStaleness, warnIfFxIsStale } from './fx.js';
 import { DAYS_PER_YEAR, ONE, ZERO, dec, sumDecimals } from './money.js';
 import { AnalysisDataError, DataQualityStatus, EngineValueError, normalizeScenario } from './models.js';
 import { resolvePrice, sortedPrices } from './prices.js';
@@ -43,6 +43,7 @@ export function xirr(cashFlows) {
   if (flows.length < 2) return null;
   if (!flows.some(([, amount]) => amount.lt(0))) return null;
   if (!flows.some(([, amount]) => amount.gt(0))) return null;
+  if (flows[0][0] === flows[flows.length - 1][0]) return null;
   const origin = flows[0][0];
 
   const npv = (rate) => {
@@ -119,6 +120,16 @@ export function dcaAnalysis({
   const contributionsByDate = new Map(purchaseDates.map((date) => [date, contribution]));
   contributionsByDate.set(purchaseDates[0], contribution.plus(initial));
   const warnings = [];
+  const resolvedRates = new Map();
+  const rateForDate = (currency, requested) => {
+    const key = `${currency}:${requested}`;
+    if (!resolvedRates.has(key)) {
+      const { rate, lag } = rateForDateWithStaleness(currency, requested, fxRates);
+      warnIfFxIsStale(warnings, { currency, requested, lag });
+      resolvedRates.set(key, rate);
+    }
+    return resolvedRates.get(key);
+  };
   const suppliedDividends = dividends.filter((event) => event.security_id === security.security_id);
   const dividendValidation = validateDividends(suppliedDividends);
   if (!dividendValidation.is_valid) {
@@ -200,8 +211,8 @@ export function dcaAnalysis({
           warnings.push(`Dividend dated ${event.ex_date} becomes available after valuation.`);
           continue;
         }
-        const eventFx = rateForDate(event.currency, payPrice.trading_date, fxRates);
-        const securityFx = rateForDate(security.currency, payPrice.trading_date, fxRates);
+        const eventFx = rateForDate(event.currency, payPrice.trading_date);
+        const securityFx = rateForDate(security.currency, payPrice.trading_date);
         const net = netEventCurrency.times(eventFx).div(securityFx);
         const target = activeScenario.reinvest_dividends ? reinvestmentsByDate : cashByDate;
         const pending = target.get(payPrice.trading_date);
@@ -223,20 +234,20 @@ export function dcaAnalysis({
     }
     if (contributionsByDate.has(eventDate)) {
       const buyPrice = priceRows.find((row) => row.trading_date === eventDate);
-      const fxRate = rateForDate(security.currency, eventDate, fxRates);
+      const fxRate = rateForDate(security.currency, eventDate);
       shares = shares.plus(contributionsByDate.get(eventDate).div(fxRate).div(dec(buyPrice.close)));
     }
     cursor += 1;
   }
 
-  const endFx = rateForDate(security.currency, valuation.trading_date, fxRates);
+  const endFx = rateForDate(security.currency, valuation.trading_date);
   const finalValueForeignCurrency = shares.times(dec(valuation.close)).plus(cashDividends);
   const finalValue = finalValueForeignCurrency.times(endFx);
   const total = contribution.times(dec(purchaseDates.length)).plus(initial);
   const contributionsForeignCurrency = purchaseDates.map(
-    (purchaseDate) => contribution.div(rateForDate(security.currency, purchaseDate, fxRates)),
+    (purchaseDate) => contribution.div(rateForDate(security.currency, purchaseDate)),
   );
-  const initialForeign = initial.div(rateForDate(security.currency, purchaseDates[0], fxRates));
+  const initialForeign = initial.div(rateForDate(security.currency, purchaseDates[0]));
   const totalForeignCurrency = sumDecimals(contributionsForeignCurrency).plus(initialForeign);
 
   return {
