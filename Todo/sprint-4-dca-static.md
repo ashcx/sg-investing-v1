@@ -52,8 +52,8 @@ exit checklists and the Sprint 4 entry checklist were inspected.
 - [x] Binary-search the cause.
 - [x] Plan the fix.
 - [x] Verify on the same surface.
-- [ ] Stage the commits so the failing repro lands before the fix in git history.
-- [ ] Run Opening a PR.
+- [x] Stage the commits so the failing repro lands before the fix in git history.
+- [x] Run Opening a PR.
 
 Delegation is skipped under the project's explicit sequential-ownership rule.
 Architecture exploration is a sequential pass. Cash flows remain date/Decimal
@@ -90,3 +90,7 @@ and the existing nonzero-duration XIRR tests. No added code comments or
 constraint comments required removal. This is self-review, not independent
 review or human product acceptance. Next action is review and normal release;
 no deployment, data refresh or roadmap gate completion is part of this repair.
+
+Repair PR: https://github.com/ashcx/sg-investing-v1/pull/9. Regression tests
+precede the fix in two commits. The PR targets the merged main baseline;
+merge, CI outcome and publication are not claimed.
