@@ -103,7 +103,7 @@ already exists from Sprints 4–6; this sprint wires it to be automatic.
 - [x] Track A: manifest shows `fully_supported` back to 2000 for covered
       currencies; source decision recorded (ADR 0002); parity battery green
       with deliberately regenerated fixtures.
-- [ ] Track B: a typical daily incremental update completes in minutes with
+- [x] Track B: a typical daily incremental update completes in minutes with
       scoped pack rebuilds; scheduled workflow green.
 - [x] Track C: all three stages browser-verified; no stale results possible.
 - [x] Full verification battery green (pytest 172+/8, selftest 68/68, parity,
@@ -151,7 +151,7 @@ redesign sprint is started by this investigation. Main-instance ownership only.
         on failure and prevent incomplete data from being labeled publishable.
   - [x] R4: require a complete pack baseline or an explicit full pack build;
         document artifact application and run full offline regression checks.
-- [ ] Verify the canonical application/pack-baseline/publication process and
+- [x] Verify the canonical application/pack-baseline/publication process and
       retain live canary/full-run resource evidence and successive green daily runs
       before restoring the Track B operational exit.
 
@@ -638,3 +638,18 @@ HTTP 200 until cleanup completes, so full public removal is not yet claimed.
 A GRPN quality-badge/unknown-dividend-disclosure inconsistency is recorded for
 the existing S14/S15 copy/warning review; this is not a new calculation change.
 No technical evidence is substituted for successive real cron successes.
+
+
+### Completion verification, 28 October 2026
+
+Status: **Complete**. All exit criteria are now checked. Seven consecutive
+actual scheduled updates succeeded, most recently run 40612140052. The latest
+refresh took 24m36s and its post-fetch suite passed 281 tests. The complete
+summary gate and artifact uploads passed. Successful R2 sync 40299324539
+supersedes the cancelled historical pending sync. Fresh public Pages/R2
+manifests match, and removed WBD/ATAI 2026 objects return HTTP 404 at both
+origins. Prior artifact application and scoped-pack proofs remain retained.
+This closes the operational evidence gate without claiming automatic canonical
+application or publication of fetched daily artifacts. Existing Product Owner
+acceptance is recorded above. Full review evidence and limitations:
+[completion review](../docs/sprint-completion-2026-10-28/README.md).

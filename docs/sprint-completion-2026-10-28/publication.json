@@ -1,0 +1,38 @@
+{
+  "pages": {
+    "http_status": 200,
+    "snapshot": "sha256-04cb723d8f46447a0749e02f522034aa5b068ea61842aa1ef27eaef8a5ecdfb1",
+    "summary": {
+      "pack_bytes": {
+        "max": 43116,
+        "median": 30076,
+        "min": 1880
+      },
+      "pack_count": 24015,
+      "price_rows": 5826228,
+      "securities": 1241,
+      "total_bytes": 758540810
+    },
+    "cors": "*",
+    "0ef6cc6b-7c95-5c01-a172-d81d7fbf36f4": 404,
+    "88d0748e-e47b-58ee-8419-68e7137b2637": 404
+  },
+  "r2": {
+    "http_status": 200,
+    "snapshot": "sha256-04cb723d8f46447a0749e02f522034aa5b068ea61842aa1ef27eaef8a5ecdfb1",
+    "summary": {
+      "pack_bytes": {
+        "max": 43116,
+        "median": 35689,
+        "min": 1880
+      },
+      "pack_count": 55546,
+      "price_rows": 13416266,
+      "securities": 3186,
+      "total_bytes": 1836316225
+    },
+    "cors": "https://ashcx.github.io",
+    "0ef6cc6b-7c95-5c01-a172-d81d7fbf36f4": 404,
+    "88d0748e-e47b-58ee-8419-68e7137b2637": 404
+  }
+}

@@ -57,16 +57,27 @@ folder. Agents and humans must follow these rules:
 | 5 — Portfolio static support | [Todo/sprint-5-portfolio-static.md](Todo/sprint-5-portfolio-static.md) | Arbitrary ledgers reconstruct fully in-browser with local persistence | 1, 2, 3 | Complete |
 | 6 — Fallback cleanup | [Todo/sprint-6-fallback-cleanup.md](Todo/sprint-6-fallback-cleanup.md) | One honest local-compute mode; no silent demo substitutions | 4, 5 | Complete |
 | 7 — Release hardening & launch | [Todo/sprint-7-release-hardening.md](Todo/sprint-7-release-hardening.md) | Hardened CI, QA and confirmed GitHub Pages deployment | 4, 5, 6 | Complete |
-| 7.5 — FX to 2000, incremental updates, reactive UI | [Todo/sprint-7.5-fx-incremental-reactive.md](Todo/sprint-7.5-fx-incremental-reactive.md) | Foreign-currency history back to 2000; incremental date-range updates without full rebuild; staged auto-loading UI | 7 | In progress |
+| 7.5 — FX to 2000, incremental updates, reactive UI | [Todo/sprint-7.5-fx-incremental-reactive.md](Todo/sprint-7.5-fx-incremental-reactive.md) | Foreign-currency history back to 2000; incremental date-range updates without full rebuild; staged auto-loading UI | 7 | Complete |
 | 8 — Pack origin & full-breadth hosting | [Todo/sprint-8-pack-origin.md](Todo/sprint-8-pack-origin.md) | Full 3,188-security set reachable client-side via a configurable non-Pages origin | 7 | Complete |
 | 9 — Result trust and shared contracts | [Todo/sprint-9-user-experience-redesign.md](Todo/sprint-9-user-experience-redesign.md) | Reliable request/result ownership and regression protection | 7, 7.5, 8 | Complete |
-| 10 — Workspace and discovery | [Todo/sprint-10-workspace-and-discovery.md](Todo/sprint-10-workspace-and-discovery.md) | Clear navigation, reusable search and coverage preview | 9 | In progress |
-| 11 — Investment simulator | [Todo/sprint-11-investment-simulator.md](Todo/sprint-11-investment-simulator.md) | One-time investing and optional initial lump sum + DCA in one coherent simulator | 10 | In progress |
+| 10 — Workspace and discovery | [Todo/sprint-10-workspace-and-discovery.md](Todo/sprint-10-workspace-and-discovery.md) | Clear navigation, reusable search and coverage preview | 9 | Complete |
+| 11 — Investment simulator | [Todo/sprint-11-investment-simulator.md](Todo/sprint-11-investment-simulator.md) | One-time investing and optional initial lump sum + DCA in one coherent simulator | 10 | Complete |
 | 12 — Fair comparisons | [Todo/sprint-12-fair-comparisons.md](Todo/sprint-12-fair-comparisons.md) | Common-period handling and labeled responsive comparisons | 11 | Complete |
 | 13 — Portfolio workflow | [Todo/sprint-13-portfolio-workflow.md](Todo/sprint-13-portfolio-workflow.md) | Guided transaction editing and safe existing-ledger preservation | 12 | Not started |
 | 14 — Release and usability | [Todo/sprint-14-release-and-usability.md](Todo/sprint-14-release-and-usability.md) | Verified journeys, accessibility, usability and release evidence | 13 | Not started |
 
 Sequencing notes:
+
+- 28 October 2026: Product Owner explicitly accepted Sprints 10 and 11 after
+  the completion review. Both human-review exits are checked and both sprints
+  are Complete. All Sprints 0–12, including 7.5, are now Complete. Sprint 13
+  remains Not started; no next-sprint work or deployment is authorized here.
+
+- 28 October 2026: Sprint 7.5 operational exits verified and closed after seven
+  consecutive scheduled successes and current Pages/R2 publication checks.
+  Historical pending/failure notes below remain history. Sprints 10 and 11
+  pass fresh technical checks but retain their human product-review gates.
+  Evidence: [completion review](docs/sprint-completion-2026-10-28/README.md).
 
 - 18 October 2026: Sprint 7.5 daily-operation exit reopened on verified failures.
   User requires recovery before later interface work. Existing sprint acceptance

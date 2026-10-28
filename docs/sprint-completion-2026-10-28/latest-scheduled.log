@@ -1,0 +1,484 @@
+update-incremental	UNKNOWN STEP	﻿2026-10-28T00:58:17.9159659Z Current runner version: '2.338.0'
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:17.9195401Z ##[group]Runner Image Provisioner
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:17.9196736Z Hosted Compute Agent
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:17.9197677Z Version: 20261021.618
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:17.9198779Z Commit: 21505ad2541d5be6135ed84fc33697146cf75b8e
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:17.9200005Z Build Date: 2026-10-21T00:45:21Z
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:17.9201246Z Worker ID: {b152050d-bc12-45c9-9000-97b6912f8ff0}
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:17.9202478Z Region: eastus
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:17.9203792Z Cloud: Azure
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:17.9204701Z ##[endgroup]
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:17.9207213Z ##[group]Operating System
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:17.9208338Z Ubuntu
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:17.9209135Z 24.04.5
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:17.9209939Z LTS
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:17.9210800Z ##[endgroup]
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:17.9211726Z ##[group]Runner Image
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:17.9213096Z Image: ubuntu-24.04
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:17.9214096Z Version: 20261012.334.1
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:17.9216705Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261012.334/images/ubuntu/Ubuntu2404-Readme.md
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:17.9219431Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261012.334
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:17.9221295Z ##[endgroup]
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:17.9223422Z ##[group]GITHUB_TOKEN Permissions
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:17.9226473Z Contents: read
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:17.9227405Z Metadata: read
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:17.9228745Z ##[endgroup]
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:17.9231835Z Secret source: Actions
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:17.9233693Z Cache mode: write
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:17.9235109Z Prepare workflow directory
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:17.9715956Z Prepare all required actions
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:17.9786433Z Getting action download info
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:18.1802749Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:18.2798021Z Download action repository 'actions/setup-python@v5' (SHA:a26af69be951a213d495a4c3e4e4022e16d87065)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:18.3567137Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:18.5823604Z Complete job name: update-incremental
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:18.6761007Z ##[group]Run actions/checkout@v4
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:18.6761884Z with:
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:18.6762288Z   lfs: true
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:18.6762736Z   repository: ashcx/sg-investing-v1
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:18.6766918Z   token: ***
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:18.6767369Z   ssh-strict: true
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:18.6767794Z   ssh-user: git
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:18.6768229Z   persist-credentials: true
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:18.6768696Z   clean: true
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:18.6769130Z   sparse-checkout-cone-mode: true
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:18.6769644Z   fetch-depth: 1
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:18.6770059Z   fetch-tags: false
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:18.6770475Z   show-progress: true
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:18.6770916Z   submodules: false
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:18.6771356Z   set-safe-directory: true
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:18.6771847Z   allow-unsafe-pr-checkout: false
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:18.6772678Z ##[endgroup]
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:18.9497165Z Syncing repository: ashcx/sg-investing-v1
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:18.9500679Z ##[group]Getting Git version info
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:18.9502450Z Working directory is '/home/runner/work/sg-investing-v1/sg-investing-v1'
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:18.9505174Z [command]/usr/bin/git version
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:18.9583967Z git version 2.55.0
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:18.9637828Z [command]/usr/bin/git lfs version
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:19.0358286Z git-lfs/3.8.0 (GitHub; linux amd64; go 1.27.0)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:19.0373769Z ##[endgroup]
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:19.0392570Z Temporarily overriding HOME='/home/runner/work/_temp/8ea4a2f4-ce4f-4c65-b979-18091345d9e9' before making global git config changes
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:19.0395997Z Adding repository directory to the temporary git global config as a safe directory
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:19.0399740Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/sg-investing-v1/sg-investing-v1
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:19.0452433Z Deleting the contents of '/home/runner/work/sg-investing-v1/sg-investing-v1'
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:19.0457682Z ##[group]Initializing the repository
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:19.0463426Z [command]/usr/bin/git init /home/runner/work/sg-investing-v1/sg-investing-v1
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:19.0556846Z hint: Using 'master' as the name for the initial branch. This default branch name
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:19.0558011Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:19.0559043Z hint: to use in all of your new repositories, which will suppress this warning,
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:19.0560474Z hint: call:
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:19.0561112Z hint:
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:19.0561673Z hint: 	git config --global init.defaultBranch <name>
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:19.0562339Z hint:
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:19.0563357Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:19.0564379Z hint: 'development'. The just-created branch can be renamed via this command:
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:19.0565823Z hint:
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:19.0566344Z hint: 	git branch -m <name>
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:19.0566859Z hint:
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:19.0567532Z hint: Disable this message with "git config set advice.defaultBranchName false"
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:19.0568983Z Initialized empty Git repository in /home/runner/work/sg-investing-v1/sg-investing-v1/.git/
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:19.0571649Z [command]/usr/bin/git remote add origin https://github.com/ashcx/sg-investing-v1
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:19.0622690Z ##[endgroup]
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:19.0624065Z ##[group]Disabling automatic garbage collection
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:19.0629320Z [command]/usr/bin/git config --local gc.auto 0
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:19.0662547Z ##[endgroup]
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:19.0664730Z ##[group]Setting up auth
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:19.0671569Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:19.0709574Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:19.0972151Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:19.1011424Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:19.1240060Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:19.1276411Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:19.1503343Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:19.1546665Z ##[endgroup]
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:19.1552228Z [command]/usr/bin/git lfs install --local
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:19.1955069Z Updated Git hooks.
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:19.1955888Z Git LFS initialized.
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:19.1970630Z ##[group]Fetching the repository
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:19.1984368Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +065a969e047a82c215512115b06b9ba54962a4df:refs/remotes/origin/main
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:19.8823719Z From https://github.com/ashcx/sg-investing-v1
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:19.8825274Z  * [new ref]         065a969e047a82c215512115b06b9ba54962a4df -> origin/main
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:19.8828223Z ##[endgroup]
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:19.8829207Z ##[group]Determining the checkout info
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:19.8831796Z ##[endgroup]
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:19.8833449Z ##[group]Fetching LFS objects
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:19.8839691Z [command]/usr/bin/git lfs fetch origin refs/remotes/origin/main
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:19.9080700Z Fetching reference refs/remotes/origin/main
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:24.7454046Z ##[endgroup]
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:24.7458075Z [command]/usr/bin/git sparse-checkout disable
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:24.7516873Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:24.7554267Z ##[group]Checking out the ref
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:24.7554870Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:25.2263352Z Switched to a new branch 'main'
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:25.2267373Z branch 'main' set up to track 'origin/main'.
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:25.2553937Z ##[endgroup]
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:25.2604884Z [command]/usr/bin/git log -1 --format=%H
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:25.2634377Z 065a969e047a82c215512115b06b9ba54962a4df
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:25.2974558Z ##[group]Run actions/setup-python@v5
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:25.2974899Z with:
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:25.2975113Z   python-version: 3.11
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:25.2975339Z   check-latest: false
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:25.2977693Z   token: ***
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:25.2977907Z   update-environment: true
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:25.2978150Z   allow-prereleases: false
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:25.2978386Z   freethreaded: false
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:25.2978599Z ##[endgroup]
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:25.4319973Z ##[group]Installed versions
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:25.4455217Z (node:2436) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:25.4456094Z (Use `node --trace-deprecation ...` to show where the warning was created)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:25.4456780Z Successfully set up CPython (3.11.17)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:25.4457548Z ##[endgroup]
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:25.4576009Z ##[group]Run python -m pip install --upgrade pip
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:25.4576507Z ^[[36;1mpython -m pip install --upgrade pip^[[0m
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:25.4885231Z shell: /usr/bin/bash -e {0}
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:25.4885529Z env:
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:25.4885823Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.17/x64
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:25.4886280Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib/pkgconfig
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:25.4886727Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:25.4887110Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:25.4887492Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:25.4887878Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:25.4888199Z ##[endgroup]
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:26.8518731Z Requirement already satisfied: pip in /opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages (26.2.1)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:26.9496829Z Collecting pip
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:27.0442304Z   Downloading pip-26.2.2-py3-none-any.whl.metadata (4.6 kB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:27.0647533Z Downloading pip-26.2.2-py3-none-any.whl (1.8 MB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:27.1749173Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.8/1.8 MB 25.5 MB/s  0:00:00
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:27.3027379Z Installing collected packages: pip
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:27.3028389Z   Attempting uninstall: pip
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:27.3042151Z     Found existing installation: pip 26.2.1
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:27.3678254Z     Uninstalling pip-26.2.1:
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:27.3738429Z       Successfully uninstalled pip-26.2.1
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:28.2331015Z Successfully installed pip-26.2.2
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:28.2851084Z ##[group]Run python -m pip install -c config/update-constraints.txt ".[dev,market-data]"
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:28.2851772Z ^[[36;1mpython -m pip install -c config/update-constraints.txt ".[dev,market-data]"^[[0m
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:28.2918423Z shell: /usr/bin/bash -e {0}
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:28.2918677Z env:
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:28.2918950Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.17/x64
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:28.2919404Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib/pkgconfig
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:28.2919856Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:28.2920233Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:28.2920618Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:28.2921009Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:28.2921331Z ##[endgroup]
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:28.6286832Z Processing ./.
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:28.6303410Z   Installing build dependencies: started
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:30.0914312Z   Installing build dependencies: finished with status 'done'
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:30.0920248Z   Getting requirements to build wheel: started
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:30.2327261Z   Getting requirements to build wheel: finished with status 'done'
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:30.2337341Z   Preparing metadata (pyproject.toml): started
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:30.4125683Z   Preparing metadata (pyproject.toml): finished with status 'done'
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:30.7993460Z Collecting duckdb>=1.1 (from sg-investing==0.1.0)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:30.9041154Z   Downloading duckdb-2.0.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (4.1 kB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:31.0304349Z Collecting pandas>=2.0 (from sg-investing==0.1.0)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:31.0536520Z   Downloading pandas-3.1.0-cp311-cp311-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl.metadata (18 kB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:31.2168397Z Collecting polars>=1.0 (from sg-investing==0.1.0)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:31.2403090Z   Downloading polars-2.0.0-py3-none-any.whl.metadata (11 kB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:31.3397802Z Collecting pyarrow>=17.0 (from sg-investing==0.1.0)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:31.3666785Z   Downloading pyarrow-26.0.0-cp311-cp311-manylinux_2_28_x86_64.whl.metadata (3.0 kB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:31.4754529Z Collecting pydantic>=2.8 (from sg-investing==0.1.0)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:31.4985332Z   Downloading pydantic-2.14.1-py3-none-any.whl.metadata (133 kB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:31.5782601Z Collecting pypdf>=5.0 (from sg-investing==0.1.0)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:31.6013822Z   Downloading pypdf-6.21.3-py3-none-any.whl.metadata (7.6 kB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:31.6528614Z Collecting pyyaml>=6.0 (from sg-investing==0.1.0)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:31.6769441Z   Downloading pyyaml-6.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.4 kB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:31.7371596Z Collecting requests>=2.31 (from sg-investing==0.1.0)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:31.7600333Z   Downloading requests-2.34.2-py3-none-any.whl.metadata (4.8 kB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:31.7999051Z Collecting pytest>=8.0 (from sg-investing==0.1.0)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:31.8229808Z   Downloading pytest-9.2.0-py3-none-any.whl.metadata (7.9 kB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:32.1812365Z Collecting ruff>=0.6 (from sg-investing==0.1.0)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:32.2043712Z   Downloading ruff-0.17.3-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (20 kB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:32.2392787Z Collecting yfinance>=0.2.50 (from sg-investing==0.1.0)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:32.2628771Z   Downloading yfinance-1.7.0-py3-none-any.whl.metadata (6.7 kB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:32.4610989Z Collecting numpy>=2.0.2 (from pandas>=2.0->sg-investing==0.1.0)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:32.4842062Z   Downloading numpy-2.4.6-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (6.6 kB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:32.5104652Z Collecting python-dateutil>=2.9.0 (from pandas>=2.0->sg-investing==0.1.0)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:32.5448189Z   Downloading python_dateutil-3.0.0-py2.py3-none-any.whl.metadata (8.2 kB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:32.5805989Z Collecting polars-runtime-32==2.0.0 (from polars>=1.0->sg-investing==0.1.0)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:32.6038276Z   Downloading polars_runtime_32-2.0.0-cp310-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (1.5 kB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:32.6325241Z Collecting annotated-types>=0.6.0 (from pydantic>=2.8->sg-investing==0.1.0)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:32.6558499Z   Downloading annotated_types-0.8.0-py3-none-any.whl.metadata (15 kB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:33.3437992Z Collecting pydantic-core==2.50.1 (from pydantic>=2.8->sg-investing==0.1.0)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:33.3669558Z   Downloading pydantic_core-2.50.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (6.5 kB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:33.3954611Z Collecting typing-extensions>=4.16.0 (from pydantic>=2.8->sg-investing==0.1.0)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:33.4191925Z   Downloading typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:33.4422081Z Collecting typing-inspection>=0.4.4 (from pydantic>=2.8->sg-investing==0.1.0)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:33.4656646Z   Downloading typing_inspection-0.4.4-py3-none-any.whl.metadata (2.6 kB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:33.4904786Z Collecting iniconfig>=2 (from pytest>=8.0->sg-investing==0.1.0)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:33.5134422Z   Downloading iniconfig-2.3.1-py3-none-any.whl.metadata (2.8 kB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:33.5235601Z Collecting packaging>=24 (from pytest>=8.0->sg-investing==0.1.0)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:33.5250349Z   Using cached packaging-26.3-py3-none-any.whl.metadata (3.5 kB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:33.5305915Z Collecting pluggy<2,>=1.6 (from pytest>=8.0->sg-investing==0.1.0)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:33.5320290Z   Using cached pluggy-1.7.0-py3-none-any.whl.metadata (5.0 kB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:33.5608099Z Collecting pygments>=2.15 (from pytest>=8.0->sg-investing==0.1.0)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:33.5837050Z   Downloading pygments-2.21.0-py3-none-any.whl.metadata (2.5 kB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:33.6106745Z Collecting six>=1.6 (from python-dateutil>=2.9.0->pandas>=2.0->sg-investing==0.1.0)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:33.6345991Z   Downloading six-1.17.0-py2.py3-none-any.whl.metadata (1.7 kB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:33.6638156Z Collecting tzdata (from python-dateutil>=2.9.0->pandas>=2.0->sg-investing==0.1.0)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:33.6867881Z   Downloading tzdata-2026.5-py2.py3-none-any.whl.metadata (1.4 kB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:33.8171787Z Collecting charset_normalizer<4,>=2 (from requests>=2.31->sg-investing==0.1.0)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:33.8406809Z   Downloading charset_normalizer-3.5.2-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (46 kB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:33.8722077Z Collecting idna<4,>=2.5 (from requests>=2.31->sg-investing==0.1.0)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:33.8949292Z   Downloading idna-3.20-py3-none-any.whl.metadata (7.2 kB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:33.9284075Z Collecting urllib3<3,>=1.26 (from requests>=2.31->sg-investing==0.1.0)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:33.9511691Z   Downloading urllib3-2.8.0-py3-none-any.whl.metadata (7.4 kB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:34.0137128Z Collecting certifi>=2023.5.7 (from requests>=2.31->sg-investing==0.1.0)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:34.0382023Z   Downloading certifi-2026.10.23-py3-none-any.whl.metadata (2.5 kB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:34.0704058Z Collecting beautifulsoup4>=4.11.1 (from yfinance>=0.2.50->sg-investing==0.1.0)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:34.0930723Z   Downloading beautifulsoup4-4.15.0-py3-none-any.whl.metadata (3.8 kB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:34.1753232Z Collecting curl_cffi>=0.15 (from yfinance>=0.2.50->sg-investing==0.1.0)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:34.1983788Z   Downloading curl_cffi-0.17.0-cp310-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (18 kB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:34.4329885Z Collecting lxml>=4.9.0 (from yfinance>=0.2.50->sg-investing==0.1.0)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:34.4565129Z   Downloading lxml-6.1.3-cp311-cp311-manylinux_2_26_x86_64.manylinux_2_28_x86_64.whl.metadata (3.3 kB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:34.4817009Z Collecting multitasking>=0.0.7 (from yfinance>=0.2.50->sg-investing==0.1.0)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:34.5043839Z   Downloading multitasking-0.0.13-py3-none-any.whl.metadata (16 kB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:34.5413531Z Collecting peewee>=3.16.2 (from yfinance>=0.2.50->sg-investing==0.1.0)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:34.5641315Z   Downloading peewee-4.5.3-py3-none-any.whl.metadata (10 kB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:34.5991271Z Collecting platformdirs>=2.0.0 (from yfinance>=0.2.50->sg-investing==0.1.0)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:34.6218472Z   Downloading platformdirs-4.13.6-py3-none-any.whl.metadata (5.4 kB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:34.8162229Z Collecting protobuf>=3.19.0 (from yfinance>=0.2.50->sg-investing==0.1.0)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:34.8391507Z   Downloading protobuf-7.36.2-cp310-abi3-manylinux2014_x86_64.whl.metadata (595 bytes)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:34.8838209Z Collecting pytz>=2022.5 (from yfinance>=0.2.50->sg-investing==0.1.0)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:34.9067530Z   Downloading pytz-2026.5-py2.py3-none-any.whl.metadata (22 kB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:35.0370410Z Collecting websockets>=13.0 (from yfinance>=0.2.50->sg-investing==0.1.0)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:35.0602193Z   Downloading websockets-17.3-cp311-cp311-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl.metadata (6.3 kB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:35.0916552Z Collecting soupsieve>=1.6.1 (from beautifulsoup4>=4.11.1->yfinance>=0.2.50->sg-investing==0.1.0)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:35.1144784Z   Downloading soupsieve-3.0.4-py3-none-any.whl.metadata (4.4 kB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:35.2291251Z Collecting cffi>=2.1.1 (from curl_cffi>=0.15->yfinance>=0.2.50->sg-investing==0.1.0)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:35.2522213Z   Downloading cffi-2.1.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (2.5 kB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:35.2785341Z Collecting pycparser (from cffi>=2.1.1->curl_cffi>=0.15->yfinance>=0.2.50->sg-investing==0.1.0)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:35.3013262Z   Downloading pycparser-3.12-py3-none-any.whl.metadata (9.7 kB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:35.3373384Z Downloading duckdb-2.0.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (24.4 MB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:35.6331771Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 24.4/24.4 MB 95.4 MB/s  0:00:00
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:35.6564595Z Downloading pandas-3.1.0-cp311-cp311-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl (12.3 MB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:35.6963382Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 12.3/12.3 MB 324.8 MB/s  0:00:00
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:35.7196706Z Downloading numpy-2.4.6-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (16.9 MB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:35.7726133Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 16.9/16.9 MB 331.5 MB/s  0:00:00
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:35.7952616Z Downloading polars-2.0.0-py3-none-any.whl (876 kB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:35.8009394Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 876.6/876.6 kB 179.8 MB/s  0:00:00
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:35.8238258Z Downloading polars_runtime_32-2.0.0-cp310-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (54.5 MB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:36.0014383Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 54.5/54.5 MB 309.8 MB/s  0:00:00
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:36.0251852Z Downloading pyarrow-26.0.0-cp311-cp311-manylinux_2_28_x86_64.whl (53.9 MB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:36.2008923Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 53.9/53.9 MB 310.6 MB/s  0:00:00
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:36.2240183Z Downloading pydantic-2.14.1-py3-none-any.whl (488 kB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:36.2510909Z Downloading pydantic_core-2.50.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (2.2 MB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:36.2606644Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.2/2.2 MB 280.6 MB/s  0:00:00
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:36.2833740Z Downloading annotated_types-0.8.0-py3-none-any.whl (13 kB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:36.3089310Z Downloading pypdf-6.21.3-py3-none-any.whl (409 kB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:36.3349830Z Downloading pytest-9.2.0-py3-none-any.whl (411 kB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:36.3397752Z Using cached pluggy-1.7.0-py3-none-any.whl (27 kB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:36.3625275Z Downloading iniconfig-2.3.1-py3-none-any.whl (7.6 kB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:36.3658431Z Using cached packaging-26.3-py3-none-any.whl (129 kB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:36.3890171Z Downloading pygments-2.21.0-py3-none-any.whl (1.3 MB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:36.3956628Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.3/1.3 MB 238.5 MB/s  0:00:00
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:36.4185384Z Downloading python_dateutil-3.0.0-py2.py3-none-any.whl (94 kB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:36.4440978Z Downloading pyyaml-6.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (806 kB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:36.4496650Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 806.6/806.6 kB 161.8 MB/s  0:00:00
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:36.4722832Z Downloading requests-2.34.2-py3-none-any.whl (73 kB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:36.4972692Z Downloading charset_normalizer-3.5.2-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (269 kB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:36.5337496Z Downloading idna-3.20-py3-none-any.whl (69 kB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:36.5592701Z Downloading urllib3-2.8.0-py3-none-any.whl (135 kB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:36.5846007Z Downloading certifi-2026.10.23-py3-none-any.whl (135 kB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:36.6103921Z Downloading ruff-0.17.3-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (10.6 MB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:36.6464461Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 10.6/10.6 MB 310.5 MB/s  0:00:00
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:36.6693147Z Downloading six-1.17.0-py2.py3-none-any.whl (11 kB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:36.6942266Z Downloading typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:36.7194099Z Downloading typing_inspection-0.4.4-py3-none-any.whl (14 kB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:36.7444267Z Downloading yfinance-1.7.0-py3-none-any.whl (149 kB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:36.7701325Z Downloading beautifulsoup4-4.15.0-py3-none-any.whl (109 kB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:36.7956646Z Downloading curl_cffi-0.17.0-cp310-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (14.1 MB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:36.8409064Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 14.1/14.1 MB 326.0 MB/s  0:00:00
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:36.8640775Z Downloading cffi-2.1.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (217 kB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:36.8897316Z Downloading lxml-6.1.3-cp311-cp311-manylinux_2_26_x86_64.manylinux_2_28_x86_64.whl (5.2 MB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:36.9091763Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 5.2/5.2 MB 308.2 MB/s  0:00:00
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:36.9326098Z Downloading multitasking-0.0.13-py3-none-any.whl (16 kB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:36.9691359Z Downloading peewee-4.5.3-py3-none-any.whl (194 kB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:36.9951378Z Downloading platformdirs-4.13.6-py3-none-any.whl (32 kB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:37.0205562Z Downloading protobuf-7.36.2-cp310-abi3-manylinux2014_x86_64.whl (343 kB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:37.0462022Z Downloading pytz-2026.5-py2.py3-none-any.whl (506 kB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:37.0729059Z Downloading soupsieve-3.0.4-py3-none-any.whl (42 kB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:37.0979307Z Downloading websockets-17.3-cp311-cp311-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl (225 kB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:37.1233504Z Downloading pycparser-3.12-py3-none-any.whl (62 kB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:37.1484942Z Downloading tzdata-2026.5-py2.py3-none-any.whl (347 kB)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:37.4010001Z Building wheels for collected packages: sg-investing
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:37.4018251Z   Building wheel for sg-investing (pyproject.toml): started
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:37.4318931Z   Building wheel for sg-investing (pyproject.toml): finished with status 'done'
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:37.4325428Z   Created wheel for sg-investing: filename=sg_investing-0.1.0-py3-none-any.whl size=73000 sha256=a4ff8ddd9c794615ed3c06fade3ca59b23a3d59c82f677ee021d475548a548a0
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:37.4327361Z   Stored in directory: /tmp/pip-ephem-wheel-cache-dk41m3w1/wheels/ae/a4/d3/68c2af7b8ac340cfabd726be4b5734451870357a7d14ed34c8
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:37.4347805Z Successfully built sg-investing
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:37.5252087Z Installing collected packages: pytz, multitasking, websockets, urllib3, tzdata, typing-extensions, soupsieve, six, ruff, pyyaml, pypdf, pygments, pycparser, pyarrow, protobuf, polars-runtime-32, pluggy, platformdirs, peewee, packaging, numpy, lxml, iniconfig, idna, duckdb, charset_normalizer, certifi, annotated-types, typing-inspection, requests, python-dateutil, pytest, pydantic-core, polars, cffi, beautifulsoup4, pydantic, pandas, curl_cffi, yfinance, sg-investing
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:50.0096788Z 
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:50.0120420Z Successfully installed annotated-types-0.8.0 beautifulsoup4-4.15.0 certifi-2026.10.23 cffi-2.1.1 charset_normalizer-3.5.2 curl_cffi-0.17.0 duckdb-2.0.0 idna-3.20 iniconfig-2.3.1 lxml-6.1.3 multitasking-0.0.13 numpy-2.4.6 packaging-26.3 pandas-3.1.0 peewee-4.5.3 platformdirs-4.13.6 pluggy-1.7.0 polars-2.0.0 polars-runtime-32-2.0.0 protobuf-7.36.2 pyarrow-26.0.0 pycparser-3.12 pydantic-2.14.1 pydantic-core-2.50.1 pygments-2.21.0 pypdf-6.21.3 pytest-9.2.0 python-dateutil-3.0.0 pytz-2026.5 pyyaml-6.0.3 requests-2.34.2 ruff-0.17.3 sg-investing-0.1.0 six-1.17.0 soupsieve-3.0.4 typing-extensions-4.16.0 typing-inspection-0.4.4 tzdata-2026.5 urllib3-2.8.0 websockets-17.3 yfinance-1.7.0
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:50.2241316Z ##[group]Run mkdir -p update-diagnostics
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:50.2241699Z ^[[36;1mmkdir -p update-diagnostics^[[0m
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:50.2242074Z ^[[36;1mpython -m pip freeze > update-diagnostics/dependencies.txt^[[0m
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:50.2305770Z shell: /usr/bin/bash -e {0}
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:50.2306021Z env:
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:50.2306293Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.17/x64
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:50.2306746Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib/pkgconfig
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:50.2307183Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:50.2307565Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:50.2307960Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:50.2308346Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:50.2308677Z ##[endgroup]
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:50.4600219Z ##[group]Run python -m pytest tests/test_incremental_update.py tests/test_incremental_coverage.py tests/test_shared_history.py tests/test_listing_removal.py tests/test_provider_guard.py tests/test_yahoo_provider.py -q
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:50.4601723Z ^[[36;1mpython -m pytest tests/test_incremental_update.py tests/test_incremental_coverage.py tests/test_shared_history.py tests/test_listing_removal.py tests/test_provider_guard.py tests/test_yahoo_provider.py -q^[[0m
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:50.4665791Z shell: /usr/bin/bash -e {0}
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:50.4666051Z env:
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:50.4666326Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.17/x64
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:50.4666775Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib/pkgconfig
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:50.4667217Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:50.4667614Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:50.4668038Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:50.4668443Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:50.4668770Z ##[endgroup]
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:58.5194504Z ........................................................................ [ 90%]
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:58.5738992Z ........                                                                 [100%]
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:58.6675144Z ##[group]Run args=(--since auto --no-build-packs)
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:58.6675611Z ^[[36;1margs=(--since auto --no-build-packs)^[[0m
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:58.6676063Z ^[[36;1mif [ -n "$UPDATE_SECURITIES" ]; then args+=(--securities "$UPDATE_SECURITIES"); fi^[[0m
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:58.6676857Z ^[[36;1m/usr/bin/time -v python scripts/update_incremental.py "${args[@]}" > update-incremental-output.json 2> update-incremental-diagnostics.log^[[0m
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:58.6739493Z shell: /usr/bin/bash -e {0}
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:58.6739760Z env:
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:58.6740030Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.17/x64
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:58.6740486Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib/pkgconfig
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:58.6740920Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:58.6741297Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:58.6741682Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:58.6742102Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:58.6742433Z   UPDATE_SECURITIES: 
+update-incremental	UNKNOWN STEP	2026-10-28T00:58:58.6742645Z ##[endgroup]
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:34.5371580Z ##[group]Run python -m pytest -m "not smoke"
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:34.5371939Z ^[[36;1mpython -m pytest -m "not smoke"^[[0m
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:34.5435181Z shell: /usr/bin/bash -e {0}
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:34.5435430Z env:
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:34.5435694Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.17/x64
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:34.5436311Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib/pkgconfig
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:34.5436739Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:34.5437120Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:34.5437510Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:34.5437892Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:34.5438209Z ##[endgroup]
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:40.2936264Z ........................................................................ [ 25%]
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:49.8519543Z ........................................................................ [ 51%]
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:54.4072122Z ........................................................................ [ 76%]
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:54.9168386Z .................................................................        [100%]
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:54.9168981Z 281 passed, 8 deselected in 20.05s
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:55.1652023Z ##[group]Run python - <<'PY'
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:55.1652340Z ^[[36;1mpython - <<'PY'^[[0m
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:55.1652590Z ^[[36;1mimport json, subprocess, tarfile^[[0m
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:55.1653195Z ^[[36;1mfrom pathlib import Path^[[0m
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:55.1653822Z ^[[36;1msummary = json.loads(Path("data/update_summary.json").read_text())^[[0m
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:55.1654526Z ^[[36;1massert summary["complete"], "Incomplete updates must not produce publication artifacts"^[[0m
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:55.1654987Z ^[[36;1mfiles = subprocess.check_output(^[[0m
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:55.1655366Z ^[[36;1m    ["git", "ls-files", "-m", "-o", "--exclude-standard", "-z", "--", "data"],^[[0m
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:55.1655737Z ^[[36;1m).decode().split("\0")^[[0m
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:55.1656111Z ^[[36;1mfiles = sorted(set(path for path in files if path and Path(path).is_file()))^[[0m
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:55.1656626Z ^[[36;1mPath("changed-store-files.txt").write_text("\n".join(files) + "\n")^[[0m
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:55.1657185Z ^[[36;1mwith tarfile.open("incremental-store-changes.tgz", "w:gz") as archive:^[[0m
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:55.1657594Z ^[[36;1m    for path in files:^[[0m
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:55.1657864Z ^[[36;1m        archive.add(path, arcname=path)^[[0m
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:55.1658138Z ^[[36;1mPY^[[0m
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:55.1720628Z shell: /usr/bin/bash -e {0}
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:55.1720868Z env:
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:55.1721127Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.17/x64
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:55.1721570Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib/pkgconfig
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:55.1721995Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:55.1722368Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:55.1722993Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:55.1723388Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:55.1723709Z ##[endgroup]
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:56.1818211Z ##[group]Run actions/upload-artifact@v4
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:56.1818526Z with:
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:56.1818907Z   name: incremental-update-40612140052
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:56.1819175Z   retention-days: 7
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:56.1819825Z   path: incremental-store-changes.tgz
+update-incremental	UNKNOWN STEP	changed-store-files.txt
+update-incremental	UNKNOWN STEP	data/update_summary.json
+update-incremental	UNKNOWN STEP	frontend/data/packs/
+update-incremental	UNKNOWN STEP	
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:56.1820382Z   if-no-files-found: error
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:56.1820615Z   compression-level: 6
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:56.1820827Z   overwrite: false
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:56.1821036Z   include-hidden-files: false
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:56.1821262Z env:
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:56.1821507Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.17/x64
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:56.1821932Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib/pkgconfig
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:56.1822346Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:56.1822717Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:56.1823581Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:56.1823979Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:56.1824500Z ##[endgroup]
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:56.3480513Z (node:3175) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:56.3481738Z (Use `node --trace-deprecation ...` to show where the warning was created)
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:56.3546052Z Multiple search paths detected. Calculating the least common ancestor of all paths
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:56.3549664Z The least common ancestor is /home/runner/work/sg-investing-v1/sg-investing-v1. This will be the root directory of the artifact
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:56.3551033Z With the provided path, there will be 3 files uploaded
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:56.3563438Z Artifact name is valid!
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:56.3564217Z Root directory input is valid!
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:56.5726850Z Beginning upload of artifact content to blob storage
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:56.8445609Z (node:3175) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:57.0955269Z Uploaded bytes 8388608
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:57.2968471Z Uploaded bytes 14540279
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:57.3118377Z Finished uploading artifact content to blob storage!
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:57.3119683Z SHA256 digest of uploaded artifact zip is 3c68de80d2246ae3d38927c71da04f297310f46e843460f7cfd0da1ebb64b031
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:57.3121980Z Finalizing artifact upload
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:57.7136353Z Artifact incremental-update-40612140052.zip successfully finalized. Artifact ID 12784273432
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:57.7138123Z Artifact incremental-update-40612140052 has been successfully uploaded! Final size is 14540279 bytes. Artifact ID is 12784273432
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:57.7144011Z Artifact download URL: https://github.com/ashcx/sg-investing-v1/actions/runs/40612140052/artifacts/12784273432
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:57.7306532Z ##[group]Run actions/upload-artifact@v4
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:57.7306831Z with:
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:57.7307067Z   name: incremental-diagnostics-40612140052
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:57.7307357Z   retention-days: 7
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:57.7307865Z   path: update-diagnostics/
+update-incremental	UNKNOWN STEP	update-incremental-output.json
+update-incremental	UNKNOWN STEP	update-incremental-diagnostics.log
+update-incremental	UNKNOWN STEP	update-pack-build.json
+update-incremental	UNKNOWN STEP	
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:57.7308442Z   if-no-files-found: warn
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:57.7308672Z   compression-level: 6
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:57.7308885Z   overwrite: false
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:57.7309096Z   include-hidden-files: false
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:57.7309334Z env:
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:57.7309582Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.17/x64
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:57.7310010Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib/pkgconfig
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:57.7310425Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:57.7310806Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:57.7311210Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:57.7311591Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:57.7311925Z ##[endgroup]
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:57.8951967Z (node:3187) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:57.8952690Z (Use `node --trace-deprecation ...` to show where the warning was created)
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:57.9041170Z Multiple search paths detected. Calculating the least common ancestor of all paths
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:57.9046473Z The least common ancestor is /home/runner/work/sg-investing-v1/sg-investing-v1. This will be the root directory of the artifact
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:57.9047588Z With the provided path, there will be 4 files uploaded
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:57.9054423Z Artifact name is valid!
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:57.9055054Z Root directory input is valid!
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:58.1200901Z Beginning upload of artifact content to blob storage
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:58.2304266Z (node:3187) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:58.3035192Z Uploaded bytes 663467
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:58.3186241Z Finished uploading artifact content to blob storage!
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:58.3187354Z SHA256 digest of uploaded artifact zip is 0f849e65b3a5f945065e961ab2ecb25c82ce08148b147408e31a18cf7b259155
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:58.3189466Z Finalizing artifact upload
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:58.7145726Z Artifact incremental-diagnostics-40612140052.zip successfully finalized. Artifact ID 12784183434
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:58.7147514Z Artifact incremental-diagnostics-40612140052 has been successfully uploaded! Final size is 663467 bytes. Artifact ID is 12784183434
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:58.7153646Z Artifact download URL: https://github.com/ashcx/sg-investing-v1/actions/runs/40612140052/artifacts/12784183434
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:58.7336203Z Post job cleanup.
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:58.8557961Z (node:3199) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:58.8559340Z (Use `node --trace-deprecation ...` to show where the warning was created)
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:58.8754848Z Post job cleanup.
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:58.9715009Z [command]/usr/bin/git version
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:58.9779554Z git version 2.55.0
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:58.9834265Z Temporarily overriding HOME='/home/runner/work/_temp/f9c0816e-72f9-4570-8f92-bd49a211af5a' before making global git config changes
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:58.9836149Z Adding repository directory to the temporary git global config as a safe directory
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:58.9838042Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/sg-investing-v1/sg-investing-v1
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:58.9877858Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:58.9929005Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:59.0237871Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:59.0267696Z http.https://github.com/.extraheader
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:59.0279480Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:59.0314935Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:59.0591438Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:59.0641164Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:59.1017154Z Cleaning up orphan processes
+update-incremental	UNKNOWN STEP	2026-10-28T01:23:59.1311577Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-python@v5, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
