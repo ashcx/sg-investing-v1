@@ -364,3 +364,5 @@ shared dates, QQQ/VALL local results, previous-result state and 320/390/768/1280
 1440px overflow checks. Desktop/mobile captures retained in the sprint evidence
 folder; mobile capture inspected. Existing human acceptance remains valid.
 Sprint remains Complete. No calculation changes in this review increment.
+
+Review increment PR: https://github.com/ashcx/sg-investing-v1/pull/10.

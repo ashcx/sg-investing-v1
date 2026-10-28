@@ -4,10 +4,10 @@
 - [x] Phase A: Frame.
 - [x] Phase B: Design the workflow.
 - [ ] Phase C: Run the loop.
-- [ ] Recheck Sprint 12 against its exits, interrogate, publish its review PR.
-- [ ] Implement Sprint 13 US01, verify and record before US02.
-- [ ] Implement Sprint 13 US02, verify and record before US03.
-- [ ] Implement Sprint 13 US03, inspect desktop/mobile, interrogate, publish PR.
+- [x] Recheck Sprint 12 against its exits, interrogate, publish its review PR.
+- [x] Implement Sprint 13 US01, verify and record before US02.
+- [x] Implement Sprint 13 US02, verify and record before US03.
+- [x] Implement Sprint 13 US03, inspect desktop/mobile, interrogate, publish PR.
 - [ ] Validate Sprint 14 financial, data-pack and browser journeys.
 - [ ] Validate Sprint 14 accessibility and responsive behavior.
 - [ ] Prepare real participant protocol and observation template.

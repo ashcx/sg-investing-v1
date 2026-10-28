@@ -112,3 +112,27 @@ main:focus { outline: none; }
 .chart-wrap svg { min-width:640px; }
 .dca-price-chart { max-width:100%; overflow-x:auto; }
 .dca-price-chart svg { min-width:640px; }
+
+#portfolio-form { min-width: 0; }
+#portfolio-form .ledger-table-wrap { overflow: visible; }
+#portfolio-form .ledger-table, #portfolio-form .ledger-table tbody { display: block; width: 100%; min-width: 0; }
+#portfolio-form .ledger-table tr { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; margin: 1rem 0; padding: 1rem; border: 1px solid var(--line, #bcc6c2); border-radius: .5rem; }
+#portfolio-form .ledger-table td { display: block; min-width: 0; border: 0; padding: 0; }
+#portfolio-form .ledger-table td[hidden] { display: none; }
+#portfolio-form .ledger-table label { display: block; font-weight: 600; margin-bottom: .35rem; }
+#portfolio-form .ledger-table input, #portfolio-form .ledger-table select { width: 100%; min-width: 0; }
+.ledger-actions { grid-column: 1 / -1; }
+.ledger-toolbar { display: flex; gap: .5rem; flex-wrap: wrap; margin: 1rem 0; }
+.ledger-toolbar button, .ledger-actions button, #ledger-import-dialog button { padding: .65rem; border: 1px solid #788980; background: #fff; color: #17283a; border-radius: .3rem; }
+#ledger-import-dialog { max-width: min(42rem, calc(100vw - 2rem)); max-height: 85vh; overflow: auto; color: #17283a; background: #fff; padding: 1.5rem; }
+#ledger-import-dialog::backdrop { background: #17283a99; }
+#ledger-import-preview { white-space: pre-wrap; overflow-wrap: anywhere; font-size: .85rem; }
+#portfolio-results { min-width: 0; }
+@media (max-width: 600px) {
+  #portfolio-form .ledger-table tr { grid-template-columns: minmax(0, 1fr); }
+  #portfolio-results .holding-table, #portfolio-results .holding-table tbody, #portfolio-results .holding-table tr { display: block; min-width: 0; width: 100%; }
+  #portfolio-results .holding-table thead { display: none; }
+  #portfolio-results .holding-table tr { border: 1px solid #64766c; padding: .75rem; margin: 1rem 0; }
+  #portfolio-results .holding-table td, #portfolio-results .holding-table th { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .5rem; padding: .4rem 0; }
+  #portfolio-results .holding-table td::before { content: attr(data-label); font-weight: 600; }
+}

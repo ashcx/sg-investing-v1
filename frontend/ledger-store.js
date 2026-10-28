@@ -143,15 +143,24 @@ function normalizeRow(row, index) {
   }
   const normalized = {};
   for (const field of ROW_FIELDS) normalized[field] = row[field];
+  for (const key of ['row_id', 'transaction_id']) {
+    if (row[key] !== undefined) {
+      if (typeof row[key] !== 'string' || !row[key]) throw new Error(`Ledger row ${index + 1} has an invalid ${key}.`);
+      normalized[key] = row[key];
+    }
+  }
   return normalized;
 }
 
 function normalizeRows(rows) {
   if (!Array.isArray(rows)) throw new Error('A ledger is an array of transaction rows.');
-  return rows.map(normalizeRow);
+  const normalized = rows.map(normalizeRow);
+  const ids = normalized.map(row => row.row_id).filter(Boolean);
+  if (new Set(ids).size !== ids.length) throw new Error('Imported ledger has a duplicate row_id.');
+  return normalized;
 }
 
-function parseLedgerPayload(payload) {
+export function parseLedgerPayload(payload) {
   if (typeof payload === 'string') {
     let parsed;
     try {

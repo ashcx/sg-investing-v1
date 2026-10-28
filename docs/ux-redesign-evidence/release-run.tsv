@@ -1,2 +1,3 @@
 ts	phase	decision	why	evidence	result
 2026-10-28T08:30:00Z	frame	Recheck 12 then build 13 then validate 14 sequentially	User requested tested sprint PRs and continuation	Todo/sprint-12-fair-comparisons.md	Final human sessions remain open
+2026-10-28T09:00:00Z	sprint13	Keep canonical ledger and add optional row IDs with type-field registry	Preserve compatibility while preventing hidden defaults	frontend/ledger-editor.js	Browser and unit checks pass; human review pending

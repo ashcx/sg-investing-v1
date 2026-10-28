@@ -1,0 +1,87 @@
+const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const out = process.env.SG_EVIDENCE_DIR || 'docs/ux-redesign-evidence/sprint-13';
+fs.mkdirSync(out, { recursive: true });
+const security = '12000000-0000-0000-0000-000000000003';
+const deposit = { transaction_type: 'CASH_DEPOSIT', security_id: null, transaction_date: '2024-01-02', quantity: '0', cash_amount: '1000', fees: '0', currency: 'SGD' };
+const buy = { transaction_type: 'BUY', security_id: security, transaction_date: '2024-01-02', quantity: '10', cash_amount: '100', fees: '2.50', currency: 'SGD' };
+(async () => {
+  const browser = await chromium.launch({ executablePath: process.env.CHROME_PATH || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', headless: true });
+  try {
+    const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
+    const errors = []; page.on('pageerror', e => errors.push(e.message));
+    await page.goto('http://127.0.0.1:4174/#portfolio');
+    await page.waitForSelector('#ledger-save-status');
+    await page.waitForFunction(() => document.querySelector('#ledger-save-status').textContent.includes('No saved'));
+    assert.equal(await page.locator('#ledger-rows tr').count(), 0);
+    await page.locator('#add-ledger-row').click();
+    assert.equal(await page.locator('.ledger-cash').inputValue(), '');
+    assert.equal(await page.locator('.ledger-date').inputValue(), '');
+    await page.locator('.ledger-type').selectOption('CASH_DEPOSIT');
+    assert.equal(await page.locator('[data-field=security]').isVisible(), false);
+    assert.equal(await page.locator('[data-field=quantity]').isVisible(), false);
+    await page.locator('.ledger-date').fill('2024-01-02');
+    await page.locator('.ledger-cash').fill('1000'); await page.locator('.ledger-cash').press('Tab');
+    await page.waitForFunction(() => document.querySelector('#ledger-save-status').textContent === 'Saved in this browser.');
+    await page.reload(); await page.waitForSelector('#ledger-rows tr');
+    assert.equal(await page.locator('.ledger-cash').inputValue(), '1000');
+    const id = await page.locator('#ledger-rows tr').getAttribute('data-row-id');
+    await page.locator('#ledger-file').setInputFiles({ name: 'legacy.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify([deposit, buy])) });
+    await page.waitForSelector('#ledger-import-dialog[open]');
+    assert.equal(await page.locator('#ledger-rows tr').count(), 1, 'preview must not replace ledger');
+    await page.locator('#ledger-import-cancel').click();
+    assert.equal(await page.locator('#ledger-rows tr').getAttribute('data-row-id'), id);
+    await page.locator('#ledger-file').setInputFiles({ name: 'legacy.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify([deposit, buy])) });
+    await page.locator('#ledger-import-confirm').click();
+    await page.waitForFunction(() => document.querySelector('#ledger-save-status').textContent === 'Saved in this browser.');
+    assert.equal(await page.locator('.ledger-fees').nth(1).inputValue(), '2.50');
+    await page.reload(); await page.waitForSelector('#ledger-rows tr');
+    assert.equal(await page.locator('#ledger-rows tr').count(), 2);
+    await page.locator('#portfolio-as-of').fill('2024-05-01');
+    await page.locator('#portfolio-form button[type=submit]').click();
+    await page.waitForFunction(() => ['current','failed','invalid'].includes(document.querySelector('#portfolio-form').dataset.resultState));
+    assert.equal(await page.locator('#portfolio-form').getAttribute('data-result-state'), 'current', await page.locator('#portfolio-error').textContent());
+    assert.match(await page.locator('#portfolio-results').textContent(), /1,027.50/);
+    assert.match(await page.locator('#portfolio-results').textContent(), /27.50/);
+    await page.screenshot({ path: `${out}/portfolio-desktop.png`, fullPage: true });
+    for (const width of [320, 390, 768, 1280, 1440]) {
+      await page.setViewportSize({ width, height: 1000 });
+      assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false, `overflow ${width}`);
+    }
+    await page.setViewportSize({ width: 390, height: 1000 });
+    await page.locator('#portfolio-results').scrollIntoViewIfNeeded();
+    await page.screenshot({ path: `${out}/portfolio-mobile.png` });
+    await page.locator('[data-delete-row]').nth(1).click();
+    assert.equal(await page.locator('#ledger-rows tr').count(), 1);
+    await page.locator('#undo-ledger').click();
+    assert.equal(await page.locator('#ledger-rows tr').count(), 2);
+    assert.equal(await page.locator('.ledger-fees').nth(1).inputValue(), '2.50');
+    await page.locator('.ledger-quantity').nth(1).fill('-1');
+    await page.locator('#portfolio-form button[type=submit]').click();
+    assert.equal(await page.locator('#portfolio-form').getAttribute('data-result-state'), 'invalid');
+    assert.equal(await page.locator('.ledger-quantity').nth(1).getAttribute('aria-invalid'), 'true');
+    await page.reload(); await page.waitForSelector('#ledger-rows tr');
+    assert.equal(await page.locator('.ledger-quantity').nth(1).inputValue(), '10', 'invalid draft must retain previous stored ledger');
+    const downloadEvent = page.waitForEvent('download'); await page.locator('#export-ledger').click();
+    const download = await downloadEvent;
+    const exported = JSON.parse(fs.readFileSync(await download.path(), 'utf8'));
+    assert.equal(exported.rows[1].fees, '2.50');
+    assert.ok(exported.rows.every(row => row.row_id));
+    await page.locator('#portfolio-as-of').fill('2027-01-01');
+    await page.locator('#portfolio-form button[type=submit]').click();
+    await page.waitForFunction(() => ['current','failed','invalid'].includes(document.querySelector('#portfolio-form').dataset.resultState));
+    assert.equal(await page.locator('#portfolio-form').getAttribute('data-result-state'), 'failed', await page.locator('#portfolio-results').textContent());
+    assert.match(await page.locator('#portfolio-error').textContent(), /coverage|supported|before|unavailable|reconstruct|pack|year/i);
+    for (const type of ['BUY', 'SELL', 'DIVIDEND', 'CASH_DEPOSIT', 'CASH_WITHDRAWAL']) {
+      await page.locator('.ledger-type').nth(1).selectOption(type);
+      assert.equal(await page.locator('[data-field=security]').nth(1).isVisible(), !type.startsWith('CASH_'));
+      assert.equal(await page.locator('[data-field=quantity]').nth(1).isVisible(), ['BUY','SELL'].includes(type));
+    }
+    await page.reload(); await page.waitForSelector('#ledger-rows tr');
+    await page.locator('#clear-ledger').click(); assert.equal(await page.locator('#ledger-rows tr').count(), 0);
+    await page.locator('#undo-ledger').click(); assert.equal(await page.locator('#ledger-rows tr').count(), 2);
+    assert.deepEqual(errors, []);
+    console.log('PASS Sprint 13: empty start, relevant fields, local save/reload, legacy preview/cancel/replace, fees, deterministic value, mobile labels, stable IDs, delete/undo, invalid-draft preservation, export and clear recovery.');
+  } finally { await browser.close(); }
+})().catch(e => { console.error(e); process.exitCode = 1; });
