@@ -202,3 +202,5 @@ NOT COMPLETE: five unfamiliar real participant sessions, evaluation of actual
 observations, and final Product Owner acceptance remain open. Blank usability
 observations produce NOT VERIFIED, not a pass. User requested materials first.
 No agent session substitutes for people, and no deployment is claimed.
+
+Sprint PR: https://github.com/ashcx/sg-investing-v1/pull/12.
