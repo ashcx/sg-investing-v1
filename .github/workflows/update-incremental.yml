@@ -14,8 +14,10 @@ on:
         default: false
         type: boolean
   schedule:
-    # 06:00 Singapore Tue–Sat: buffered after US close in either DST season.
-    - cron: "0 22 * * 1-5"
+    # Temporarily reduced from weekdays 22:00 UTC (06:00 SGT Tue–Sat) to the
+    # 1st of each month, to stop repeated Git LFS bandwidth use. Restore
+    # "0 22 * * 1-5" to resume the daily run.
+    - cron: "0 22 1 * *"
 
 permissions:
   contents: read
